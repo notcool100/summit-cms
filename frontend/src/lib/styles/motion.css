@@ -1,0 +1,70 @@
+/* Scroll-reveal + count-up utility classes, driven by the `reveal` and
+   `countUp` actions (src/lib/actions). Kept global because the actions
+   toggle classes on arbitrary consumer-owned elements rather than on
+   markup a single component controls. */
+
+.reveal {
+	transition:
+		opacity 1s var(--ease),
+		transform 1.1s var(--ease),
+		clip-path 1.2s var(--ease);
+	transition-delay: var(--reveal-delay, 0s);
+}
+
+.reveal--up {
+	opacity: 0;
+	transform: translateY(46px);
+}
+
+.reveal--mask {
+	opacity: 0;
+	transform: translateY(105%);
+}
+
+.reveal--fade {
+	opacity: 0;
+}
+
+.reveal--clip {
+	opacity: 0;
+	clip-path: inset(12% 8% 12% 8%);
+}
+
+.reveal.is-revealed {
+	opacity: 1;
+	transform: none;
+	clip-path: inset(0 0 0 0);
+}
+
+.mask-line {
+	display: block;
+	overflow: hidden;
+}
+
+@keyframes kenburns {
+	0% {
+		transform: scale(1) translate(0, 0);
+	}
+	100% {
+		transform: scale(1.12) translate(-1.5%, 1%);
+	}
+}
+
+@keyframes pulseline {
+	0%,
+	100% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.7;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reveal {
+		transition: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+		clip-path: none !important;
+	}
+}

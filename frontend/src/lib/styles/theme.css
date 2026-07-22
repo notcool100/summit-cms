@@ -1,0 +1,57 @@
+/* Design tokens — six themes, one accent. Switching is a single attribute
+   flip on <html data-theme="…">; every color in the app reads from these
+   custom properties so no component needs theme-aware logic of its own. */
+
+:root {
+	--paper: #f5f3ee;
+	--paper-rgb: 245, 243, 238;
+	--ink: #0f1113;
+	--ink-rgb: 15, 17, 19;
+	--panel: #eae6dd;
+	--accent: #ff5c1f;
+	--accent-rgb: 255, 92, 31;
+
+	--font-display: 'Anton', sans-serif;
+	--font-body: 'Archivo', sans-serif;
+	--ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root[data-theme='dark'] {
+	--paper: #0f1113;
+	--paper-rgb: 15, 17, 19;
+	--ink: #f5f3ee;
+	--ink-rgb: 245, 243, 238;
+	--panel: #15181b;
+}
+
+:root[data-theme='blueprint'] {
+	--paper: #0b1e33;
+	--paper-rgb: 11, 30, 51;
+	--ink: #e8eef5;
+	--ink-rgb: 232, 238, 245;
+	--panel: #13294a;
+}
+
+:root[data-theme='concrete'] {
+	--paper: #d8d5ce;
+	--paper-rgb: 216, 213, 206;
+	--ink: #2b2926;
+	--ink-rgb: 43, 41, 38;
+	--panel: #c7c3ba;
+}
+
+:root[data-theme='safety'] {
+	--paper: #ffffff;
+	--paper-rgb: 255, 255, 255;
+	--ink: #000000;
+	--ink-rgb: 0, 0, 0;
+	--panel: #f0f0f0;
+}
+
+:root[data-theme='steel'] {
+	--paper: #3a3f44;
+	--paper-rgb: 58, 63, 68;
+	--ink: #e4e7ea;
+	--ink-rgb: 228, 231, 234;
+	--panel: #464c52;
+}
