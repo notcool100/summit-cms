@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem("summit-theme");if(t==="dark")document.documentElement.setAttribute("data-theme","dark");document.addEventListener("click",function(e){var b=e.target.closest("[data-theme-toggle]");if(!b)return;var dark=document.documentElement.getAttribute("data-theme")==="dark";if(dark){document.documentElement.removeAttribute("data-theme");localStorage.setItem("summit-theme","light");}else{document.documentElement.setAttribute("data-theme","dark");localStorage.setItem("summit-theme","dark");}});})();</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -15,10 +16,16 @@
   <script src="./site.js"></script>
   <script src="./image-slot.js"></script>
   <style>
+    :root{--paper:#F5F3EE;--paper-rgb:245,243,238;--ink:#0F1113;--ink-rgb:15,17,19;--panel:#EAE6DD}
+    :root[data-theme="dark"]{--paper:#0F1113;--paper-rgb:15,17,19;--ink:#F5F3EE;--ink-rgb:245,243,238;--panel:#15181B}
+    body{transition:background-color .25s ease,color .25s ease}
+    [data-theme-toggle] [data-theme-icon-dark]{display:none}
+    :root[data-theme="dark"] [data-theme-toggle] [data-theme-icon-light]{display:none}
+    :root[data-theme="dark"] [data-theme-toggle] [data-theme-icon-dark]{display:inline}
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: #F5F3EE; color: #0F1113; font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
-    ::selection { background: #FF5C1F; color: #F5F3EE; }
-    a { color: #0F1113; text-decoration: none; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
+    ::selection { background: #FF5C1F; color: var(--paper); }
+    a { color: var(--ink); text-decoration: none; }
     a:hover { color: #FF5C1F; }
     @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
     @media (max-width: 900px) { [data-stack] { grid-template-columns: 1fr !important; } [data-hide-mobile] { display: none !important; } }
@@ -31,11 +38,11 @@
   <div style="position:absolute;inset:0;animation:kenburns 20s linear infinite alternate">
     <image-slot id="phx-hero" src="https://summit.us/wp-content/uploads/2022/03/21.004-TSMC-3.jpeg" shape="rect" placeholder="Drop full-bleed hero — underground utility corridor / fab site aerial"></image-slot>
   </div>
-  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(245,243,238,.5),rgba(245,243,238,.15) 45%,rgba(245,243,238,.95))"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(var(--paper-rgb),.5),rgba(var(--paper-rgb),.15) 45%,rgba(var(--paper-rgb),.95))"></div>
   <div style="position:relative;z-index:2;width:100%;padding:0 clamp(20px,4vw,64px) clamp(40px,7vh,80px);pointer-events:none">
     <div data-reveal="fade" style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
-      <span style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#F5F3EE;background:#FF5C1F;padding:5px 10px">Semiconductor</span>
-      <span style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(15,17,19,.7)">Case study — 04</span>
+      <span style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--paper);background:#FF5C1F;padding:5px 10px">Semiconductor</span>
+      <span style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(var(--ink-rgb),.7)">Case study — 04</span>
     </div>
     <h1 style="margin:0;font-family:Anton,sans-serif;font-size:clamp(38px,6.5vw,104px);line-height:.96;text-transform:uppercase;max-width:20ch">
       <span style="display:block;overflow:hidden"><span data-reveal="mask" style="display:block">Phoenix Semiconductor</span></span>
@@ -45,10 +52,10 @@
 </section>
 
 <!-- STATS BAR -->
-<section data-screen-label="Scope stats" style="border-bottom:1px solid rgba(15,17,19,.1);background:#EAE6DD">
+<section data-screen-label="Scope stats" style="border-bottom:1px solid rgba(var(--ink-rgb),.1);background:var(--panel)">
   <div data-stack style="display:grid;grid-template-columns:repeat(4,1fr)">
     <sc-for list="{{ scope }}" as="s" hint-placeholder-count="4">
-      <div style="padding:clamp(24px,3vw,44px) clamp(20px,3vw,48px);border-right:1px solid rgba(15,17,19,.1)">
+      <div style="padding:clamp(24px,3vw,44px) clamp(20px,3vw,48px);border-right:1px solid rgba(var(--ink-rgb),.1)">
         <div style="font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#FF5C1F;margin-bottom:12px">{{ s.label }}</div>
         <div style="font-family:Anton,sans-serif;font-size:clamp(22px,2.2vw,34px);line-height:1.1;text-transform:uppercase">{{ s.value }}</div>
       </div>
@@ -67,8 +74,8 @@
         </div>
       </div>
       <div>
-        <p data-reveal="up" style="margin:0;font-size:clamp(15px,1.3vw,19px);line-height:1.8;color:rgba(15,17,19,.8)">{{ n.p1 }}</p>
-        <p data-reveal="up" data-reveal-delay="0.12" style="margin:20px 0 0;font-size:15px;line-height:1.8;color:rgba(15,17,19,.6)">{{ n.p2 }}</p>
+        <p data-reveal="up" style="margin:0;font-size:clamp(15px,1.3vw,19px);line-height:1.8;color:rgba(var(--ink-rgb),.8)">{{ n.p1 }}</p>
+        <p data-reveal="up" data-reveal-delay="0.12" style="margin:20px 0 0;font-size:15px;line-height:1.8;color:rgba(var(--ink-rgb),.6)">{{ n.p2 }}</p>
       </div>
     </div>
   </sc-for>
@@ -78,7 +85,7 @@
 <section data-screen-label="Image break" style="overflow:hidden">
   <div data-reveal="clip" style="position:relative;height:70vh;min-height:400px;overflow:hidden">
     <div data-parallax="0.12" style="position:absolute;inset:-12% 0"><image-slot id="phx-break" src="https://summit.us/wp-content/uploads/2022/04/louisiana_helicam_enlinkmidstream_lores081614-53-e1649186720160.jpg" shape="rect" placeholder="Drop wide shot — pipe corridor trench, crews at scale"></image-slot></div>
-    <div style="position:absolute;left:clamp(20px,4vw,64px);bottom:24px;font-size:10px;letter-spacing:.2em;color:rgba(15,17,19,.7);border:1px dashed rgba(15,17,19,.35);padding:6px 10px;pointer-events:none">CORRIDOR B — 42 FT BELOW GRADE</div>
+    <div style="position:absolute;left:clamp(20px,4vw,64px);bottom:24px;font-size:10px;letter-spacing:.2em;color:rgba(var(--ink-rgb),.7);border:1px dashed rgba(var(--ink-rgb),.35);padding:6px 10px;pointer-events:none">CORRIDOR B — 42 FT BELOW GRADE</div>
   </div>
   <div data-stack style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,32px);padding:clamp(16px,2vw,32px) clamp(20px,4vw,64px) clamp(80px,12vh,140px)">
     <div data-reveal="up" data-hover-zoom style="position:relative;overflow:hidden;aspect-ratio:4/3"><div data-img style="position:absolute;inset:0"><image-slot id="phx-pair-1" src="https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg" shape="rect" placeholder="Drop photo — AG rack piping detail"></image-slot></div></div>
@@ -90,20 +97,20 @@
 <section data-screen-label="Pull quote" style="padding:0 clamp(20px,4vw,64px) clamp(80px,12vh,150px)">
   <blockquote style="margin:0;border-left:2px solid #FF5C1F;padding-left:clamp(20px,3vw,48px);max-width:60ch">
     <p data-reveal="up" style="margin:0;font-family:Anton,sans-serif;font-size:clamp(22px,2.8vw,40px);line-height:1.25;text-transform:uppercase;letter-spacing:.01em">"Summit's crews hit 14 consecutive months without a recordable — on the busiest corridor of the site."</p>
-    <footer data-reveal="fade" data-reveal-delay="0.15" style="margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(15,17,19,.55)">Owner's construction director</footer>
+    <footer data-reveal="fade" data-reveal-delay="0.15" style="margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(var(--ink-rgb),.55)">Owner's construction director</footer>
   </blockquote>
 </section>
 
 <!-- PREV / NEXT -->
-<section data-screen-label="Prev next nav" style="border-top:1px solid rgba(15,17,19,.1)">
+<section data-screen-label="Prev next nav" style="border-top:1px solid rgba(var(--ink-rgb),.1)">
   <div data-stack style="display:grid;grid-template-columns:1fr 1fr">
-    <a data-cursor-view data-hover-zoom href="projects.dc.html" style="position:relative;overflow:hidden;padding:clamp(40px,7vh,80px) clamp(20px,4vw,64px);border-right:1px solid rgba(15,17,19,.1);display:block;color:#0F1113" style-hover="background:rgba(255,92,31,.08)">
-      <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(15,17,19,.5);margin-bottom:14px">← Previous project</div>
+    <a data-cursor-view data-hover-zoom href="projects.dc.html" style="position:relative;overflow:hidden;padding:clamp(40px,7vh,80px) clamp(20px,4vw,64px);border-right:1px solid rgba(var(--ink-rgb),.1);display:block;color:var(--ink)" style-hover="background:rgba(255,92,31,.08)">
+      <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(var(--ink-rgb),.5);margin-bottom:14px">← Previous project</div>
       <div style="font-family:Anton,sans-serif;font-size:clamp(22px,2.6vw,40px);text-transform:uppercase;line-height:1.05">Project Star Modular Trestles</div>
       <div data-img data-hide-mobile style="position:absolute;right:24px;top:50%;transform:translateY(-50%);width:150px;height:100px;overflow:hidden;opacity:.5"><image-slot id="phx-prev" src="https://summit.us/wp-content/uploads/2023/01/22.006-Project-Star-CUB-Trestle-Modules.jpeg" shape="rect" placeholder="Prev"></image-slot></div>
     </a>
-    <a data-cursor-view data-hover-zoom href="projects.dc.html" style="position:relative;overflow:hidden;padding:clamp(40px,7vh,80px) clamp(20px,4vw,64px);display:block;text-align:right;color:#0F1113" style-hover="background:rgba(255,92,31,.08)">
-      <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(15,17,19,.5);margin-bottom:14px">Next project →</div>
+    <a data-cursor-view data-hover-zoom href="projects.dc.html" style="position:relative;overflow:hidden;padding:clamp(40px,7vh,80px) clamp(20px,4vw,64px);display:block;text-align:right;color:var(--ink)" style-hover="background:rgba(255,92,31,.08)">
+      <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(var(--ink-rgb),.5);margin-bottom:14px">Next project →</div>
       <div style="font-family:Anton,sans-serif;font-size:clamp(22px,2.6vw,40px);text-transform:uppercase;line-height:1.05">Gray Oak Central Terminal</div>
       <div data-img data-hide-mobile style="position:absolute;left:24px;top:50%;transform:translateY(-50%);width:150px;height:100px;overflow:hidden;opacity:.5"><image-slot id="phx-next" src="https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg" shape="rect" placeholder="Next"></image-slot></div>
     </a>
