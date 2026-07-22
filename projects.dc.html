@@ -16,9 +16,9 @@
   <script src="./image-slot.js"></script>
   <style>
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: #0F1113; color: #F5F3EE; font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
-    ::selection { background: #FF5C1F; color: #0F1113; }
-    a { color: #F5F3EE; text-decoration: none; }
+    body { margin: 0; background: #F5F3EE; color: #0F1113; font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
+    ::selection { background: #FF5C1F; color: #F5F3EE; }
+    a { color: #0F1113; text-decoration: none; }
     a:hover { color: #FF5C1F; }
     @media (max-width: 900px) { [data-grid-item] { grid-column: span 12 !important; } }
   </style>
@@ -27,10 +27,10 @@
 
 <!-- HERO -->
 <section data-screen-label="Projects hero" style="padding:calc(74px + clamp(60px,10vh,120px)) clamp(20px,4vw,64px) clamp(40px,6vh,72px);position:relative;overflow:hidden">
-  <div style="position:absolute;right:-2vw;top:8vh;font-family:Anton,sans-serif;font-size:clamp(160px,28vw,420px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(245,243,238,.1);pointer-events:none">03</div>
+  <div style="position:absolute;right:-2vw;top:8vh;font-family:Anton,sans-serif;font-size:clamp(160px,28vw,420px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(15,17,19,.1);pointer-events:none">03</div>
   <div style="display:flex;align-items:baseline;gap:20px;margin-bottom:22px">
     <span style="font-family:Anton,sans-serif;font-size:clamp(40px,5vw,80px);color:transparent;-webkit-text-stroke:1px #FF5C1F;line-height:1">03</span>
-    <span style="font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(245,243,238,.6)">Projects</span>
+    <span style="font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(15,17,19,.6)">Projects</span>
   </div>
   <h1 style="margin:0;font-family:Anton,sans-serif;font-size:clamp(48px,8.5vw,140px);line-height:.94;text-transform:uppercase;max-width:14ch">
     <span style="display:block;overflow:hidden"><span data-reveal="mask" style="display:block">Proof, poured</span></span>
@@ -39,30 +39,30 @@
 </section>
 
 <!-- FILTER BAR -->
-<div data-screen-label="Filter bar" style="position:sticky;top:74px;z-index:100;background:rgba(15,17,19,.85);backdrop-filter:blur(12px);border-top:1px solid rgba(245,243,238,.1);border-bottom:1px solid rgba(245,243,238,.1);padding:0 clamp(20px,4vw,64px);display:flex;gap:clamp(18px,3vw,44px);overflow-x:auto">
+<div data-screen-label="Filter bar" style="position:sticky;top:74px;z-index:100;background:rgba(245,243,238,.85);backdrop-filter:blur(12px);border-top:1px solid rgba(15,17,19,.1);border-bottom:1px solid rgba(15,17,19,.1);padding:0 clamp(20px,4vw,64px);display:flex;gap:clamp(18px,3vw,44px);overflow-x:auto">
   <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
     <button onClick="{{ f.pick }}" style="position:relative;background:none;border:none;cursor:pointer;padding:18px 0;font-family:Archivo,sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;color:{{ f.color }};transition:color .3s">
       {{ f.label }}
       <span style="position:absolute;left:0;bottom:0;height:2px;width:100%;background:#FF5C1F;transform:{{ f.underline }};transform-origin:left;transition:transform .5s cubic-bezier(0.16,1,0.3,1)"></span>
     </button>
   </sc-for>
-  <div style="margin-left:auto;align-self:center;font-size:11px;letter-spacing:.2em;color:rgba(245,243,238,.4);white-space:nowrap">{{ count }} PROJECTS</div>
+  <div style="margin-left:auto;align-self:center;font-size:11px;letter-spacing:.2em;color:rgba(15,17,19,.4);white-space:nowrap">{{ count }} PROJECTS</div>
 </div>
 
 <!-- GRID -->
 <section data-screen-label="Project grid" style="padding:clamp(32px,5vh,64px) clamp(20px,4vw,64px) clamp(80px,12vh,140px)">
   <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(16px,2vw,32px);align-items:start">
     <sc-for list="{{ projects }}" as="p" hint-placeholder-count="8">
-      <a data-grid-item data-cursor-view data-hover-zoom href="{{ p.href }}" style="grid-column:{{ p.col }};display:block;color:#F5F3EE;margin-top:{{ p.offset }};opacity:{{ p.op }};transform:{{ p.tf }};transition:opacity .6s cubic-bezier(0.16,1,0.3,1),transform .7s cubic-bezier(0.16,1,0.3,1)">
-        <div style="position:relative;overflow:hidden;aspect-ratio:{{ p.ratio }};background:#181b1e">
+      <a data-grid-item data-cursor-view data-hover-zoom href="{{ p.href }}" style="grid-column:{{ p.col }};display:block;color:#0F1113;margin-top:{{ p.offset }};opacity:{{ p.op }};transform:{{ p.tf }};transition:opacity .6s cubic-bezier(0.16,1,0.3,1),transform .7s cubic-bezier(0.16,1,0.3,1)">
+        <div style="position:relative;overflow:hidden;aspect-ratio:{{ p.ratio }};background:#EAE6DD">
           <div data-img style="position:absolute;inset:-8% 0"><div data-parallax="0.06" style="position:absolute;inset:0"><image-slot id="{{ p.slot }}" src="{{ p.src }}" shape="rect" placeholder="{{ p.ph }}"></image-slot></div></div>
-          <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 60%,rgba(15,17,19,.8))"></div>
-          <div style="position:absolute;left:16px;top:14px;font-family:Anton,sans-serif;font-size:34px;color:transparent;-webkit-text-stroke:1px rgba(245,243,238,.35);pointer-events:none">{{ p.idx }}</div>
-          <div style="position:absolute;right:14px;top:14px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#0F1113;background:#FF5C1F;padding:5px 10px;pointer-events:none">{{ p.industry }}</div>
+          <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 60%,rgba(245,243,238,.8))"></div>
+          <div style="position:absolute;left:16px;top:14px;font-family:Anton,sans-serif;font-size:34px;color:transparent;-webkit-text-stroke:1px rgba(15,17,19,.35);pointer-events:none">{{ p.idx }}</div>
+          <div style="position:absolute;right:14px;top:14px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#F5F3EE;background:#FF5C1F;padding:5px 10px;pointer-events:none">{{ p.industry }}</div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;border-bottom:1px solid rgba(245,243,238,.12);padding-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;border-bottom:1px solid rgba(15,17,19,.12);padding-bottom:14px">
           <span style="font-family:Anton,sans-serif;font-size:clamp(17px,1.5vw,23px);text-transform:uppercase;letter-spacing:.02em;line-height:1.15">{{ p.name }}</span>
-          <span style="font-size:12px;color:rgba(245,243,238,.55);letter-spacing:.06em;white-space:nowrap">{{ p.stat }}</span>
+          <span style="font-size:12px;color:rgba(15,17,19,.55);letter-spacing:.06em;white-space:nowrap">{{ p.stat }}</span>
         </div>
       </a>
     </sc-for>
@@ -98,7 +98,7 @@ class Component extends DCLogic {
     return {
       filters: ['All', 'Semiconductor', 'Power', 'Energy & Terminals', 'Renewables'].map(label => ({
         label, pick: () => this.pick(label),
-        color: label === f ? '#F5F3EE' : 'rgba(245,243,238,.45)',
+        color: label === f ? '#0F1113' : 'rgba(15,17,19,.45)',
         underline: label === f ? 'scaleX(1)' : 'scaleX(0)'
       })),
       projects: shown,

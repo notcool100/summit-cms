@@ -16,9 +16,9 @@
   <script src="./image-slot.js"></script>
   <style>
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: #0F1113; color: #F5F3EE; font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
-    ::selection { background: #FF5C1F; color: #0F1113; }
-    a { color: #F5F3EE; text-decoration: none; }
+    body { margin: 0; background: #F5F3EE; color: #0F1113; font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
+    ::selection { background: #FF5C1F; color: #F5F3EE; }
+    a { color: #0F1113; text-decoration: none; }
     a:hover { color: #FF5C1F; }
     @keyframes kenburns { 0% { transform: scale(1) translate(0,0); } 100% { transform: scale(1.12) translate(-1.5%,1%); } }
     @keyframes pulseline { 0%,100% { opacity: .25; } 50% { opacity: .7; } }
@@ -36,43 +36,43 @@
 </helmet>
 
 <!-- ============ HEADER ============ -->
-<header data-site-header style="position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(15,17,19,.7);backdrop-filter:blur(14px);border-bottom:1px solid rgba(245,243,238,.08)">
+<header data-site-header style="position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(245,243,238,.7);backdrop-filter:blur(14px);border-bottom:1px solid rgba(15,17,19,.08)">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:32px;padding:0 clamp(20px,3vw,48px);height:72px">
-    <a href="home.dc.html" style="font-family:Anton,sans-serif;font-size:22px;letter-spacing:.06em;color:#F5F3EE">SUMMIT<span style="color:#FF5C1F">.</span></a>
+    <a href="home.dc.html" style="font-family:Anton,sans-serif;font-size:22px;letter-spacing:.06em;color:#0F1113">SUMMIT<span style="color:#FF5C1F">.</span></a>
     <nav data-hide-mobile style="display:flex;gap:clamp(16px,2.2vw,36px);align-items:center;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">
-      <a href="about.dc.html" style="color:#F5F3EE" style-hover="color:#FF5C1F">Who We Are</a>
-      <a href="capabilities.dc.html" style="color:#F5F3EE" style-hover="color:#FF5C1F">Capabilities</a>
-      <a href="projects.dc.html" style="color:#F5F3EE" style-hover="color:#FF5C1F">Projects</a>
-      <a href="industries.dc.html" style="color:#F5F3EE" style-hover="color:#FF5C1F">Industries</a>
-      <a href="careers.dc.html" style="color:#F5F3EE" style-hover="color:#FF5C1F">Careers</a>
-      <a href="contact.dc.html" style="color:#F5F3EE" style-hover="color:#FF5C1F">Contact</a>
+      <a href="about.dc.html" style="color:#0F1113" style-hover="color:#FF5C1F">Who We Are</a>
+      <a href="capabilities.dc.html" style="color:#0F1113" style-hover="color:#FF5C1F">Capabilities</a>
+      <a href="projects.dc.html" style="color:#0F1113" style-hover="color:#FF5C1F">Projects</a>
+      <a href="industries.dc.html" style="color:#0F1113" style-hover="color:#FF5C1F">Industries</a>
+      <a href="careers.dc.html" style="color:#0F1113" style-hover="color:#FF5C1F">Careers</a>
+      <a href="contact.dc.html" style="color:#0F1113" style-hover="color:#FF5C1F">Contact</a>
     </nav>
     <div style="display:flex;align-items:center;gap:16px">
-      <a data-magnetic href="careers.dc.html#profile" data-hide-mobile style="display:inline-flex;align-items:center;gap:10px;background:#FF5C1F;color:#0F1113;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px" style-hover="background:#F5F3EE;color:#0F1113">Submit Your Profile</a>
-      <button data-menu-toggle aria-label="Menu" style="background:none;border:1px solid rgba(245,243,238,.25);color:#F5F3EE;width:44px;height:44px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;cursor:pointer">
-        <span style="display:block;width:18px;height:2px;background:#F5F3EE"></span>
+      <a data-magnetic href="careers.dc.html#profile" data-hide-mobile style="display:inline-flex;align-items:center;gap:10px;background:#FF5C1F;color:#F5F3EE;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px" style-hover="background:#0F1113;color:#F5F3EE">Submit Your Profile</a>
+      <button data-menu-toggle aria-label="Menu" style="background:none;border:1px solid rgba(15,17,19,.25);color:#0F1113;width:44px;height:44px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;cursor:pointer">
+        <span style="display:block;width:18px;height:2px;background:#0F1113"></span>
         <span style="display:block;width:18px;height:2px;background:#FF5C1F"></span>
       </button>
     </div>
   </div>
-  <div style="height:2px;background:rgba(245,243,238,.06)"><div data-progress style="height:2px;background:#FF5C1F;width:0"></div></div>
+  <div style="height:2px;background:rgba(15,17,19,.06)"><div data-progress style="height:2px;background:#FF5C1F;width:0"></div></div>
 </header>
 
 <!-- ============ OVERLAY MENU ============ -->
-<div data-overlay-menu style="position:fixed;inset:0;z-index:600;background:#0F1113;overflow:auto">
-  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px clamp(20px,3vw,48px);height:72px;border-bottom:1px solid rgba(245,243,238,.08)">
+<div data-overlay-menu style="position:fixed;inset:0;z-index:600;background:#F5F3EE;overflow:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px clamp(20px,3vw,48px);height:72px;border-bottom:1px solid rgba(15,17,19,.08)">
     <span style="font-family:Anton,sans-serif;font-size:22px;letter-spacing:.06em">SUMMIT<span style="color:#FF5C1F">.</span></span>
-    <button data-menu-toggle aria-label="Close menu" style="background:none;border:1px solid rgba(245,243,238,.25);color:#F5F3EE;width:44px;height:44px;font-size:18px;cursor:pointer">✕</button>
+    <button data-menu-toggle aria-label="Close menu" style="background:none;border:1px solid rgba(15,17,19,.25);color:#0F1113;width:44px;height:44px;font-size:18px;cursor:pointer">✕</button>
   </div>
   <nav style="display:flex;flex-direction:column;padding:clamp(24px,6vh,64px) clamp(20px,6vw,96px);gap:4px">
     <sc-for list="{{ menuLinks }}" as="l" hint-placeholder-count="7">
-      <div style="overflow:hidden;border-bottom:1px solid rgba(245,243,238,.08)">
-        <a data-menu-link href="{{ l.href }}" style="display:flex;align-items:baseline;gap:24px;padding:14px 0;font-family:Anton,sans-serif;font-size:clamp(34px,6.5vw,84px);text-transform:uppercase;letter-spacing:.02em;color:#F5F3EE" style-hover="color:#FF5C1F;padding-left:18px">
+      <div style="overflow:hidden;border-bottom:1px solid rgba(15,17,19,.08)">
+        <a data-menu-link href="{{ l.href }}" style="display:flex;align-items:baseline;gap:24px;padding:14px 0;font-family:Anton,sans-serif;font-size:clamp(34px,6.5vw,84px);text-transform:uppercase;letter-spacing:.02em;color:#0F1113" style-hover="color:#FF5C1F;padding-left:18px">
           <span style="font-family:Archivo,sans-serif;font-size:13px;font-weight:600;color:#FF5C1F;letter-spacing:.2em">{{ l.idx }}</span>{{ l.label }}
         </a>
       </div>
     </sc-for>
-    <div style="margin-top:40px;display:flex;gap:40px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,243,238,.5)">
+    <div style="margin-top:40px;display:flex;gap:40px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:rgba(15,17,19,.5)">
       <span>Houston, TX</span><span>281.941.4541</span><span>info@summit.us</span>
     </div>
   </nav>
@@ -89,12 +89,12 @@
     <source src="https://videos.pexels.com/video-files/6046358/6046358-uhd_2560_1440_25fps.mp4" type="video/mp4">
     <source src="https://videos.pexels.com/video-files/4941357/4941357-hd_1920_1080_25fps.mp4" type="video/mp4">
   </video>
-  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(15,17,19,.55) 0%,rgba(15,17,19,.25) 40%,rgba(15,17,19,.92) 100%)"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(245,243,238,.55) 0%,rgba(245,243,238,.25) 40%,rgba(245,243,238,.92) 100%)"></div>
   <div style="position:absolute;inset:0;pointer-events:none;background:#FF5C1F;mix-blend-mode:color;opacity:.10"></div>
   <!-- blueprint wireframe midground -->
   <div data-tilt data-parallax="0.12" style="position:absolute;right:4vw;top:14vh;width:min(44vw,640px);opacity:.5;pointer-events:none">
     <svg viewBox="0 0 640 420" fill="none" style="width:100%;height:auto">
-      <g stroke="#F5F3EE" stroke-width="1" opacity="0.55">
+      <g stroke="#0F1113" stroke-width="1" opacity="0.55">
         <path d="M80 340 L320 220 L560 340 M80 260 L320 140 L560 260 M80 180 L320 60 L560 180"></path>
         <path d="M80 340 L80 180 M320 220 L320 60 M560 340 L560 180"></path>
         <path d="M140 310 L140 165 M200 280 L200 135 M260 250 L260 105 M380 250 L380 105 M440 280 L440 135 M500 310 L500 165"></path>
@@ -103,43 +103,43 @@
         <path d="M80 300 L320 180 L560 300" style="animation:pulseline 4s ease-in-out infinite"></path>
         <circle cx="320" cy="60" r="4" fill="#FF5C1F"></circle>
       </g>
-      <g stroke="#F5F3EE" stroke-dasharray="4 6" opacity="0.4">
+      <g stroke="#0F1113" stroke-dasharray="4 6" opacity="0.4">
         <path d="M60 360 L60 160 M60 160 L75 160 M60 360 L75 360"></path>
         <path d="M90 380 L570 380"></path>
       </g>
-      <text x="30" y="265" fill="#F5F3EE" opacity="0.5" font-family="Archivo" font-size="11" letter-spacing="2" transform="rotate(-90 30 265)">42'-6"</text>
-      <text x="300" y="404" fill="#F5F3EE" opacity="0.5" font-family="Archivo" font-size="11" letter-spacing="2">MODULE GRID A—F</text>
+      <text x="30" y="265" fill="#0F1113" opacity="0.5" font-family="Archivo" font-size="11" letter-spacing="2" transform="rotate(-90 30 265)">42'-6"</text>
+      <text x="300" y="404" fill="#0F1113" opacity="0.5" font-family="Archivo" font-size="11" letter-spacing="2">MODULE GRID A—F</text>
     </svg>
   </div>
   <div style="position:relative;z-index:2;padding:0 clamp(20px,4vw,64px) clamp(48px,8vh,96px);width:100%;pointer-events:none">
     <div style="display:flex;align-items:baseline;gap:20px;margin-bottom:18px">
       <span data-reveal="fade" style="width:64px;height:1px;background:#FF5C1F;display:inline-block"></span>
-      <span data-reveal="fade" data-reveal-delay="0.1" style="font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(245,243,238,.7)">Specialty Mechanical Contractor — Houston, TX</span>
+      <span data-reveal="fade" data-reveal-delay="0.1" style="font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(15,17,19,.7)">Specialty Mechanical Contractor — Houston, TX</span>
     </div>
     <h1 style="margin:0;font-family:Anton,sans-serif;font-size:clamp(56px,10.5vw,168px);line-height:.92;letter-spacing:.01em;text-transform:uppercase">
       <span style="display:block;overflow:hidden"><span data-reveal="mask" style="display:block">Built at</span></span>
       <span style="display:block;overflow:hidden"><span data-reveal="mask" data-reveal-delay="0.12" style="display:block">Industrial <span style="color:#FF5C1F">Scale</span></span></span>
     </h1>
     <div data-stack style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:28px;align-items:end">
-      <p data-reveal="up" data-reveal-delay="0.3" style="margin:0;max-width:480px;font-size:clamp(15px,1.2vw,18px);line-height:1.6;color:rgba(245,243,238,.8)">Turnkey specialty mechanical construction — engineering, design-assist, and direct-hire execution for semiconductor fabs, power plants, energy terminals, and biomass facilities.</p>
+      <p data-reveal="up" data-reveal-delay="0.3" style="margin:0;max-width:480px;font-size:clamp(15px,1.2vw,18px);line-height:1.6;color:rgba(15,17,19,.8)">Turnkey specialty mechanical construction — engineering, design-assist, and direct-hire execution for semiconductor fabs, power plants, energy terminals, and biomass facilities.</p>
       <div data-reveal="up" data-reveal-delay="0.45" style="display:flex;gap:16px;justify-content:flex-end;pointer-events:auto">
-        <a data-magnetic data-cursor-view href="projects.dc.html" style="border:1px solid rgba(245,243,238,.35);padding:16px 28px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#F5F3EE" style-hover="background:#FF5C1F;border-color:#FF5C1F;color:#0F1113">See the Work</a>
+        <a data-magnetic data-cursor-view href="projects.dc.html" style="border:1px solid rgba(15,17,19,.35);padding:16px 28px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#0F1113" style-hover="background:#FF5C1F;border-color:#FF5C1F;color:#F5F3EE">See the Work</a>
       </div>
     </div>
   </div>
-  <div data-scroll-hint style="position:absolute;bottom:24px;right:clamp(20px,4vw,64px);z-index:2;display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,243,238,.55)">
+  <div data-scroll-hint style="position:absolute;bottom:24px;right:clamp(20px,4vw,64px);z-index:2;display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(15,17,19,.55)">
     <span>Scroll</span><span style="width:1px;height:40px;background:linear-gradient(#FF5C1F,transparent);display:block"></span>
   </div>
 </section>
 
 <!-- ============ STATS STRIP ============ -->
-<section data-screen-label="Stats" style="border-top:1px solid rgba(245,243,238,.1);border-bottom:1px solid rgba(245,243,238,.1);background:#0F1113">
+<section data-screen-label="Stats" style="border-top:1px solid rgba(15,17,19,.1);border-bottom:1px solid rgba(15,17,19,.1);background:#F5F3EE">
   <div data-stack style="display:grid;grid-template-columns:repeat(4,1fr)">
     <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
-      <div style="padding:clamp(28px,3.5vw,56px) clamp(20px,3vw,48px);border-right:1px solid rgba(245,243,238,.1)">
+      <div style="padding:clamp(28px,3.5vw,56px) clamp(20px,3vw,48px);border-right:1px solid rgba(15,17,19,.1)">
         <div style="font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#FF5C1F;margin-bottom:14px">{{ s.label }}</div>
         <div data-countup="{{ s.value }}" data-suffix="{{ s.suffix }}" style="font-family:Anton,sans-serif;font-size:clamp(40px,4.5vw,72px);line-height:1">0</div>
-        <div style="font-size:13px;color:rgba(245,243,238,.55);margin-top:10px">{{ s.note }}</div>
+        <div style="font-size:13px;color:rgba(15,17,19,.55);margin-top:10px">{{ s.note }}</div>
       </div>
     </sc-for>
   </div>
@@ -147,42 +147,42 @@
 
 <!-- ============ MANIFESTO ============ -->
 <section data-screen-label="Manifesto" style="padding:clamp(80px,12vh,160px) clamp(20px,4vw,64px);position:relative">
-  <div style="position:absolute;left:clamp(20px,4vw,64px);top:clamp(40px,6vh,80px);font-size:12px;font-weight:600;letter-spacing:.28em;color:rgba(245,243,238,.4)">01 / MANIFESTO</div>
+  <div style="position:absolute;left:clamp(20px,4vw,64px);top:clamp(40px,6vh,80px);font-size:12px;font-weight:600;letter-spacing:.28em;color:rgba(15,17,19,.4)">01 / MANIFESTO</div>
   <div data-stack style="display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,5vw,96px);align-items:center;margin-top:48px">
     <h2 style="margin:0;font-family:Anton,sans-serif;font-size:clamp(30px,4vw,58px);line-height:1.12;text-transform:uppercase;letter-spacing:.01em">
       <span style="display:block;overflow:hidden"><span data-reveal="mask" style="display:block">We build the plants</span></span>
       <span style="display:block;overflow:hidden"><span data-reveal="mask" data-reveal-delay="0.1" style="display:block">that build everything else.</span></span>
-      <span style="display:block;overflow:hidden;margin-top:24px"><span data-reveal="mask" data-reveal-delay="0.2" style="display:block;font-family:Archivo,sans-serif;font-size:clamp(15px,1.25vw,19px);font-weight:400;line-height:1.7;text-transform:none;color:rgba(245,243,238,.75);max-width:52ch">Chips, megawatts, molecules. Summit self-performs the critical-path mechanical scope on the projects America can't afford to get wrong — with our own craft workforce, our own engineering, and a safety record we'd put against anyone's.</span></span>
+      <span style="display:block;overflow:hidden;margin-top:24px"><span data-reveal="mask" data-reveal-delay="0.2" style="display:block;font-family:Archivo,sans-serif;font-size:clamp(15px,1.25vw,19px);font-weight:400;line-height:1.7;text-transform:none;color:rgba(15,17,19,.75);max-width:52ch">Chips, megawatts, molecules. Summit self-performs the critical-path mechanical scope on the projects America can't afford to get wrong — with our own craft workforce, our own engineering, and a safety record we'd put against anyone's.</span></span>
     </h2>
     <div data-reveal="clip" style="position:relative;overflow:hidden;aspect-ratio:4/5">
       <div data-parallax="0.08" style="position:absolute;inset:-8% 0">
         <image-slot id="home-manifesto" src="https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg" shape="rect" placeholder="Drop craft-at-work photo (welder / rigging crew)"></image-slot>
       </div>
-      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(15deg,rgba(15,17,19,.5),transparent 55%)"></div>
-      <div style="position:absolute;right:14px;top:14px;font-size:10px;letter-spacing:.2em;color:rgba(245,243,238,.6);border:1px dashed rgba(245,243,238,.3);padding:6px 10px;pointer-events:none">FIG. 01 — DIRECT HIRE</div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(15deg,rgba(245,243,238,.5),transparent 55%)"></div>
+      <div style="position:absolute;right:14px;top:14px;font-size:10px;letter-spacing:.2em;color:rgba(15,17,19,.6);border:1px dashed rgba(15,17,19,.3);padding:6px 10px;pointer-events:none">FIG. 01 — DIRECT HIRE</div>
     </div>
   </div>
 </section>
 
 <!-- ============ CAPABILITIES TEASER ============ -->
-<section data-screen-label="Capabilities teaser" data-follow-group style="padding:clamp(60px,9vh,120px) 0;border-top:1px solid rgba(245,243,238,.1)">
+<section data-screen-label="Capabilities teaser" data-follow-group style="padding:clamp(60px,9vh,120px) 0;border-top:1px solid rgba(15,17,19,.1)">
   <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 clamp(20px,4vw,64px);margin-bottom:40px">
-    <div style="font-size:12px;font-weight:600;letter-spacing:.28em;color:rgba(245,243,238,.4)">02 / CAPABILITIES</div>
+    <div style="font-size:12px;font-weight:600;letter-spacing:.28em;color:rgba(15,17,19,.4)">02 / CAPABILITIES</div>
     <a href="capabilities.dc.html" style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#FF5C1F">All capabilities →</a>
   </div>
   <div data-follow-preview style="width:300px;height:200px;overflow:hidden;left:0;top:0">
     <sc-for list="{{ capRows }}" as="c" hint-placeholder-count="6">
-      <div data-follow-img="{{ c.key }}" style="display:none;width:300px;height:200px;background:#15181b;position:relative;overflow:hidden">
+      <div data-follow-img="{{ c.key }}" style="display:none;width:300px;height:200px;background:#EAE6DD;position:relative;overflow:hidden">
         <img src="{{ c.src }}" alt="{{ c.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.35) contrast(1.05)">
-        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(15,17,19,.75))"></div>
-        <div style="position:absolute;left:16px;bottom:14px;font-family:Anton,sans-serif;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#F5F3EE">{{ c.name }}</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(245,243,238,.75))"></div>
+        <div style="position:absolute;left:16px;bottom:14px;font-family:Anton,sans-serif;font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:#0F1113">{{ c.name }}</div>
         <div style="position:absolute;right:12px;top:12px;color:#FF5C1F;font-size:11px;letter-spacing:.2em">{{ c.idx }}</div>
       </div>
     </sc-for>
   </div>
-  <div style="border-top:1px solid rgba(245,243,238,.1)">
+  <div style="border-top:1px solid rgba(15,17,19,.1)">
     <sc-for list="{{ capRows }}" as="c" hint-placeholder-count="6">
-      <a data-follow-item="{{ c.key }}" data-cursor-view href="capabilities.dc.html#{{ c.key }}" style="display:flex;align-items:baseline;gap:clamp(16px,3vw,48px);padding:clamp(20px,2.6vw,34px) clamp(20px,4vw,64px);border-bottom:1px solid rgba(245,243,238,.1);color:#F5F3EE;position:relative" style-hover="background:#FF5C1F;color:#0F1113">
+      <a data-follow-item="{{ c.key }}" data-cursor-view href="capabilities.dc.html#{{ c.key }}" style="display:flex;align-items:baseline;gap:clamp(16px,3vw,48px);padding:clamp(20px,2.6vw,34px) clamp(20px,4vw,64px);border-bottom:1px solid rgba(15,17,19,.1);color:#0F1113;position:relative" style-hover="background:#FF5C1F;color:#F5F3EE">
         <span style="font-size:13px;font-weight:600;letter-spacing:.2em;min-width:44px;opacity:.6">{{ c.idx }}</span>
         <span style="font-family:Anton,sans-serif;font-size:clamp(26px,4vw,54px);text-transform:uppercase;letter-spacing:.01em;line-height:1">{{ c.name }}</span>
         <span data-hide-mobile style="margin-left:auto;font-size:13px;letter-spacing:.06em;opacity:.65;max-width:320px;text-align:right">{{ c.tag }}</span>
@@ -195,39 +195,39 @@
 <section data-screen-label="Select projects" data-hscroll style="height:320vh;position:relative">
   <div style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center">
     <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 clamp(20px,4vw,64px);margin-bottom:32px">
-      <div style="font-size:12px;font-weight:600;letter-spacing:.28em;color:rgba(245,243,238,.4)">03 / SELECT PROJECTS</div>
+      <div style="font-size:12px;font-weight:600;letter-spacing:.28em;color:rgba(15,17,19,.4)">03 / SELECT PROJECTS</div>
       <a href="projects.dc.html" style="font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#FF5C1F">All projects →</a>
     </div>
     <div data-hscroll-track style="display:flex;gap:clamp(20px,2.5vw,40px);padding:0 clamp(20px,4vw,64px);width:max-content;will-change:transform">
       <sc-for list="{{ featured }}" as="p" hint-placeholder-count="4">
-        <a data-cursor-view data-hover-zoom href="{{ p.href }}" style="display:block;width:min(72vw,560px);flex:none;color:#F5F3EE">
-          <div style="position:relative;overflow:hidden;aspect-ratio:16/10;background:#181b1e">
+        <a data-cursor-view data-hover-zoom href="{{ p.href }}" style="display:block;width:min(72vw,560px);flex:none;color:#0F1113">
+          <div style="position:relative;overflow:hidden;aspect-ratio:16/10;background:#EAE6DD">
             <div data-img style="position:absolute;inset:0">
               <image-slot id="{{ p.slot }}" src="{{ p.src }}" shape="rect" placeholder="{{ p.ph }}"></image-slot>
             </div>
-            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 55%,rgba(15,17,19,.85))"></div>
-            <div style="position:absolute;left:20px;top:16px;font-family:Anton,sans-serif;font-size:44px;color:transparent;-webkit-text-stroke:1px rgba(245,243,238,.4);pointer-events:none">{{ p.idx }}</div>
-            <div style="position:absolute;right:16px;top:16px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#0F1113;background:#FF5C1F;padding:5px 10px;pointer-events:none">{{ p.industry }}</div>
+            <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 55%,rgba(245,243,238,.85))"></div>
+            <div style="position:absolute;left:20px;top:16px;font-family:Anton,sans-serif;font-size:44px;color:transparent;-webkit-text-stroke:1px rgba(15,17,19,.4);pointer-events:none">{{ p.idx }}</div>
+            <div style="position:absolute;right:16px;top:16px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#F5F3EE;background:#FF5C1F;padding:5px 10px;pointer-events:none">{{ p.industry }}</div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px">
             <span style="font-family:Anton,sans-serif;font-size:clamp(18px,1.6vw,24px);text-transform:uppercase;letter-spacing:.02em">{{ p.name }}</span>
-            <span style="font-size:12px;color:rgba(245,243,238,.55);letter-spacing:.08em;white-space:nowrap">{{ p.stat }}</span>
+            <span style="font-size:12px;color:rgba(15,17,19,.55);letter-spacing:.08em;white-space:nowrap">{{ p.stat }}</span>
           </div>
         </a>
       </sc-for>
-      <a data-cursor-view href="projects.dc.html" style="width:320px;flex:none;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(245,243,238,.25);color:#F5F3EE;font-family:Anton,sans-serif;font-size:24px;text-transform:uppercase;letter-spacing:.04em" style-hover="border-color:#FF5C1F;color:#FF5C1F">View all →</a>
+      <a data-cursor-view href="projects.dc.html" style="width:320px;flex:none;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(15,17,19,.25);color:#0F1113;font-family:Anton,sans-serif;font-size:24px;text-transform:uppercase;letter-spacing:.04em" style-hover="border-color:#FF5C1F;color:#FF5C1F">View all →</a>
     </div>
   </div>
 </section>
 
 <!-- ============ SAFETY MARQUEE ============ -->
-<section data-screen-label="Safety band" style="padding:clamp(70px,11vh,140px) 0;border-top:1px solid rgba(245,243,238,.1);border-bottom:1px solid rgba(245,243,238,.1);overflow:hidden;background:#0c0e10">
+<section data-screen-label="Safety band" style="padding:clamp(70px,11vh,140px) 0;border-top:1px solid rgba(15,17,19,.1);border-bottom:1px solid rgba(15,17,19,.1);overflow:hidden;background:#EAE6DD">
   <div data-marquee style="display:flex;gap:64px;white-space:nowrap;will-change:transform;width:max-content">
-    <span style="font-family:Anton,sans-serif;font-size:clamp(64px,11vw,180px);text-transform:uppercase;letter-spacing:.02em;color:transparent;-webkit-text-stroke:1.5px rgba(245,243,238,.55)">Safety is not a priority. <span style="color:#FF5C1F;-webkit-text-stroke:0px">It's a value.</span>&nbsp;</span>
-    <span style="font-family:Anton,sans-serif;font-size:clamp(64px,11vw,180px);text-transform:uppercase;letter-spacing:.02em;color:transparent;-webkit-text-stroke:1.5px rgba(245,243,238,.55)">Safety is not a priority. <span style="color:#FF5C1F;-webkit-text-stroke:0px">It's a value.</span>&nbsp;</span>
+    <span style="font-family:Anton,sans-serif;font-size:clamp(64px,11vw,180px);text-transform:uppercase;letter-spacing:.02em;color:transparent;-webkit-text-stroke:1.5px rgba(15,17,19,.55)">Safety is not a priority. <span style="color:#FF5C1F;-webkit-text-stroke:0px">It's a value.</span>&nbsp;</span>
+    <span style="font-family:Anton,sans-serif;font-size:clamp(64px,11vw,180px);text-transform:uppercase;letter-spacing:.02em;color:transparent;-webkit-text-stroke:1.5px rgba(15,17,19,.55)">Safety is not a priority. <span style="color:#FF5C1F;-webkit-text-stroke:0px">It's a value.</span>&nbsp;</span>
   </div>
-  <div style="display:flex;justify-content:center;gap:48px;margin-top:40px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,243,238,.5)">
-    <span>TRIR 0.42</span><span style="color:#FF5C1F">·</span><span>18M+ safe work hours</span><span style="color:#FF5C1F">·</span><span><a href="about.dc.html#hse" style="color:rgba(245,243,238,.5)">Our HSE program →</a></span>
+  <div style="display:flex;justify-content:center;gap:48px;margin-top:40px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(15,17,19,.5)">
+    <span>TRIR 0.42</span><span style="color:#FF5C1F">·</span><span>18M+ safe work hours</span><span style="color:#FF5C1F">·</span><span><a href="about.dc.html#hse" style="color:rgba(15,17,19,.5)">Our HSE program →</a></span>
   </div>
 </section>
 
@@ -239,17 +239,17 @@
     <span style="display:block;overflow:hidden"><span data-reveal="mask" data-reveal-delay="0.12" style="display:block">matters.</span></span>
   </h2>
   <div data-reveal="up" data-reveal-delay="0.3" style="margin-top:40px;display:flex;justify-content:center">
-    <a data-magnetic data-cursor-view href="careers.dc.html" style="display:inline-block;background:#FF5C1F;color:#0F1113;padding:20px 44px;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase" style-hover="background:#F5F3EE">Explore Careers</a>
+    <a data-magnetic data-cursor-view href="careers.dc.html" style="display:inline-block;background:#FF5C1F;color:#F5F3EE;padding:20px 44px;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase" style-hover="background:#0F1113">Explore Careers</a>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer style="border-top:1px solid rgba(245,243,238,.1);background:#0c0e10;overflow:hidden">
+<footer style="border-top:1px solid rgba(15,17,19,.1);background:#EAE6DD;overflow:hidden">
   <div data-stack style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:clamp(28px,4vw,64px);padding:clamp(48px,7vh,88px) clamp(20px,4vw,64px) 40px">
     <div>
       <div style="font-family:Anton,sans-serif;font-size:26px;letter-spacing:.05em">SUMMIT<span style="color:#FF5C1F">.</span></div>
-      <p style="margin:16px 0 0;font-size:14px;line-height:1.7;color:rgba(245,243,238,.6);max-width:34ch">Specialty mechanical construction for the industries that power everything else.</p>
-      <div style="margin-top:24px;font-size:13px;line-height:1.9;color:rgba(245,243,238,.6)">2727 Allen Parkway, Suite 400<br>Houston, TX 77019<br><a href="contact.dc.html" style="color:#F5F3EE">281.941.4541</a></div>
+      <p style="margin:16px 0 0;font-size:14px;line-height:1.7;color:rgba(15,17,19,.6);max-width:34ch">Specialty mechanical construction for the industries that power everything else.</p>
+      <div style="margin-top:24px;font-size:13px;line-height:1.9;color:rgba(15,17,19,.6)">2727 Allen Parkway, Suite 400<br>Houston, TX 77019<br><a href="contact.dc.html" style="color:#0F1113">281.941.4541</a></div>
     </div>
     <nav style="display:flex;flex-direction:column;gap:12px;font-size:13px;letter-spacing:.08em">
       <span style="font-size:11px;font-weight:700;letter-spacing:.24em;color:#FF5C1F;text-transform:uppercase;margin-bottom:6px">Company</span>
@@ -261,21 +261,21 @@
     </nav>
     <div>
       <span style="font-size:11px;font-weight:700;letter-spacing:.24em;color:#FF5C1F;text-transform:uppercase">Field Notes</span>
-      <p style="margin:12px 0 20px;font-size:13px;color:rgba(245,243,238,.6)">Project milestones and hiring calls, quarterly. No noise.</p>
+      <p style="margin:12px 0 20px;font-size:13px;color:rgba(15,17,19,.6)">Project milestones and hiring calls, quarterly. No noise.</p>
       <div data-float-field style="position:relative;padding-top:20px">
-        <span data-float-label style="position:absolute;left:0;top:26px;font-size:14px;color:rgba(245,243,238,.5);pointer-events:none">Email address</span>
-        <input type="email" placeholder=" " style="width:100%;background:none;border:none;border-bottom:1px solid rgba(245,243,238,.25);color:#F5F3EE;font-size:15px;padding:6px 0;outline:none;font-family:Archivo,sans-serif">
+        <span data-float-label style="position:absolute;left:0;top:26px;font-size:14px;color:rgba(15,17,19,.5);pointer-events:none">Email address</span>
+        <input type="email" placeholder=" " style="width:100%;background:none;border:none;border-bottom:1px solid rgba(15,17,19,.25);color:#0F1113;font-size:15px;padding:6px 0;outline:none;font-family:Archivo,sans-serif">
         <span data-float-line style="position:absolute;left:0;bottom:0;width:100%;height:2px;background:#FF5C1F;transform:scaleX(0);transform-origin:left"></span>
       </div>
-      <button data-magnetic style="margin-top:18px;background:none;border:1px solid rgba(245,243,238,.3);color:#F5F3EE;padding:12px 24px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;font-family:Archivo,sans-serif" style-hover="background:#FF5C1F;border-color:#FF5C1F;color:#0F1113">Subscribe</button>
+      <button data-magnetic style="margin-top:18px;background:none;border:1px solid rgba(15,17,19,.3);color:#0F1113;padding:12px 24px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;font-family:Archivo,sans-serif" style-hover="background:#FF5C1F;border-color:#FF5C1F;color:#F5F3EE">Subscribe</button>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;padding:0 clamp(20px,4vw,64px) 16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,243,238,.4)">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:0 clamp(20px,4vw,64px) 16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(15,17,19,.4)">
     <span>© 2026 Summit Industrial Construction</span>
-    <div style="display:flex;gap:24px"><a href="#" style="color:rgba(245,243,238,.4)">LinkedIn</a><a href="#" style="color:rgba(245,243,238,.4)">Instagram</a><a data-top href="#" style="color:#FF5C1F">Back to top ↑</a></div>
+    <div style="display:flex;gap:24px"><a href="#" style="color:rgba(15,17,19,.4)">LinkedIn</a><a href="#" style="color:rgba(15,17,19,.4)">Instagram</a><a data-top href="#" style="color:#FF5C1F">Back to top ↑</a></div>
   </div>
   <div style="height:clamp(90px,13vw,220px);overflow:hidden;pointer-events:none;margin-top:8px">
-    <div style="font-family:Anton,sans-serif;font-size:clamp(140px,21vw,360px);line-height:.78;letter-spacing:.02em;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(245,243,238,.18)">SUMMIT</div>
+    <div style="font-family:Anton,sans-serif;font-size:clamp(140px,21vw,360px);line-height:.78;letter-spacing:.02em;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(15,17,19,.18)">SUMMIT</div>
   </div>
 </footer>
 
