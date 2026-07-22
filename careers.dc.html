@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Careers — Summit Industrial Construction</title>
+  <link rel="icon" href="https://summit.us/wp-content/uploads/2022/04/cropped-favico-270x270.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="./site.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #0F1113; color: #F5F3EE; font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
+    ::selection { background: #FF5C1F; color: #0F1113; }
+    a { color: #F5F3EE; text-decoration: none; }
+    a:hover { color: #FF5C1F; }
+    @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+    @media (max-width: 900px) { [data-split] { flex-direction: column !important; } [data-stack] { grid-template-columns: 1fr !important; } }
+  </style>
+</helmet>
+<dc-import name="SiteHeader" hint-size="100%,74px"></dc-import>
+
+<!-- HERO -->
+<section data-screen-label="Careers hero" style="position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;align-items:center">
+  <div style="position:absolute;inset:0;animation:kenburns 22s linear infinite alternate">
+    <image-slot id="car-hero" src="https://summit.us/wp-content/uploads/2022/05/22.005-Project-Hedgehog-Rio-Rancho-03.jpg" shape="rect" placeholder="Drop site footage still — crew at height, golden hour"></image-slot>
+  </div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(15,17,19,.6),rgba(15,17,19,.3) 50%,rgba(15,17,19,.9))"></div>
+  <div style="position:relative;z-index:2;padding:0 clamp(20px,4vw,64px);pointer-events:none">
+    <div data-reveal="fade" style="font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#FF5C1F;margin-bottom:20px">Careers at Summit — hiring all craft disciplines</div>
+    <h1 style="margin:0;font-family:Anton,sans-serif;font-size:clamp(56px,11vw,180px);line-height:.92;text-transform:uppercase">
+      <span style="display:block;overflow:hidden"><span data-reveal="mask" style="display:block">Build what</span></span>
+      <span style="display:block;overflow:hidden"><span data-reveal="mask" data-reveal-delay="0.12" style="display:block"><span style="color:#FF5C1F">matters.</span></span></span>
+    </h1>
+    <p data-reveal="up" data-reveal-delay="0.28" style="margin:28px 0 0;max-width:52ch;font-size:clamp(15px,1.3vw,19px);line-height:1.7;color:rgba(245,243,238,.85)">The chips in your phone. The power on your grid. Somebody builds the plants behind all of it. At Summit, that somebody is you — direct hire, benefits day one, kept between projects.</p>
+  </div>
+</section>
+
+<!-- SPLIT: CRAFT vs PROFESSIONAL -->
+<section data-screen-label="Two paths" data-split style="display:flex;min-height:88vh;border-top:1px solid rgba(245,243,238,.1)">
+  <div onMouseEnter="{{ enterCraft }}" onMouseLeave="{{ leave }}" style="flex:{{ craftFlex }};transition:flex 1s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden;border-right:1px solid rgba(245,243,238,.12);display:flex;flex-direction:column;justify-content:flex-end;background:#0c0e10;min-height:440px">
+    <div style="position:absolute;inset:0;opacity:.4"><image-slot id="car-craft" src="https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg" shape="rect" placeholder="Drop photo — welder arc close-up"></image-slot></div>
+    <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(12,14,16,.5),rgba(12,14,16,.92))"></div>
+    <div style="position:relative;z-index:2;padding:clamp(28px,4vw,56px)">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.28em;color:#FF5C1F;text-transform:uppercase;margin-bottom:14px">Path 01</div>
+      <h2 style="margin:0 0 18px;font-family:Anton,sans-serif;font-size:clamp(44px,6vw,96px);line-height:.95;text-transform:uppercase">Craft</h2>
+      <div style="display:grid;grid-template-rows:{{ craftRows }};transition:grid-template-rows .8s cubic-bezier(0.16,1,0.3,1)"><div style="overflow:hidden">
+        <p style="margin:0 0 18px;font-size:14.5px;line-height:1.7;color:rgba(245,243,238,.75);max-width:44ch">Pipefitters, welders, boilermakers, ironworkers, millwrights, operators, riggers. Per-diem that's real, overtime that's steady, and NCCER-certified training on our dime.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Combo Welder</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Pipefitter</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Ironworker</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Millwright</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Crane Operator</span>
+        </div>
+      </div></div>
+      <a data-magnetic data-cursor-view href="#profile" style="display:inline-block;background:#FF5C1F;color:#0F1113;padding:16px 32px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase" style-hover="background:#F5F3EE">Join the crew →</a>
+    </div>
+  </div>
+  <div onMouseEnter="{{ enterPro }}" onMouseLeave="{{ leave }}" style="flex:{{ proFlex }};transition:flex 1s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;background:#111417;min-height:440px">
+    <div style="position:absolute;inset:0;opacity:.4"><image-slot id="car-pro" src="https://summit.us/wp-content/uploads/2022/05/Intel-Rendering-PNG-edited.png" shape="rect" placeholder="Drop photo — field engineer with tablet on site"></image-slot></div>
+    <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(15,17,19,.5),rgba(15,17,19,.92))"></div>
+    <div style="position:relative;z-index:2;padding:clamp(28px,4vw,56px)">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.28em;color:#FF5C1F;text-transform:uppercase;margin-bottom:14px">Path 02</div>
+      <h2 style="margin:0 0 18px;font-family:Anton,sans-serif;font-size:clamp(44px,6vw,96px);line-height:.95;text-transform:uppercase">Professional</h2>
+      <div style="display:grid;grid-template-rows:{{ proRows }};transition:grid-template-rows .8s cubic-bezier(0.16,1,0.3,1)"><div style="overflow:hidden">
+        <p style="margin:0 0 18px;font-size:14.5px;line-height:1.7;color:rgba(245,243,238,.75);max-width:44ch">Engineers, superintendents, schedulers, safety professionals, QC. Run scopes measured in the hundreds of millions — with authority to match the responsibility.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Project Engineer</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Superintendent</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">HSE Manager</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Scheduler</span>
+          <span style="border:1px solid rgba(245,243,238,.3);padding:7px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase">QC Inspector</span>
+        </div>
+      </div></div>
+      <a data-magnetic data-cursor-view href="#profile" style="display:inline-block;border:1px solid rgba(245,243,238,.4);color:#F5F3EE;padding:16px 32px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase" style-hover="background:#FF5C1F;border-color:#FF5C1F;color:#0F1113">Lead the work →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SUMMIT -->
+<section data-screen-label="Why Summit" style="border-top:1px solid rgba(245,243,238,.1);background:#0c0e10;padding:clamp(70px,10vh,130px) clamp(20px,4vw,64px)">
+  <div style="font-size:12px;font-weight:600;letter-spacing:.28em;color:rgba(245,243,238,.4);margin-bottom:40px">WHY SUMMIT</div>
+  <div data-stack style="display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,48px)">
+    <sc-for list="{{ why }}" as="w" hint-placeholder-count="4">
+      <div data-reveal="up" data-reveal-delay="{{ w.delay }}" style="border-top:1px solid rgba(255,92,31,.5);padding-top:20px">
+        <div data-countup="{{ w.value }}" data-suffix="{{ w.suffix }}" data-prefix="{{ w.prefix }}" style="font-family:Anton,sans-serif;font-size:clamp(38px,4vw,64px);line-height:1">0</div>
+        <div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#FF5C1F;margin:12px 0 8px">{{ w.label }}</div>
+        <p style="margin:0;font-size:13.5px;line-height:1.65;color:rgba(245,243,238,.6)">{{ w.body }}</p>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- SUBMIT PROFILE CTA -->
+<section id="profile" data-screen-label="Submit profile" style="padding:clamp(90px,15vh,190px) clamp(20px,4vw,64px);text-align:center;position:relative;overflow:hidden">
+  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:Anton,sans-serif;font-size:clamp(200px,38vw,560px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(245,243,238,.06);pointer-events:none">HIRE</div>
+  <div style="position:relative;z-index:2">
+    <h2 style="margin:0 auto;font-family:Anton,sans-serif;font-size:clamp(38px,6.5vw,104px);line-height:.98;text-transform:uppercase;max-width:16ch">
+      <span style="display:block;overflow:hidden"><span data-reveal="mask" style="display:block">Your name belongs</span></span>
+      <span style="display:block;overflow:hidden"><span data-reveal="mask" data-reveal-delay="0.12" style="display:block">on this roster.</span></span>
+    </h2>
+    <p data-reveal="up" data-reveal-delay="0.25" style="margin:24px auto 44px;max-width:48ch;font-size:15px;line-height:1.7;color:rgba(245,243,238,.7)">One profile. Every project. Our craft recruiting team responds within 48 hours — usually faster when we're staffing a surge.</p>
+    <a data-magnetic data-cursor-view href="contact.dc.html" style="display:inline-block;background:#FF5C1F;color:#0F1113;padding:24px 56px;font-family:Anton,sans-serif;font-size:clamp(18px,1.8vw,26px);letter-spacing:.08em;text-transform:uppercase" style-hover="background:#F5F3EE">Submit Your Profile</a>
+  </div>
+</section>
+
+<dc-import name="SiteFooter" hint-size="100%,600px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { side: null };
+  renderVals() {
+    const s = this.state.side;
+    return {
+      enterCraft: () => this.setState({ side: 'craft' }),
+      enterPro: () => this.setState({ side: 'pro' }),
+      leave: () => this.setState({ side: null }),
+      craftFlex: s === 'craft' ? '1.6' : s === 'pro' ? '0.8' : '1',
+      proFlex: s === 'pro' ? '1.6' : s === 'craft' ? '0.8' : '1',
+      craftRows: s === 'pro' ? '0fr' : '1fr',
+      proRows: s === 'craft' ? '0fr' : '1fr',
+      why: [
+        { value: '0.42', suffix: '', prefix: '', label: 'TRIR', body: 'The safest big sites in the industry. Stop-work authority is yours from day one.', delay: '0' },
+        { value: '92', suffix: '%', prefix: '', label: 'Retention, year over year', body: 'We keep crews between projects instead of laying off at every demob.', delay: '0.08' },
+        { value: '120', suffix: '/day', prefix: '$', label: 'Per diem on travel scopes', body: 'Paid straight, paid weekly — no games with hours thresholds.', delay: '0.16' },
+        { value: '400', suffix: '+', prefix: '', label: 'Craft promoted to leadership', body: 'Foremen, GFs, and supers grown from our own bench — not hired over you.', delay: '0.24' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

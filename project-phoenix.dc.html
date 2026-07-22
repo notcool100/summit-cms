@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Phoenix Semiconductor UG Infrastructure & AG Piping — Summit</title>
+  <link rel="icon" href="https://summit.us/wp-content/uploads/2022/04/cropped-favico-270x270.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="./site.js"></script>
+  <script src="./image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #0F1113; color: #F5F3EE; font-family: Archivo, sans-serif; -webkit-font-smoothing: antialiased; }
+    ::selection { background: #FF5C1F; color: #0F1113; }
+    a { color: #F5F3EE; text-decoration: none; }
+    a:hover { color: #FF5C1F; }
+    @keyframes kenburns { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+    @media (max-width: 900px) { [data-stack] { grid-template-columns: 1fr !important; } [data-hide-mobile] { display: none !important; } }
+  </style>
+</helmet>
+<dc-import name="SiteHeader" hint-size="100%,74px"></dc-import>
+
+<!-- CINEMATIC HERO -->
+<section data-screen-label="Project hero" style="position:relative;height:100vh;min-height:620px;overflow:hidden;display:flex;align-items:flex-end">
+  <div style="position:absolute;inset:0;animation:kenburns 20s linear infinite alternate">
+    <image-slot id="phx-hero" src="https://summit.us/wp-content/uploads/2022/03/21.004-TSMC-3.jpeg" shape="rect" placeholder="Drop full-bleed hero — underground utility corridor / fab site aerial"></image-slot>
+  </div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(15,17,19,.5),rgba(15,17,19,.15) 45%,rgba(15,17,19,.95))"></div>
+  <div style="position:relative;z-index:2;width:100%;padding:0 clamp(20px,4vw,64px) clamp(40px,7vh,80px);pointer-events:none">
+    <div data-reveal="fade" style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+      <span style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#0F1113;background:#FF5C1F;padding:5px 10px">Semiconductor</span>
+      <span style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,243,238,.7)">Case study — 04</span>
+    </div>
+    <h1 style="margin:0;font-family:Anton,sans-serif;font-size:clamp(38px,6.5vw,104px);line-height:.96;text-transform:uppercase;max-width:20ch">
+      <span style="display:block;overflow:hidden"><span data-reveal="mask" style="display:block">Phoenix Semiconductor</span></span>
+      <span style="display:block;overflow:hidden"><span data-reveal="mask" data-reveal-delay="0.12" style="display:block">UG Infrastructure <span style="color:#FF5C1F">&amp; AG Piping</span></span></span>
+    </h1>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<section data-screen-label="Scope stats" style="border-bottom:1px solid rgba(245,243,238,.1);background:#0c0e10">
+  <div data-stack style="display:grid;grid-template-columns:repeat(4,1fr)">
+    <sc-for list="{{ scope }}" as="s" hint-placeholder-count="4">
+      <div style="padding:clamp(24px,3vw,44px) clamp(20px,3vw,48px);border-right:1px solid rgba(245,243,238,.1)">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#FF5C1F;margin-bottom:12px">{{ s.label }}</div>
+        <div style="font-family:Anton,sans-serif;font-size:clamp(22px,2.2vw,34px);line-height:1.1;text-transform:uppercase">{{ s.value }}</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- NARRATIVE -->
+<section data-screen-label="Narrative" style="padding:clamp(80px,12vh,150px) clamp(20px,4vw,64px);display:flex;flex-direction:column;gap:clamp(64px,10vh,120px)">
+  <sc-for list="{{ narrative }}" as="n" hint-placeholder-count="3">
+    <div data-stack style="display:grid;grid-template-columns:4fr 7fr;gap:clamp(24px,4vw,80px);align-items:start">
+      <div style="position:sticky;top:110px">
+        <div style="display:flex;align-items:baseline;gap:16px">
+          <span style="font-family:Anton,sans-serif;font-size:clamp(40px,4.5vw,72px);line-height:1;color:transparent;-webkit-text-stroke:1px #FF5C1F">{{ n.idx }}</span>
+          <span style="font-family:Anton,sans-serif;font-size:clamp(24px,2.4vw,38px);text-transform:uppercase">{{ n.title }}</span>
+        </div>
+      </div>
+      <div>
+        <p data-reveal="up" style="margin:0;font-size:clamp(15px,1.3vw,19px);line-height:1.8;color:rgba(245,243,238,.8)">{{ n.p1 }}</p>
+        <p data-reveal="up" data-reveal-delay="0.12" style="margin:20px 0 0;font-size:15px;line-height:1.8;color:rgba(245,243,238,.6)">{{ n.p2 }}</p>
+      </div>
+    </div>
+  </sc-for>
+</section>
+
+<!-- IMAGE BREAK -->
+<section data-screen-label="Image break" style="overflow:hidden">
+  <div data-reveal="clip" style="position:relative;height:70vh;min-height:400px;overflow:hidden">
+    <div data-parallax="0.12" style="position:absolute;inset:-12% 0"><image-slot id="phx-break" src="https://summit.us/wp-content/uploads/2022/04/louisiana_helicam_enlinkmidstream_lores081614-53-e1649186720160.jpg" shape="rect" placeholder="Drop wide shot — pipe corridor trench, crews at scale"></image-slot></div>
+    <div style="position:absolute;left:clamp(20px,4vw,64px);bottom:24px;font-size:10px;letter-spacing:.2em;color:rgba(245,243,238,.7);border:1px dashed rgba(245,243,238,.35);padding:6px 10px;pointer-events:none">CORRIDOR B — 42 FT BELOW GRADE</div>
+  </div>
+  <div data-stack style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,32px);padding:clamp(16px,2vw,32px) clamp(20px,4vw,64px) clamp(80px,12vh,140px)">
+    <div data-reveal="up" data-hover-zoom style="position:relative;overflow:hidden;aspect-ratio:4/3"><div data-img style="position:absolute;inset:0"><image-slot id="phx-pair-1" src="https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg" shape="rect" placeholder="Drop photo — AG rack piping detail"></image-slot></div></div>
+    <div data-reveal="up" data-reveal-delay="0.12" data-hover-zoom style="position:relative;overflow:hidden;aspect-ratio:4/3;margin-top:clamp(20px,5vh,64px)"><div data-img style="position:absolute;inset:0"><image-slot id="phx-pair-2" src="https://summit.us/wp-content/uploads/2022/05/IMG_5350-1024x768.jpg" shape="rect" placeholder="Drop photo — hydrotest / QC inspection"></image-slot></div></div>
+  </div>
+</section>
+
+<!-- PULL QUOTE -->
+<section data-screen-label="Pull quote" style="padding:0 clamp(20px,4vw,64px) clamp(80px,12vh,150px)">
+  <blockquote style="margin:0;border-left:2px solid #FF5C1F;padding-left:clamp(20px,3vw,48px);max-width:60ch">
+    <p data-reveal="up" style="margin:0;font-family:Anton,sans-serif;font-size:clamp(22px,2.8vw,40px);line-height:1.25;text-transform:uppercase;letter-spacing:.01em">"Summit's crews hit 14 consecutive months without a recordable — on the busiest corridor of the site."</p>
+    <footer data-reveal="fade" data-reveal-delay="0.15" style="margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,243,238,.55)">Owner's construction director</footer>
+  </blockquote>
+</section>
+
+<!-- PREV / NEXT -->
+<section data-screen-label="Prev next nav" style="border-top:1px solid rgba(245,243,238,.1)">
+  <div data-stack style="display:grid;grid-template-columns:1fr 1fr">
+    <a data-cursor-view data-hover-zoom href="projects.dc.html" style="position:relative;overflow:hidden;padding:clamp(40px,7vh,80px) clamp(20px,4vw,64px);border-right:1px solid rgba(245,243,238,.1);display:block;color:#F5F3EE" style-hover="background:rgba(255,92,31,.08)">
+      <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,243,238,.5);margin-bottom:14px">← Previous project</div>
+      <div style="font-family:Anton,sans-serif;font-size:clamp(22px,2.6vw,40px);text-transform:uppercase;line-height:1.05">Project Star Modular Trestles</div>
+      <div data-img data-hide-mobile style="position:absolute;right:24px;top:50%;transform:translateY(-50%);width:150px;height:100px;overflow:hidden;opacity:.5"><image-slot id="phx-prev" src="https://summit.us/wp-content/uploads/2023/01/22.006-Project-Star-CUB-Trestle-Modules.jpeg" shape="rect" placeholder="Prev"></image-slot></div>
+    </a>
+    <a data-cursor-view data-hover-zoom href="projects.dc.html" style="position:relative;overflow:hidden;padding:clamp(40px,7vh,80px) clamp(20px,4vw,64px);display:block;text-align:right;color:#F5F3EE" style-hover="background:rgba(255,92,31,.08)">
+      <div style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,243,238,.5);margin-bottom:14px">Next project →</div>
+      <div style="font-family:Anton,sans-serif;font-size:clamp(22px,2.6vw,40px);text-transform:uppercase;line-height:1.05">Gray Oak Central Terminal</div>
+      <div data-img data-hide-mobile style="position:absolute;left:24px;top:50%;transform:translateY(-50%);width:150px;height:100px;overflow:hidden;opacity:.5"><image-slot id="phx-next" src="https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg" shape="rect" placeholder="Next"></image-slot></div>
+    </a>
+  </div>
+</section>
+
+<dc-import name="SiteFooter" hint-size="100%,600px"></dc-import>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      scope: [
+        { label: 'Client type', value: 'Confidential fab owner' },
+        { label: 'Location', value: 'Phoenix, AZ' },
+        { label: 'Scope volume', value: '480,000 LF pipe · 31 mi UG' },
+        { label: 'Duration', value: '34 months' }
+      ],
+      narrative: [
+        { idx: '01', title: 'Challenge',
+          p1: 'Install 31 miles of deep underground utilities and 480,000 linear feet of above-grade process piping — beneath and beside an active mega-fab construction site with 12,000 workers, shared laydown, and a tool-move-in date that could not slip.',
+          p2: 'Every corridor crossed live crane paths. Every excavation sat within feet of freshly poured foundations. Traditional sequencing would have put underground work directly on the critical path for eleven other contractors.' },
+        { idx: '02', title: 'Approach',
+          p1: 'We flipped the sequence. Summit engineers modeled the full utility corridor in 4D, pre-fabricated 68% of the AG piping as modules in our OSM yard, and ran underground crews on a counter-flow schedule — always one grid ahead of vertical construction.',
+          p2: 'Dedicated survey crews issued as-builts within 24 hours of every backfill, so following trades never waited on documentation. Peak staffing hit 640 Summit craft — all direct hire.' },
+        { idx: '03', title: 'Outcome',
+          p1: 'Mechanical completion 19 days ahead of the tool-move-in milestone. Zero utility strikes. Zero rework corridors. 14 consecutive months without a recordable incident at peak site congestion.',
+          p2: 'The owner awarded Summit the follow-on expansion scope without bid — the strongest endorsement our industry has.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
