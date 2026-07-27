@@ -135,7 +135,8 @@
 	.hero {
 		position: relative;
 		height: 100vh;
-		min-height: 620px;
+		height: 100svh;
+		min-height: 480px;
 		overflow: hidden;
 		display: flex;
 		align-items: flex-end;
@@ -414,5 +415,34 @@
 
 	.next-thumb {
 		left: 24px;
+	}
+
+	@media (max-width: 900px) {
+		.scope-cell {
+			border-right: none;
+			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+		}
+
+		.scope-cell:last-child {
+			border-bottom: none;
+		}
+
+		.narrative-title {
+			position: static;
+			margin-bottom: 16px;
+		}
+
+		.pair-frame.offset {
+			margin-top: 0;
+		}
+
+		.adjacent-card {
+			border-right: none;
+			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+		}
+
+		.adjacent-card--next {
+			text-align: left;
+		}
 	}
 </style>

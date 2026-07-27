@@ -214,8 +214,9 @@
 
 	.submit-row {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
-		gap: 20px;
+		gap: 12px 20px;
 	}
 
 	.submit-btn {

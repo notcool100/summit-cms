@@ -169,11 +169,13 @@
 	}
 
 	.panel-name {
+		flex: 1 1 auto;
+		min-width: 0;
 		font-family: var(--font-display);
-		font-size: clamp(30px, 5vw, 72px);
+		font-size: clamp(22px, 5vw, 72px);
 		text-transform: uppercase;
 		letter-spacing: 0.01em;
-		line-height: 1;
+		line-height: 1.05;
 	}
 
 	.panel-tag {
@@ -241,8 +243,9 @@
 
 	.related-link {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: 16px;
+		gap: 4px 16px;
 		padding: 12px 0;
 		border-bottom: 1px solid rgba(var(--ink-rgb), 0.12);
 		font-size: 14px;
@@ -250,6 +253,11 @@
 		transition:
 			padding-left 0.3s,
 			color 0.3s;
+	}
+
+	.related-link span:first-child {
+		flex: 1 1 220px;
+		min-width: 0;
 	}
 
 	.related-link:hover {

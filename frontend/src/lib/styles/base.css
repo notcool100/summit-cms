@@ -80,3 +80,23 @@ button {
 		display: none !important;
 	}
 }
+
+/* Every big display heading site-wide is tuned with a tight line-height
+   (<1) for how it wraps at desktop widths, inside a .mask-line reveal that
+   clips to that line box. The display font's own glyph metrics are taller
+   than the tuned line-height even before accounting for wrapping, so on
+   narrow screens — where headings routinely wrap to an extra line — the
+   clip cuts into the glyphs themselves. Loosen the leading and stop
+   clipping once the entrance reveal has nothing left to hide (opacity 0
+   already hides the pre-reveal state, so dropping the clip doesn't spoil
+   the animation). */
+@media (max-width: 640px) {
+	h1,
+	h2 {
+		line-height: 1.08 !important;
+	}
+
+	.mask-line {
+		overflow: visible !important;
+	}
+}

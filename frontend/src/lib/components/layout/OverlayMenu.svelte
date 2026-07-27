@@ -55,8 +55,8 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 16px clamp(20px, 3vw, 48px);
-		height: 72px;
+		padding: 16px clamp(16px, 3vw, 48px);
+		height: clamp(60px, 8vw, 72px);
 		border-bottom: 1px solid rgba(var(--ink-rgb), 0.08);
 	}
 
@@ -132,10 +132,21 @@
 	.meta {
 		margin-top: 40px;
 		display: flex;
-		gap: 40px;
+		flex-wrap: wrap;
+		gap: 12px 32px;
 		font-size: 13px;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: rgba(var(--ink-rgb), 0.5);
+	}
+
+	@media (max-width: 600px) {
+		.link {
+			gap: 14px;
+		}
+
+		.idx {
+			font-size: 11px;
+		}
 	}
 </style>

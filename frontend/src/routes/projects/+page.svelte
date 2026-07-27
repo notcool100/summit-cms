@@ -209,6 +209,7 @@
 	@media (max-width: 900px) {
 		.card {
 			grid-column: span 12 !important;
+			margin-top: 0 !important;
 		}
 	}
 

@@ -85,14 +85,14 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 32px;
-		padding: 0 clamp(20px, 3vw, 48px);
-		height: 72px;
+		gap: clamp(12px, 3vw, 32px);
+		padding: 0 clamp(16px, 3vw, 48px);
+		height: clamp(60px, 8vw, 72px);
 	}
 
 	.logo {
 		font-family: var(--font-display);
-		font-size: 22px;
+		font-size: clamp(18px, 4vw, 22px);
 		letter-spacing: 0.06em;
 		color: var(--ink);
 		white-space: nowrap;
@@ -119,7 +119,7 @@
 	.actions {
 		display: flex;
 		align-items: center;
-		gap: 16px;
+		gap: clamp(8px, 2vw, 16px);
 	}
 
 	.cta {

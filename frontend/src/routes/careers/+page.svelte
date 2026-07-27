@@ -124,7 +124,8 @@
 	.hero {
 		position: relative;
 		height: 100vh;
-		min-height: 600px;
+		height: 100svh;
+		min-height: 480px;
 		overflow: hidden;
 		display: flex;
 		align-items: center;
@@ -404,5 +405,31 @@
 
 	.profile-btn:hover {
 		background: var(--ink);
+	}
+
+	@media (max-width: 900px) {
+		.split {
+			flex-direction: column;
+			min-height: 0;
+		}
+
+		.side {
+			min-height: 420px;
+		}
+
+		.side-craft {
+			border-right: none;
+			border-bottom: 1px solid rgba(var(--ink-rgb), 0.12);
+		}
+
+		.why-grid.stack-mobile {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.why-grid.stack-mobile {
+			grid-template-columns: 1fr !important;
+		}
 	}
 </style>

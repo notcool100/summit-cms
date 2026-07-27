@@ -19,6 +19,7 @@
 
 	onMount(() => {
 		if (prefersReducedMotion()) return;
+		if (window.matchMedia('(max-width: 820px)').matches) return;
 		return registerFrame(() => {
 			const rect = wrapper.getBoundingClientRect();
 			const total = wrapper.offsetHeight - window.innerHeight;
@@ -55,5 +56,27 @@
 		display: flex;
 		width: max-content;
 		will-change: transform;
+	}
+
+	/* Below this width the sticky scroll-jacked pan is replaced by an
+	   ordinary swipeable row — scrubbing hundreds of vh of scroll to pan
+	   sideways doesn't translate to touch, and fights native scrolling. */
+	@media (max-width: 820px) {
+		.hscroll {
+			height: auto !important;
+		}
+
+		.sticky {
+			position: static;
+			height: auto;
+			overflow-x: auto;
+			overscroll-behavior-x: contain;
+			-webkit-overflow-scrolling: touch;
+			padding-bottom: 4px;
+		}
+
+		.track {
+			transform: none !important;
+		}
 	}
 </style>

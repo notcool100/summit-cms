@@ -310,4 +310,22 @@
 		background: var(--ink);
 		color: var(--paper);
 	}
+
+	@media (max-width: 640px) {
+		.panel-grid {
+			padding-top: calc(60px + 4vh);
+			padding-bottom: 48px;
+		}
+
+		.panel-stat {
+			display: flex;
+			flex-wrap: wrap;
+		}
+	}
+
+	@media (max-height: 640px) and (max-width: 900px) {
+		.panel {
+			min-height: auto;
+		}
+	}
 </style>

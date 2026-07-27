@@ -164,8 +164,10 @@
 
 	.bottom {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
+		gap: 12px 20px;
 		padding: 0 clamp(20px, 4vw, 64px) 16px;
 		font-size: 11px;
 		letter-spacing: 0.14em;
@@ -175,7 +177,8 @@
 
 	.social {
 		display: flex;
-		gap: 24px;
+		flex-wrap: wrap;
+		gap: 16px 24px;
 	}
 
 	.social a {
@@ -187,7 +190,7 @@
 	}
 
 	.watermark {
-		height: clamp(90px, 13vw, 220px);
+		height: clamp(60px, 13vw, 220px);
 		overflow: hidden;
 		pointer-events: none;
 		margin-top: 8px;
@@ -195,11 +198,25 @@
 
 	.watermark-text {
 		font-family: var(--font-display);
-		font-size: clamp(140px, 21vw, 360px);
+		font-size: clamp(90px, 21vw, 360px);
 		line-height: 0.78;
 		letter-spacing: 0.02em;
 		text-align: center;
 		color: transparent;
 		-webkit-text-stroke: 1px rgba(var(--ink-rgb), 0.18);
+	}
+
+	@media (max-width: 900px) {
+		.grid {
+			grid-template-columns: 1fr;
+			gap: 40px;
+			padding: 56px clamp(20px, 6vw, 48px) 32px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.bottom {
+			justify-content: flex-start;
+		}
 	}
 </style>

@@ -459,6 +459,8 @@
 	/* Leadership */
 	.leadership-head {
 		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 20px;
 		justify-content: space-between;
 		align-items: baseline;
 		margin-bottom: 40px;
@@ -532,9 +534,10 @@
 
 	.location-row {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: baseline;
 		justify-content: space-between;
-		gap: 20px;
+		gap: 8px 20px;
 		padding: 20px 8px;
 		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
 		transition:
@@ -699,5 +702,37 @@
 		font-size: 14px;
 		line-height: 1.7;
 		color: rgba(var(--ink-rgb), 0.65);
+	}
+
+	@media (max-width: 900px) and (min-width: 641px) {
+		.values-grid.stack-mobile,
+		.leadership-grid.stack-mobile {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.value-card {
+			border-right: none;
+			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+			min-height: 0;
+		}
+
+		.values-grid {
+			border-left: none;
+		}
+
+		.hse-stats {
+			flex-wrap: wrap;
+			gap: 28px;
+		}
+
+		.awards-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.milestone {
+			width: min(80vw, 340px);
+		}
 	}
 </style>
