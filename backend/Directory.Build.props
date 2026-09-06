@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <!-- Local SDK install is missing NuGet "prune package data" for the net10.0 ASP.NET Core
+         shared framework; this disables that restore optimization instead of failing restore. -->
+    <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
+  </PropertyGroup>
+</Project>

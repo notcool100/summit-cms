@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\SummitCms.Shared.Kernel\SummitCms.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\Shared\SummitCms.Shared.Infrastructure\SummitCms.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Identity\SummitCms.Modules.Identity.csproj" />
+    <ProjectReference Include="..\..\Modules\Media\SummitCms.Modules.Media.csproj" />
+    <ProjectReference Include="..\..\Modules\SiteContent\SummitCms.Modules.SiteContent.csproj" />
+    <ProjectReference Include="..\..\Modules\Company\SummitCms.Modules.Company.csproj" />
+    <ProjectReference Include="..\..\Modules\Capabilities\SummitCms.Modules.Capabilities.csproj" />
+    <ProjectReference Include="..\..\Modules\Industries\SummitCms.Modules.Industries.csproj" />
+    <ProjectReference Include="..\..\Modules\Projects\SummitCms.Modules.Projects.csproj" />
+    <ProjectReference Include="..\..\Modules\Careers\SummitCms.Modules.Careers.csproj" />
+    <ProjectReference Include="..\..\Modules\Contact\SummitCms.Modules.Contact.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.17.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

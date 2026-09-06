@@ -1,0 +1,41 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Host/">
+    <Project Path="src/Host/SummitCms.Api/SummitCms.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Capabilities/">
+    <Project Path="src/Modules/Capabilities/SummitCms.Modules.Capabilities.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Careers/">
+    <Project Path="src/Modules/Careers/SummitCms.Modules.Careers.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Company/">
+    <Project Path="src/Modules/Company/SummitCms.Modules.Company.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Contact/">
+    <Project Path="src/Modules/Contact/SummitCms.Modules.Contact.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Identity/">
+    <Project Path="src/Modules/Identity/SummitCms.Modules.Identity.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Industries/">
+    <Project Path="src/Modules/Industries/SummitCms.Modules.Industries.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Media/">
+    <Project Path="src/Modules/Media/SummitCms.Modules.Media.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Projects/">
+    <Project Path="src/Modules/Projects/SummitCms.Modules.Projects.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/SiteContent/">
+    <Project Path="src/Modules/SiteContent/SummitCms.Modules.SiteContent.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/SummitCms.Shared.Infrastructure/SummitCms.Shared.Infrastructure.csproj" />
+    <Project Path="src/Shared/SummitCms.Shared.Kernel/SummitCms.Shared.Kernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SummitCms.UnitTests/SummitCms.UnitTests.csproj" />
+  </Folder>
+</Solution>
