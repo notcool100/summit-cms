@@ -17,6 +17,8 @@
 		capabilityTeasers,
 		featuredProjects
 	} from '$lib/data/home';
+	import { industries } from '$lib/data/industries';
+	import { values, awards, hseStats } from '$lib/data/about';
 
 	let video: HTMLVideoElement;
 	let hoveredCap = $state<string | null>(null);
@@ -223,11 +225,51 @@
 	</div>
 </section>
 
+<!-- ============ INDUSTRIES SERVED ============ -->
+<section class="industries">
+	<div class="industries-head">
+		<SectionLabel idx="03" label="Industries" />
+		<a href="/industries" class="link-accent">All industries →</a>
+	</div>
+	<div class="industries-grid">
+		<a data-cursor-view use:hoverZoom href="/industries" class="industry-feature">
+			<div class="industry-feature-frame">
+				<ResponsiveImage src={industries[0].src} alt={industries[0].alt} />
+				<div class="industry-scrim" aria-hidden="true"></div>
+			</div>
+			<div class="industry-feature-copy">
+				<span class="industry-idx">{industries[0].idx}</span>
+				<h3>{industries[0].name}</h3>
+				<p class="industry-tag">{industries[0].tag}</p>
+				<p class="industry-lede">{industries[0].body.split('. ')[0]}.</p>
+				{#if industries[0].links[0]}
+					<span class="industry-stat">{industries[0].links[0].stat} · {industries[0].links[0].name}</span>
+				{/if}
+			</div>
+		</a>
+		<div class="industries-minor">
+			{#each industries.slice(1) as ind (ind.idx)}
+				<a data-cursor-view use:hoverZoom href="/industries" class="industry-card">
+					<div class="industry-card-frame">
+						<ResponsiveImage src={ind.src} alt={ind.alt} />
+						<div class="industry-scrim" aria-hidden="true"></div>
+					</div>
+					<div class="industry-card-copy">
+						<span class="industry-idx">{ind.idx}</span>
+						<span class="industry-card-name">{ind.name}</span>
+						<span class="hide-tablet industry-card-tag">{ind.tag}</span>
+					</div>
+				</a>
+			{/each}
+		</div>
+	</div>
+</section>
+
 <!-- ============ SELECT PROJECTS — HORIZONTAL SCROLL ============ -->
 <HorizontalScroll heightVh={320}>
 	{#snippet header()}
 		<div class="projects-head">
-			<SectionLabel idx="03" label="Select Projects" />
+			<SectionLabel idx="04" label="Select Projects" />
 			<a href="/projects" class="link-accent">All projects →</a>
 		</div>
 	{/snippet}
@@ -261,6 +303,53 @@
 		<span>TRIR 0.42</span><span class="dot">·</span><span>18M+ safe work hours</span><span
 			class="dot">·</span
 		><span><a href="/about#hse">Our HSE program →</a></span>
+	</div>
+</section>
+
+<!-- ============ THE STANDARD — VALUES + RECOGNITION ============ -->
+<section class="standard">
+	<div class="standard-grid stack-mobile">
+		<div class="standard-values">
+			<div class="standard-eyebrow"><SectionLabel idx="05" label="How we build" /></div>
+			<h2>
+				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Four things</span></span>
+				<span class="mask-line"
+					><span use:reveal={{ kind: 'mask', delay: 0.1 }}>we don't negotiate.</span></span
+				>
+			</h2>
+			<div class="values-list">
+				{#each values as v, i (v.idx)}
+					<div use:reveal={{ kind: 'up', delay: i * 0.08 }} class="value-row">
+						<span class="value-idx">{v.idx}</span>
+						<div>
+							<h4>{v.name}</h4>
+							<p>{v.body}</p>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+		<div class="standard-recognition">
+			<div class="recognition-stats">
+				{#each hseStats as s (s.label)}
+					<div class="recognition-stat">
+						<div class="recognition-stat-value" use:countUp={{ value: s.value, suffix: s.suffix }}>
+							0
+						</div>
+						<div class="recognition-stat-label">{s.label}</div>
+					</div>
+				{/each}
+			</div>
+			<div class="awards-eyebrow">Recognition</div>
+			<div class="awards-list">
+				{#each awards.slice(0, 4) as a (a.name)}
+					<div class="award-chip">
+						<span class="award-year">{a.year}</span>
+						<span class="award-name">{a.name}</span>
+					</div>
+				{/each}
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -690,6 +779,279 @@
 		opacity: 0.65;
 		max-width: 320px;
 		text-align: right;
+	}
+
+	/* Industries served */
+	.industries {
+		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.industries-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-bottom: 40px;
+	}
+
+	.industries-grid {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		gap: clamp(20px, 2.5vw, 32px);
+	}
+
+	.industry-feature {
+		display: block;
+		color: var(--ink);
+	}
+
+	.industry-feature-frame {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+		background: var(--panel);
+	}
+
+	.industry-scrim {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: linear-gradient(180deg, transparent 45%, rgba(var(--paper-rgb), 0.9));
+	}
+
+	.industry-idx {
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		color: var(--accent);
+	}
+
+	.industry-feature-copy {
+		padding-top: 20px;
+	}
+
+	.industry-feature-copy h3 {
+		font-family: var(--font-display);
+		font-size: clamp(24px, 2.6vw, 38px);
+		text-transform: uppercase;
+		letter-spacing: 0.01em;
+		margin-top: 6px;
+	}
+
+	.industry-tag {
+		font-size: 13px;
+		color: rgba(var(--ink-rgb), 0.55);
+		letter-spacing: 0.04em;
+		margin-top: 8px;
+	}
+
+	.industry-lede {
+		font-size: 15px;
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.75);
+		margin-top: 12px;
+		max-width: 46ch;
+	}
+
+	.industry-stat {
+		display: inline-block;
+		margin-top: 16px;
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink);
+		border-top: 1px dashed rgba(var(--ink-rgb), 0.3);
+		padding-top: 10px;
+	}
+
+	.industries-minor {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 16px;
+		align-content: start;
+	}
+
+	.industry-card {
+		display: block;
+		color: var(--ink);
+	}
+
+	.industry-card-frame {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 1 / 1;
+		background: var(--panel);
+	}
+
+	.industry-card-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding-top: 12px;
+	}
+
+	.industry-card-name {
+		font-family: var(--font-display);
+		font-size: clamp(14px, 1.3vw, 17px);
+		text-transform: uppercase;
+		letter-spacing: 0.01em;
+	}
+
+	.industry-card-tag {
+		font-size: 11px;
+		color: rgba(var(--ink-rgb), 0.5);
+	}
+
+	@media (max-width: 900px) {
+		.industries-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.industries-minor {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.industries-minor {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* The Standard — values + recognition */
+	.standard {
+		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.standard-grid {
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: clamp(40px, 6vw, 96px);
+	}
+
+	.standard-eyebrow {
+		margin-bottom: 32px;
+	}
+
+	.standard-values h2 {
+		font-family: var(--font-display);
+		font-size: clamp(30px, 3.4vw, 48px);
+		line-height: 1.05;
+		text-transform: uppercase;
+		letter-spacing: 0.01em;
+		margin-bottom: 44px;
+	}
+
+	.values-list {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+	}
+
+	.value-row {
+		display: grid;
+		grid-template-columns: 56px 1fr;
+		gap: 20px;
+	}
+
+	.value-idx {
+		font-family: var(--font-display);
+		font-size: 32px;
+		color: transparent;
+		-webkit-text-stroke: 1px rgba(var(--ink-rgb), 0.4);
+		line-height: 1;
+	}
+
+	.value-row h4 {
+		font-family: var(--font-display);
+		font-size: 17px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		margin-bottom: 8px;
+	}
+
+	.value-row p {
+		font-size: 14px;
+		line-height: 1.65;
+		color: rgba(var(--ink-rgb), 0.7);
+		max-width: 46ch;
+	}
+
+	.standard-recognition {
+		border-left: 1px solid rgba(var(--ink-rgb), 0.1);
+		padding-left: clamp(24px, 3vw, 48px);
+	}
+
+	.recognition-stats {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 24px;
+		padding-bottom: 32px;
+		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+		margin-bottom: 32px;
+	}
+
+	.recognition-stat-value {
+		font-family: var(--font-display);
+		font-size: clamp(32px, 3vw, 48px);
+		line-height: 1;
+	}
+
+	.recognition-stat-label {
+		font-size: 12px;
+		color: rgba(var(--ink-rgb), 0.55);
+		margin-top: 8px;
+	}
+
+	.awards-eyebrow {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: rgba(var(--ink-rgb), 0.4);
+		margin-bottom: 16px;
+	}
+
+	.awards-list {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.award-chip {
+		display: flex;
+		align-items: baseline;
+		gap: 14px;
+		padding: 12px 16px;
+		border: 1px dashed rgba(var(--ink-rgb), 0.3);
+	}
+
+	.award-year {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+		flex: none;
+	}
+
+	.award-name {
+		font-size: 13px;
+		color: rgba(var(--ink-rgb), 0.8);
+	}
+
+	@media (max-width: 900px) {
+		.standard-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.standard-recognition {
+			border-left: none;
+			padding-left: 0;
+			padding-top: 40px;
+			border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+		}
 	}
 
 	/* Select projects */
