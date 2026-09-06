@@ -9,7 +9,12 @@ RUN dotnet publish src/Host/SummitCms.Api/SummitCms.Api.csproj -c Release -o /ap
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
-RUN useradd --create-home --shell /bin/bash appuser \
+# curl is required for Coolify's container healthcheck (it execs curl/wget inside the
+# container to hit /health) - the base aspnet image doesn't ship either by default.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --shell /bin/bash appuser \
     && mkdir -p /app/App_Data/uploads \
     && chown -R appuser:appuser /app
 

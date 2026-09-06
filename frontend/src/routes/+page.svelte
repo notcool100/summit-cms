@@ -24,6 +24,14 @@
 		finePointer = window.matchMedia('(pointer: fine)').matches;
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 			video?.pause();
+			return;
+		}
+		// The <video autoplay> element can start (and fire its one-time `playing` event) as soon
+		// as the browser parses the tag - before Svelte finishes hydrating and attaches the
+		// onplaying handler below. When that race is lost the video keeps playing silently at
+		// opacity 0 forever. If it's already rolling by the time we get here, reveal it now.
+		if (video && !video.paused) {
+			video.style.opacity = '1';
 		}
 	});
 
