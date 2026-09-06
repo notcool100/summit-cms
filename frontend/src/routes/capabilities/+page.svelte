@@ -311,7 +311,20 @@
 		color: var(--paper);
 	}
 
-	@media (max-width: 640px) {
+	/* Below this width the pinned sticky-stack (each panel holds the
+	   viewport while the next one arrives) is dropped in favor of plain
+	   sequential panels — pinning a full-viewport section over and over as
+	   you scroll is disorienting on a phone, and forcing 100vh with centered
+	   content left large dead gaps once the layout dropped to one column.
+	   `position: relative` (not `static`) keeps this the containing block
+	   for `.panel-watermark`'s absolute placement. */
+	@media (max-width: 820px) {
+		.panel {
+			position: relative;
+			min-height: 0;
+			align-items: flex-start;
+		}
+
 		.panel-grid {
 			padding-top: calc(60px + 4vh);
 			padding-bottom: 48px;
@@ -320,12 +333,6 @@
 		.panel-stat {
 			display: flex;
 			flex-wrap: wrap;
-		}
-	}
-
-	@media (max-height: 640px) and (max-width: 900px) {
-		.panel {
-			min-height: auto;
 		}
 	}
 </style>

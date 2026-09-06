@@ -74,7 +74,9 @@
 
 <!-- ============ TIMELINE ============ -->
 <HorizontalScroll heightVh={280} background="var(--panel)">
-	<div class="timeline-head"><SectionLabel idx="02" label="Milestones" /></div>
+	{#snippet header()}
+		<div class="timeline-head"><SectionLabel idx="02" label="Milestones" /></div>
+	{/snippet}
 	<div class="timeline-track">
 		{#each milestones as m (m.year)}
 			<div class="milestone">
@@ -85,7 +87,9 @@
 			</div>
 		{/each}
 	</div>
-	<div class="timeline-hint">Keep scrolling —</div>
+	{#snippet footer()}
+		<div class="timeline-hint">Keep scrolling —</div>
+	{/snippet}
 </HorizontalScroll>
 
 <!-- ============ VALUES ============ -->

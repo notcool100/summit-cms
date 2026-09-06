@@ -9,10 +9,21 @@
 		 * occupies — controls how much vertical scroll drives the horizontal pan. */
 		heightVh?: number;
 		background?: string;
+		/** Static chrome rendered above/below the panning track — never panned
+		 * or swiped, so titles and hints stay put instead of sliding away as
+		 * flex siblings of the scrollable content. */
+		header?: Snippet;
+		footer?: Snippet;
 		children: Snippet;
 	}
 
-	let { heightVh = 300, background = 'var(--paper)', children }: Props = $props();
+	let {
+		heightVh = 300,
+		background = 'var(--paper)',
+		header,
+		footer,
+		children
+	}: Props = $props();
 
 	let wrapper: HTMLElement;
 	let track: HTMLElement;
@@ -31,9 +42,17 @@
 
 <section bind:this={wrapper} class="hscroll" style:height="{heightVh}vh">
 	<div class="sticky" style:background>
-		<div bind:this={track} class="track">
-			{@render children()}
+		{#if header}
+			<div class="chrome">{@render header()}</div>
+		{/if}
+		<div class="viewport">
+			<div bind:this={track} class="track">
+				{@render children()}
+			</div>
 		</div>
+		{#if footer}
+			<div class="chrome">{@render footer()}</div>
+		{/if}
 	</div>
 </section>
 
@@ -46,10 +65,25 @@
 		position: sticky;
 		top: 0;
 		height: 100vh;
+		height: 100svh;
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+	}
+
+	/* Header/footer never join the flex row that gets translateX'd, and
+	   never stretch to the row's height — they're fixed-size chrome that
+	   sits still while only .viewport's content pans or swipes. */
+	.chrome {
+		flex: none;
+	}
+
+	.viewport {
+		flex: 1 1 auto;
+		min-height: 0;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
 	}
 
 	.track {
@@ -69,6 +103,9 @@
 		.sticky {
 			position: static;
 			height: auto;
+		}
+
+		.viewport {
 			overflow-x: auto;
 			overscroll-behavior-x: contain;
 			-webkit-overflow-scrolling: touch;

@@ -225,10 +225,12 @@
 
 <!-- ============ SELECT PROJECTS — HORIZONTAL SCROLL ============ -->
 <HorizontalScroll heightVh={320}>
-	<div class="projects-head">
-		<SectionLabel idx="03" label="Select Projects" />
-		<a href="/projects" class="link-accent">All projects →</a>
-	</div>
+	{#snippet header()}
+		<div class="projects-head">
+			<SectionLabel idx="03" label="Select Projects" />
+			<a href="/projects" class="link-accent">All projects →</a>
+		</div>
+	{/snippet}
 	<div class="projects-track">
 		{#each featuredProjects as project (project.idx)}
 			<a data-cursor-view use:hoverZoom href={project.href} class="project-card">
