@@ -8,7 +8,7 @@ namespace SummitCms.Api.Seeding;
 
 public static partial class DataSeeder
 {
-    private static async Task<Dictionary<string, Guid>> SeedPagesAsync(IServiceProvider sp)
+    private static async Task<Dictionary<string, Guid>> SeedPagesAsync(IServiceProvider sp, Dictionary<string, Guid> mediaMap)
     {
         var db = sp.GetRequiredService<SiteContentDbContext>();
 
@@ -23,19 +23,34 @@ public static partial class DataSeeder
             (PageSlugs.Projects, "Featured Projects", "480,000 LF of pipe. 900,000 BBL of storage. 7 recommissioned power units.", "The scale of work we self-perform.", "A sample of what Summit crews have delivered.")
         ];
 
-        var existing = await db.Pages.ToDictionaryAsync(p => p.Slug, p => p.Id);
+        var existingPages = await db.Pages.ToDictionaryAsync(p => p.Slug, p => p);
 
         foreach (var (slug, title, meta, hero, sub) in pages)
         {
-            if (existing.ContainsKey(slug)) continue;
+            if (existingPages.ContainsKey(slug)) continue;
 
             var page = new Page { Slug = slug, Title = title, MetaDescription = meta, HeroHeading = hero, HeroSubheading = sub };
             db.Pages.Add(page);
-            existing[slug] = page.Id;
+            existingPages[slug] = page;
         }
+
+        // Backfill hero/secondary media for the two pages that originally had page-level hero art -
+        // idempotent (only fills nulls) so it heals a database seeded before this field existed.
+        Guid Media(string url) => mediaMap[url];
+
+        if (existingPages.TryGetValue(PageSlugs.Home, out var homePage))
+        {
+            homePage.HeroMediaId ??= Media("https://summit.us/wp-content/uploads/2022/05/IMG_5350-scaled.jpg");
+            homePage.SecondaryMediaId ??= Media("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg");
+        }
+        if (existingPages.TryGetValue(PageSlugs.Careers, out var careersPage))
+        {
+            careersPage.HeroMediaId ??= Media("https://summit.us/wp-content/uploads/2022/05/22.005-Project-Hedgehog-Rio-Rancho-03.jpg");
+        }
+
         await db.SaveChangesAsync();
 
-        return existing;
+        return existingPages.ToDictionary(kv => kv.Key, kv => kv.Value.Id);
     }
 
     private static async Task SeedSiteSettingsAndEnquiryTypesAsync(IServiceProvider sp)

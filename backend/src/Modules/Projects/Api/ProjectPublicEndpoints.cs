@@ -11,14 +11,14 @@ namespace SummitCms.Modules.Projects.Api;
 /// <summary>Anonymous, read-only shape for the public /projects grid and /projects/{slug} detail page.</summary>
 public static class ProjectPublicEndpoints
 {
-    public sealed record PublicProjectListItem(string Slug, string Name, string IndustryCategory, string Stat, string? HeroUrl, string? Ratio, int? Span, bool IsFeatured);
-    public sealed record PublicAdjacent(string Slug, string Name, string? HeroUrl);
+    public sealed record PublicProjectListItem(string Slug, string Name, string IndustryCategory, string Stat, string? HeroUrl, string? HeroAlt, string? Ratio, int? Span, bool IsFeatured);
+    public sealed record PublicAdjacent(string Slug, string Name, string? HeroUrl, string? HeroAlt);
     public sealed record PublicGalleryImage(string Url, string AltText, string Role, string Caption);
     public sealed record PublicScopeFact(string Label, string Value);
     public sealed record PublicNarrativeSection(string Idx, string Title, List<string> Paragraphs);
     public sealed record PublicQuote(string Quote, string Attribution);
     public sealed record PublicProjectDetail(
-        string Slug, string Name, string IndustryCategory, string Stat, string? HeroUrl,
+        string Slug, string Name, string IndustryCategory, string Stat, string? HeroUrl, string? HeroAlt,
         List<PublicGalleryImage> GalleryImages, List<PublicScopeFact> ScopeFacts,
         List<PublicNarrativeSection> NarrativeSections, PublicQuote? Quote,
         PublicAdjacent? Previous, PublicAdjacent? Next);
@@ -36,6 +36,7 @@ public static class ProjectPublicEndpoints
             return Results.Ok(projects.Select(p => new PublicProjectListItem(
                 p.Slug, p.Name, p.IndustryCategory.Name, p.Stat,
                 p.HeroMediaId.HasValue && heroMap.TryGetValue(p.HeroMediaId.Value, out var m) ? m.Url : null,
+                p.HeroMediaId.HasValue && heroMap.TryGetValue(p.HeroMediaId.Value, out var m2) ? m2.AltText : null,
                 p.Ratio, p.Span, p.IsFeatured)));
         });
 
@@ -64,9 +65,10 @@ public static class ProjectPublicEndpoints
             var mediaMap = await media.GetManyAsync(mediaIds, ct);
 
             string? HeroUrl(Project? p) => p?.HeroMediaId is { } id && mediaMap.TryGetValue(id, out var m) ? m.Url : null;
+            string? HeroAlt(Project? p) => p?.HeroMediaId is { } id && mediaMap.TryGetValue(id, out var m) ? m.AltText : null;
 
             var detail = new PublicProjectDetail(
-                project.Slug, project.Name, project.IndustryCategory.Name, project.Stat, HeroUrl(project),
+                project.Slug, project.Name, project.IndustryCategory.Name, project.Stat, HeroUrl(project), HeroAlt(project),
                 project.GalleryImages.OrderBy(g => g.DisplayOrder)
                     .Select(g => mediaMap.TryGetValue(g.MediaId, out var m)
                         ? new PublicGalleryImage(m.Url, m.AltText, g.Role.ToString(), g.Caption)
@@ -77,8 +79,8 @@ public static class ProjectPublicEndpoints
                     .Select(s => new PublicNarrativeSection(s.Idx, s.Title, s.Paragraphs.OrderBy(x => x.ParagraphOrder).Select(x => x.Body).ToList()))
                     .ToList(),
                 project.Quote is null ? null : new PublicQuote(project.Quote.Quote, project.Quote.Attribution),
-                previous is null ? null : new PublicAdjacent(previous.Slug, previous.Name, HeroUrl(previous)),
-                next is null ? null : new PublicAdjacent(next.Slug, next.Name, HeroUrl(next)));
+                previous is null ? null : new PublicAdjacent(previous.Slug, previous.Name, HeroUrl(previous), HeroAlt(previous)),
+                next is null ? null : new PublicAdjacent(next.Slug, next.Name, HeroUrl(next), HeroAlt(next)));
 
             return Results.Ok(detail);
         });

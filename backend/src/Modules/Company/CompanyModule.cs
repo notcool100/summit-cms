@@ -27,6 +27,7 @@ public static class CompanyModule
     public static IEndpointRouteBuilder MapCompanyModule(this IEndpointRouteBuilder app)
     {
         CompanyEndpoints.Map(app);
+        CompanyPublicEndpoints.Map(app);
         return app;
     }
 }

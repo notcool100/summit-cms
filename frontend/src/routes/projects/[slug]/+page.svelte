@@ -3,19 +3,31 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
-	import {
-		heroImage,
-		breakImage,
-		pairImages,
-		scope,
-		narrative,
-		pullQuote,
-		adjacentProjects
-	} from '$lib/data/projectPhoenix';
+	import type { PageProps } from './$types';
+
+	// Destructured with $derived (not plain const) because prev/next links navigate within this same
+	// route component - SvelteKit reuses it and just updates `data`, it doesn't remount.
+	let { data }: PageProps = $props();
+	let title = $derived(data.title);
+	let industryBadge = $derived(data.industryBadge);
+	let heroImage = $derived(data.heroImage);
+	let breakImage = $derived(data.breakImage);
+	let pairImages = $derived(data.pairImages);
+	let scope = $derived(data.scope);
+	let narrative = $derived(data.narrative);
+	let pullQuote = $derived(data.pullQuote);
+	let adjacentProjects = $derived(data.adjacentProjects);
+
+	// The hand-tuned two-line, accent-highlighted headline was bespoke copy for one project - for any
+	// project name, split into two roughly-even lines so the mask-reveal animation still has two lines to work with.
+	let titleWords = $derived(title.split(' '));
+	let splitAt = $derived(Math.ceil(titleWords.length / 2));
+	let titleLine1 = $derived(titleWords.slice(0, splitAt).join(' '));
+	let titleLine2 = $derived(titleWords.slice(splitAt).join(' '));
 </script>
 
 <svelte:head>
-	<title>Phoenix Semiconductor UG Infrastructure & AG Piping — Summit</title>
+	<title>{title} — Summit</title>
 </svelte:head>
 
 <!-- ============ CINEMATIC HERO ============ -->
@@ -26,17 +38,16 @@
 	<div class="hero-scrim" aria-hidden="true"></div>
 	<div class="hero-copy">
 		<div use:reveal={{ kind: 'fade' }} class="hero-tags">
-			<span class="badge">Semiconductor</span>
-			<span class="case-label">Case study — 04</span>
+			<span class="badge">{industryBadge}</span>
+			<span class="case-label">Case study</span>
 		</div>
 		<h1>
-			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Phoenix Semiconductor</span></span
-			>
-			<span class="mask-line"
-				><span use:reveal={{ kind: 'mask', delay: 0.12 }}
-					>UG Infrastructure <span class="accent">&amp; AG Piping</span></span
-				></span
-			>
+			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{titleLine1}</span></span>
+			{#if titleLine2}
+				<span class="mask-line"
+					><span use:reveal={{ kind: 'mask', delay: 0.12 }}>{titleLine2}</span></span
+				>
+			{/if}
 		</h1>
 	</div>
 </section>
@@ -127,9 +138,7 @@
 </section>
 
 <style>
-	.accent {
-		color: var(--accent);
-	}
+
 
 	/* Hero */
 	.hero {

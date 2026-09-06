@@ -10,15 +10,10 @@
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
 	import { tilt } from '$lib/actions/tilt';
-	import {
-		heroImage,
-		manifestoImage,
-		stats,
-		capabilityTeasers,
-		featuredProjects
-	} from '$lib/data/home';
-	import { industries } from '$lib/data/industries';
-	import { values, awards, hseStats } from '$lib/data/about';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+	const { heroImage, manifestoImage, stats, capabilityTeasers, industries, featuredProjects, values, awards, hseStats } = data;
 
 	let video: HTMLVideoElement;
 	let hoveredCap = $state<string | null>(null);

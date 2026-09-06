@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { reveal } from '$lib/actions/reveal';
 	import { magnetic } from '$lib/actions/magnetic';
 	import FloatingInput from '$lib/components/ui/FloatingInput.svelte';
@@ -6,7 +7,10 @@
 	import FloatingSelect from '$lib/components/ui/FloatingSelect.svelte';
 	import HeroIndex from '$lib/components/ui/HeroIndex.svelte';
 	import { site } from '$lib/config/site';
-	import { enquiryOptions } from '$lib/data/contact';
+	import type { PageProps } from './$types';
+
+	let { data, form }: PageProps = $props();
+	const { enquiryOptions } = data;
 
 	let fullName = $state('');
 	let company = $state('');
@@ -14,11 +18,7 @@
 	let phone = $state('');
 	let enquiryType = $state('');
 	let message = $state('');
-	let sent = $state(false);
-
-	function submit() {
-		sent = true;
-	}
+	let submitting = $state(false);
 </script>
 
 <svelte:head>
@@ -104,27 +104,33 @@
 			<div class="form-eyebrow">Project &amp; general enquiries</div>
 			<form
 				class="form"
-				onsubmit={(e) => {
-					e.preventDefault();
-					submit();
+				method="POST"
+				use:enhance={() => {
+					submitting = true;
+					return async ({ update }) => {
+						await update();
+						submitting = false;
+					};
 				}}
 			>
 				<div class="row stack-mobile">
-					<FloatingInput label="Full name" bind:value={fullName} />
-					<FloatingInput label="Company" bind:value={company} />
+					<FloatingInput label="Full name" name="fullName" bind:value={fullName} />
+					<FloatingInput label="Company" name="company" bind:value={company} />
 				</div>
 				<div class="row stack-mobile">
-					<FloatingInput label="Email" type="email" bind:value={email} />
-					<FloatingInput label="Phone" type="tel" bind:value={phone} />
+					<FloatingInput label="Email" name="email" type="email" bind:value={email} />
+					<FloatingInput label="Phone" name="phone" type="tel" bind:value={phone} />
 				</div>
-				<FloatingSelect label="Enquiry type" options={enquiryOptions} bind:value={enquiryType} />
-				<FloatingTextarea label="Tell us about the work" rows={4} bind:value={message} />
+				<FloatingSelect label="Enquiry type" name="enquiryType" options={enquiryOptions} bind:value={enquiryType} />
+				<FloatingTextarea label="Tell us about the work" name="message" rows={4} bind:value={message} />
 				<div class="submit-row">
-					<button use:magnetic type="submit" class="submit-btn"
-						>{sent ? 'Sent ✓' : 'Send enquiry'}</button
+					<button use:magnetic type="submit" class="submit-btn" disabled={submitting || form?.success}
+						>{form?.success ? 'Sent ✓' : submitting ? 'Sending…' : 'Send enquiry'}</button
 					>
-					{#if sent}
+					{#if form?.success}
 						<span class="sent-note">Received. We'll respond within one business day.</span>
+					{:else if form?.error}
+						<span class="sent-note error">{form.error}</span>
 					{/if}
 				</div>
 			</form>
@@ -240,5 +246,9 @@
 		font-size: 13px;
 		color: var(--accent);
 		letter-spacing: 0.06em;
+	}
+
+	.sent-note.error {
+		color: #c0392b;
 	}
 </style>

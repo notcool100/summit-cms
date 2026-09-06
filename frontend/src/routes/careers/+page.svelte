@@ -3,7 +3,10 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { countUp } from '$lib/actions/countUp';
 	import { magnetic } from '$lib/actions/magnetic';
-	import { heroImage, tracks, whySummit } from '$lib/data/careers';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+	const { heroImage, tracks, whySummit } = data;
 
 	let hoveredSide = $state<0 | 1 | null>(null);
 

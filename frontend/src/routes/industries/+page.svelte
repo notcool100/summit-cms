@@ -4,7 +4,10 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { magnetic } from '$lib/actions/magnetic';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
-	import { industries } from '$lib/data/industries';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+	const { industries } = data;
 
 	let openIdx = $state<number | null>(null);
 

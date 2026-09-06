@@ -7,15 +7,10 @@
 	import { countUp } from '$lib/actions/countUp';
 	import { parallax } from '$lib/actions/parallax';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
-	import {
-		narrative,
-		milestones,
-		values,
-		leaders,
-		locations,
-		hseStats,
-		awards
-	} from '$lib/data/about';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+	const { narrative, milestones, values, leaders, locations, hseStats, awards } = data;
 </script>
 
 <svelte:head>

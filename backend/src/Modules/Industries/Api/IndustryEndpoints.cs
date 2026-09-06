@@ -16,6 +16,7 @@ public static class IndustryEndpoints
     public sealed record IndustryDto(Guid Id, string Idx, string Name, string Tag, string Body, Guid? MediaId, string FigureLabel, int DisplayOrder, bool IsActive);
     public sealed record IndustryWriteDto(string Idx, string Name, string Tag, string Body, Guid? MediaId, string FigureLabel, int DisplayOrder, bool IsActive);
     public sealed record LinkWriteDto(Guid ProjectId, string? CustomLabel, string? CustomStat, int DisplayOrder);
+    public sealed record LinkDto(Guid Id, Guid IndustryId, Guid ProjectId, string? CustomLabel, string? CustomStat, int DisplayOrder);
 
     public static void Map(IEndpointRouteBuilder app)
     {
@@ -26,6 +27,11 @@ public static class IndustryEndpoints
             i => new IndustryDto(i.Id, i.Idx, i.Name, i.Tag, i.Body, i.MediaId, i.FigureLabel, i.DisplayOrder, i.IsActive),
             dto => new Industry { Idx = dto.Idx, Name = dto.Name, Tag = dto.Tag, Body = dto.Body, MediaId = dto.MediaId, FigureLabel = dto.FigureLabel, DisplayOrder = dto.DisplayOrder, IsActive = dto.IsActive },
             (i, dto) => { i.Idx = dto.Idx; i.Name = dto.Name; i.Tag = dto.Tag; i.Body = dto.Body; i.MediaId = dto.MediaId; i.FigureLabel = dto.FigureLabel; i.DisplayOrder = dto.DisplayOrder; i.IsActive = dto.IsActive; });
+
+        group.MapGet("/links", async (IndustriesDbContext db, CancellationToken ct) =>
+            Results.Ok(await db.ProjectLinks
+                .Select(l => new LinkDto(l.Id, l.IndustryId, l.ProjectId, l.CustomLabel, l.CustomStat, l.DisplayOrder))
+                .ToListAsync(ct)));
 
         group.MapPost("/{industryId:guid}/links", async (Guid industryId, LinkWriteDto body, IndustriesDbContext db, IProjectCatalog projects, CancellationToken ct) =>
         {

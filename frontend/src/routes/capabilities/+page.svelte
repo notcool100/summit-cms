@@ -5,7 +5,10 @@
 	import { magnetic } from '$lib/actions/magnetic';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
-	import { panels } from '$lib/data/capabilities';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+	const { panels } = data;
 </script>
 
 <svelte:head>

@@ -14,6 +14,7 @@ public static class CareersEndpoints
     public sealed record TrackDto(Guid Id, Guid PageId, string Title, string PathLabel, string Body, Guid? MediaId, string CtaLabel, int DisplayOrder);
     public sealed record TrackWriteDto(Guid PageId, string Title, string PathLabel, string Body, Guid? MediaId, string CtaLabel, int DisplayOrder);
     public sealed record TagWriteDto(Guid JobTrackId, string Tag, int DisplayOrder);
+    public sealed record TagDto(Guid Id, Guid JobTrackId, string Tag, int DisplayOrder);
 
     public sealed record OpeningDto(Guid Id, string Title, string Department, string Location, string EmploymentType, string TrackType, string Description, string ApplyContact, bool IsActive, DateTimeOffset PostedAt, DateTimeOffset? ClosesAt, int DisplayOrder);
     public sealed record OpeningWriteDto(string Title, string Department, string Location, EmploymentType EmploymentType, CareerTrackType TrackType, string Description, string ApplyContact, bool IsActive, DateTimeOffset PostedAt, DateTimeOffset? ClosesAt, int DisplayOrder);
@@ -27,6 +28,9 @@ public static class CareersEndpoints
             t => new TrackDto(t.Id, t.PageId, t.Title, t.PathLabel, t.Body, t.MediaId, t.CtaLabel, t.DisplayOrder),
             dto => new JobTrack { PageId = dto.PageId, Title = dto.Title, PathLabel = dto.PathLabel, Body = dto.Body, MediaId = dto.MediaId, CtaLabel = dto.CtaLabel, DisplayOrder = dto.DisplayOrder },
             (t, dto) => { t.Title = dto.Title; t.PathLabel = dto.PathLabel; t.Body = dto.Body; t.MediaId = dto.MediaId; t.CtaLabel = dto.CtaLabel; t.DisplayOrder = dto.DisplayOrder; });
+
+        group.MapGet("/tracks/tags", (CareersDbContext db) =>
+            Results.Ok(db.JobTrackTags.Select(t => new TagDto(t.Id, t.JobTrackId, t.Tag, t.DisplayOrder)).ToList()));
 
         group.MapPost("/tracks/{trackId:guid}/tags", async (Guid trackId, TagWriteDto body, CareersDbContext db, CancellationToken ct) =>
         {

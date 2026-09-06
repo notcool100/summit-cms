@@ -27,6 +27,7 @@ public static class SiteContentModule
     public static IEndpointRouteBuilder MapSiteContentModule(this IEndpointRouteBuilder app)
     {
         SiteContentEndpoints.Map(app);
+        SiteContentPublicEndpoints.Map(app);
         return app;
     }
 }

@@ -20,6 +20,7 @@ public static class CapabilitiesModule
     public static IEndpointRouteBuilder MapCapabilitiesModule(this IEndpointRouteBuilder app)
     {
         CapabilitiesEndpoints.Map(app);
+        CapabilitiesPublicEndpoints.Map(app);
         return app;
     }
 }

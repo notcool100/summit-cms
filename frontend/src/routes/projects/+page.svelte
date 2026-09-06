@@ -4,8 +4,11 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
-	import { filters, projects } from '$lib/data/projects';
+	import type { PageProps } from './$types';
 	import type { IndustryFilter } from '$lib/types';
+
+	let { data }: PageProps = $props();
+	const { filters, projects } = data;
 
 	let activeFilter = $state<IndustryFilter>('All');
 	let visible = $state(true);
