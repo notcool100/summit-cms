@@ -12,7 +12,8 @@
 </script>
 
 <svelte:head>
-	<title>Capabilities — Summit Industrial Construction</title>
+	<title>{data.seoTitle}</title>
+	<meta name="description" content={data.seoDescription} />
 </svelte:head>
 
 <!-- ============ HERO ============ -->

@@ -6,11 +6,15 @@
 	import FloatingTextarea from '$lib/components/ui/FloatingTextarea.svelte';
 	import FloatingSelect from '$lib/components/ui/FloatingSelect.svelte';
 	import HeroIndex from '$lib/components/ui/HeroIndex.svelte';
+	import { page } from '$app/state';
 	import { site } from '$lib/config/site';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
 	const { enquiryOptions } = data;
+	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
+	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
+	let companyAddress = $derived(page.data.siteSettings?.company_address);
 
 	let fullName = $state('');
 	let company = $state('');
@@ -22,7 +26,8 @@
 </script>
 
 <svelte:head>
-	<title>Contact — Summit Industrial Construction</title>
+	<title>{data.seoTitle}</title>
+	<meta name="description" content={data.seoDescription} />
 </svelte:head>
 
 <section class="contact">
@@ -40,11 +45,15 @@
 			<div use:reveal={{ kind: 'up', delay: 0.25 }} class="details">
 				<div>
 					<div class="details-label">Houston HQ</div>
-					{site.address.line1}<br />{site.address.line2}
+					{#if companyAddress}
+						{companyAddress}
+					{:else}
+						{site.address.line1}<br />{site.address.line2}
+					{/if}
 				</div>
 				<div>
 					<div class="details-label">Direct</div>
-					{site.phone}<br />{site.email}
+					{companyPhone}<br />{companyEmail}
 				</div>
 				<div>
 					<div class="details-label">Craft recruiting</div>

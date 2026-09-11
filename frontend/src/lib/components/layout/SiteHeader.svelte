@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
 	import { primaryNav } from '$lib/config/nav';
+	import { site } from '$lib/config/site';
 	import { magnetic } from '$lib/actions/magnetic';
 	import { menuStore } from '$lib/stores/menu.svelte';
 	import ThemeSwitcher from './ThemeSwitcher.svelte';
@@ -8,6 +10,7 @@
 	let header: HTMLElement;
 	let progress = $state(0);
 	let hidden = $state(false);
+	let companyName = $derived((page.data.siteSettings?.company_name || site.name).toUpperCase());
 
 	onMount(() => {
 		let lastY = 0;
@@ -36,7 +39,7 @@
 
 <header bind:this={header} class:is-hidden={hidden}>
 	<div class="bar">
-		<a href="/" class="logo">SUMMIT<span class="accent">.</span></a>
+		<a href="/" class="logo">{companyName}<span class="accent">.</span></a>
 
 		<nav class="hide-tablet nav">
 			{#each primaryNav as link (link.href)}

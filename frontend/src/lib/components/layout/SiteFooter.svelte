@@ -1,10 +1,15 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { site } from '$lib/config/site';
 	import { magnetic } from '$lib/actions/magnetic';
 	import FloatingInput from '$lib/components/ui/FloatingInput.svelte';
 
 	let email = $state('');
 	let subscribed = $state(false);
+	let companyName = $derived(page.data.siteSettings?.company_name || site.name);
+	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
+	let companyAddress = $derived(page.data.siteSettings?.company_address);
+	let featuredProject = $derived(page.data.featuredProject as { slug: string; name: string } | null);
 
 	function subscribe() {
 		if (!email) return;
@@ -20,12 +25,16 @@
 <footer>
 	<div class="grid stack-mobile">
 		<div>
-			<div class="logo">SUMMIT<span class="accent">.</span></div>
+			<div class="logo">{companyName.toUpperCase()}<span class="accent">.</span></div>
 			<p class="tagline">{site.tagline}</p>
 			<div class="address">
-				{site.address.line1}<br />
-				{site.address.line2}<br />
-				<a href="/contact">{site.phone}</a>
+				{#if companyAddress}
+					{companyAddress}<br />
+				{:else}
+					{site.address.line1}<br />
+					{site.address.line2}<br />
+				{/if}
+				<a href="/contact">{companyPhone}</a>
 			</div>
 		</div>
 
@@ -40,7 +49,9 @@
 		<nav class="col">
 			<span class="col-title">Work</span>
 			<a href="/projects">Projects</a>
-			<a href="/projects/phoenix">Phoenix Semiconductor</a>
+			{#if featuredProject}
+				<a href="/projects/{featuredProject.slug}">{featuredProject.name}</a>
+			{/if}
 			<a href="/contact">Start a project</a>
 		</nav>
 
@@ -57,7 +68,7 @@
 	</div>
 
 	<div class="bottom">
-		<span>© {site.year} {site.legalName}</span>
+		<span>© {site.year} {companyName}</span>
 		<div class="social">
 			<a href={site.social.linkedin}>LinkedIn</a>
 			<a href={site.social.instagram}>Instagram</a>
@@ -66,7 +77,7 @@
 	</div>
 
 	<div class="watermark" aria-hidden="true">
-		<div class="watermark-text">SUMMIT</div>
+		<div class="watermark-text">{companyName.toUpperCase()}</div>
 	</div>
 </footer>
 

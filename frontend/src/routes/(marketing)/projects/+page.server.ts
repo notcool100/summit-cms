@@ -12,6 +12,10 @@ interface ApiProjectListItem {
 	span: number | null;
 	isFeatured: boolean;
 }
+interface ApiPage {
+	title: string;
+	metaDescription: string;
+}
 
 const FILTERS = ['All', 'Semiconductor', 'Power', 'Energy & Terminals', 'Renewables'] as const;
 
@@ -25,9 +29,14 @@ function offsetFor(i: number): string | undefined {
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const projects = await getPublic<ApiProjectListItem[]>(fetch, '/api/public/projects');
+	const [projects, page] = await Promise.all([
+		getPublic<ApiProjectListItem[]>(fetch, '/api/public/projects'),
+		getPublic<ApiPage>(fetch, '/api/public/pages/projects')
+	]);
 
 	return {
+		seoTitle: page.title,
+		seoDescription: page.metaDescription,
 		filters: FILTERS,
 		projects: projects.map((p, i) => ({
 			idx: String(i + 1).padStart(2, '0'),

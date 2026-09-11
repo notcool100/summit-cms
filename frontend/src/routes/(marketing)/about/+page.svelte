@@ -14,7 +14,8 @@
 </script>
 
 <svelte:head>
-	<title>Who We Are — Summit Industrial Construction</title>
+	<title>{data.seoTitle}</title>
+	<meta name="description" content={data.seoDescription} />
 </svelte:head>
 
 <!-- ============ HERO ============ -->

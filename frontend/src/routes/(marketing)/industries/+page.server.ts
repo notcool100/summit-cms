@@ -11,11 +11,20 @@ interface ApiIndustry {
 	figureLabel: string;
 	links: { name: string; stat: string; href: string }[];
 }
+interface ApiPage {
+	title: string;
+	metaDescription: string;
+}
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const industries = await getPublic<ApiIndustry[]>(fetch, '/api/public/industries');
+	const [industries, page] = await Promise.all([
+		getPublic<ApiIndustry[]>(fetch, '/api/public/industries'),
+		getPublic<ApiPage>(fetch, '/api/public/pages/industries')
+	]);
 
 	return {
+		seoTitle: page.title,
+		seoDescription: page.metaDescription,
 		industries: industries.map((ind) => ({
 			idx: ind.idx,
 			name: ind.name,

@@ -2,6 +2,8 @@ import { getPublic } from '$lib/server/publicApi';
 import type { PageServerLoad } from './$types';
 
 interface ApiPage {
+	title: string;
+	metaDescription: string;
 	heroHeading: string;
 	heroSubheading: string;
 	heroMediaUrl: string | null;
@@ -60,6 +62,8 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	]);
 
 	return {
+		seoTitle: page.title,
+		seoDescription: page.metaDescription,
 		heroImage: { src: page.heroMediaUrl ?? '', alt: page.heroMediaAlt ?? '' },
 		manifestoImage: { src: page.secondaryMediaUrl ?? '', alt: page.secondaryMediaAlt ?? '' },
 		stats: (statsByGroup.home_stats ?? []).map((s) => ({

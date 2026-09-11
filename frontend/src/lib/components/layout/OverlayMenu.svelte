@@ -1,12 +1,18 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { menuStore } from '$lib/stores/menu.svelte';
 	import { overlayMenu } from '$lib/config/nav';
 	import { site } from '$lib/config/site';
+
+	let companyName = $derived((page.data.siteSettings?.company_name || site.name).toUpperCase());
+	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
+	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
+	let companyCity = $derived(page.data.siteSettings?.company_address || 'Houston, TX');
 </script>
 
 <div class="overlay" class:is-open={menuStore.open} aria-hidden={!menuStore.open}>
 	<div class="bar">
-		<span class="logo">SUMMIT<span class="accent">.</span></span>
+		<span class="logo">{companyName}<span class="accent">.</span></span>
 		<button class="close" aria-label="Close menu" onclick={() => menuStore.close()}>✕</button>
 	</div>
 
@@ -24,7 +30,7 @@
 			</div>
 		{/each}
 		<div class="meta">
-			<span>Houston, TX</span><span>{site.phone}</span><span>{site.email}</span>
+			<span>{companyCity}</span><span>{companyPhone}</span><span>{companyEmail}</span>
 		</div>
 	</nav>
 </div>

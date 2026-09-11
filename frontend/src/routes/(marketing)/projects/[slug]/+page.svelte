@@ -3,7 +3,10 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
+	import { page } from '$app/state';
+	import { site } from '$lib/config/site';
 	import type { PageProps } from './$types';
+	let companyName = $derived(page.data.siteSettings?.company_name || site.name);
 
 	// Destructured with $derived (not plain const) because prev/next links navigate within this same
 	// route component - SvelteKit reuses it and just updates `data`, it doesn't remount.
@@ -27,7 +30,7 @@
 </script>
 
 <svelte:head>
-	<title>{title} — Summit</title>
+	<title>{title} — {companyName}</title>
 </svelte:head>
 
 <!-- ============ CINEMATIC HERO ============ -->

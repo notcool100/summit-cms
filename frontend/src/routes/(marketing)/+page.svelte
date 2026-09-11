@@ -42,7 +42,8 @@
 </script>
 
 <svelte:head>
-	<title>Summit Industrial Construction — Built at Industrial Scale</title>
+	<title>{data.seoTitle}</title>
+	<meta name="description" content={data.seoDescription} />
 </svelte:head>
 
 <!-- ============ HERO ============ -->

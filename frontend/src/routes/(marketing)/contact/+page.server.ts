@@ -6,10 +6,22 @@ interface ApiEnquiryType {
 	id: string;
 	label: string;
 }
+interface ApiPage {
+	title: string;
+	metaDescription: string;
+}
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const enquiryTypes = await getPublic<ApiEnquiryType[]>(fetch, '/api/public/enquiry-types');
-	return { enquiryOptions: enquiryTypes.map((t) => t.label), enquiryTypes };
+	const [enquiryTypes, page] = await Promise.all([
+		getPublic<ApiEnquiryType[]>(fetch, '/api/public/enquiry-types'),
+		getPublic<ApiPage>(fetch, '/api/public/pages/contact')
+	]);
+	return {
+		seoTitle: page.title,
+		seoDescription: page.metaDescription,
+		enquiryOptions: enquiryTypes.map((t) => t.label),
+		enquiryTypes
+	};
 };
 
 export const actions: Actions = {

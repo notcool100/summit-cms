@@ -13,11 +13,20 @@ interface ApiCapability {
 	mediaAlt: string | null;
 	figureLabel: string;
 }
+interface ApiPage {
+	title: string;
+	metaDescription: string;
+}
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const capabilities = await getPublic<ApiCapability[]>(fetch, '/api/public/capabilities');
+	const [capabilities, page] = await Promise.all([
+		getPublic<ApiCapability[]>(fetch, '/api/public/capabilities'),
+		getPublic<ApiPage>(fetch, '/api/public/pages/capabilities')
+	]);
 
 	return {
+		seoTitle: page.title,
+		seoDescription: page.metaDescription,
 		panels: capabilities.map((c, i) => ({
 			key: c.key,
 			idx: String(i + 1).padStart(2, '0'),

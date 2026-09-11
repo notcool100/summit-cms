@@ -6,7 +6,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroImage, tracks, whySummit } = data;
+	const { heroImage, tracks, openings, whySummit } = data;
 
 	let hoveredSide = $state<0 | 1 | null>(null);
 
@@ -14,10 +14,21 @@
 		if (hoveredSide === null) return 1;
 		return hoveredSide === i ? 1.6 : 0.8;
 	}
+
+	function applyHref(contact: string) {
+		if (contact.includes('://')) return contact;
+		if (contact.includes('@')) return `mailto:${contact}`;
+		return undefined;
+	}
+
+	function postedLabel(iso: string) {
+		return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+	}
 </script>
 
 <svelte:head>
-	<title>Careers — Summit Industrial Construction</title>
+	<title>{data.seoTitle}</title>
+	<meta name="description" content={data.seoDescription} />
 </svelte:head>
 
 <!-- ============ HERO ============ -->
@@ -99,6 +110,30 @@
 		{/each}
 	</div>
 </section>
+
+{#if openings.length}
+	<!-- ============ OPEN POSITIONS ============ -->
+	<section class="openings">
+		<div class="openings-eyebrow">Open positions</div>
+		<div class="openings-list">
+			{#each openings as o, i (o.title + o.postedAt)}
+				<div use:reveal={{ kind: 'up', delay: i * 0.06 }} class="opening-row">
+					<div class="opening-main">
+						<h3>{o.title}</h3>
+						<div class="opening-meta">
+							<span>{o.department}</span><span>{o.location}</span><span>{o.employmentType}</span>
+							<span class="opening-posted">Posted {postedLabel(o.postedAt)}</span>
+						</div>
+						<p class="opening-desc">{o.description}</p>
+					</div>
+					<a use:magnetic data-cursor-view href={applyHref(o.applyContact) ?? '/contact'} class="opening-apply">
+						Apply
+					</a>
+				</div>
+			{/each}
+		</div>
+	</section>
+{/if}
 
 <!-- ============ SUBMIT PROFILE CTA ============ -->
 <section id="profile" class="profile-cta">
@@ -352,6 +387,87 @@
 		color: rgba(var(--ink-rgb), 0.6);
 	}
 
+	/* Open positions */
+	.openings {
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+		padding: clamp(70px, 10vh, 130px) clamp(20px, 4vw, 64px);
+	}
+
+	.openings-eyebrow {
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.28em;
+		color: rgba(var(--ink-rgb), 0.4);
+		margin-bottom: 40px;
+		text-transform: uppercase;
+	}
+
+	.openings-list {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.opening-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		padding: 28px 0;
+		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.opening-main h3 {
+		margin: 0 0 10px;
+		font-family: var(--font-display);
+		font-size: clamp(22px, 2.6vw, 32px);
+		text-transform: uppercase;
+	}
+
+	.opening-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px 16px;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-bottom: 12px;
+	}
+
+	.opening-posted {
+		color: rgba(var(--ink-rgb), 0.4);
+	}
+
+	.opening-desc {
+		margin: 0;
+		max-width: 60ch;
+		font-size: 14px;
+		line-height: 1.7;
+		color: rgba(var(--ink-rgb), 0.65);
+	}
+
+	.opening-apply {
+		flex-shrink: 0;
+		display: inline-flex;
+		align-items: center;
+		background: none;
+		border: 1px solid rgba(var(--ink-rgb), 0.3);
+		color: var(--ink);
+		padding: 14px 28px;
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	.opening-apply:hover {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--paper);
+	}
+
 	/* Submit profile CTA */
 	.profile-cta {
 		padding: clamp(90px, 15vh, 190px) clamp(20px, 4vw, 64px);
@@ -427,6 +543,11 @@
 
 		.why-grid.stack-mobile {
 			grid-template-columns: repeat(2, 1fr) !important;
+		}
+
+		.opening-row {
+			flex-direction: column;
+			align-items: flex-start;
 		}
 	}
 

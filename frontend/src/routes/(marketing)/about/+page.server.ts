@@ -25,14 +25,21 @@ interface ApiStat {
 	suffix: string | null;
 	note: string | null;
 }
+interface ApiPage {
+	title: string;
+	metaDescription: string;
+}
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const [about, statsByGroup] = await Promise.all([
+	const [about, statsByGroup, page] = await Promise.all([
 		getPublic<ApiAbout>(fetch, '/api/public/about'),
-		getPublic<Record<string, ApiStat[]>>(fetch, '/api/public/pages/about/stats')
+		getPublic<Record<string, ApiStat[]>>(fetch, '/api/public/pages/about/stats'),
+		getPublic<ApiPage>(fetch, '/api/public/pages/about')
 	]);
 
 	return {
+		seoTitle: page.title,
+		seoDescription: page.metaDescription,
 		narrative: about.narrative.map((n) => ({
 			eyebrow: n.eyebrow,
 			title: [n.titleLine1, n.titleLine2] as [string, string],
