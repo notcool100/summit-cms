@@ -81,4 +81,42 @@ public static partial class DataSeeder
 
         await db.SaveChangesAsync();
     }
+
+    /// <summary>
+    /// Backfills a version-1 PageVersion for any Page that predates page-versioning (or was inserted
+    /// this run) and has no versions yet, then marks it published. Idempotent - only touches pages with
+    /// zero PageVersion rows, so it's safe to run on every startup alongside SeedPagesAsync.
+    /// </summary>
+    private static async Task SeedPageVersionsAsync(IServiceProvider sp)
+    {
+        var db = sp.GetRequiredService<SiteContentDbContext>();
+
+        var pagesWithoutVersions = await db.Pages
+            .Where(p => !db.PageVersions.Any(v => v.PageId == p.Id))
+            .ToListAsync();
+
+        foreach (var page in pagesWithoutVersions)
+        {
+            var version = new PageVersion
+            {
+                PageId = page.Id,
+                VersionNumber = 1,
+                Title = page.Title,
+                MetaDescription = page.MetaDescription,
+                HeroHeading = page.HeroHeading,
+                HeroSubheading = page.HeroSubheading,
+                HeroMediaId = page.HeroMediaId,
+                SecondaryMediaId = page.SecondaryMediaId,
+                IsPublished = true,
+                CreatedByUserId = null,
+                CreatedAt = page.CreatedAt
+            };
+            db.PageVersions.Add(version);
+
+            page.PublishedVersionId = version.Id;
+            page.PublishedAt = page.CreatedAt;
+        }
+
+        await db.SaveChangesAsync();
+    }
 }

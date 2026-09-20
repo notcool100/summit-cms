@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SummitCms.Modules.SiteContent.Infrastructure;
@@ -11,9 +12,11 @@ using SummitCms.Modules.SiteContent.Infrastructure;
 namespace SummitCms.Modules.SiteContent.Infrastructure.Migrations
 {
     [DbContext(typeof(SiteContentDbContext))]
-    partial class SiteContentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260920152755_AddPageVersioning")]
+    partial class AddPageVersioning
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

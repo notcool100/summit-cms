@@ -16,6 +16,7 @@
 		<h1>Contact leads</h1>
 		<p>Every submission from the public contact form, newest first.</p>
 	</div>
+	<a class="adm-btn adm-btn--secondary" href="/admin/contact/export">Export CSV</a>
 </div>
 
 {#if form?.error}

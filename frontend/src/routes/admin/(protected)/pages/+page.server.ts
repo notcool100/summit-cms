@@ -11,6 +11,8 @@ interface PageDto {
 	heroSubheading: string;
 	heroMediaId: string | null;
 	secondaryMediaId: string | null;
+	publishedVersionId: string | null;
+	publishedAt: string | null;
 }
 interface MediaItem {
 	id: string;
@@ -28,6 +30,8 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 };
 
 export const actions: Actions = {
+	// Creates a new draft PageVersion - it no longer edits the live page directly.
+	// Publishing (making a version live) happens from the version history screen.
 	update: async ({ request, locals, fetch }) => {
 		const form = await request.formData();
 		const id = String(form.get('id'));
@@ -44,7 +48,7 @@ export const actions: Actions = {
 				body: JSON.stringify({ title, metaDescription, heroHeading, heroSubheading, heroMediaId, secondaryMediaId })
 			});
 		} catch (err) {
-			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not save page.' });
+			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not save draft.' });
 		}
 		return { success: true };
 	}

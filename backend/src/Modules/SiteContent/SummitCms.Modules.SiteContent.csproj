@@ -8,6 +8,7 @@
     <ProjectReference Include="..\..\Shared\SummitCms.Shared.Kernel\SummitCms.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\Shared\SummitCms.Shared.Infrastructure\SummitCms.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\Media\SummitCms.Modules.Media.csproj" />
+    <ProjectReference Include="..\Identity\SummitCms.Modules.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

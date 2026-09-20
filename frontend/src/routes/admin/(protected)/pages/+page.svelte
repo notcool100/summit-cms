@@ -7,19 +7,30 @@
 	let media = $derived(data.media);
 
 	let openSlug = $state<string | null>(null);
+
+	const RTF = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+	function relativeTime(iso: string) {
+		const diffMs = new Date(iso).getTime() - Date.now();
+		const diffMinutes = Math.round(diffMs / 60000);
+		if (Math.abs(diffMinutes) < 60) return RTF.format(diffMinutes, 'minute');
+		const diffHours = Math.round(diffMinutes / 60);
+		if (Math.abs(diffHours) < 24) return RTF.format(diffHours, 'hour');
+		const diffDays = Math.round(diffHours / 24);
+		return RTF.format(diffDays, 'day');
+	}
 </script>
 
 <div class="adm-page-head">
 	<div>
 		<h1>Pages</h1>
-		<p>Hero heading, subheading, SEO description, and hero imagery for each top-level page.</p>
+		<p>Hero heading, subheading, SEO description, and hero imagery for each top-level page. Saving creates a draft - publish it from the version history to make it live.</p>
 	</div>
 </div>
 
 {#if form?.error}
 	<div class="adm-banner adm-banner--error">{form.error}</div>
 {:else if form?.success}
-	<div class="adm-banner adm-banner--success">Saved.</div>
+	<div class="adm-banner adm-banner--success">Draft saved. Publish it from "View history" to make it live.</div>
 {/if}
 
 <div class="adm-stack">
@@ -29,10 +40,20 @@
 				<div>
 					<div class="page-slug">/{p.slug === 'home' ? '' : p.slug}</div>
 					<div class="page-title">{p.title}</div>
+					<div class="page-status">
+						{#if p.publishedAt}
+							<span class="adm-badge adm-badge--success">Published {relativeTime(p.publishedAt)}</span>
+						{:else}
+							<span class="adm-badge adm-badge--warning">Never published</span>
+						{/if}
+					</div>
 				</div>
-				<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => (openSlug = openSlug === p.slug ? null : p.slug)}>
-					{openSlug === p.slug ? 'Close' : 'Edit'}
-				</button>
+				<div class="adm-row-actions">
+					<a class="adm-btn adm-btn--secondary adm-btn--sm" href="/admin/pages/{p.id}/history">View history</a>
+					<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => (openSlug = openSlug === p.slug ? null : p.slug)}>
+						{openSlug === p.slug ? 'Close' : 'Edit'}
+					</button>
+				</div>
 			</div>
 
 			{#if openSlug === p.slug}
@@ -77,7 +98,7 @@
 						</div>
 					</div>
 					<div class="adm-form-actions">
-						<button class="adm-btn adm-btn--primary" type="submit">Save page</button>
+						<button class="adm-btn adm-btn--primary" type="submit">Save as draft</button>
 					</div>
 				</form>
 			{/if}
@@ -94,6 +115,9 @@
 	.page-title {
 		font-size: 15px;
 		font-weight: 600;
+	}
+	.page-status {
+		margin-top: 6px;
 	}
 	.page-form {
 		margin-top: 16px;

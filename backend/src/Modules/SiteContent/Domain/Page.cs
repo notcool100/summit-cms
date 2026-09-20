@@ -12,4 +12,10 @@ public class Page : AuditableEntity
     public string HeroSubheading { get; set; } = string.Empty;
     public Guid? HeroMediaId { get; set; }
     public Guid? SecondaryMediaId { get; set; }
+
+    /// <summary>The <see cref="PageVersion"/> currently live on the public site, if any version has ever been published.</summary>
+    public Guid? PublishedVersionId { get; set; }
+
+    /// <summary>When <see cref="PublishedVersionId"/> was last published.</summary>
+    public DateTimeOffset? PublishedAt { get; set; }
 }

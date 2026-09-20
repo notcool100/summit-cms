@@ -38,6 +38,7 @@ public static partial class DataSeeder
         await SeedIdentityAsync(sp, config);
         var mediaMap = await SeedMediaAsync(sp);
         var pageIds = await SeedPagesAsync(sp, mediaMap);
+        await SeedPageVersionsAsync(sp);
         await SeedSiteSettingsAndEnquiryTypesAsync(sp);
         await SeedCompanyAsync(sp, pageIds, mediaMap);
         await SeedCapabilitiesAsync(sp, mediaMap);
