@@ -677,8 +677,10 @@
 
 	.teaser-head {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: baseline;
+		gap: 8px 20px;
 		padding: 0 clamp(20px, 4vw, 64px);
 		margin-bottom: 40px;
 	}
@@ -799,8 +801,10 @@
 
 	.industries-head {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: baseline;
+		gap: 8px 20px;
 		margin-bottom: 40px;
 	}
 
@@ -1067,8 +1071,10 @@
 	/* Select projects */
 	.projects-head {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: baseline;
+		gap: 8px 20px;
 		padding: 0 clamp(20px, 4vw, 64px);
 		margin-bottom: 32px;
 	}
@@ -1127,9 +1133,10 @@
 
 	.project-meta {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: baseline;
-		gap: 16px;
+		gap: 4px 16px;
 		margin-top: 14px;
 	}
 

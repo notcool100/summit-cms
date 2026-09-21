@@ -262,9 +262,10 @@
 
 	.meta {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: baseline;
-		gap: 16px;
+		gap: 4px 16px;
 		margin-top: 14px;
 		border-bottom: 1px solid rgba(var(--ink-rgb), 0.12);
 		padding-bottom: 14px;
