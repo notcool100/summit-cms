@@ -76,7 +76,7 @@
 		{/each}
 	</div>
 	{#snippet footer()}
-		<div class="timeline-hint">Keep scrolling —</div>
+		<div class="timeline-hint">Keep scrolling →</div>
 	{/snippet}
 </HorizontalScroll>
 
@@ -192,7 +192,7 @@
 			</h2>
 			<p use:reveal={{ kind: 'up', delay: 0.2 }} class="hse-body">
 				Our HSE program is built on stop-work authority for every employee, daily pre-task planning,
-				and leading-indicator tracking — not lagging paperwork. A TRIR of 0.42 across 18 million
+				and leading-indicator tracking, not lagging paperwork. A TRIR of 0.42 across 18 million
 				hours isn't luck. It's a system, audited relentlessly.
 			</p>
 			<div class="hse-stats">
@@ -218,7 +218,7 @@
 				<div class="quality-eyebrow"><SectionLabel label="Quality program" /></div>
 				<p class="quality-body">
 					ASME Section I, VIII &amp; B31 code stamps held in-house. NDE, weld mapping, and turnover
-					documentation digital from day one — every weld traceable to a name, a rod, and a heat
+					documentation digital from day one, with every weld traceable to a name, a rod, and a heat
 					number.
 				</p>
 			</div>

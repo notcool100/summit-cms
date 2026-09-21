@@ -132,7 +132,7 @@
 		<div class="hero-eyebrow">
 			<span use:reveal={{ kind: 'fade' }} class="rule"></span>
 			<span use:reveal={{ kind: 'fade', delay: 0.1 }} class="eyebrow-text"
-				>Specialty Mechanical Contractor — Houston, TX</span
+				>Specialty Mechanical Contractor, Houston, TX</span
 			>
 		</div>
 		<h1>
@@ -178,7 +178,7 @@
 			<span class="mask-line manifesto-body-line">
 				<span use:reveal={{ kind: 'mask', delay: 0.2 }} class="manifesto-body">
 					Chips, megawatts, molecules. Summit self-performs the critical-path mechanical scope on
-					the projects America can't afford to get wrong — with our own craft workforce, our own
+					the projects America can't afford to get wrong, using our own craft workforce, our own
 					engineering, and a safety record we'd put against anyone's.
 				</span>
 			</span>

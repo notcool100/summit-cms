@@ -59,7 +59,7 @@
 			<span class="col-title">Field Notes</span>
 			<p class="note">Project milestones and hiring calls, quarterly. No noise.</p>
 			{#if subscribed}
-				<p class="subscribed">Subscribed ✓ — welcome aboard.</p>
+				<p class="subscribed">Subscribed ✓ Welcome aboard.</p>
 			{:else}
 				<FloatingInput label="Email address" type="email" bind:value={email} />
 				<button use:magnetic class="subscribe" onclick={subscribe}>Subscribe</button>

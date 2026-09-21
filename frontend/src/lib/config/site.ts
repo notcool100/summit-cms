@@ -3,7 +3,7 @@ export const site = {
 	legalName: 'Summit Industrial Construction',
 	tagline: 'Specialty mechanical construction for the industries that power everything else.',
 	description:
-		'Turnkey specialty mechanical construction — engineering, design-assist, and direct-hire execution for semiconductor fabs, power plants, energy terminals, and biomass facilities.',
+		'Turnkey specialty mechanical construction: engineering, design-assist, and direct-hire execution for semiconductor fabs, power plants, energy terminals, and biomass facilities.',
 	address: {
 		line1: '2727 Allen Parkway, Suite 400',
 		line2: 'Houston, TX 77019'

@@ -39,7 +39,7 @@
 	<div class="hero-scrim" aria-hidden="true"></div>
 	<div class="hero-copy">
 		<div use:reveal={{ kind: 'fade' }} class="hero-eyebrow">
-			Careers at Summit — hiring all craft disciplines
+			Careers at Summit: hiring all craft disciplines
 		</div>
 		<h1>
 			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
@@ -141,7 +141,7 @@
 			>
 		</h2>
 		<p use:reveal={{ kind: 'up', delay: 0.25 }} class="profile-lede">
-			One profile. Every project. Our craft recruiting team responds within 48 hours — usually
+			One profile. Every project. Our craft recruiting team responds within 48 hours, usually
 			faster when we're staffing a surge.
 		</p>
 		<a use:magnetic data-cursor-view href="/contact" class="profile-btn">Submit Your Profile</a>

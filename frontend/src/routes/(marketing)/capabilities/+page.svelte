@@ -73,7 +73,7 @@
 	</h2>
 	<p use:reveal={{ kind: 'up', delay: 0.25 }} class="band-body">
 		No broker layers. No pass-through margins. When schedule pressure hits, we surge our own people
-		— because they're already ours.
+		because they're already ours.
 	</p>
 	<a use:magnetic data-cursor-view href="/projects" class="band-cta">See it in the field →</a>
 </section>

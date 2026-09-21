@@ -53,7 +53,7 @@
 				</div>
 				<div>
 					<div class="details-label">Craft recruiting</div>
-					{site.careersEmail} — response within 48 hours
+					{site.careersEmail} (response within 48 hours)
 				</div>
 			</div>
 			<div use:reveal={{ kind: 'clip', delay: 0.2 }} class="map-frame">
