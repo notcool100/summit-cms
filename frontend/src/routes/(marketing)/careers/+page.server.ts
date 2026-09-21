@@ -4,6 +4,8 @@ import type { PageServerLoad } from './$types';
 interface ApiPage {
 	title: string;
 	metaDescription: string;
+	heroHeading: string;
+	heroSubheading: string;
 	heroMediaUrl: string | null;
 	heroMediaAlt: string | null;
 }
@@ -44,6 +46,8 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	return {
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
+		heroHeading: page.heroHeading,
+		heroSubheading: page.heroSubheading,
 		heroImage: { src: page.heroMediaUrl ?? '', alt: page.heroMediaAlt ?? '' },
 		tracks: careers.tracks.map((t) => ({
 			title: t.title,

@@ -28,6 +28,8 @@ interface ApiStat {
 interface ApiPage {
 	title: string;
 	metaDescription: string;
+	heroHeading: string;
+	heroSubheading: string;
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -40,6 +42,8 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	return {
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
+		heroHeading: page.heroHeading,
+		heroSubheading: page.heroSubheading,
 		narrative: about.narrative.map((n) => ({
 			eyebrow: n.eyebrow,
 			title: [n.titleLine1, n.titleLine2] as [string, string],

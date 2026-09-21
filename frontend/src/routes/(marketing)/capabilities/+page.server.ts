@@ -16,6 +16,8 @@ interface ApiCapability {
 interface ApiPage {
 	title: string;
 	metaDescription: string;
+	heroHeading: string;
+	heroSubheading: string;
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -27,6 +29,8 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	return {
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
+		heroHeading: page.heroHeading,
+		heroSubheading: page.heroSubheading,
 		panels: capabilities.map((c, i) => ({
 			key: c.key,
 			idx: String(i + 1).padStart(2, '0'),

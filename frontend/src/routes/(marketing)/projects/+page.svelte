@@ -8,7 +8,7 @@
 	import type { IndustryFilter } from '$lib/types';
 
 	let { data }: PageProps = $props();
-	const { filters, projects } = data;
+	const { heroHeading, filters, projects } = data;
 
 	let activeFilter = $state<IndustryFilter>('All');
 	let visible = $state(true);
@@ -40,12 +40,7 @@
 	<div class="hero-watermark" aria-hidden="true">03</div>
 	<HeroIndex idx="03" label="Projects" />
 	<h1>
-		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Proof, poured</span></span>
-		<span class="mask-line"
-			><span use:reveal={{ kind: 'mask', delay: 0.12 }}
-				>and <span class="accent">welded.</span></span
-			></span
-		>
+		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 	</h1>
 </section>
 

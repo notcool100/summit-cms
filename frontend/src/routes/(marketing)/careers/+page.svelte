@@ -6,7 +6,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroImage, tracks, openings, whySummit } = data;
+	const { heroHeading, heroSubheading, heroImage, tracks, openings, whySummit } = data;
 
 	let hoveredSide = $state<0 | 1 | null>(null);
 
@@ -42,15 +42,10 @@
 			Careers at Summit — hiring all craft disciplines
 		</div>
 		<h1>
-			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Build what</span></span>
-			<span class="mask-line"
-				><span use:reveal={{ kind: 'mask', delay: 0.12 }}><span class="accent">matters.</span></span
-				></span
-			>
+			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 		</h1>
 		<p use:reveal={{ kind: 'up', delay: 0.28 }} class="hero-lede">
-			The chips in your phone. The power on your grid. Somebody builds the plants behind all of it.
-			At Summit, that somebody is you — direct hire, benefits day one, kept between projects.
+			{heroSubheading}
 		</p>
 	</div>
 </section>

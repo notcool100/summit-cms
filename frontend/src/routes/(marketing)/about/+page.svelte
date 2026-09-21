@@ -10,7 +10,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { narrative, milestones, values, leaders, locations, hseStats, awards } = data;
+	const { heroHeading, heroSubheading, narrative, milestones, values, leaders, locations, hseStats, awards } = data;
 </script>
 
 <svelte:head>
@@ -22,19 +22,11 @@
 <section class="hero">
 	<HeroIndex idx="01" label="Who We Are" />
 	<h1>
-		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Craft first.</span></span>
-		<span class="mask-line"
-			><span use:reveal={{ kind: 'mask', delay: 0.12 }}
-				>Everything <span class="accent">else follows.</span></span
-			></span
-		>
+		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 	</h1>
 	<div class="hero-grid stack-mobile">
 		<p use:reveal={{ kind: 'up', delay: 0.25 }} class="lede">
-			Summit was founded in Houston in 1996 by field superintendents who believed the industry had
-			it backwards: contractors were becoming brokers of labor instead of builders. We went the
-			other way — direct-hire craft, in-house engineering, and full accountability for the scope we
-			sign.
+			{heroSubheading}
 		</p>
 		<p use:reveal={{ kind: 'up', delay: 0.4 }} class="sub">
 			Three decades later, that bet has carried us from single-unit boiler retrofits to the largest

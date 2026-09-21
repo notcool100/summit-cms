@@ -13,7 +13,19 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroImage, manifestoImage, stats, capabilityTeasers, industries, featuredProjects, values, awards, hseStats } = data;
+	const {
+		heroHeading,
+		heroSubheading,
+		heroImage,
+		manifestoImage,
+		stats,
+		capabilityTeasers,
+		industries,
+		featuredProjects,
+		values,
+		awards,
+		hseStats
+	} = data;
 
 	let video: HTMLVideoElement;
 	let hoveredCap = $state<string | null>(null);
@@ -124,17 +136,11 @@
 			>
 		</div>
 		<h1>
-			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Built at</span></span>
-			<span class="mask-line"
-				><span use:reveal={{ kind: 'mask', delay: 0.12 }}
-					>Industrial <span class="accent">Scale</span></span
-				></span
-			>
+			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 		</h1>
 		<div class="hero-bottom stack-mobile">
 			<p use:reveal={{ kind: 'up', delay: 0.3 }} class="hero-lede">
-				Turnkey specialty mechanical construction — engineering, design-assist, and direct-hire
-				execution for semiconductor fabs, power plants, energy terminals, and biomass facilities.
+				{heroSubheading}
 			</p>
 			<div use:reveal={{ kind: 'up', delay: 0.45 }} class="hero-cta">
 				<a use:magnetic data-cursor-view href="/projects" class="btn btn--outline">See the Work</a>

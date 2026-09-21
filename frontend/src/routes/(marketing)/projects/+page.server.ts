@@ -15,6 +15,8 @@ interface ApiProjectListItem {
 interface ApiPage {
 	title: string;
 	metaDescription: string;
+	heroHeading: string;
+	heroSubheading: string;
 }
 
 const FILTERS = ['All', 'Semiconductor', 'Power', 'Energy & Terminals', 'Renewables'] as const;
@@ -37,6 +39,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	return {
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
+		heroHeading: page.heroHeading,
 		filters: FILTERS,
 		projects: projects.map((p, i) => ({
 			idx: String(i + 1).padStart(2, '0'),

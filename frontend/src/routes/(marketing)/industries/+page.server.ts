@@ -14,6 +14,8 @@ interface ApiIndustry {
 interface ApiPage {
 	title: string;
 	metaDescription: string;
+	heroHeading: string;
+	heroSubheading: string;
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -25,6 +27,8 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	return {
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
+		heroHeading: page.heroHeading,
+		heroSubheading: page.heroSubheading,
 		industries: industries.map((ind) => ({
 			idx: ind.idx,
 			name: ind.name,

@@ -11,7 +11,7 @@
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
-	const { enquiryOptions } = data;
+	const { heroHeading, enquiryOptions } = data;
 	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
 	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
 	let companyAddress = $derived(page.data.siteSettings?.company_address);
@@ -36,11 +36,7 @@
 		<div>
 			<HeroIndex idx="05" label="Contact" />
 			<h1>
-				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Let's</span></span>
-				<span class="mask-line"
-					><span use:reveal={{ kind: 'mask', delay: 0.12 }}><span class="accent">build.</span></span
-					></span
-				>
+				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 			</h1>
 			<div use:reveal={{ kind: 'up', delay: 0.25 }} class="details">
 				<div>

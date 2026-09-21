@@ -7,7 +7,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { industries } = data;
+	const { heroHeading, heroSubheading, industries } = data;
 
 	let openIdx = $state<number | null>(null);
 
@@ -26,16 +26,10 @@
 	<div class="hero-watermark" aria-hidden="true">04</div>
 	<HeroIndex idx="04" label="Industries" />
 	<h1>
-		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Where the stakes</span></span>
-		<span class="mask-line"
-			><span use:reveal={{ kind: 'mask', delay: 0.12 }}
-				>are <span class="accent">measured in gigawatts.</span></span
-			></span
-		>
+		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 	</h1>
 	<p use:reveal={{ kind: 'up', delay: 0.25 }} class="lede">
-		Five sectors, one common trait: unforgiving schedules where mechanical scope is the critical
-		path. Select a sector to expand.
+		{heroSubheading}
 	</p>
 </section>
 

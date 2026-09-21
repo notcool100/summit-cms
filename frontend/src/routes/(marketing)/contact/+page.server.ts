@@ -9,6 +9,7 @@ interface ApiEnquiryType {
 interface ApiPage {
 	title: string;
 	metaDescription: string;
+	heroHeading: string;
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -19,6 +20,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	return {
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
+		heroHeading: page.heroHeading,
 		enquiryOptions: enquiryTypes.map((t) => t.label),
 		enquiryTypes
 	};

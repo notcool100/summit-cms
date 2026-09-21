@@ -8,7 +8,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { panels } = data;
+	const { heroHeading, heroSubheading, panels } = data;
 </script>
 
 <svelte:head>
@@ -21,15 +21,10 @@
 	<div class="hero-watermark" aria-hidden="true">02</div>
 	<HeroIndex idx="02" label="Capabilities" />
 	<h1>
-		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Six disciplines.</span></span>
-		<span class="mask-line"
-			><span use:reveal={{ kind: 'mask', delay: 0.12 }}>One <span class="accent">crew.</span></span
-			></span
-		>
+		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 	</h1>
 	<p use:reveal={{ kind: 'up', delay: 0.25 }} class="lede">
-		Every scope below is executed by Summit's own direct-hire workforce — engineered in-house,
-		planned in-house, built by hands on our payroll. Scroll through the stack.
+		{heroSubheading}
 	</p>
 </section>
 

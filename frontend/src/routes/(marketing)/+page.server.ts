@@ -64,6 +64,8 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	return {
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
+		heroHeading: page.heroHeading,
+		heroSubheading: page.heroSubheading,
 		heroImage: { src: page.heroMediaUrl ?? '', alt: page.heroMediaAlt ?? '' },
 		manifestoImage: { src: page.secondaryMediaUrl ?? '', alt: page.secondaryMediaAlt ?? '' },
 		stats: (statsByGroup.home_stats ?? []).map((s) => ({
