@@ -219,31 +219,38 @@
 	}
 
 	@media (max-width: 900px) {
+		/* Brand and Field Notes stay full-width (a paragraph + address, and
+		   a form, both need the room); Company and Work are just short link
+		   lists, so they sit side by side as a cozy 2-up pair instead of
+		   each taking a full screen-height row. */
+		.grid.stack-mobile {
+			grid-template-columns: repeat(2, 1fr) !important;
+		}
+
 		.grid {
-			grid-template-columns: 1fr;
 			gap: 0;
 			padding: 56px clamp(20px, 6vw, 48px) 32px;
 		}
 
-		/* Stacked on mobile, the four blocks (brand, Company, Work, Field
-		   Notes) read as one undifferentiated list with only gap between
-		   them - a hairline + its own top padding makes each block's
-		   boundary unambiguous instead of relying on spacing alone. */
-		.grid > * {
-			padding-top: 32px;
+		.grid > *:nth-child(1) {
+			grid-column: 1 / -1;
 			padding-bottom: 32px;
+			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
 		}
 
-		.grid > *:first-child {
-			padding-top: 0;
+		.grid > *:nth-child(2) {
+			padding: 32px clamp(16px, 4vw, 24px) 32px 0;
+			border-right: 1px solid rgba(var(--ink-rgb), 0.1);
 		}
 
-		.grid > *:not(:first-child) {
+		.grid > *:nth-child(3) {
+			padding: 32px 0 32px clamp(16px, 4vw, 24px);
+		}
+
+		.grid > *:nth-child(4) {
+			grid-column: 1 / -1;
+			padding-top: 32px;
 			border-top: 1px solid rgba(var(--ink-rgb), 0.1);
-		}
-
-		.grid > *:last-child {
-			padding-bottom: 0;
 		}
 	}
 

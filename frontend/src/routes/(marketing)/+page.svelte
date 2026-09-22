@@ -1477,12 +1477,21 @@
 			justify-content: flex-start;
 		}
 
-		.stat-cell {
-			border-right: none;
-			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+		.stats-grid.stack-mobile {
+			grid-template-columns: repeat(2, 1fr) !important;
 		}
 
-		.stat-cell:last-child {
+		.stat-cell {
+			border-right: 1px solid rgba(var(--ink-rgb), 0.1);
+			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+			padding: clamp(20px, 5vw, 32px) clamp(16px, 4vw, 24px);
+		}
+
+		.stat-cell:nth-child(2n) {
+			border-right: none;
+		}
+
+		.stat-cell:nth-last-child(-n + 2) {
 			border-bottom: none;
 		}
 

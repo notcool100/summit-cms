@@ -235,13 +235,12 @@
 	}
 
 	@media (max-width: 900px) {
-		.adjacent-card {
-			border-right: none;
-			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+		.adjacent-grid.stack-mobile {
+			grid-template-columns: 1fr 1fr !important;
 		}
 
-		.adjacent-card--next {
-			text-align: left;
+		.adjacent-card {
+			padding: clamp(24px, 6vw, 64px) clamp(16px, 4vw, 64px);
 		}
 	}
 </style>

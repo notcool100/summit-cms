@@ -696,14 +696,29 @@
 		color: rgba(var(--ink-rgb), 0.65);
 	}
 
-	@media (max-width: 900px) and (min-width: 641px) {
+	@media (max-width: 900px) and (min-width: 480px) {
 		.values-grid.stack-mobile,
 		.leadership-grid.stack-mobile {
 			grid-template-columns: repeat(2, 1fr) !important;
 		}
 	}
 
-	@media (max-width: 640px) {
+	@media (max-width: 900px) and (min-width: 480px) {
+		.value-card {
+			min-height: 0;
+			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+		}
+
+		.value-card:nth-child(2n) {
+			border-right: none;
+		}
+
+		.value-card:nth-last-child(-n + 2) {
+			border-bottom: none;
+		}
+	}
+
+	@media (max-width: 479px) {
 		.value-card {
 			border-right: none;
 			border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
@@ -713,7 +728,9 @@
 		.values-grid {
 			border-left: none;
 		}
+	}
 
+	@media (max-width: 640px) {
 		.hse-stats {
 			flex-wrap: wrap;
 			gap: 28px;
