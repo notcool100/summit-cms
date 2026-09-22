@@ -25,13 +25,16 @@
 		featuredProjects,
 		values,
 		awards,
-		hseStats
+		hseStats,
+		testimonials,
+		latestPosts
 	} = data;
 
 	let video: HTMLVideoElement;
 	let hoveredCap = $state<string | null>(null);
 	let previewEl: HTMLDivElement;
 	let finePointer = $state(false);
+	let activeTestimonial = $state(0);
 
 	onMount(() => {
 		finePointer = window.matchMedia('(pointer: fine)').matches;
@@ -362,6 +365,61 @@
 		</div>
 	</div>
 </section>
+
+{#if testimonials.length > 0}
+	<!-- ============ CLIENT VOICE ============ -->
+	<section class="testimonials">
+		<div class="testimonials-eyebrow"><SectionLabel idx="06" label="Client voice" /></div>
+		<div class="testimonials-stage">
+			{#each testimonials as t, i (t.projectName)}
+				<blockquote class="testimonial-slide" class:active={i === activeTestimonial} aria-hidden={i !== activeTestimonial}>
+					<p use:reveal={{ kind: 'up' }} class="testimonial-quote">{t.quote}</p>
+					<footer class="testimonial-footer">
+						<span class="testimonial-attribution">{t.attribution}</span>
+						<a data-cursor-view href={t.href} class="testimonial-project">{t.projectName}</a>
+					</footer>
+				</blockquote>
+			{/each}
+		</div>
+		{#if testimonials.length > 1}
+			<div class="testimonial-dots">
+				{#each testimonials as t, i (t.projectName)}
+					<button
+						class="dot-btn"
+						class:active={i === activeTestimonial}
+						onclick={() => (activeTestimonial = i)}
+						aria-label="Show testimonial {i + 1}"
+					></button>
+				{/each}
+			</div>
+		{/if}
+	</section>
+{/if}
+
+{#if latestPosts.length > 0}
+	<!-- ============ FROM THE FIELD — BLOG TEASER ============ -->
+	<section class="insights-teaser">
+		<div class="insights-head">
+			<SectionLabel idx="07" label="From the field" />
+			<a href="/insights" class="link-accent">All insights →</a>
+		</div>
+		<div class="insights-grid">
+			{#each latestPosts as post (post.slug)}
+				<a data-cursor-view use:hoverZoom href="/insights/{post.slug}" class="insight-card">
+					<div class="insight-frame">
+						<ResponsiveImage src={post.src} alt={post.alt} />
+						<div class="insight-scrim" aria-hidden="true"></div>
+						<div class="insight-category">{post.category}</div>
+					</div>
+					<div class="insight-meta">
+						<span class="insight-title">{post.title}</span>
+						<p class="insight-excerpt">{post.excerpt}</p>
+					</div>
+				</a>
+			{/each}
+		</div>
+	</section>
+{/if}
 
 <!-- ============ CAREERS CTA ============ -->
 <section class="careers-cta">
@@ -1212,6 +1270,175 @@
 
 	.dot {
 		color: var(--accent);
+	}
+
+	/* Client voice */
+	.testimonials {
+		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.testimonials-eyebrow {
+		margin-bottom: 48px;
+	}
+
+	.testimonials-stage {
+		position: relative;
+		min-height: clamp(180px, 22vh, 260px);
+		max-width: 920px;
+		margin: 0 auto;
+	}
+
+	.testimonial-slide {
+		position: absolute;
+		inset: 0;
+		margin: 0;
+		opacity: 0;
+		transform: translateY(16px);
+		pointer-events: none;
+		transition:
+			opacity 0.6s var(--ease),
+			transform 0.6s var(--ease);
+	}
+
+	.testimonial-slide.active {
+		position: relative;
+		opacity: 1;
+		transform: none;
+		pointer-events: auto;
+	}
+
+	.testimonial-quote {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(24px, 3.2vw, 44px);
+		line-height: 1.3;
+		text-transform: uppercase;
+		letter-spacing: 0.01em;
+		text-align: center;
+	}
+
+	.testimonial-footer {
+		margin-top: 28px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.testimonial-attribution {
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+
+	.testimonial-project {
+		font-size: 12px;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+	}
+
+	.testimonial-dots {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 32px;
+	}
+
+	.dot-btn {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		border: none;
+		background: rgba(var(--ink-rgb), 0.2);
+		cursor: pointer;
+		padding: 0;
+	}
+
+	.dot-btn.active {
+		background: var(--accent);
+	}
+
+	/* From the field */
+	.insights-teaser {
+		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.insights-head {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 8px 20px;
+		margin-bottom: 40px;
+	}
+
+	.insights-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: clamp(20px, 2.5vw, 32px);
+	}
+
+	.insight-card {
+		display: block;
+		color: var(--ink);
+	}
+
+	.insight-frame {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+		background: var(--panel);
+	}
+
+	.insight-scrim {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: linear-gradient(180deg, transparent 60%, rgba(var(--paper-rgb), 0.75));
+	}
+
+	.insight-category {
+		position: absolute;
+		left: 12px;
+		top: 12px;
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--paper);
+		background: var(--accent);
+		padding: 4px 9px;
+		pointer-events: none;
+	}
+
+	.insight-meta {
+		padding-top: 16px;
+	}
+
+	.insight-title {
+		display: block;
+		font-family: var(--font-display);
+		font-size: clamp(16px, 1.4vw, 20px);
+		text-transform: uppercase;
+		letter-spacing: 0.01em;
+		line-height: 1.2;
+	}
+
+	.insight-excerpt {
+		margin-top: 8px;
+		font-size: 13px;
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.6);
+	}
+
+	@media (max-width: 900px) {
+		.insights-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	/* Careers CTA */

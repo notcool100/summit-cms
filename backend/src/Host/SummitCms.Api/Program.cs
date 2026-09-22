@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Serilog;
 using SummitCms.Api.Seeding;
+using SummitCms.Modules.Blog;
 using SummitCms.Modules.Capabilities;
 using SummitCms.Modules.Careers;
 using SummitCms.Modules.Company;
@@ -41,6 +42,7 @@ builder.Services.AddIndustriesModule(builder.Configuration);
 builder.Services.AddProjectsModule(builder.Configuration);
 builder.Services.AddCareersModule(builder.Configuration);
 builder.Services.AddContactModule(builder.Configuration);
+builder.Services.AddBlogModule(builder.Configuration);
 
 // ---- Auth ----
 var jwtSection = builder.Configuration.GetSection(JwtOptions.SectionName);
@@ -119,5 +121,6 @@ app.MapIndustriesModule();
 app.MapProjectsModule();
 app.MapCareersModule();
 app.MapContactModule();
+app.MapBlogModule();
 
 app.Run();

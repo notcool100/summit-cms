@@ -115,7 +115,7 @@ public static partial class DataSeeder
         db.Quotes.Add(new ProjectQuote
         {
             ProjectId = phoenixId,
-            Quote = "\"Summit's crews hit 14 consecutive months without a recordable — on the busiest corridor of the site.\"",
+            Quote = "\"Summit's crews hit 14 consecutive months without a recordable, on the busiest corridor of the site.\"",
             Attribution = "Owner's construction director"
         });
 

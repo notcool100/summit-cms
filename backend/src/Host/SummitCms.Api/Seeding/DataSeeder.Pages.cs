@@ -20,7 +20,8 @@ public static partial class DataSeeder
             (PageSlugs.Careers, "Careers at Summit", "Craft and professional careers building the country's largest industrial sites.", "Build the work that matters.", "Craft and professional careers, real per diem, real advancement."),
             (PageSlugs.Contact, "Contact Summit", "Get in touch about a project, a career, or a partnership.", "Let's talk about the work.", "New projects, design-assist, employment, or vendor inquiries."),
             (PageSlugs.Industries, "Industries We Serve", "Semiconductor, power, energy & terminals, renewables, and heavy manufacturing.", "Industries that can't afford to slip.", "Schedule-critical construction across five industries."),
-            (PageSlugs.Projects, "Featured Projects", "480,000 LF of pipe. 900,000 BBL of storage. 7 recommissioned power units.", "The scale of work we self-perform.", "A sample of what Summit crews have delivered.")
+            (PageSlugs.Projects, "Featured Projects", "480,000 LF of pipe. 900,000 BBL of storage. 7 recommissioned power units.", "The scale of work we self-perform.", "A sample of what Summit crews have delivered."),
+            (PageSlugs.Insights, "Insights", "Notes on safety, craft workforce, modular construction, and the industries Summit builds for.", "Notes from the field.", "What our crews, engineers, and leadership are seeing on the ground.")
         ];
 
         var existingPages = await db.Pages.ToDictionaryAsync(p => p.Slug, p => p);

@@ -4,6 +4,9 @@
     <Project Path="src/Host/SummitCms.Api/SummitCms.Api.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Blog/">
+    <Project Path="src/Modules/Blog/SummitCms.Modules.Blog.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Capabilities/">
     <Project Path="src/Modules/Capabilities/SummitCms.Modules.Capabilities.csproj" />
   </Folder>

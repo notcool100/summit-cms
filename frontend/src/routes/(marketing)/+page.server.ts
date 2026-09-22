@@ -47,9 +47,26 @@ interface ApiAboutStats {
 	values?: { code: string; name: string; body: string }[];
 	awards?: { year: string; name: string }[];
 }
+interface ApiTestimonial {
+	projectSlug: string;
+	projectName: string;
+	industryCategory: string;
+	quote: string;
+	attribution: string;
+}
+interface ApiPostListItem {
+	slug: string;
+	title: string;
+	excerpt: string;
+	category: string;
+	publishedAt: string;
+	coverUrl: string | null;
+	coverAlt: string | null;
+	readMinutes: number;
+}
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const [page, statsByGroup, capabilities, industries, projects, about] = await Promise.all([
+	const [page, statsByGroup, capabilities, industries, projects, about, testimonials, posts] = await Promise.all([
 		getPublic<ApiPage>(fetch, '/api/public/pages/home'),
 		getPublic<Record<string, ApiStat[]>>(fetch, '/api/public/pages/home/stats'),
 		getPublic<ApiCapability[]>(fetch, '/api/public/capabilities'),
@@ -58,7 +75,9 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		getPublic<{ values: { code: string; name: string; body: string }[]; awards: { year: string; name: string }[] }>(
 			fetch,
 			'/api/public/about'
-		)
+		),
+		getPublic<ApiTestimonial[]>(fetch, '/api/public/projects/testimonials'),
+		getPublic<ApiPostListItem[]>(fetch, '/api/public/blog/posts')
 	]);
 
 	return {
@@ -104,6 +123,22 @@ export const load: PageServerLoad = async ({ fetch }) => {
 			})),
 		values: about.values.map((v) => ({ idx: v.code, name: v.name, body: v.body })),
 		awards: about.awards,
-		hseStats: (statsByGroup.hse ?? []).map((s) => ({ value: s.value, suffix: s.suffix ?? undefined, label: s.label }))
+		hseStats: (statsByGroup.hse ?? []).map((s) => ({ value: s.value, suffix: s.suffix ?? undefined, label: s.label })),
+		testimonials: testimonials.map((t) => ({
+			quote: t.quote,
+			attribution: t.attribution,
+			projectName: t.projectName,
+			industry: t.industryCategory,
+			href: `/projects/${t.projectSlug}`
+		})),
+		latestPosts: posts.slice(0, 3).map((p) => ({
+			slug: p.slug,
+			title: p.title,
+			excerpt: p.excerpt,
+			category: p.category,
+			readMinutes: p.readMinutes,
+			src: p.coverUrl ?? '',
+			alt: p.coverAlt ?? ''
+		}))
 	};
 };

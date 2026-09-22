@@ -49,6 +49,7 @@
 		<nav class="col">
 			<span class="col-title">Work</span>
 			<a href="/projects">Projects</a>
+			<a href="/insights">Insights</a>
 			{#if featuredProject}
 				<a href="/projects/{featuredProject.slug}">{featuredProject.name}</a>
 			{/if}

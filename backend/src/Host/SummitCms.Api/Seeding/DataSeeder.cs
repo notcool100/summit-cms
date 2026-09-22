@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SummitCms.Modules.Blog.Contracts;
 using SummitCms.Modules.Capabilities.Contracts;
 using SummitCms.Modules.Careers.Contracts;
 using SummitCms.Modules.Company.Contracts;
@@ -46,6 +47,7 @@ public static partial class DataSeeder
         await SeedIndustriesAsync(sp, mediaMap, projectIds);
         await SeedCareersAsync(sp, pageIds, mediaMap);
         await SeedMetricStatsAsync(sp, pageIds);
+        await SeedBlogAsync(sp, mediaMap);
     }
 
     private static async Task SeedIdentityAsync(IServiceProvider sp, IConfiguration config)
@@ -61,6 +63,7 @@ public static partial class DataSeeder
             .Concat(ProjectsPermissions.All)
             .Concat(CareersPermissions.All)
             .Concat(ContactPermissions.All)
+            .Concat(BlogPermissions.All)
             .ToList();
 
         foreach (var (code, description) in allPermissions)

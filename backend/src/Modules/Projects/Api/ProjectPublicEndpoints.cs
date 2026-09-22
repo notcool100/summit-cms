@@ -17,6 +17,7 @@ public static class ProjectPublicEndpoints
     public sealed record PublicScopeFact(string Label, string Value);
     public sealed record PublicNarrativeSection(string Idx, string Title, List<string> Paragraphs);
     public sealed record PublicQuote(string Quote, string Attribution);
+    public sealed record PublicTestimonial(string ProjectSlug, string ProjectName, string IndustryCategory, string Quote, string Attribution);
     public sealed record PublicProjectDetail(
         string Slug, string Name, string IndustryCategory, string Stat, string? HeroUrl, string? HeroAlt,
         List<PublicGalleryImage> GalleryImages, List<PublicScopeFact> ScopeFacts,
@@ -26,6 +27,14 @@ public static class ProjectPublicEndpoints
     public static void Map(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/public/projects").WithTags("Public.Projects");
+
+        group.MapGet("/testimonials", async (ProjectsDbContext db, CancellationToken ct) =>
+        {
+            var quoted = await db.Quotes.Include(q => q.Project).ThenInclude(p => p.IndustryCategory)
+                .OrderBy(q => q.Project.DisplayOrder).ToListAsync(ct);
+            return Results.Ok(quoted.Select(q => new PublicTestimonial(
+                q.Project.Slug, q.Project.Name, q.Project.IndustryCategory.Name, q.Quote, q.Attribution)));
+        });
 
         group.MapGet("", async (ProjectsDbContext db, IMediaCatalog media, CancellationToken ct) =>
         {

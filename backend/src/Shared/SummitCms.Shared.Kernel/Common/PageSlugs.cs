@@ -15,7 +15,8 @@ public static class PageSlugs
     public const string Contact = "contact";
     public const string Industries = "industries";
     public const string Projects = "projects";
+    public const string Insights = "insights";
 
     public static readonly IReadOnlyList<string> All =
-        [Home, About, Capabilities, Careers, Contact, Industries, Projects];
+        [Home, About, Capabilities, Careers, Contact, Industries, Projects, Insights];
 }

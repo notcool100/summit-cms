@@ -9,6 +9,7 @@
 	import { page } from '$app/state';
 	import { site } from '$lib/config/site';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import JsonLd from '$lib/components/layout/JsonLd.svelte';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
@@ -24,9 +25,48 @@
 	let enquiryType = $state('');
 	let message = $state('');
 	let submitting = $state(false);
+
+	const faqs = [
+		{
+			q: 'What size of project do you take on?',
+			a: 'Most of our work runs from single-digit millions to nine figures in installed value. We size crews and yard capacity to the project, not the other way around, so a smaller design-assist engagement gets the same engineering rigor as a full self-perform award.'
+		},
+		{
+			q: 'Do you subcontract the craft labor?',
+			a: 'No. Every welder, pipefitter, and rigger on a Summit site is a Summit employee. We quote schedules based on our own crews\' measured productivity, not an estimate of a subcontractor we have not worked with.'
+		},
+		{
+			q: 'How do you handle safety on a multi-contractor site?',
+			a: 'Every Summit craft worker has stop-work authority and is expected to use it, independent of what other contractors on site are doing. Our trailing TRIR is 0.42 across more than 18 million work hours; our safety team can walk your team through the full program before award.'
+		},
+		{
+			q: 'Can you take on design-assist or preconstruction work?',
+			a: 'Yes. Our in-house engineering group works alongside owners and EPCs from early design through constructability review, particularly on schedule-critical semiconductor and energy scopes where sequencing decisions made in design drive the field schedule.'
+		},
+		{
+			q: 'What regions and industries do you work in?',
+			a: 'We self-perform nationwide from our Houston headquarters, concentrated in semiconductor, power, energy and terminals, renewables, and heavy manufacturing. See the Industries page for scope examples in each.'
+		},
+		{
+			q: 'How do we get Summit on a bid list?',
+			a: 'Send project details through the form on this page with "New project / RFP" selected, or email info@summit.us directly. A business development lead responds within one business day.'
+		}
+	];
+	let openFaq = $state<number | null>(null);
+
+	let faqSchema = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: faqs.map((item) => ({
+			'@type': 'Question',
+			name: item.q,
+			acceptedAnswer: { '@type': 'Answer', text: item.a }
+		}))
+	});
 </script>
 
 <SeoHead title={data.seoTitle} description={data.seoDescription} />
+<JsonLd data={faqSchema} />
 
 <section class="contact">
 	<div class="grid stack-mobile">
@@ -137,6 +177,34 @@
 					{/if}
 				</div>
 			</form>
+		</div>
+	</div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+	<div class="faq-inner">
+		<div class="faq-head">
+			<h2>
+				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Before you call.</span></span>
+			</h2>
+		</div>
+		<div class="faq-list">
+			{#each faqs as item, i (item.q)}
+				<div use:reveal={{ kind: 'up', delay: Math.min(i * 0.05, 0.25) }} class="faq-row">
+					<button
+						class="faq-question"
+						onclick={() => (openFaq = openFaq === i ? null : i)}
+						aria-expanded={openFaq === i}
+					>
+						<span>{item.q}</span>
+						<span class="faq-toggle" class:open={openFaq === i}>+</span>
+					</button>
+					{#if openFaq === i}
+						<p class="faq-answer">{item.a}</p>
+					{/if}
+				</div>
+			{/each}
 		</div>
 	</div>
 </section>
@@ -253,5 +321,83 @@
 
 	.sent-note.error {
 		color: #c0392b;
+	}
+
+	/* FAQ */
+	.faq {
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
+	}
+
+	.faq-inner {
+		display: grid;
+		grid-template-columns: 1fr 1.4fr;
+		gap: clamp(32px, 5vw, 80px);
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.faq-head h2 {
+		font-family: var(--font-display);
+		font-size: clamp(32px, 3.6vw, 56px);
+		line-height: 1.05;
+		text-transform: uppercase;
+		position: sticky;
+		top: 110px;
+	}
+
+	.faq-list {
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.faq-row {
+		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.faq-question {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		text-align: left;
+		padding: 24px 0;
+		font-family: var(--font-body);
+		font-size: clamp(15px, 1.3vw, 18px);
+		font-weight: 600;
+		color: var(--ink);
+	}
+
+	.faq-toggle {
+		flex: none;
+		font-family: var(--font-display);
+		font-size: 22px;
+		color: var(--accent);
+		transition: transform 0.3s var(--ease);
+	}
+
+	.faq-toggle.open {
+		transform: rotate(45deg);
+	}
+
+	.faq-answer {
+		margin: 0 0 26px;
+		max-width: 60ch;
+		font-size: 14.5px;
+		line-height: 1.75;
+		color: rgba(var(--ink-rgb), 0.72);
+	}
+
+	@media (max-width: 900px) {
+		.faq-inner {
+			grid-template-columns: 1fr;
+		}
+
+		.faq-head h2 {
+			position: static;
+		}
 	}
 </style>
