@@ -221,8 +221,29 @@
 	@media (max-width: 900px) {
 		.grid {
 			grid-template-columns: 1fr;
-			gap: 40px;
+			gap: 0;
 			padding: 56px clamp(20px, 6vw, 48px) 32px;
+		}
+
+		/* Stacked on mobile, the four blocks (brand, Company, Work, Field
+		   Notes) read as one undifferentiated list with only gap between
+		   them - a hairline + its own top padding makes each block's
+		   boundary unambiguous instead of relying on spacing alone. */
+		.grid > * {
+			padding-top: 32px;
+			padding-bottom: 32px;
+		}
+
+		.grid > *:first-child {
+			padding-top: 0;
+		}
+
+		.grid > *:not(:first-child) {
+			border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+		}
+
+		.grid > *:last-child {
+			padding-bottom: 0;
 		}
 	}
 
