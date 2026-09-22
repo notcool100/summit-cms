@@ -522,6 +522,12 @@
 		pointer-events: none;
 	}
 
+	@media (max-width: 640px) {
+		.profile-watermark {
+			display: none;
+		}
+	}
+
 	.profile-inner {
 		position: relative;
 		z-index: 2;

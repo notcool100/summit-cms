@@ -119,6 +119,12 @@
 		pointer-events: none;
 	}
 
+	@media (max-width: 640px) {
+		.hero-watermark {
+			display: none;
+		}
+	}
+
 	.hero h1 {
 		font-family: var(--font-display);
 		font-size: clamp(44px, 7.5vw, 120px);
