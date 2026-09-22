@@ -12,7 +12,7 @@
 
 <div class="overlay" class:is-open={menuStore.open} aria-hidden={!menuStore.open}>
 	<div class="bar">
-		<span class="logo">{companyName}<span class="accent">.</span></span>
+		<span class="logo"><img src="/summit-logo.png" alt={companyName} /></span>
 		<button class="close" aria-label="Close menu" onclick={() => menuStore.close()}>✕</button>
 	</div>
 
@@ -67,13 +67,13 @@
 	}
 
 	.logo {
-		font-family: var(--font-display);
-		font-size: 22px;
-		letter-spacing: 0.06em;
+		display: flex;
+		align-items: center;
 	}
 
-	.accent {
-		color: var(--accent);
+	.logo img {
+		height: 34px;
+		width: auto;
 	}
 
 	.close {

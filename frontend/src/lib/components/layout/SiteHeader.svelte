@@ -39,7 +39,7 @@
 
 <header bind:this={header} class:is-hidden={hidden}>
 	<div class="bar">
-		<a href="/" class="logo">{companyName}<span class="accent">.</span></a>
+		<a href="/" class="logo"><img src="/summit-logo.png" alt={companyName} /></a>
 
 		<nav class="hide-tablet nav">
 			{#each primaryNav as link (link.href)}
@@ -94,15 +94,14 @@
 	}
 
 	.logo {
-		font-family: var(--font-display);
-		font-size: clamp(18px, 4vw, 22px);
-		letter-spacing: 0.06em;
-		color: var(--ink);
+		display: flex;
+		align-items: center;
 		white-space: nowrap;
 	}
 
-	.accent {
-		color: var(--accent);
+	.logo img {
+		height: clamp(34px, 6vw, 44px);
+		width: auto;
 	}
 
 	.nav {

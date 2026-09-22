@@ -25,7 +25,7 @@
 <footer>
 	<div class="grid stack-mobile">
 		<div>
-			<div class="logo">{companyName.toUpperCase()}<span class="accent">.</span></div>
+			<img class="logo" src="/summit-logo.png" alt={companyName} />
 			<p class="tagline">{site.tagline}</p>
 			<div class="address">
 				{#if companyAddress}
@@ -97,13 +97,8 @@
 	}
 
 	.logo {
-		font-family: var(--font-display);
-		font-size: 26px;
-		letter-spacing: 0.05em;
-	}
-
-	.accent {
-		color: var(--accent);
+		height: 40px;
+		width: auto;
 	}
 
 	.tagline {
