@@ -5,6 +5,8 @@
 	import { parallax } from '$lib/actions/parallax';
 	import { page } from '$app/state';
 	import { site } from '$lib/config/site';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import JsonLd from '$lib/components/layout/JsonLd.svelte';
 	import type { PageProps } from './$types';
 	let companyName = $derived(page.data.siteSettings?.company_name || site.name);
 
@@ -12,6 +14,7 @@
 	// route component - SvelteKit reuses it and just updates `data`, it doesn't remount.
 	let { data }: PageProps = $props();
 	let title = $derived(data.title);
+	let description = $derived(data.description);
 	let industryBadge = $derived(data.industryBadge);
 	let heroImage = $derived(data.heroImage);
 	let breakImage = $derived(data.breakImage);
@@ -27,11 +30,20 @@
 	let splitAt = $derived(Math.ceil(titleWords.length / 2));
 	let titleLine1 = $derived(titleWords.slice(0, splitAt).join(' '));
 	let titleLine2 = $derived(titleWords.slice(splitAt).join(' '));
+
+	let breadcrumbSchema = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+			{ '@type': 'ListItem', position: 2, name: 'Projects', item: `${site.url}/projects` },
+			{ '@type': 'ListItem', position: 3, name: title, item: `${site.url}${page.url.pathname}` }
+		]
+	});
 </script>
 
-<svelte:head>
-	<title>{title} — {companyName}</title>
-</svelte:head>
+<SeoHead title={`${title} — ${companyName}`} {description} image={heroImage.src} type="article" />
+<JsonLd data={breadcrumbSchema} />
 
 <!-- ============ CINEMATIC HERO ============ -->
 <section class="hero">

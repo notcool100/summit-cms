@@ -4,6 +4,7 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { magnetic } from '$lib/actions/magnetic';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -16,10 +17,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{data.seoTitle}</title>
-	<meta name="description" content={data.seoDescription} />
-</svelte:head>
+<SeoHead title={data.seoTitle} description={data.seoDescription} image={industries[0]?.src} />
 
 <!-- ============ HERO ============ -->
 <section class="hero">

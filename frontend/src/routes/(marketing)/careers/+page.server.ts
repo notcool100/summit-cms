@@ -34,6 +34,7 @@ interface ApiOpening {
 	description: string;
 	applyContact: string;
 	postedAt: string;
+	closesAt: string | null;
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -66,7 +67,8 @@ export const load: PageServerLoad = async ({ fetch }) => {
 			trackType: o.trackType,
 			description: o.description,
 			applyContact: o.applyContact,
-			postedAt: o.postedAt
+			postedAt: o.postedAt,
+			closesAt: o.closesAt
 		})),
 		whySummit: (statsByGroup.why_summit ?? []).map((s) => ({
 			value: s.value,

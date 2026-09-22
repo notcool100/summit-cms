@@ -5,16 +5,14 @@
 	import { magnetic } from '$lib/actions/magnetic';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 	const { heroHeading, heroSubheading, panels } = data;
 </script>
 
-<svelte:head>
-	<title>{data.seoTitle}</title>
-	<meta name="description" content={data.seoDescription} />
-</svelte:head>
+<SeoHead title={data.seoTitle} description={data.seoDescription} image={panels[0]?.src} />
 
 <!-- ============ HERO ============ -->
 <section class="hero">

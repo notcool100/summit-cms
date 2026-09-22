@@ -8,6 +8,7 @@
 	import HeroIndex from '$lib/components/ui/HeroIndex.svelte';
 	import { page } from '$app/state';
 	import { site } from '$lib/config/site';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
@@ -25,10 +26,7 @@
 	let submitting = $state(false);
 </script>
 
-<svelte:head>
-	<title>{data.seoTitle}</title>
-	<meta name="description" content={data.seoDescription} />
-</svelte:head>
+<SeoHead title={data.seoTitle} description={data.seoDescription} />
 
 <section class="contact">
 	<div class="grid stack-mobile">

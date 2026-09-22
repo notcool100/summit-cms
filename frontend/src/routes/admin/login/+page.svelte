@@ -9,6 +9,7 @@
 
 <svelte:head>
 	<title>Sign in — SummitCms Admin</title>
+	<meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
 <div class="admin-root login-screen">

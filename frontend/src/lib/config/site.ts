@@ -1,6 +1,9 @@
+import { env } from '$env/dynamic/public';
+
 export const site = {
 	name: 'Summit',
 	legalName: 'Summit Industrial Construction',
+	url: (env.PUBLIC_SITE_URL ?? 'https://www.summit.us').replace(/\/$/, ''),
 	tagline: 'Specialty mechanical construction for the industries that power everything else.',
 	description:
 		'Turnkey specialty mechanical construction: engineering, design-assist, and direct-hire execution for semiconductor fabs, power plants, energy terminals, and biomass facilities.',

@@ -1,12 +1,50 @@
 <script lang="ts">
 	import ResponsiveImage from '$lib/components/common/ResponsiveImage.svelte';
 	import { reveal } from '$lib/actions/reveal';
-	import { countUp } from '$lib/actions/countUp';
+	import { countUp, formatCount } from '$lib/actions/countUp';
 	import { magnetic } from '$lib/actions/magnetic';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import JsonLd from '$lib/components/layout/JsonLd.svelte';
+	import { site } from '$lib/config/site';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 	const { heroHeading, heroSubheading, heroImage, tracks, openings, whySummit } = data;
+
+	// Backend serializes the EmploymentType enum as its C# member name (FullTime, PartTime,
+	// Contract, Seasonal) - map those to schema.org's JobPosting employmentType enum, which Google
+	// validates strictly (an unmapped value is silently invalid, not just unhelpful).
+	const EMPLOYMENT_TYPE_SCHEMA: Record<string, string> = {
+		FullTime: 'FULL_TIME',
+		PartTime: 'PART_TIME',
+		Contract: 'CONTRACTOR',
+		Seasonal: 'TEMPORARY'
+	};
+	const DEFAULT_VALID_DAYS = 60;
+
+	// JobPosting structured data makes openings eligible for Google for Jobs search results.
+	let jobPostingsSchema = $derived(
+		openings.map((o) => ({
+			'@context': 'https://schema.org',
+			'@type': 'JobPosting',
+			title: o.title,
+			description: o.description || `${o.title} — ${o.department} at ${site.legalName}, ${o.location}.`,
+			datePosted: o.postedAt,
+			validThrough:
+				o.closesAt ??
+				new Date(new Date(o.postedAt).getTime() + DEFAULT_VALID_DAYS * 86_400_000).toISOString(),
+			employmentType: EMPLOYMENT_TYPE_SCHEMA[o.employmentType] ?? 'OTHER',
+			hiringOrganization: {
+				'@type': 'Organization',
+				name: site.legalName,
+				sameAs: site.url
+			},
+			jobLocation: {
+				'@type': 'Place',
+				address: { '@type': 'PostalAddress', addressLocality: o.location, addressCountry: 'US' }
+			}
+		}))
+	);
 
 	let hoveredSide = $state<0 | 1 | null>(null);
 
@@ -26,10 +64,10 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{data.seoTitle}</title>
-	<meta name="description" content={data.seoDescription} />
-</svelte:head>
+<SeoHead title={data.seoTitle} description={data.seoDescription} image={heroImage.src} />
+{#if jobPostingsSchema.length}
+	<JsonLd data={jobPostingsSchema} />
+{/if}
 
 <!-- ============ HERO ============ -->
 <section class="hero">
@@ -97,7 +135,7 @@
 		{#each whySummit as w, i (w.label)}
 			<div use:reveal={{ kind: 'up', delay: i * 0.08 }} class="why-card">
 				<div class="why-value" use:countUp={{ value: w.value, suffix: w.suffix, prefix: w.prefix }}>
-					0
+					{formatCount(w.value, { suffix: w.suffix, prefix: w.prefix })}
 				</div>
 				<div class="why-label">{w.label}</div>
 				<p class="why-body">{w.body}</p>

@@ -4,6 +4,7 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 	import type { IndustryFilter } from '$lib/types';
 
@@ -30,10 +31,7 @@
 	let count = $derived(String(shown.length).padStart(2, '0'));
 </script>
 
-<svelte:head>
-	<title>{data.seoTitle}</title>
-	<meta name="description" content={data.seoDescription} />
-</svelte:head>
+<SeoHead title={data.seoTitle} description={data.seoDescription} image={projects[0]?.src} />
 
 <!-- ============ HERO ============ -->
 <section class="hero">

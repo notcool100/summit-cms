@@ -4,19 +4,17 @@
 	import HeroIndex from '$lib/components/ui/HeroIndex.svelte';
 	import HorizontalScroll from '$lib/components/ui/HorizontalScroll.svelte';
 	import { reveal } from '$lib/actions/reveal';
-	import { countUp } from '$lib/actions/countUp';
+	import { countUp, formatCount } from '$lib/actions/countUp';
 	import { parallax } from '$lib/actions/parallax';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 	const { heroHeading, heroSubheading, narrative, milestones, values, leaders, locations, hseStats, awards } = data;
 </script>
 
-<svelte:head>
-	<title>{data.seoTitle}</title>
-	<meta name="description" content={data.seoDescription} />
-</svelte:head>
+<SeoHead title={data.seoTitle} description={data.seoDescription} image={narrative[0]?.image.src} />
 
 <!-- ============ HERO ============ -->
 <section class="hero">
@@ -198,7 +196,9 @@
 			<div class="hse-stats">
 				{#each hseStats as s (s.label)}
 					<div>
-						<div class="hse-stat-value" use:countUp={{ value: s.value, suffix: s.suffix }}>0</div>
+						<div class="hse-stat-value" use:countUp={{ value: s.value, suffix: s.suffix }}>
+						{formatCount(s.value, { suffix: s.suffix })}
+					</div>
 						<div class="hse-stat-label">{s.label}</div>
 					</div>
 				{/each}

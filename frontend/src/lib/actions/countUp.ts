@@ -9,18 +9,29 @@ export interface CountUpParams {
 	decimals?: number;
 }
 
-/** Animates an element's text from 0 up to `value` the first time it scrolls
- * into view. Usage: `<div use:countUp={{ value: 0.42 }}>0</div>` */
+/** Same formatting the animation settles on - use this for the element's static/SSR content too,
+ * so crawlers and no-JS clients see the real figure instead of a placeholder "0". When called with
+ * the final target value (the normal case for static content) and no explicit `decimals`, the
+ * decimal count is inferred from that value itself, same as the animation's own default. */
+export function formatCount(n: number, { prefix, suffix, decimals }: Omit<CountUpParams, 'value'> & { decimals?: number } = {}) {
+	const resolvedDecimals = decimals ?? String(n).split('.')[1]?.length ?? 0;
+	return `${prefix ?? ''}${n.toLocaleString('en-US', {
+		minimumFractionDigits: resolvedDecimals,
+		maximumFractionDigits: resolvedDecimals
+	})}${suffix ?? ''}`;
+}
+
+/** Animates an element's text from 0 up to `value` the first time it scrolls into view. The
+ * server-rendered/initial text should already be the real formatted value (via `formatCount`) -
+ * this only re-plays the count-up effect for clients that actually run the animation, it never
+ * blanks the value up front. Usage: `<div use:countUp={{ value: 0.42 }}>{formatCount(0.42)}</div>` */
 export const countUp: Action<HTMLElement, CountUpParams> = (node, params) => {
 	let current = params;
 	let started = false;
 
 	function format(n: number) {
 		const decimals = current.decimals ?? String(current.value).split('.')[1]?.length ?? 0;
-		return `${current.prefix ?? ''}${n.toLocaleString('en-US', {
-			minimumFractionDigits: decimals,
-			maximumFractionDigits: decimals
-		})}${current.suffix ?? ''}`;
+		return formatCount(n, { prefix: current.prefix, suffix: current.suffix, decimals });
 	}
 
 	function run() {
@@ -32,6 +43,7 @@ export const countUp: Action<HTMLElement, CountUpParams> = (node, params) => {
 			return;
 		}
 
+		node.textContent = format(0);
 		const duration = 1600;
 		const start = performance.now();
 		function tick(time: number) {
@@ -43,7 +55,6 @@ export const countUp: Action<HTMLElement, CountUpParams> = (node, params) => {
 		requestAnimationFrame(tick);
 	}
 
-	node.textContent = '0';
 	const observer = new IntersectionObserver(
 		(entries) => {
 			for (const entry of entries) if (entry.isIntersecting) run();

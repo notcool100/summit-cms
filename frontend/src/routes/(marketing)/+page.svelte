@@ -5,11 +5,12 @@
 	import Marquee from '$lib/components/ui/Marquee.svelte';
 	import HorizontalScroll from '$lib/components/ui/HorizontalScroll.svelte';
 	import { reveal } from '$lib/actions/reveal';
-	import { countUp } from '$lib/actions/countUp';
+	import { countUp, formatCount } from '$lib/actions/countUp';
 	import { magnetic } from '$lib/actions/magnetic';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
 	import { tilt } from '$lib/actions/tilt';
+	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -53,10 +54,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{data.seoTitle}</title>
-	<meta name="description" content={data.seoDescription} />
-</svelte:head>
+<SeoHead title={data.seoTitle} description={data.seoDescription} image={heroImage.src} />
 
 <!-- ============ HERO ============ -->
 <section class="hero">
@@ -159,7 +157,9 @@
 		{#each stats as stat (stat.label)}
 			<div class="stat-cell">
 				<div class="stat-label">{stat.label}</div>
-				<div class="stat-value" use:countUp={{ value: stat.value, suffix: stat.suffix }}>0</div>
+				<div class="stat-value" use:countUp={{ value: stat.value, suffix: stat.suffix }}>
+					{formatCount(stat.value, { suffix: stat.suffix })}
+				</div>
 				<div class="stat-note">{stat.note}</div>
 			</div>
 		{/each}
@@ -344,7 +344,7 @@
 				{#each hseStats as s (s.label)}
 					<div class="recognition-stat">
 						<div class="recognition-stat-value" use:countUp={{ value: s.value, suffix: s.suffix }}>
-							0
+							{formatCount(s.value, { suffix: s.suffix })}
 						</div>
 						<div class="recognition-stat-label">{s.label}</div>
 					</div>

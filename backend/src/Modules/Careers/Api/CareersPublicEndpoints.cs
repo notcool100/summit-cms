@@ -10,7 +10,7 @@ namespace SummitCms.Modules.Careers.Api;
 public static class CareersPublicEndpoints
 {
     public sealed record PublicTrack(string Title, string PathLabel, string Body, string? MediaUrl, string? MediaAlt, string CtaLabel, List<string> Tags);
-    public sealed record PublicOpening(string Title, string Department, string Location, string EmploymentType, string TrackType, string Description, string ApplyContact, DateTimeOffset PostedAt);
+    public sealed record PublicOpening(string Title, string Department, string Location, string EmploymentType, string TrackType, string Description, string ApplyContact, DateTimeOffset PostedAt, DateTimeOffset? ClosesAt);
 
     public static void Map(IEndpointRouteBuilder app)
     {
@@ -22,7 +22,7 @@ public static class CareersPublicEndpoints
             var openings = await db.JobOpenings
                 .Where(o => o.IsActive && (o.ClosesAt == null || o.ClosesAt > DateTimeOffset.UtcNow))
                 .OrderByDescending(o => o.PostedAt)
-                .Select(o => new PublicOpening(o.Title, o.Department, o.Location, o.EmploymentType.ToString(), o.TrackType.ToString(), o.Description, o.ApplyContact, o.PostedAt))
+                .Select(o => new PublicOpening(o.Title, o.Department, o.Location, o.EmploymentType.ToString(), o.TrackType.ToString(), o.Description, o.ApplyContact, o.PostedAt, o.ClosesAt))
                 .ToListAsync(ct);
 
             return Results.Ok(new

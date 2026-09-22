@@ -44,6 +44,16 @@ interface ApiProjectDetail {
 	next: ApiAdjacent | null;
 }
 
+// The Projects module doesn't store an authored meta description (unlike the CMS `pages` records
+// other marketing routes read), so derive one from the case-study copy that does exist.
+function buildDescription(project: ApiProjectDetail): string {
+	const base =
+		project.narrativeSections[0]?.paragraphs[0] ||
+		`${project.name}: a ${project.industryCategory.toLowerCase()} project delivered by Summit Industrial Construction. ${project.stat}.`;
+	const text = base.trim();
+	return text.length > 160 ? `${text.slice(0, 157).trimEnd()}…` : text;
+}
+
 export const load: PageServerLoad = async ({ params, fetch }) => {
 	const res = await fetch(`${BASE_URL}/api/public/projects/${params.slug}`);
 	if (res.status === 404) error(404, 'Project not found');
@@ -62,6 +72,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 
 	return {
 		title: project.name,
+		description: buildDescription(project),
 		industryBadge: project.industryCategory,
 		heroImage: { src: project.heroUrl ?? '', alt: project.heroAlt ?? '' },
 		breakImage: breakImg
