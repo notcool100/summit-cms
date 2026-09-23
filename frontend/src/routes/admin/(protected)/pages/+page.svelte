@@ -23,14 +23,14 @@
 <div class="adm-page-head">
 	<div>
 		<h1>Pages</h1>
-		<p>Hero heading, subheading, SEO description, and hero imagery for each top-level page. Saving creates a draft - publish it from the version history to make it live.</p>
+		<p>Hero heading, subheading, SEO description, and hero imagery for each top-level page. Saving publishes immediately.</p>
 	</div>
 </div>
 
 {#if form?.error}
 	<div class="adm-banner adm-banner--error">{form.error}</div>
 {:else if form?.success}
-	<div class="adm-banner adm-banner--success">Draft saved. Publish it from "View history" to make it live.</div>
+	<div class="adm-banner adm-banner--success">Saved and published.</div>
 {/if}
 
 <div class="adm-stack">
@@ -98,7 +98,7 @@
 						</div>
 					</div>
 					<div class="adm-form-actions">
-						<button class="adm-btn adm-btn--primary" type="submit">Save as draft</button>
+						<button class="adm-btn adm-btn--primary" type="submit">Save</button>
 					</div>
 				</form>
 			{/if}

@@ -41,7 +41,7 @@
 	{#if versions.length === 0}
 		<div class="adm-empty">
 			<h3>No versions yet</h3>
-			<p>Saving a draft from the Pages screen will create the first version.</p>
+			<p>Saving from the Pages screen will create the first version.</p>
 		</div>
 	{:else}
 		<table class="adm-table">
@@ -62,7 +62,7 @@
 							{#if v.isPublished}
 								<span class="adm-badge adm-badge--success">Live</span>
 							{:else}
-								<span class="adm-badge">Draft</span>
+								<span class="adm-badge">Not live</span>
 							{/if}
 						</td>
 						<td class="adm-muted">{new Date(v.createdAt).toLocaleString()}</td>

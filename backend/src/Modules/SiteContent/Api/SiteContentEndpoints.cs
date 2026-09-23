@@ -44,17 +44,22 @@ public static class SiteContentEndpoints
                 .Select(p => new PageDto(p.Id, p.Slug, p.Title, p.MetaDescription, p.HeroHeading, p.HeroSubheading, p.HeroMediaId, p.SecondaryMediaId, p.PublishedVersionId, p.PublishedAt))
                 .ToListAsync(ct)));
 
-        // PUT no longer mutates the live Page row directly - it creates a new draft PageVersion.
-        // Publishing (making a version live) is a separate explicit step below.
+        // PUT saves and publishes immediately: it updates the live Page row and records a matching
+        // published PageVersion snapshot in the same transaction, so history/rollback still works
+        // without requiring a separate manual publish step.
         pages.MapPut("/{id:guid}", async (
             Guid id, PageUpdateDto dto, Infrastructure.SiteContentDbContext db, ICurrentUser user, IPublisher publisher,
             HttpContext http, CancellationToken ct) =>
         {
-            var pageExists = await db.Pages.AnyAsync(p => p.Id == id, ct);
-            if (!pageExists) return Results.NotFound();
+            var page = await db.Pages.FindAsync([id], ct);
+            if (page is null) return Results.NotFound();
 
             var nextVersionNumber = await db.PageVersions.Where(v => v.PageId == id)
                 .Select(v => v.VersionNumber).DefaultIfEmpty(0).MaxAsync(ct) + 1;
+
+            var previouslyPublished = await db.PageVersions.Where(v => v.PageId == id && v.IsPublished).ToListAsync(ct);
+            foreach (var v in previouslyPublished)
+                v.IsPublished = false;
 
             var version = new PageVersion
             {
@@ -66,18 +71,30 @@ public static class SiteContentEndpoints
                 HeroSubheading = dto.HeroSubheading,
                 HeroMediaId = dto.HeroMediaId,
                 SecondaryMediaId = dto.SecondaryMediaId,
-                IsPublished = false,
+                IsPublished = true,
                 CreatedByUserId = user.UserId,
                 CreatedAt = DateTimeOffset.UtcNow
             };
             db.PageVersions.Add(version);
+
+            page.Title = dto.Title;
+            page.MetaDescription = dto.MetaDescription;
+            page.HeroHeading = dto.HeroHeading;
+            page.HeroSubheading = dto.HeroSubheading;
+            page.HeroMediaId = dto.HeroMediaId;
+            page.SecondaryMediaId = dto.SecondaryMediaId;
+            page.PublishedVersionId = version.Id;
+            page.PublishedAt = DateTimeOffset.UtcNow;
+
             await db.SaveChangesAsync(ct);
 
-            await publisher.Publish(new EntityAuditEvent(
-                user.UserId, "Updated", "PageVersion", version.Id.ToString(), null,
-                JsonSerializer.Serialize(version), http.Connection.RemoteIpAddress?.ToString()));
+            var savedDto = new PageDto(page.Id, page.Slug, page.Title, page.MetaDescription, page.HeroHeading, page.HeroSubheading, page.HeroMediaId, page.SecondaryMediaId, page.PublishedVersionId, page.PublishedAt);
 
-            return Results.Ok(new { id = version.Id, versionNumber = version.VersionNumber });
+            await publisher.Publish(new EntityAuditEvent(
+                user.UserId, "Published", "Page", page.Id.ToString(), null,
+                JsonSerializer.Serialize(savedDto), http.Connection.RemoteIpAddress?.ToString()));
+
+            return Results.Ok(savedDto);
         });
 
         pages.MapGet("/{id:guid}/versions", async (Guid id, Infrastructure.SiteContentDbContext db, IUserCatalog users, CancellationToken ct) =>

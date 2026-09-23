@@ -30,8 +30,8 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 };
 
 export const actions: Actions = {
-	// Creates a new draft PageVersion - it no longer edits the live page directly.
-	// Publishing (making a version live) happens from the version history screen.
+	// Saves and publishes immediately - updates the live page and records a published
+	// PageVersion snapshot in the same request. Version history is still available for rollback.
 	update: async ({ request, locals, fetch }) => {
 		const form = await request.formData();
 		const id = String(form.get('id'));
@@ -48,7 +48,7 @@ export const actions: Actions = {
 				body: JSON.stringify({ title, metaDescription, heroHeading, heroSubheading, heroMediaId, secondaryMediaId })
 			});
 		} catch (err) {
-			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not save draft.' });
+			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not save.' });
 		}
 		return { success: true };
 	}
