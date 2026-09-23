@@ -19,7 +19,7 @@ public static partial class DataSeeder
         var craft = new JobTrack
         {
             PageId = careersPageId, DisplayOrder = 0, Title = "Craft", PathLabel = "Path 01",
-            Body = "Pipefitters, welders, boilermakers, ironworkers, millwrights, operators, riggers. Per-diem that's real, overtime that's steady, and NCCER-certified training on our dime.",
+            Body = "Pipefitters, welders, boilermakers, ironworkers, millwrights, operators, riggers. Per-diem that's real, overtime that's steady, and nationally accredited (RTO) training on our dime.",
             MediaId = Media("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg"),
             CtaLabel = "Join the crew →"
         };

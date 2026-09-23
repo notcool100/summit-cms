@@ -19,7 +19,7 @@ interface ApiPage {
 	heroSubheading: string;
 }
 
-const FILTERS = ['All', 'Semiconductor', 'Power', 'Energy & Terminals', 'Renewables'] as const;
+const FILTERS = ['All', 'Mining & Minerals Processing', 'Power', 'Energy & Terminals', 'Renewables'] as const;
 
 // The old static masonry layout hand-tuned a `margin-top` offset on a few cards purely for visual
 // rhythm - a presentation detail the (correctly normalized) backend schema doesn't store. Derive a

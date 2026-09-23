@@ -28,7 +28,7 @@
 		</p>
 		<p use:reveal={{ kind: 'up', delay: 0.4 }} class="sub">
 			Three decades later, that bet has carried us from single-unit boiler retrofits to the largest
-			semiconductor sites in North America. The model hasn't changed. We hire the hands, we own the
+			resources sites in the Pilbara. The model hasn't changed. We hire the hands, we own the
 			schedule, and we send our own people through the gate every morning.
 		</p>
 	</div>
@@ -151,16 +151,16 @@
 						cy="238"
 						r="2.5"
 						fill="var(--accent)"
-					/><text x="266" y="242">HOUSTON — HQ</text>
+					/><text x="266" y="242">KARRATHA — HQ</text>
 					<circle cx="150" cy="205" r="2.5" fill="var(--ink)" /><text x="160" y="209"
-						>SCOTTSDALE</text
+						>PERTH</text
 					>
 					<circle cx="228" cy="196" r="2.5" fill="var(--ink)" /><text x="186" y="188"
-						>CLARENDON</text
+						>NEWMAN</text
 					>
-					<circle cx="243" cy="262" r="2.5" fill="var(--ink)" /><text x="160" y="272">LA PORTE</text
+					<circle cx="243" cy="262" r="2.5" fill="var(--ink)" /><text x="160" y="272">PORT HEDLAND</text
 					>
-					<circle cx="272" cy="226" r="2.5" fill="var(--ink)" /><text x="282" y="230">CROSBY</text>
+					<circle cx="272" cy="226" r="2.5" fill="var(--ink)" /><text x="282" y="230">ONSLOW</text>
 				</g>
 				<text
 					x="18"
@@ -168,7 +168,7 @@
 					font-family="Archivo"
 					font-size="9"
 					letter-spacing="2"
-					fill="rgba(var(--ink-rgb),.4)">LICENSED IN 35+ STATES</text
+					fill="rgba(var(--ink-rgb),.4)">LICENSED ACROSS WESTERN AUSTRALIA</text
 				>
 			</svg>
 		</div>

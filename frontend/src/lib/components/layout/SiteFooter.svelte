@@ -69,7 +69,7 @@
 	</div>
 
 	<div class="bottom">
-		<span>© {site.year} {companyName}</span>
+		<span>© {site.year} {companyName} · ABN {site.abn}</span>
 		<div class="social">
 			<a href={site.social.linkedin}>LinkedIn</a>
 			<a href={site.social.instagram}>Instagram</a>

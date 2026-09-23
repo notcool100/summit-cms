@@ -15,7 +15,7 @@ export interface CountUpParams {
  * decimal count is inferred from that value itself, same as the animation's own default. */
 export function formatCount(n: number, { prefix, suffix, decimals }: Omit<CountUpParams, 'value'> & { decimals?: number } = {}) {
 	const resolvedDecimals = decimals ?? String(n).split('.')[1]?.length ?? 0;
-	return `${prefix ?? ''}${n.toLocaleString('en-US', {
+	return `${prefix ?? ''}${n.toLocaleString('en-AU', {
 		minimumFractionDigits: resolvedDecimals,
 		maximumFractionDigits: resolvedDecimals
 	})}${suffix ?? ''}`;

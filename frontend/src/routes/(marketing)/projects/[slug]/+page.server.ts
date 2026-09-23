@@ -49,7 +49,7 @@ interface ApiProjectDetail {
 function buildDescription(project: ApiProjectDetail): string {
 	const base =
 		project.narrativeSections[0]?.paragraphs[0] ||
-		`${project.name}: a ${project.industryCategory.toLowerCase()} project delivered by Summit Industrial Construction. ${project.stat}.`;
+		`${project.name}: a ${project.industryCategory.toLowerCase()} project delivered by Summit Industrial Services. ${project.stat}.`;
 	const text = base.trim();
 	return text.length > 160 ? `${text.slice(0, 157).trimEnd()}…` : text;
 }

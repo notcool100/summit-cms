@@ -117,7 +117,7 @@ export interface Industry {
 }
 
 export type IndustryFilter =
-	'All' | 'Semiconductor' | 'Power' | 'Energy & Terminals' | 'Renewables';
+	'All' | 'Mining & Minerals Processing' | 'Power' | 'Energy & Terminals' | 'Renewables';
 
 export interface Project {
 	idx: string;

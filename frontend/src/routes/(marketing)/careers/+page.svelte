@@ -41,7 +41,7 @@
 			},
 			jobLocation: {
 				'@type': 'Place',
-				address: { '@type': 'PostalAddress', addressLocality: o.location, addressCountry: 'US' }
+				address: { '@type': 'PostalAddress', addressLocality: o.location, addressCountry: 'AU' }
 			}
 		}))
 	);
@@ -60,7 +60,7 @@
 	}
 
 	function postedLabel(iso: string) {
-		return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+		return new Date(iso).toLocaleDateString('en-AU', { month: 'short', day: 'numeric', year: 'numeric' });
 	}
 </script>
 

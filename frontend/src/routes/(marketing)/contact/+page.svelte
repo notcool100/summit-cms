@@ -41,15 +41,15 @@
 		},
 		{
 			q: 'Can you take on design-assist or preconstruction work?',
-			a: 'Yes. Our in-house engineering group works alongside owners and EPCs from early design through constructability review, particularly on schedule-critical semiconductor and energy scopes where sequencing decisions made in design drive the field schedule.'
+			a: 'Yes. Our in-house engineering group works alongside owners and EPCs from early design through constructability review, particularly on schedule-critical minerals processing and energy scopes where sequencing decisions made in design drive the field schedule.'
 		},
 		{
 			q: 'What regions and industries do you work in?',
-			a: 'We self-perform nationwide from our Houston headquarters, concentrated in semiconductor, power, energy and terminals, renewables, and heavy manufacturing. See the Industries page for scope examples in each.'
+			a: 'We self-perform across Western Australia from our Karratha headquarters, concentrated in mining & minerals processing, power, energy and terminals, renewables, and heavy manufacturing. See the Industries page for scope examples in each.'
 		},
 		{
 			q: 'How do we get Summit on a bid list?',
-			a: 'Send project details through the form on this page with "New project / RFP" selected, or email info@summit.us directly. A business development lead responds within one business day.'
+			a: 'Send project details through the form on this page with "New project / RFP" selected, or email info@summit-is.com.au directly. A business development lead responds within one business day.'
 		}
 	];
 	let openFaq = $state<number | null>(null);
@@ -78,7 +78,7 @@
 			</h1>
 			<div use:reveal={{ kind: 'up', delay: 0.25 }} class="details">
 				<div>
-					<div class="details-label">Houston HQ</div>
+					<div class="details-label">Karratha HQ</div>
 					{#if companyAddress}
 						{companyAddress}
 					{:else}
@@ -92,6 +92,10 @@
 				<div>
 					<div class="details-label">Craft recruiting</div>
 					{site.careersEmail} (response within 48 hours)
+				</div>
+				<div>
+					<div class="details-label">ABN</div>
+					{site.abn}
 				</div>
 			</div>
 			<div use:reveal={{ kind: 'clip', delay: 0.2 }} class="map-frame">
@@ -128,7 +132,7 @@
 						font-family="Archivo"
 						font-size="9"
 						letter-spacing="1.5"
-						fill="rgba(var(--ink-rgb),.5)">ALLEN PKWY @ WAUGH</text
+						fill="rgba(var(--ink-rgb),.5)">PYRAMID RD, KARRATHA IND. ESTATE</text
 					>
 					<text
 						x="16"
@@ -136,7 +140,7 @@
 						font-family="Archivo"
 						font-size="9"
 						letter-spacing="2"
-						fill="rgba(var(--ink-rgb),.4)">HOUSTON, TX — 29.7604° N, 95.3698° W</text
+						fill="rgba(var(--ink-rgb),.4)">KARRATHA, WA — 20.7364° S, 116.8460° E</text
 					>
 				</svg>
 			</div>

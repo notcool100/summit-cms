@@ -16,21 +16,21 @@
 		description: site.description,
 		telephone: data.siteSettings.company_phone || site.phone,
 		email: data.siteSettings.company_email || site.email,
-		// company_address is a single free-form CMS field (no separate city/state/zip inputs), so it
+		// company_address is a single free-form CMS field (no separate city/state/postcode inputs), so it
 		// can only be passed through as streetAddress as-is - addressCountry is the one component
-		// safe to hardcode, since this business only operates in the US.
+		// safe to hardcode, since this business only operates in Australia.
 		...(data.siteSettings.company_address
 			? {
 					address: {
 						'@type': 'PostalAddress',
 						streetAddress: data.siteSettings.company_address,
-						addressCountry: 'US'
+						addressCountry: 'AU'
 					}
 				}
 			: {}),
-		// Single-HQ contractor delivering projects nationwide, not a fixed-radius local service
+		// Single-HQ contractor delivering projects across the state, not a fixed-radius local service
 		// business - areaServed is the schema-correct fit here, not location pages or a service radius.
-		areaServed: { '@type': 'Country', name: 'United States' },
+		areaServed: { '@type': 'State', name: 'Western Australia' },
 		sameAs: ([site.social.linkedin, site.social.instagram] as string[]).filter(
 			(url) => !!url && url !== '#'
 		)

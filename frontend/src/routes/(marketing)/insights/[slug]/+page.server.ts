@@ -25,7 +25,7 @@ interface ApiPostDetail {
 }
 
 function formatDate(iso: string) {
-	return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+	return new Date(iso).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
 export const load: PageServerLoad = async ({ params, fetch }) => {

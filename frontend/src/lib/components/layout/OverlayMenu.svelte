@@ -7,7 +7,7 @@
 	let companyName = $derived((page.data.siteSettings?.company_name || site.name).toUpperCase());
 	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
 	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
-	let companyCity = $derived(page.data.siteSettings?.company_address || 'Houston, TX');
+	let companyCity = $derived(page.data.siteSettings?.company_address || 'Karratha, WA');
 </script>
 
 <div class="overlay" class:is-open={menuStore.open} aria-hidden={!menuStore.open}>
