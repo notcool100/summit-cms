@@ -54,8 +54,9 @@ public static class SiteContentEndpoints
             var page = await db.Pages.FindAsync([id], ct);
             if (page is null) return Results.NotFound();
 
-            var nextVersionNumber = await db.PageVersions.Where(v => v.PageId == id)
-                .Select(v => v.VersionNumber).DefaultIfEmpty(0).MaxAsync(ct) + 1;
+            var maxVersionNumber = await db.PageVersions.Where(v => v.PageId == id)
+                .Select(v => (int?)v.VersionNumber).MaxAsync(ct);
+            var nextVersionNumber = (maxVersionNumber ?? 0) + 1;
 
             var previouslyPublished = await db.PageVersions.Where(v => v.PageId == id && v.IsPublished).ToListAsync(ct);
             foreach (var v in previouslyPublished)
