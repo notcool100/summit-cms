@@ -3,7 +3,7 @@ import { prefersReducedMotion } from '$lib/utils/media';
 import { registerFrame } from './scheduler';
 
 /** Translates an element vertically as it crosses the viewport.
- * `factor` controls strength — usage: `use:parallax={0.1}` */
+ * `factor` controls strength, usage: `use:parallax={0.1}` */
 export const parallax: Action<HTMLElement, number | undefined> = (node, factor = 0.1) => {
 	if (prefersReducedMotion()) return {};
 	let f = factor ?? 0.1;

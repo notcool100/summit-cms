@@ -10,7 +10,7 @@
 	let { speed = 1.5, children }: Props = $props();
 </script>
 
-<!-- The track renders its content twice, back to back — the marquee action
+<!-- The track renders its content twice, back to back, the marquee action
      wraps the offset once it has scrolled past the first copy's width. -->
 <div class="track" use:marquee={speed}>
 	<span class="copy">{@render children()}</span>

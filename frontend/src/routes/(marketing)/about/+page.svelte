@@ -151,7 +151,7 @@
 						cy="238"
 						r="2.5"
 						fill="var(--accent)"
-					/><text x="266" y="242">KARRATHA — HQ</text>
+					/><text x="266" y="242">KARRATHA HQ</text>
 					<circle cx="150" cy="205" r="2.5" fill="var(--ink)" /><text x="160" y="209"
 						>PERTH</text
 					>

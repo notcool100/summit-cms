@@ -9,10 +9,6 @@ interface ContactStats {
 	archivedCount: number;
 	last7DaysCount: number;
 }
-interface OpeningDto {
-	id: string;
-	isActive: boolean;
-}
 interface PageDto {
 	id: string;
 }
@@ -37,17 +33,14 @@ interface PagedResult<T> {
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const token = locals.accessToken!;
-	const [contactStats, openings, pages, auditLog] = await Promise.all([
+	const [contactStats, pages, auditLog] = await Promise.all([
 		adminFetch<ContactStats>(fetch, token, '/api/admin/contact/submissions/stats'),
-		adminFetch<OpeningDto[]>(fetch, token, '/api/admin/careers/openings'),
 		adminFetch<PageDto[]>(fetch, token, '/api/admin/pages'),
 		adminFetch<PagedResult<AuditLogItem>>(fetch, token, '/api/admin/audit-logs?page=1&pageSize=5')
 	]);
 
 	return {
 		contactStats,
-		openingsTotal: openings.length,
-		openingsActive: openings.filter((o) => o.isActive).length,
 		pagesTotal: pages.length,
 		recentActivity: auditLog.items
 	};

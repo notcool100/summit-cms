@@ -13,7 +13,6 @@ export const site = {
 	},
 	phone: '0401 174 989',
 	email: 'info@summit-is.com.au',
-	careersEmail: 'careers@summit-is.com.au',
 	abn: '41 693 462 421',
 	favicon: '/favicon.ico',
 	social: {

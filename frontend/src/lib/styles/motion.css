@@ -37,8 +37,8 @@
 
 /* Only elements that actually start clipped (reveal--clip) need their
    clip-path reset on reveal. Applying `clip-path: inset(0 0 0 0)` to every
-   revealed element — including reveal--mask headings, which are inline
-   spans that often wrap to an extra line on narrow viewports — hits a
+   revealed element, including reveal--mask headings, which are inline
+   spans that often wrap to an extra line on narrow viewports, hits a
    Chromium bug where clip-path on a multi-line inline box uses the wrong
    reference rect, clipping away everything but the first line's sliver.
    Keeping clip-path untouched for kinds that never set one avoids that

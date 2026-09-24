@@ -10,9 +10,6 @@
   <Folder Name="/src/Modules/Capabilities/">
     <Project Path="src/Modules/Capabilities/SummitCms.Modules.Capabilities.csproj" />
   </Folder>
-  <Folder Name="/src/Modules/Careers/">
-    <Project Path="src/Modules/Careers/SummitCms.Modules.Careers.csproj" />
-  </Folder>
   <Folder Name="/src/Modules/Company/">
     <Project Path="src/Modules/Company/SummitCms.Modules.Company.csproj" />
   </Folder>

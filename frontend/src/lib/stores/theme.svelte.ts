@@ -29,7 +29,7 @@ class ThemeStore {
 		try {
 			localStorage.setItem(STORAGE_KEY, theme);
 		} catch {
-			// Storage can be unavailable (private mode, quota) — theme still
+			// Storage can be unavailable (private mode, quota), theme still
 			// applies for the session via the DOM attribute above.
 		}
 	}

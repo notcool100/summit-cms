@@ -1,8 +1,10 @@
-/* Design tokens — six themes, one accent. Switching is a single attribute
+/* Design tokens, six themes, one accent. Switching is a single attribute
    flip on <html data-theme="…">; every color in the app reads from these
    custom properties so no component needs theme-aware logic of its own. */
 
 :root {
+	/* Fixed site header's height (bar + 1px border), sticky bars dock under it. */
+	--header-h: calc(clamp(60px, 8vw, 72px) + 1px);
 	--paper: #f5f3ee;
 	--paper-rgb: 245, 243, 238;
 	--ink: #0f1113;

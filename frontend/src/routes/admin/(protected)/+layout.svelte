@@ -32,8 +32,7 @@
 				{ href: '/admin/company', label: 'About page', permission: 'company.manage' },
 				{ href: '/admin/industries', label: 'Industries', permission: 'industries.manage' },
 				{ href: '/admin/projects', label: 'Projects', permission: 'projects.manage' },
-				{ href: '/admin/blog', label: 'Blog', permission: 'blog.manage' },
-				{ href: '/admin/careers', label: 'Careers', permission: 'careers.manage' }
+				{ href: '/admin/blog', label: 'Blog', permission: 'blog.manage' }
 			]
 		},
 		{

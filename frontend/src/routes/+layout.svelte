@@ -42,7 +42,7 @@
 	     duplicate <title> tags (last one wins), but NOT duplicate <meta> tags - a second
 	     name="description" here would sit alongside, not replace, each page's SeoHead description,
 	     and most crawlers read whichever occurs first in the HTML. Don't add one here. -->
-	<title>{companyName} — Built at Industrial Scale</title>
+	<title>{companyName} | Built at Industrial Scale</title>
 	<meta name="theme-color" content="#0b0b0c" />
 </svelte:head>
 

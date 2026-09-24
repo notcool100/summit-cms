@@ -125,16 +125,20 @@
 	/* Filter bar */
 	.filter-bar {
 		position: sticky;
-		top: 74px;
+		top: var(--header-h);
 		z-index: 100;
-		background: rgba(var(--paper-rgb), 0.85);
-		backdrop-filter: blur(12px);
+		background: var(--paper);
+		transition: top 0.5s var(--ease);
 		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
 		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
 		padding: 0 clamp(20px, 4vw, 64px);
 		display: flex;
 		gap: clamp(18px, 3vw, 44px);
 		overflow-x: auto;
+	}
+
+	:global(html.header-hidden) .filter-bar {
+		top: 0;
 	}
 
 	.filter-btn {

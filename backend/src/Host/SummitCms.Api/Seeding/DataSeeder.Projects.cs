@@ -27,19 +27,19 @@ public static partial class DataSeeder
 
         (string Slug, string Name, string Category, string Stat, bool Featured, string Url, string? Ratio, int? Span)[] rows =
         [
-            ("phoenix", "Project Phoenix — Confidential Processing Plant Piping", "Mining & Minerals Processing", "480,000 LF pipe", true,
+            ("phoenix", "Project Phoenix: Confidential Processing Plant Piping", "Mining & Minerals Processing", "480,000 LF pipe", true,
                 "https://summit.us/wp-content/uploads/2022/03/21.004-TSMC-3.jpeg", "16/10", 7),
             ("processing-plant-foundation-trestle", "Ore Processing Plant Foundations & Trestle Erection", "Mining & Minerals Processing", "38,000 T steel", false,
                 "https://summit.us/wp-content/uploads/2023/01/Eagle-Mod-Assembly-1.jpeg", "4/5", 5),
-            ("osm-yard-modular-assembly", "Modular Conveyor & Trestle Assembly — OSM Yard", "Mining & Minerals Processing", "48-acre yard", false,
+            ("osm-yard-modular-assembly", "Modular Conveyor & Trestle Assembly, OSM Yard", "Mining & Minerals Processing", "48-acre yard", false,
                 "https://summit.us/wp-content/uploads/2023/01/1.-OSM-Yard-61-Modular-Assembly.jpg", "4/5", 4),
-            ("project-star-modular-trestles", "Project Star — Modular Conveyor Trestles", "Mining & Minerals Processing", "212 modules set", true,
+            ("project-star-modular-trestles", "Project Star: Modular Conveyor Trestles", "Mining & Minerals Processing", "212 modules set", true,
                 "https://summit.us/wp-content/uploads/2023/01/22.006-Project-Star-CUB-Trestle-Modules.jpeg", "16/9", 8),
-            ("newman-plant-expansion", "Minerals Processing Plant Expansion — Newman", "Mining & Minerals Processing", "1.2M work hours", false,
+            ("newman-plant-expansion", "Minerals Processing Plant Expansion, Newman", "Mining & Minerals Processing", "1.2M work hours", false,
                 "https://summit.us/wp-content/uploads/2022/05/22.005-Project-Hedgehog-Rio-Rancho-03.jpg", "3/2", 6),
-            ("pilbara-marine-terminal", "Pilbara Marine Terminal — Tank Farm & Piping", "Energy & Terminals", "900,000 BBL", true,
+            ("pilbara-marine-terminal", "Pilbara Marine Terminal: Tank Farm & Piping", "Energy & Terminals", "900,000 BBL", true,
                 "https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg", "3/2", 6),
-            ("ironbark-power-station", "Ironbark Power Station Units 5–11", "Power", "7 units", true,
+            ("ironbark-power-station", "Ironbark Power Station Units 5-11", "Power", "7 units", true,
                 "https://summit.us/wp-content/uploads/2022/03/0_552547_2015-09-04-07-13-49-051.jpg", "4/5", 5),
             ("ridgeline-biomass-facility", "Ridgeline Biomass Facility", "Renewables", "38 MW", false,
                 "https://summit.us/wp-content/uploads/2022/03/MAIN_3-07-18-13-scaled.jpg", "16/10", 7)
@@ -79,20 +79,20 @@ public static partial class DataSeeder
                     ("Duration", "34 months")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/04/louisiana_helicam_enlinkmidstream_lores081614-53-e1649186720160.jpg", ProjectImageRole.Break, "CORRIDOR B — 42 FT BELOW GRADE"),
+                    ("https://summit.us/wp-content/uploads/2022/04/louisiana_helicam_enlinkmidstream_lores081614-53-e1649186720160.jpg", ProjectImageRole.Break, "CORRIDOR B, 42 FT BELOW GRADE"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg", ProjectImageRole.Gallery, "Above-grade rack piping detail"),
                     ("https://summit.us/wp-content/uploads/2022/05/IMG_5350-1024x768.jpg", ProjectImageRole.Gallery, "Hydrotest and QC inspection")
                 ],
                 [
                     ("01", "Challenge",
-                        "Install 31 miles of deep underground utilities and 480,000 linear feet of above-grade process piping — beneath and beside an active ore processing plant expansion, with round-the-clock production continuing on adjacent trains and a shared laydown yard that never stopped moving.",
+                        "Install 31 miles of deep underground utilities and 480,000 linear feet of above-grade process piping, beneath and beside an active ore processing plant expansion, with round-the-clock production continuing on adjacent trains and a shared laydown yard that never stopped moving.",
                         "Every corridor crossed live haul-truck and conveyor routes. Every excavation sat within feet of operating plant foundations. Traditional sequencing would have put underground work directly on the critical path for eleven other contractors."),
                     ("02", "Approach",
-                        "We flipped the sequence. Summit engineers modelled the full utility corridor in 4D, pre-fabricated 68% of the AG piping as modules in our OSM yard, and ran underground crews on a counter-flow schedule — always one grid ahead of the plant's own construction front.",
-                        "Dedicated survey crews issued as-builts within 24 hours of every backfill, so following trades never waited on documentation. Peak staffing hit 640 Summit craft — all direct hire."),
+                        "We flipped the sequence. Summit engineers modelled the full utility corridor in 4D, pre-fabricated 68% of the AG piping as modules in our OSM yard, and ran underground crews on a counter-flow schedule, always one grid ahead of the plant's own construction front.",
+                        "Dedicated survey crews issued as-builts within 24 hours of every backfill, so following trades never waited on documentation. Peak staffing hit 640 Summit craft, all direct hire."),
                     ("03", "Outcome",
                         "Mechanical completion 19 days ahead of the production start-up milestone. Zero utility strikes. Zero rework corridors. 14 consecutive months without a recordable incident at peak site congestion.",
-                        "The owner awarded Summit the follow-on expansion scope without bid — the strongest endorsement our industry has.")
+                        "The owner awarded Summit the follow-on expansion scope without bid. That's the strongest endorsement our industry has.")
                 ],
                 "\"Summit's crews hit 14 consecutive months without a recordable, on the busiest corridor of the site.\"",
                 "Owner's construction director"),
@@ -105,7 +105,7 @@ public static partial class DataSeeder
                     ("Duration", "22 months")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", ProjectImageRole.Break, "TRESTLE BAY 14 — TOPPING OUT"),
+                    ("https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", ProjectImageRole.Break, "TRESTLE BAY 14, TOPPING OUT"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_1373-scaled-e1649187636615-875x1024.jpg", ProjectImageRole.Gallery, "Foundation excavation ahead of steel"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg", ProjectImageRole.Gallery, "Pre-assembled trestle spans staged in the yard")
                 ],
@@ -118,20 +118,20 @@ public static partial class DataSeeder
                         "A dedicated haul-road liaison coordinated every closure window directly with the client's mine control room, turning what could have been a scheduling conflict into a routine daily handoff."),
                     ("03", "Outcome",
                         "Steel topped out six weeks ahead of the revised wet-season schedule, with zero haul-road closures that ran past their approved window.",
-                        "The crushing train commissioned on the client's original production date, despite the compressed pour schedule — the metric the client cared about most.")
+                        "The crushing train commissioned on the client's original production date, despite the compressed pour schedule. That was the metric the client cared about most.")
                 ],
                 "\"Summit adjusted around our production schedule, not the other way around. That's rare on a brownfield site.\"",
                 "Client's project director"),
 
             ("osm-yard-modular-assembly",
                 [
-                    ("Client type", "Internal capability — multi-client yard"),
+                    ("Client type", "Internal capability, multi-client yard"),
                     ("Location", "Karratha, WA"),
                     ("Scope volume", "48-acre off-site manufacturing yard"),
                     ("Duration", "Ongoing")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg", ProjectImageRole.Break, "OSM YARD — AERIAL, KARRATHA"),
+                    ("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg", ProjectImageRole.Break, "OSM YARD AERIAL, KARRATHA"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg", ProjectImageRole.Gallery, "Module set by rigging crew"),
                     ("https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", ProjectImageRole.Gallery, "Structural module under fabrication")
                 ],
@@ -140,11 +140,11 @@ public static partial class DataSeeder
                         "Cyclone season shuts down Pilbara fieldwork for weeks at a time most years, and daytime heat alone caps productive field hours for months on either side of it. A stick-built schedule inherits every one of those lost days.",
                         "Clients kept asking for the same thing: shorter time-on-site without lower quality. Field conditions in this region make that a genuine engineering problem, not a sales pitch."),
                     ("02", "Approach",
-                        "We built a 48-acre off-site manufacturing yard in Karratha where trestle spans, pipe racks, and conveyor modules are assembled under cover, on the ground, at shop-grade quality — outside the reach of cyclone shutdowns and daytime heat stops.",
+                        "We built a 48-acre off-site manufacturing yard in Karratha where trestle spans, pipe racks, and conveyor modules are assembled under cover, on the ground, at shop-grade quality, outside the reach of cyclone shutdowns and daytime heat stops.",
                         "Modules are sized against what the route between yard and site can actually move, then trucked and set in a fraction of the time a stick-built equivalent would take in the field."),
                     ("03", "Outcome",
                         "Yard-built trestle and rack modules now account for the majority of structural steel on our multi-client Pilbara scopes, with defect rates well below field-erected comparables.",
-                        "Clients get a firmer schedule commitment, because the highest-variance work — weather-exposed field assembly — has been moved somewhere the weather can't touch it.")
+                        "Clients get a firmer schedule commitment, because the highest-variance work (weather-exposed field assembly) has been moved somewhere the weather can't touch it.")
                 ],
                 "\"The yard is the reason Summit can commit to a date through cyclone season and actually hold it.\"",
                 "Summit Director of Modular Fabrication"),
@@ -157,7 +157,7 @@ public static partial class DataSeeder
                     ("Duration", "28 months")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/05/Intel-Rendering-PNG-edited.png", ProjectImageRole.Break, "LIFT SEQUENCE MODEL — BAY 40"),
+                    ("https://summit.us/wp-content/uploads/2022/05/Intel-Rendering-PNG-edited.png", ProjectImageRole.Break, "LIFT SEQUENCE MODEL, BAY 40"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg", ProjectImageRole.Gallery, "Module lift during a booked production window"),
                     ("https://summit.us/wp-content/uploads/2023/01/1.-OSM-Yard-61-Modular-Assembly.jpg", ProjectImageRole.Gallery, "Completed modules staged for transport")
                 ],
@@ -183,7 +183,7 @@ public static partial class DataSeeder
                     ("Duration", "30 months")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/03/louisiana_helicam_crosstexenergy_lores011114-28-of-32-1-1-edited.jpg", ProjectImageRole.Break, "EXPANSION TRAIN — INTERIOR"),
+                    ("https://summit.us/wp-content/uploads/2022/03/louisiana_helicam_crosstexenergy_lores011114-28-of-32-1-1-edited.jpg", ProjectImageRole.Break, "EXPANSION TRAIN, INTERIOR"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg", ProjectImageRole.Gallery, "Pipefitting on the expansion train"),
                     ("https://summit.us/wp-content/uploads/2022/05/IMG_5350-1024x768.jpg", ProjectImageRole.Gallery, "Hydrotest and QC inspection")
                 ],
@@ -209,7 +209,7 @@ public static partial class DataSeeder
                     ("Duration", "20 months")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/04/louisiana_helicam_enlinkmidstream_lores081614-53-e1649186720160.jpg", ProjectImageRole.Break, "TIE-IN CORRIDOR — BERTH 2"),
+                    ("https://summit.us/wp-content/uploads/2022/04/louisiana_helicam_enlinkmidstream_lores081614-53-e1649186720160.jpg", ProjectImageRole.Break, "TIE-IN CORRIDOR, BERTH 2"),
                     ("https://summit.us/wp-content/uploads/2022/05/IMG_5350-1024x768.jpg", ProjectImageRole.Gallery, "Hydrotest and QC inspection"),
                     ("https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", ProjectImageRole.Gallery, "Process piping tie-in at the tank farm")
                 ],
@@ -235,7 +235,7 @@ public static partial class DataSeeder
                     ("Duration", "26 months")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg", ProjectImageRole.Break, "UNIT 9 — TURBINE SET"),
+                    ("https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg", ProjectImageRole.Break, "UNIT 9, TURBINE SET"),
                     ("https://summit.us/wp-content/uploads/2022/05/Intel-Rendering-PNG-edited.png", ProjectImageRole.Gallery, "Engineered lift plan under review"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg", ProjectImageRole.Gallery, "Boilermaker crew on the turbine hall floor")
                 ],
@@ -261,13 +261,13 @@ public static partial class DataSeeder
                     ("Duration", "18 months")
                 ],
                 [
-                    ("https://summit.us/wp-content/uploads/2022/03/louisiana_helicam_crosstexenergy_lores011114-28-of-32-1-1-edited.jpg", ProjectImageRole.Break, "BOILER ISLAND — MECHANICAL COMPLETION"),
+                    ("https://summit.us/wp-content/uploads/2022/03/louisiana_helicam_crosstexenergy_lores011114-28-of-32-1-1-edited.jpg", ProjectImageRole.Break, "BOILER ISLAND, MECHANICAL COMPLETION"),
                     ("https://summit.us/wp-content/uploads/2022/04/IMG_1373-scaled-e1649187636615-875x1024.jpg", ProjectImageRole.Gallery, "Fuel-handling structural foundations"),
                     ("https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", ProjectImageRole.Gallery, "Boiler island structural steel")
                 ],
                 [
                     ("01", "Challenge",
-                        "Deliver the fuel-handling system and boiler island for a 38 MW biomass facility — a first-of-scale build for this developer, with no existing site precedent to plan against.",
+                        "Deliver the fuel-handling system and boiler island for a 38 MW biomass facility, a first-of-scale build for this developer, with no existing site precedent to plan against.",
                         "Fuel-handling equipment for biomass runs on tighter tolerances than the developer's team had budgeted for, and the boiler island schedule had almost no float against the plant's committed grid-connection date."),
                     ("02", "Approach",
                         "We applied the same power-plant discipline we use on gas turbine outages to a project scaled and budgeted like an emerging-technology build, without cutting the engineering rigor to match the smaller price tag.",

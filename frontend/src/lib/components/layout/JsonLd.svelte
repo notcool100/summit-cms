@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Renders a JSON-LD script tag for structured data. `data` is admin/CMS-editable in places
-	// (site settings, career openings), so escape "<" to keep an edited value from breaking out
+	// (site settings, project data), so escape "<" to keep an edited value from breaking out
 	// of the script context.
 	interface Props {
 		data: Record<string, unknown> | Record<string, unknown>[];

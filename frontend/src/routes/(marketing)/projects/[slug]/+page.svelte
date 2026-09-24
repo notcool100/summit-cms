@@ -42,7 +42,7 @@
 	});
 </script>
 
-<SeoHead title={`${title} — ${companyName}`} {description} image={heroImage.src} type="article" />
+<SeoHead title={`${title} | ${companyName}`} {description} image={heroImage.src} type="article" />
 <JsonLd data={breadcrumbSchema} />
 
 <!-- ============ CINEMATIC HERO ============ -->

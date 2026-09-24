@@ -136,7 +136,7 @@
 								>
 								{#if p.isFeatured}<span class="adm-badge adm-badge--accent">Featured</span>{/if}
 							</td>
-							<td>{p.publishedAt ? new Date(p.publishedAt).toLocaleDateString() : '—'}</td>
+							<td>{p.publishedAt ? new Date(p.publishedAt).toLocaleDateString() : '-'}</td>
 							<td>
 								<div class="adm-row-actions">
 									<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => toggle(`p-${p.id}`)}>

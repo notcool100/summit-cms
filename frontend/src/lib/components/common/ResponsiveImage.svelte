@@ -9,7 +9,7 @@
 	let { src, alt, loading = 'lazy', fetchpriority = 'auto' }: Props = $props();
 </script>
 
-<!-- Fills its parent frame — same contract as the original image-slot: size
+<!-- Fills its parent frame, same contract as the original image-slot: size
      the wrapper, this element takes exactly that box. -->
 <img {src} {alt} {loading} decoding="async" {fetchpriority} />
 

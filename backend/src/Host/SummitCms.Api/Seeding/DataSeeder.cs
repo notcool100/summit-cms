@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SummitCms.Modules.Blog.Contracts;
 using SummitCms.Modules.Capabilities.Contracts;
-using SummitCms.Modules.Careers.Contracts;
 using SummitCms.Modules.Company.Contracts;
 using SummitCms.Modules.Contact.Contracts;
 using SummitCms.Modules.Identity.Application;
@@ -45,7 +44,6 @@ public static partial class DataSeeder
         await SeedCapabilitiesAsync(sp, mediaMap);
         var projectIds = await SeedProjectsAsync(sp, mediaMap);
         await SeedIndustriesAsync(sp, mediaMap, projectIds);
-        await SeedCareersAsync(sp, pageIds, mediaMap);
         await SeedMetricStatsAsync(sp, pageIds);
         await SeedBlogAsync(sp, mediaMap);
     }
@@ -61,7 +59,6 @@ public static partial class DataSeeder
             .Concat(CapabilitiesPermissions.All)
             .Concat(IndustriesPermissions.All)
             .Concat(ProjectsPermissions.All)
-            .Concat(CareersPermissions.All)
             .Concat(ContactPermissions.All)
             .Concat(BlogPermissions.All)
             .ToList();

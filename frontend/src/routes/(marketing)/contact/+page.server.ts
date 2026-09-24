@@ -32,12 +32,12 @@ export const actions: Actions = {
 		const name = String(form.get('fullName') ?? '').trim();
 		const email = String(form.get('email') ?? '').trim();
 		const company = String(form.get('company') ?? '').trim() || null;
-		const phone = String(form.get('phone') ?? '').trim() || null;
+		const phone = String(form.get('phone') ?? '').trim();
 		const enquiryLabel = String(form.get('enquiryType') ?? '');
 		const message = String(form.get('message') ?? '').trim();
 
-		if (!name || !email || !message || !enquiryLabel) {
-			return fail(400, { error: 'Please fill in your name, email, enquiry type, and message.' });
+		if (!name || !email || !phone || !message || !enquiryLabel) {
+			return fail(400, { error: 'Please fill in your name, email, phone, enquiry type, and message.' });
 		}
 
 		const enquiryTypes = await getPublic<ApiEnquiryType[]>(fetch, '/api/public/enquiry-types');

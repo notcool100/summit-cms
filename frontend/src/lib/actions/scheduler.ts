@@ -1,6 +1,6 @@
 /** One shared requestAnimationFrame loop for every scroll-driven action
  * (parallax, tilt, marquee, horizontal-scroll) instead of each instance
- * running its own — keeps a page with a dozen effects to a single rAF tick. */
+ * running its own, keeps a page with a dozen effects to a single rAF tick. */
 
 type FrameCallback = (time: number) => void;
 

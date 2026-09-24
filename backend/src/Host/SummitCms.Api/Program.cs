@@ -9,7 +9,6 @@ using Serilog;
 using SummitCms.Api.Seeding;
 using SummitCms.Modules.Blog;
 using SummitCms.Modules.Capabilities;
-using SummitCms.Modules.Careers;
 using SummitCms.Modules.Company;
 using SummitCms.Modules.Contact;
 using SummitCms.Modules.Identity;
@@ -40,7 +39,6 @@ builder.Services.AddCompanyModule(builder.Configuration);
 builder.Services.AddCapabilitiesModule(builder.Configuration);
 builder.Services.AddIndustriesModule(builder.Configuration);
 builder.Services.AddProjectsModule(builder.Configuration);
-builder.Services.AddCareersModule(builder.Configuration);
 builder.Services.AddContactModule(builder.Configuration);
 builder.Services.AddBlogModule(builder.Configuration);
 
@@ -119,7 +117,6 @@ app.MapCompanyModule();
 app.MapCapabilitiesModule();
 app.MapIndustriesModule();
 app.MapProjectsModule();
-app.MapCareersModule();
 app.MapContactModule();
 app.MapBlogModule();
 

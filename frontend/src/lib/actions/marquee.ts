@@ -3,7 +3,7 @@ import { prefersReducedMotion } from '$lib/utils/media';
 import { registerFrame } from './scheduler';
 
 /** Scrolls a track leftward forever, wrapping seamlessly once it has scrolled
- * past half its width — the track must render its content twice back to back. */
+ * past half its width, the track must render its content twice back to back. */
 export const marquee: Action<HTMLElement, number | undefined> = (node, speed = 1.5) => {
 	if (prefersReducedMotion()) return {};
 	let x = 0;

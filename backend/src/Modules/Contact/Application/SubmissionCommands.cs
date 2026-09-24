@@ -14,6 +14,9 @@ public sealed class CreateSubmissionCommandHandler(ContactDbContext db, IEnquiry
 {
     public async Task<Result<Guid>> Handle(CreateSubmissionCommand request, CancellationToken ct)
     {
+        if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Phone))
+            return Result.Failure<Guid>("Name, email, and phone are required.", "validation");
+
         var enquiryType = await enquiryTypes.GetAsync(request.EnquiryTypeId, ct);
         if (enquiryType is null)
             return Result.Failure<Guid>("Unknown enquiry type.", "invalid_enquiry_type");
@@ -22,7 +25,7 @@ public sealed class CreateSubmissionCommandHandler(ContactDbContext db, IEnquiry
         {
             Name = request.Name.Trim(),
             Email = request.Email.Trim().ToLowerInvariant(),
-            Phone = request.Phone?.Trim(),
+            Phone = request.Phone.Trim(),
             Company = request.Company?.Trim(),
             EnquiryTypeId = request.EnquiryTypeId,
             Message = request.Message.Trim()

@@ -90,10 +90,6 @@
 					{companyPhone}<br />{companyEmail}
 				</div>
 				<div>
-					<div class="details-label">Craft recruiting</div>
-					{site.careersEmail} (response within 48 hours)
-				</div>
-				<div>
 					<div class="details-label">ABN</div>
 					{site.abn}
 				</div>
@@ -140,7 +136,7 @@
 						font-family="Archivo"
 						font-size="9"
 						letter-spacing="2"
-						fill="rgba(var(--ink-rgb),.4)">KARRATHA, WA — 20.7364° S, 116.8460° E</text
+						fill="rgba(var(--ink-rgb),.4)">KARRATHA, WA | 20.7364° S, 116.8460° E</text
 					>
 				</svg>
 			</div>
@@ -161,12 +157,12 @@
 				}}
 			>
 				<div class="row stack-mobile">
-					<FloatingInput label="Full name" name="fullName" bind:value={fullName} />
+					<FloatingInput label="Full name" name="fullName" required bind:value={fullName} />
 					<FloatingInput label="Company" name="company" bind:value={company} />
 				</div>
 				<div class="row stack-mobile">
-					<FloatingInput label="Email" name="email" type="email" bind:value={email} />
-					<FloatingInput label="Phone" name="phone" type="tel" bind:value={phone} />
+					<FloatingInput label="Email" name="email" type="email" required bind:value={email} />
+					<FloatingInput label="Phone" name="phone" type="tel" required bind:value={phone} />
 				</div>
 				<FloatingSelect label="Enquiry type" name="enquiryType" options={enquiryOptions} bind:value={enquiryType} />
 				<FloatingTextarea label="Tell us about the work" name="message" rows={4} bind:value={message} />

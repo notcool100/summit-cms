@@ -1,4 +1,4 @@
-# Summit — frontend
+# Summit frontend
 
 SvelteKit + TypeScript port of the eight-page Summit marketing site (previously
 static `.dc.html` prototypes at the repo root). Same content and interactions,
@@ -8,7 +8,7 @@ rebuilt as a typed, componentized SvelteKit app.
 
 - **SvelteKit 2 / Svelte 5** (runes mode) + TypeScript
 - File-based routing, server-rendered pages
-- No CSS framework — component-scoped `<style>` blocks, six CSS-variable themes
+- No CSS framework; component-scoped `<style>` blocks, six CSS-variable themes
 
 ## Getting started
 
@@ -44,7 +44,7 @@ src/
   routes/
     +layout.svelte          Global chrome (header/footer/cursor/transitions)
     +page.svelte             Home
-    about/, capabilities/, careers/, contact/, industries/, projects/,
+    about/, capabilities/, contact/, industries/, projects/,
     projects/phoenix/        One route per page; project detail lives at
                              /projects/phoenix (was project-phoenix.dc.html)
 ```
@@ -62,8 +62,8 @@ src/
   `prefers-reduced-motion`.
 - **Images**: the original used a design-tool-only `<image-slot>` custom
   element (drag-drop placeholder editor tied to that tool's runtime). That's
-  replaced with a plain `ResponsiveImage` component — same photos, real
-  `<img>` tags, lazy-loaded.
+  replaced with a plain `ResponsiveImage` component (same photos, real
+  `<img>` tags, lazy-loaded).
 - **Page transitions**: driven by SvelteKit's `onNavigate`/`afterNavigate`
   hooks rather than intercepting link clicks, so it composes correctly with
   SvelteKit's router and prefetching.

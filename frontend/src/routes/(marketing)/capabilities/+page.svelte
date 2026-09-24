@@ -322,7 +322,7 @@
 
 	/* Below this width the pinned sticky-stack (each panel holds the
 	   viewport while the next one arrives) is dropped in favor of plain
-	   sequential panels — pinning a full-viewport section over and over as
+	   sequential panels, pinning a full-viewport section over and over as
 	   you scroll is disorienting on a phone, and forcing 100vh with centered
 	   content left large dead gaps once the layout dropped to one column.
 	   `position: relative` (not `static`) keeps this the containing block

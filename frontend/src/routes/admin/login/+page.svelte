@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Sign in — SummitCms Admin</title>
+	<title>Sign in | SummitCms Admin</title>
 	<meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 

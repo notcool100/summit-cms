@@ -124,7 +124,7 @@
 				opacity="0.5"
 				font-family="Archivo"
 				font-size="11"
-				letter-spacing="2">MODULE GRID A—F</text
+				letter-spacing="2">MODULE GRID A-F</text
 			>
 		</svg>
 	</div>
@@ -191,7 +191,7 @@
 				<ResponsiveImage src={manifestoImage.src} alt={manifestoImage.alt} />
 			</div>
 			<div class="manifesto-fade" aria-hidden="true"></div>
-			<div class="fig-tag">FIG. 01 — DIRECT HIRE</div>
+			<div class="fig-tag">FIG. 01: DIRECT HIRE</div>
 		</div>
 	</div>
 </section>
@@ -278,7 +278,7 @@
 	</div>
 </section>
 
-<!-- ============ SELECT PROJECTS — HORIZONTAL SCROLL ============ -->
+<!-- ============ SELECT PROJECTS: HORIZONTAL SCROLL ============ -->
 <HorizontalScroll heightVh={320}>
 	{#snippet header()}
 		<div class="projects-head">
@@ -319,7 +319,7 @@
 	</div>
 </section>
 
-<!-- ============ THE STANDARD — VALUES + RECOGNITION ============ -->
+<!-- ============ THE STANDARD: VALUES + RECOGNITION ============ -->
 <section class="standard">
 	<div class="standard-grid stack-mobile">
 		<div class="standard-values">
@@ -397,7 +397,7 @@
 {/if}
 
 {#if latestPosts.length > 0}
-	<!-- ============ FROM THE FIELD — BLOG TEASER ============ -->
+	<!-- ============ FROM THE FIELD: BLOG TEASER ============ -->
 	<section class="insights-teaser">
 		<div class="insights-head">
 			<SectionLabel idx="07" label="From the field" />
@@ -420,18 +420,6 @@
 		</div>
 	</section>
 {/if}
-
-<!-- ============ CAREERS CTA ============ -->
-<section class="careers-cta">
-	<div use:reveal={{ kind: 'fade' }} class="careers-eyebrow">Hiring all craft disciplines</div>
-	<h2>
-		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Build what</span></span>
-		<span class="mask-line"><span use:reveal={{ kind: 'mask', delay: 0.12 }}>matters.</span></span>
-	</h2>
-	<div use:reveal={{ kind: 'up', delay: 0.3 }} class="careers-btn-wrap">
-		<a use:magnetic data-cursor-view href="/careers" class="btn btn--solid">Explore Careers</a>
-	</div>
-</section>
 
 <style>
 	.accent {
@@ -991,7 +979,7 @@
 		}
 	}
 
-	/* The Standard — values + recognition */
+	/* The Standard: values + recognition */
 	.standard {
 		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
 		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
@@ -1439,37 +1427,6 @@
 		.insights-grid {
 			grid-template-columns: 1fr;
 		}
-	}
-
-	/* Careers CTA */
-	.careers-cta {
-		padding: clamp(90px, 14vh, 180px) clamp(20px, 4vw, 64px);
-		text-align: center;
-		position: relative;
-	}
-
-	.careers-eyebrow {
-		font-size: 12px;
-		font-weight: 600;
-		letter-spacing: 0.28em;
-		color: var(--accent);
-		text-transform: uppercase;
-		margin-bottom: 20px;
-	}
-
-	.careers-cta h2 {
-		margin: 0 auto;
-		font-family: var(--font-display);
-		font-size: clamp(40px, 7vw, 110px);
-		line-height: 1;
-		text-transform: uppercase;
-		max-width: 14ch;
-	}
-
-	.careers-btn-wrap {
-		margin-top: 40px;
-		display: flex;
-		justify-content: center;
 	}
 
 	@media (max-width: 900px) {

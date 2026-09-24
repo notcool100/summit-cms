@@ -4,18 +4,20 @@
 		type?: string;
 		name?: string;
 		value?: string;
+		required?: boolean;
 	}
 
-	let { label, type = 'text', name, value = $bindable('') }: Props = $props();
+	let { label, type = 'text', name, value = $bindable(''), required = false }: Props = $props();
 	let focused = $state(false);
 	let floated = $derived(focused || value.length > 0);
 </script>
 
 <div class="field">
-	<span class="label" class:floated>{label}</span>
+	<span class="label" class:floated>{label}{#if required}<span class="req" aria-hidden="true"> *</span>{/if}</span>
 	<input
 		{type}
 		{name}
+		{required}
 		bind:value
 		onfocus={() => (focused = true)}
 		onblur={() => (focused = false)}
@@ -45,6 +47,10 @@
 
 	.label.floated {
 		transform: translateY(-22px) scale(0.72);
+	}
+
+	.req {
+		color: var(--accent);
 	}
 
 	.field:focus-within .label {

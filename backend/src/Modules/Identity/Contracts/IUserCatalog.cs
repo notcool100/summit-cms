@@ -3,7 +3,7 @@ namespace SummitCms.Modules.Identity.Contracts;
 public sealed record UserSummary(Guid Id, string Email, string FullName);
 
 /// <summary>
-/// The only surface other modules (e.g. Contact, for "assigned to") are allowed to depend on —
+/// The only surface other modules (e.g. Contact, for "assigned to") are allowed to depend on,
 /// never reference Identity.Domain/Infrastructure directly from another module.
 /// </summary>
 public interface IUserCatalog

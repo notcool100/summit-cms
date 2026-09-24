@@ -4,8 +4,6 @@
 	let { data }: PageProps = $props();
 	const { user } = data;
 	let contactStats = $derived(data.contactStats);
-	let openingsTotal = $derived(data.openingsTotal);
-	let openingsActive = $derived(data.openingsActive);
 	let pagesTotal = $derived(data.pagesTotal);
 	let recentActivity = $derived(data.recentActivity);
 
@@ -40,9 +38,9 @@
 		<span class="adm-stat-tile__hint">New submissions</span>
 	</div>
 	<div class="adm-stat-tile">
-		<span class="adm-stat-tile__label">Open job postings</span>
-		<span class="adm-stat-tile__value">{openingsActive}</span>
-		<span class="adm-stat-tile__hint">of {openingsTotal} total</span>
+		<span class="adm-stat-tile__label">Site pages</span>
+		<span class="adm-stat-tile__value">{pagesTotal}</span>
+		<span class="adm-stat-tile__hint">Editable in Pages</span>
 	</div>
 </div>
 

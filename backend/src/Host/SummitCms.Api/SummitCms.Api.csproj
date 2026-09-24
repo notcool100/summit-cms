@@ -10,7 +10,6 @@
     <ProjectReference Include="..\..\Modules\Capabilities\SummitCms.Modules.Capabilities.csproj" />
     <ProjectReference Include="..\..\Modules\Industries\SummitCms.Modules.Industries.csproj" />
     <ProjectReference Include="..\..\Modules\Projects\SummitCms.Modules.Projects.csproj" />
-    <ProjectReference Include="..\..\Modules\Careers\SummitCms.Modules.Careers.csproj" />
     <ProjectReference Include="..\..\Modules\Contact\SummitCms.Modules.Contact.csproj" />
     <ProjectReference Include="..\..\Modules\Blog\SummitCms.Modules.Blog.csproj" />
   </ItemGroup>

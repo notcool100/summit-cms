@@ -20,6 +20,8 @@
 			ticking = false;
 			const y = window.scrollY;
 			hidden = y > 120 && y > lastY;
+			// Lets sticky bars elsewhere (project/insight filters) dock to the top while the header is away.
+			document.documentElement.classList.toggle('header-hidden', hidden);
 			lastY = y;
 			const max = document.documentElement.scrollHeight - window.innerHeight;
 			progress = max > 0 ? (100 * y) / max : 0;
@@ -33,7 +35,10 @@
 		}
 
 		window.addEventListener('scroll', onScroll, { passive: true });
-		return () => window.removeEventListener('scroll', onScroll);
+		return () => {
+			window.removeEventListener('scroll', onScroll);
+			document.documentElement.classList.remove('header-hidden');
+		};
 	});
 </script>
 
@@ -48,7 +53,7 @@
 		</nav>
 
 		<div class="actions">
-			<a use:magnetic href="/careers#profile" class="hide-tablet cta">Submit Your Profile</a>
+			<a use:magnetic href="/contact" class="hide-tablet cta">Get in Touch</a>
 			<ThemeSwitcher />
 			<button
 				class="hamburger"

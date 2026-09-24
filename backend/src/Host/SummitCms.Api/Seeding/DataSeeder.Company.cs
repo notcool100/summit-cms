@@ -22,17 +22,17 @@ public static partial class DataSeeder
                 {
                     PageId = aboutPageId, DisplayOrder = 0, Eyebrow = "The founding bet",
                     TitleLine1 = "Self-perform", TitleLine2 = "or don't bid.",
-                    Body = "Our first contract was 4,100 feet of chrome piping nobody else wanted — a schedule everyone said was impossible. We staffed it with welders we knew by name, finished eleven days early, and never looked back. Today more than 90% of our field hours are worked by Summit employees, not subcontractors.",
+                    Body = "Our first contract was 4,100 feet of chrome piping nobody else wanted, on a schedule everyone said was impossible. We staffed it with welders we knew by name, finished eleven days early, and never looked back. Today more than 90% of our field hours are worked by Summit employees, not subcontractors.",
                     MediaId = Media("https://summit.us/wp-content/uploads/2022/05/20140514_161421-edited-scaled.jpg"),
-                    ImageCaption = "KARRATHA YARD — 1996", ImageFirst = true
+                    ImageCaption = "KARRATHA YARD, 1996", ImageFirst = true
                 },
                 new NarrativeBlock
                 {
                     PageId = aboutPageId, DisplayOrder = 1, Eyebrow = "Scale, without losing the plot",
                     TitleLine1 = "From one crew", TitleLine2 = "to 2,400 craft.",
-                    Body = "The Pilbara expansion cycle changed everything. Production-locked schedules demand modular thinking — so we built our own off-site manufacturing yards, where trestles and pipe racks are assembled under cover, on the ground, at quality levels field work can't touch. What ships to site arrives ready to set.",
+                    Body = "The Pilbara expansion cycle changed everything. Production-locked schedules demand modular thinking, so we built our own off-site manufacturing yards, where trestles and pipe racks are assembled under cover, on the ground, at quality levels field work can't touch. What ships to site arrives ready to set.",
                     MediaId = Media("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg"),
-                    ImageCaption = "OSM YARD — PRESENT DAY", ImageFirst = false
+                    ImageCaption = "OSM YARD, PRESENT DAY", ImageFirst = false
                 });
         }
 
@@ -41,10 +41,10 @@ public static partial class DataSeeder
             (string Year, string Title, string Body)[] milestones =
             [
                 ("1996", "Founded in Karratha", "Three superintendents, one rented yard, and a chrome-piping contract nobody else would touch."),
-                ("2012", "First full power scope", "Ironbark Power Station Units 5–11 — our first multi-unit plant, delivered with 100% self-performed mechanical."),
+                ("2012", "First full power scope", "Ironbark Power Station Units 5-11, our first multi-unit plant, delivered with 100% self-performed mechanical."),
                 ("2016", "OSM yard opens", "Off-site manufacturing changes our economics: assembly on the ground, under cover, at shop quality."),
                 ("2019", "Minerals processing entry", "First major processing-plant scope. Production-schedule discipline meets heavy mechanical."),
-                ("2022", "18M safe work hours", "TRIR at 0.42 across the rolling period — while headcount tripled."),
+                ("2022", "18M safe work hours", "TRIR at 0.42 across the rolling period, while headcount tripled."),
                 ("2025", "Project Phoenix", "480,000 LF of pipe underground and above grade on the largest processing plant build in the region.")
             ];
             for (var i = 0; i < milestones.Length; i++)
@@ -55,7 +55,7 @@ public static partial class DataSeeder
         {
             (string Code, string Name, string Body)[] values =
             [
-                ("01", "Safety", "Not a program — a condition of employment. Stop-work authority belongs to everyone with boots on our site."),
+                ("01", "Safety", "Not a program. A condition of employment. Stop-work authority belongs to everyone with boots on our site."),
                 ("02", "Quality", "Every weld traceable. Every turnover package complete before we call it done."),
                 ("03", "People", "Direct-hire craft, trained in our own programs, kept between projects. Loyalty runs both directions."),
                 ("04", "Execution", "Schedules are promises. We plan the work, work the plan, and report the truth.")
@@ -97,11 +97,11 @@ public static partial class DataSeeder
             (string Year, string Name)[] awards =
             [
                 ("2025", "WorkSafe WA Gold Award for Safety Excellence"),
-                ("2024", "Chamber of Minerals & Energy WA Safety Excellence — Finalist"),
-                ("2024", "NOSA 5-Star Safety Rating — Karratha Yard"),
+                ("2024", "Chamber of Minerals & Energy WA Safety Excellence, Finalist"),
+                ("2024", "NOSA 5-Star Safety Rating, Karratha Yard"),
                 ("2023", "Master Builders WA Safety Excellence Diamond"),
                 ("2022", "AMMA Safety Innovation Award"),
-                ("2021", "Client Zero-Harm Award — Pilbara LNG Program")
+                ("2021", "Client Zero-Harm Award, Pilbara LNG Program")
             ];
             for (var i = 0; i < awards.Length; i++)
                 db.Awards.Add(new Award { PageId = aboutPageId, DisplayOrder = i, Year = awards[i].Year, Name = awards[i].Name });

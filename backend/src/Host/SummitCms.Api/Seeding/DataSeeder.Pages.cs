@@ -14,10 +14,9 @@ public static partial class DataSeeder
 
         (string Slug, string Title, string Meta, string Hero, string Sub)[] pages =
         [
-            (PageSlugs.Home, "Summit Industrial Services — Industrial Services", "Self-performed mechanical, structural, and modular construction for the Pilbara's most demanding industrial sites.", "Built by the people who show up.", "2,400+ direct-hire craft. 18M+ safe work hours. Self-perform or don't bid."),
-            (PageSlugs.About, "About Summit Industrial Services", "Founded in 1996 on a piping contract nobody else would touch — now 2,400 craft strong.", "Self-perform or don't bid.", "The story, the values, and the people behind Summit Industrial Services."),
+            (PageSlugs.Home, "Summit Industrial Services | Industrial Services", "Self-performed mechanical, structural, and modular construction for the Pilbara's most demanding industrial sites.", "Built by the people who show up.", "2,400+ direct-hire craft. 18M+ safe work hours. Self-perform or don't bid."),
+            (PageSlugs.About, "About Summit Industrial Services", "Founded in 1996 on a piping contract nobody else would touch. Now 2,400 craft strong.", "Self-perform or don't bid.", "The story, the values, and the people behind Summit Industrial Services."),
             (PageSlugs.Capabilities, "Capabilities", "Mechanical, structural, modular, underground, equipment setting, and design-assist engineering.", "Every discipline the work needs, under one roof.", "From chrome piping to constructability engineering."),
-            (PageSlugs.Careers, "Careers at Summit Industrial Services", "Craft and professional careers building the Pilbara's largest industrial sites.", "Build the work that matters.", "Craft and professional careers, real per diem, real advancement."),
             (PageSlugs.Contact, "Contact Summit Industrial Services", "Get in touch about a project, a career, or a partnership.", "Let's talk about the work.", "New projects, design-assist, employment, or vendor inquiries."),
             (PageSlugs.Industries, "Industries We Serve", "Mining & minerals processing, power, energy & terminals, renewables, and heavy manufacturing.", "Industries that can't afford to slip.", "Schedule-critical construction across five industries."),
             (PageSlugs.Projects, "Featured Projects", "480,000 LF of pipe. 900,000 BBL of storage. 7 recommissioned power units.", "The scale of work we self-perform.", "A sample of what Summit crews have delivered."),
@@ -35,7 +34,7 @@ public static partial class DataSeeder
             existingPages[slug] = page;
         }
 
-        // Backfill hero/secondary media for the two pages that originally had page-level hero art -
+        // Backfill hero/secondary media for the home page, which originally had page-level hero art -
         // idempotent (only fills nulls) so it heals a database seeded before this field existed.
         Guid Media(string url) => mediaMap[url];
 
@@ -43,10 +42,6 @@ public static partial class DataSeeder
         {
             homePage.HeroMediaId ??= Media("https://summit.us/wp-content/uploads/2022/05/IMG_5350-scaled.jpg");
             homePage.SecondaryMediaId ??= Media("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg");
-        }
-        if (existingPages.TryGetValue(PageSlugs.Careers, out var careersPage))
-        {
-            careersPage.HeroMediaId ??= Media("https://summit.us/wp-content/uploads/2022/05/22.005-Project-Hedgehog-Rio-Rancho-03.jpg");
         }
 
         await db.SaveChangesAsync();

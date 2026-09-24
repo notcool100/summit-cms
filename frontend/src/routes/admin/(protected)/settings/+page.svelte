@@ -19,7 +19,7 @@
 <div class="adm-page-head">
 	<div>
 		<h1>Site settings</h1>
-		<p>Global company info, contact-form enquiry types, and the metric stats shown on the home, careers, and about pages.</p>
+		<p>Global company info, contact-form enquiry types, and the metric stats shown on the home and about pages.</p>
 	</div>
 </div>
 
@@ -148,7 +148,7 @@
 		</button>
 	</div>
 	<p class="adm-muted section-hint">
-		Group keys currently read by the public site: <code>home_stats</code> (home), <code>why_summit</code> (careers), <code>hse</code> (about).
+		Group keys currently read by the public site: <code>home_stats</code> (home), <code>hse</code> (about).
 	</p>
 	{#if showNewStat}
 		<div class="adm-card">

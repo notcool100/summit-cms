@@ -11,7 +11,7 @@ public static class SiteContentPermissions
     [
         (ManagePages, "Edit page hero content and SEO metadata"),
         (ManageSettings, "Edit global site settings (contact info, social links, footer)"),
-        (ManageStats, "Edit homepage/about/careers metric stats"),
+        (ManageStats, "Edit homepage/about metric stats"),
         (ManageEnquiryTypes, "Edit the contact form's enquiry-type options")
     ];
 }

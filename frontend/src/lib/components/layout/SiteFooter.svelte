@@ -43,7 +43,6 @@
 			<a href="/about">Who We Are</a>
 			<a href="/capabilities">Capabilities</a>
 			<a href="/industries">Industries</a>
-			<a href="/careers">Careers</a>
 		</nav>
 
 		<nav class="col">
