@@ -10,6 +10,7 @@
 	import { site } from '$lib/config/site';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import JsonLd from '$lib/components/layout/JsonLd.svelte';
+	import GoogleMap from '$lib/components/common/GoogleMap.svelte';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
@@ -17,6 +18,12 @@
 	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
 	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
 	let companyAddress = $derived(page.data.siteSettings?.company_address);
+	let mapQuery = $derived(
+		`${(companyAddress || `${site.address.line1}, ${site.address.line2}`).replace(/\s*\n\s*/g, ', ')}, Australia`
+	);
+	let directionsHref = $derived(
+		`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}`
+	);
 
 	let fullName = $state('');
 	let company = $state('');
@@ -95,51 +102,9 @@
 				</div>
 			</div>
 			<div use:reveal={{ kind: 'clip', delay: 0.2 }} class="map-frame">
-				<svg viewBox="0 0 520 300" class="map-svg">
-					<g stroke="rgba(var(--ink-rgb),.1)" stroke-width="1"
-						><path
-							d="M0 60 H520 M0 120 H520 M0 180 H520 M0 240 H520 M80 0 V300 M160 0 V300 M240 0 V300 M320 0 V300 M400 0 V300 M480 0 V300"
-						/></g
-					>
-					<g stroke="rgba(var(--ink-rgb),.35)" stroke-width="1.5" fill="none">
-						<path d="M40 210 C120 190 180 170 260 168 C340 166 420 150 500 120" />
-						<path d="M140 40 C170 110 200 170 210 260" />
-						<path d="M330 30 C310 110 300 180 320 280" />
-					</g>
-					<path
-						d="M180 130 C230 118 300 122 350 140 C380 152 380 190 340 206 C290 226 220 222 185 200 C155 180 150 140 180 130 Z"
-						fill="rgba(var(--accent-rgb),.06)"
-						stroke="rgba(var(--accent-rgb),.4)"
-						stroke-dasharray="5 4"
-					/>
-					<circle cx="262" cy="170" r="8" fill="none" stroke="var(--accent)" />
-					<circle cx="262" cy="170" r="3" fill="var(--accent)" />
-					<text
-						x="278"
-						y="166"
-						font-family="Archivo"
-						font-size="11"
-						letter-spacing="2"
-						fill="var(--ink)">SUMMIT HQ</text
-					>
-					<text
-						x="278"
-						y="182"
-						font-family="Archivo"
-						font-size="9"
-						letter-spacing="1.5"
-						fill="rgba(var(--ink-rgb),.5)">PYRAMID RD, KARRATHA IND. ESTATE</text
-					>
-					<text
-						x="16"
-						y="284"
-						font-family="Archivo"
-						font-size="9"
-						letter-spacing="2"
-						fill="rgba(var(--ink-rgb),.4)">KARRATHA, WA | 20.7364° S, 116.8460° E</text
-					>
-				</svg>
+				<GoogleMap query={mapQuery} title="Map showing {site.name} in Karratha Industrial Estate" />
 			</div>
+			<a class="map-directions" href={directionsHref} target="_blank" rel="noopener noreferrer">Get directions ↗</a>
 		</div>
 
 		<!-- RIGHT: FORM -->
@@ -255,12 +220,32 @@
 		margin-top: 44px;
 		border: 1px solid rgba(var(--ink-rgb), 0.12);
 		overflow: hidden;
+		background: var(--panel);
+		aspect-ratio: 16 / 10;
 	}
 
-	.map-svg {
-		width: 100%;
-		display: block;
-		background: var(--panel);
+	@media (max-width: 640px) {
+		.map-frame {
+			aspect-ratio: 4 / 3;
+		}
+	}
+
+	.map-directions {
+		display: inline-block;
+		margin-top: 16px;
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: var(--accent);
+		border-bottom: 1px solid rgba(var(--accent-rgb), 0.4);
+		padding-bottom: 4px;
+		transition: border-color 0.3s;
+	}
+
+	.map-directions:hover {
+		border-color: var(--accent);
 	}
 
 	.form-card {

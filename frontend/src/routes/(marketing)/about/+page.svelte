@@ -8,10 +8,22 @@
 	import { parallax } from '$lib/actions/parallax';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import GoogleMap from '$lib/components/common/GoogleMap.svelte';
+	import { page } from '$app/state';
+	import { site } from '$lib/config/site';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 	const { heroHeading, heroSubheading, narrative, milestones, values, leaders, locations, hseStats, awards } = data;
+
+	// The map follows whichever office is picked; HQ uses its full street address so the pin
+	// lands on the building, the rest centre on their town.
+	let hqAddress = $derived(
+		(page.data.siteSettings?.company_address || `${site.address.line1}, ${site.address.line2}`).replace(/\s*\n\s*/g, ', ')
+	);
+	let selectedIdx = $state(locations.find((l) => l.hq)?.idx ?? locations[0]?.idx);
+	let selected = $derived(locations.find((l) => l.idx === selectedIdx));
+	let mapQuery = $derived(selected?.hq ? `${hqAddress}, Australia` : `${selected?.city ?? 'Western Australia'}, Australia`);
 </script>
 
 <SeoHead title={data.seoTitle} description={data.seoDescription} image={narrative[0]?.image.src} />
@@ -121,56 +133,24 @@
 	<div class="locations-grid stack-mobile">
 		<div class="locations-list">
 			{#each locations as l (l.idx)}
-				<div class="location-row">
-					<div class="location-left">
+				<button
+					type="button"
+					class="location-row"
+					class:active={l.idx === selectedIdx}
+					aria-pressed={l.idx === selectedIdx}
+					onclick={() => (selectedIdx = l.idx)}
+				>
+					<span class="location-left">
 						<span class="location-idx">{l.idx}</span>
 						<span class="location-city">{l.city}</span>
 						{#if l.hq}<span class="hq-badge">HQ</span>{/if}
-					</div>
+					</span>
 					<span class="location-role">{l.role}</span>
-				</div>
+				</button>
 			{/each}
 		</div>
 		<div use:reveal={{ kind: 'clip' }} class="map-frame">
-			<svg viewBox="0 0 500 320" class="map-svg">
-				<g stroke="rgba(var(--ink-rgb),.12)" stroke-width="1"
-					><path
-						d="M0 80 H500 M0 160 H500 M0 240 H500 M100 0 V320 M200 0 V320 M300 0 V320 M400 0 V320"
-					/></g
-				>
-				<path
-					d="M96 60 L150 48 L210 44 L268 52 L330 46 L392 62 L430 96 L448 150 L430 204 L396 250 L330 276 L262 284 L196 274 L142 250 L104 206 L86 150 Z"
-					fill="rgba(var(--ink-rgb),.05)"
-					stroke="rgba(var(--ink-rgb),.3)"
-					stroke-width="1"
-					stroke-dasharray="5 4"
-				/>
-				<g font-family="Archivo" font-size="10" letter-spacing="1.5" fill="rgba(var(--ink-rgb),.7)">
-					<circle cx="255" cy="238" r="6" fill="none" stroke="var(--accent)" /><circle
-						cx="255"
-						cy="238"
-						r="2.5"
-						fill="var(--accent)"
-					/><text x="266" y="242">KARRATHA HQ</text>
-					<circle cx="150" cy="205" r="2.5" fill="var(--ink)" /><text x="160" y="209"
-						>PERTH</text
-					>
-					<circle cx="228" cy="196" r="2.5" fill="var(--ink)" /><text x="186" y="188"
-						>NEWMAN</text
-					>
-					<circle cx="243" cy="262" r="2.5" fill="var(--ink)" /><text x="160" y="272">PORT HEDLAND</text
-					>
-					<circle cx="272" cy="226" r="2.5" fill="var(--ink)" /><text x="282" y="230">ONSLOW</text>
-				</g>
-				<text
-					x="18"
-					y="304"
-					font-family="Archivo"
-					font-size="9"
-					letter-spacing="2"
-					fill="rgba(var(--ink-rgb),.4)">LICENSED ACROSS WESTERN AUSTRALIA</text
-				>
-			</svg>
+			<GoogleMap query={mapQuery} zoom={selected?.hq ? 14 : 12} title="Map showing {selected?.city ?? 'our offices'}" />
 		</div>
 	</div>
 </section>
@@ -525,6 +505,13 @@
 	}
 
 	.location-row {
+		width: 100%;
+		background: none;
+		border: none;
+		color: inherit;
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;
@@ -534,7 +521,14 @@
 		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
 		transition:
 			background 0.3s,
-			padding-left 0.3s;
+			padding-left 0.3s,
+			box-shadow 0.3s;
+	}
+
+	.location-row.active {
+		background: rgba(var(--accent-rgb), 0.07);
+		padding-left: 20px;
+		box-shadow: inset 3px 0 0 var(--accent);
 	}
 
 	.location-row:hover {
@@ -586,12 +580,6 @@
 		border: 1px solid rgba(var(--ink-rgb), 0.12);
 	}
 
-	.map-svg {
-		width: 100%;
-		height: 100%;
-		display: block;
-		background: var(--panel);
-	}
 
 	/* HSE */
 	.hse-grid {

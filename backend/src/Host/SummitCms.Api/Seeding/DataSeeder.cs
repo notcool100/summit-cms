@@ -104,8 +104,12 @@ public static partial class DataSeeder
         if (!await db.Users.AnyAsync())
         {
             var hasher = sp.GetRequiredService<IPasswordHasherService>();
-            var adminEmail = (config["Seed:AdminEmail"] ?? "anjaljoshi6@gmail.com").Trim().ToLowerInvariant();
-            var adminPassword = config["Seed:AdminPassword"] ?? GenerateStrongPassword();
+            // Blank values (appsettings.json ships them as "") count as unset, otherwise the admin
+            // would be seeded with an empty password.
+            var configuredEmail = config["Seed:AdminEmail"];
+            var configuredPassword = config["Seed:AdminPassword"];
+            var adminEmail = (string.IsNullOrWhiteSpace(configuredEmail) ? "st.technology.au@gmail.com" : configuredEmail).Trim().ToLowerInvariant();
+            var adminPassword = string.IsNullOrWhiteSpace(configuredPassword) ? GenerateStrongPassword() : configuredPassword;
 
             var user = new User
             {
@@ -120,7 +124,7 @@ public static partial class DataSeeder
             await db.SaveChangesAsync();
 
             Log.Information("Seeded SuperAdmin user {Email} - {PasswordNote}", adminEmail,
-                config["Seed:AdminPassword"] is null
+                string.IsNullOrWhiteSpace(configuredPassword)
                     ? $"generated password (change immediately): {adminPassword}"
                     : "password from Seed:AdminPassword config");
         }
