@@ -1,127 +1,183 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Drawer from '$lib/admin/Drawer.svelte';
+	import MediaPicker from '$lib/admin/MediaPicker.svelte';
+	import { confirmDelete, submit } from '$lib/admin/feedback.svelte';
 	import type { PageProps } from './$types';
 
-	let { data, form }: PageProps = $props();
+	let { data }: PageProps = $props();
 	let industries = $derived(data.industries);
 	let media = $derived(data.media);
 	let projects = $derived(data.projects);
 	let links = $derived(data.links);
 
-	let showNew = $state(false);
-	let editingId = $state<string | null>(null);
-	let addingLinkFor = $state<string | null>(null);
-</script>
+	type Industry = (typeof industries)[number];
+	let drawerOpen = $state(false);
+	let editing = $state<Industry | null>(null);
+	let linkDrawerOpen = $state(false);
+	let linkingFor = $state<Industry | null>(null);
 
-{#snippet fields(idPrefix: string, i?: (typeof industries)[number])}
-	<div class="adm-form-grid">
-		<div class="adm-field"><label for="{idPrefix}-idx">Index (e.g. 01)</label><input class="adm-input" id="{idPrefix}-idx" name="idx" value={i?.idx ?? ''} /></div>
-		<div class="adm-field"><label for="{idPrefix}-name">Name</label><input class="adm-input" id="{idPrefix}-name" name="name" value={i?.name ?? ''} required /></div>
-		<div class="adm-field"><label for="{idPrefix}-tag">Tag</label><input class="adm-input" id="{idPrefix}-tag" name="tag" value={i?.tag ?? ''} /></div>
-		<div class="adm-field"><label for="{idPrefix}-fig">Figure label</label><input class="adm-input" id="{idPrefix}-fig" name="figureLabel" value={i?.figureLabel ?? ''} /></div>
-	</div>
-	<div class="adm-field"><label for="{idPrefix}-body">Body</label><textarea class="adm-textarea" id="{idPrefix}-body" name="body">{i?.body ?? ''}</textarea></div>
-	<div class="adm-form-grid">
-		<div class="adm-field">
-			<label for="{idPrefix}-media">Image</label>
-			<select class="adm-select" id="{idPrefix}-media" name="mediaId"><option value="">None</option>{#each media as m (m.id)}<option value={m.id} selected={m.id === i?.mediaId}>{m.fileName}</option>{/each}</select>
-		</div>
-		<div class="adm-field"><label for="{idPrefix}-order">Display order</label><input class="adm-input" id="{idPrefix}-order" name="displayOrder" type="number" value={i?.displayOrder ?? 0} /></div>
-	</div>
-	<label class="adm-checkbox-row"><input type="checkbox" name="isActive" value="true" checked={i?.isActive ?? true} /> Active</label>
-{/snippet}
+	function openDrawer(i: Industry | null) {
+		editing = i;
+		drawerOpen = true;
+	}
+	function openLink(i: Industry) {
+		linkingFor = i;
+		linkDrawerOpen = true;
+	}
+	const thumb = (id: string | null) => media.find((m) => m.id === id)?.url;
+</script>
 
 <div class="adm-page-head">
 	<div>
 		<h1>Industries</h1>
-		<p>Industries served, each optionally linked to real projects (name/stat can be overridden per link).</p>
+		<p>Industries served, each optionally linked to real projects. Names and stats can be overridden per link.</p>
 	</div>
-	<button class="adm-btn adm-btn--primary" onclick={() => (showNew = !showNew)}>{showNew ? 'Cancel' : 'New industry'}</button>
+	<button class="adm-btn adm-btn--primary" onclick={() => openDrawer(null)}>New industry</button>
 </div>
 
-{#if form?.error}
-	<div class="adm-banner adm-banner--error">{form.error}</div>
-{:else if form?.success}
-	<div class="adm-banner adm-banner--success">Saved.</div>
-{/if}
-
-{#if showNew}
-	<div class="adm-card">
-		<form method="POST" action="?/create" use:enhance={() => async ({ update }) => { await update(); showNew = false; }}>
-			{@render fields('new')}
-			<div class="adm-form-actions"><button class="adm-btn adm-btn--primary" type="submit">Create</button></div>
-		</form>
-	</div>
-{/if}
-
-<div class="adm-stack">
-	{#each industries as ind (ind.id)}
-		<div class="adm-card">
-			<div class="adm-flex-between">
-				<div>
-					<div class="ind-title">{ind.idx} · {ind.name}</div>
-					<div class="adm-muted">{ind.tag}</div>
+{#if industries.length === 0}
+	<div class="adm-list"><div class="adm-empty"><h3>No industries yet</h3><p>Add the sectors you work in.</p></div></div>
+{:else}
+	<div class="adm-list">
+		{#each industries as ind (ind.id)}
+			{@const indLinks = links.filter((l) => l.industryId === ind.id)}
+			<div class="adm-list-row ind-row">
+				<span class="adm-order">{ind.idx}</span>
+				{#if thumb(ind.mediaId)}<img class="adm-thumb" src={thumb(ind.mediaId)} alt="" />{:else}<span class="adm-thumb"></span>{/if}
+				<div class="adm-list-main">
+					<div class="adm-list-title">
+						{ind.name}
+						{#if !ind.isActive}<span class="adm-badge adm-badge--dot">Hidden</span>{/if}
+					</div>
+					<div class="adm-list-sub">{ind.tag}</div>
+					<div class="adm-tag-list links">
+						{#each indLinks as link (link.id)}
+							{@const project = projects.find((p) => p.id === link.projectId)}
+							<span class="adm-badge adm-badge--accent">
+								{link.customLabel ?? project?.name ?? 'Unknown project'}
+								{#if link.customStat ?? project?.stat}<span class="link-stat">{link.customStat ?? project?.stat}</span>{/if}
+								<form method="POST" action="?/removeLink" use:enhance={confirmDelete('project link', 'The project stays; it just stops appearing under this industry.')}>
+									<input type="hidden" name="id" value={link.id} />
+									<button type="submit" class="adm-chip-x" aria-label="Unlink project" title="Unlink">×</button>
+								</form>
+							</span>
+						{/each}
+						<button class="link-add" onclick={() => openLink(ind)}>+ Link project</button>
+					</div>
 				</div>
 				<div class="adm-row-actions">
-					<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => (editingId = editingId === ind.id ? null : ind.id)}>
-						{editingId === ind.id ? 'Close' : 'Edit'}
-					</button>
-					<form method="POST" action="?/remove" use:enhance><input type="hidden" name="id" value={ind.id} /><button class="adm-btn adm-btn--danger adm-btn--sm" type="submit">Delete</button></form>
+					<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openDrawer(ind)}>Edit</button>
+					<form method="POST" action="?/remove" use:enhance={confirmDelete('industry', `“${ind.name}” and its project links will be removed.`)}>
+						<input type="hidden" name="id" value={ind.id} />
+						<button class="adm-btn adm-btn--ghost adm-btn--sm" type="submit">Delete</button>
+					</form>
 				</div>
 			</div>
+		{/each}
+	</div>
+{/if}
 
-			{#if editingId === ind.id}
-				<form method="POST" action="?/update" use:enhance class="edit-form">
-					<input type="hidden" name="id" value={ind.id} />
-					{@render fields(ind.id, ind)}
-					<div class="adm-form-actions"><button class="adm-btn adm-btn--primary" type="submit">Save</button></div>
-				</form>
-			{/if}
-
-			<div class="links-block">
-				<div class="adm-flex-between">
-					<span class="links-label">Linked projects</span>
-					<button class="adm-btn adm-btn--ghost adm-btn--sm" onclick={() => (addingLinkFor = addingLinkFor === ind.id ? null : ind.id)}>+ Link project</button>
-				</div>
-				<div class="adm-tag-list">
-					{#each links.filter((l) => l.industryId === ind.id) as link (link.id)}
-						{@const project = projects.find((p) => p.id === link.projectId)}
-						<span class="adm-badge adm-badge--accent">
-							{link.customLabel ?? project?.name ?? 'Unknown project'} · {link.customStat ?? project?.stat ?? ''}
-							<form method="POST" action="?/removeLink" use:enhance>
-								<input type="hidden" name="id" value={link.id} />
-								<button type="submit" class="tag-remove" aria-label="Remove link">×</button>
-							</form>
-						</span>
-					{/each}
-				</div>
-				{#if addingLinkFor === ind.id}
-					<form
-						method="POST"
-						action="?/addLink"
-						use:enhance={() => async ({ update }) => { await update(); addingLinkFor = null; }}
-						class="link-form"
-					>
-						<input type="hidden" name="industryId" value={ind.id} />
-						<select class="adm-select" name="projectId" required>
-							<option value="">Choose project…</option>
-							{#each projects as p (p.id)}<option value={p.id}>{p.name}</option>{/each}
-						</select>
-						<input class="adm-input" name="customLabel" placeholder="Custom label (optional)" />
-						<input class="adm-input" name="customStat" placeholder="Custom stat (optional)" />
-						<button class="adm-btn adm-btn--primary adm-btn--sm" type="submit">Add</button>
-					</form>
-				{/if}
+<Drawer bind:open={drawerOpen} title={editing ? `Edit ${editing.name}` : 'New industry'}>
+	{@const i = editing}
+	<form method="POST" action={i ? '?/update' : '?/create'} use:enhance={submit({ success: i ? 'Industry saved' : 'Industry created', onSuccess: () => (drawerOpen = false) })}>
+		{#if i}<input type="hidden" name="id" value={i.id} />{/if}
+		<div class="adm-form-grid">
+			<div class="adm-field">
+				<label for="name">Name</label>
+				<input class="adm-input" id="name" name="name" value={i?.name ?? ''} required />
+			</div>
+			<div class="adm-field">
+				<label for="idx">Index</label>
+				<input class="adm-input" id="idx" name="idx" value={i?.idx ?? ''} placeholder="01" />
+			</div>
+			<div class="adm-field">
+				<label for="tag">Tag</label>
+				<input class="adm-input" id="tag" name="tag" value={i?.tag ?? ''} />
+			</div>
+			<div class="adm-field">
+				<label for="fig">Figure label</label>
+				<input class="adm-input" id="fig" name="figureLabel" value={i?.figureLabel ?? ''} />
 			</div>
 		</div>
-	{/each}
-</div>
+		<div class="adm-field">
+			<label for="body">Body</label>
+			<textarea class="adm-textarea" id="body" name="body" rows="5">{i?.body ?? ''}</textarea>
+		</div>
+		<div class="adm-field">
+			<label for="media">Image</label>
+			<MediaPicker id="media" name="mediaId" {media} value={i?.mediaId ?? null} />
+		</div>
+		<div class="adm-field">
+			<label for="order">Display order</label>
+			<input class="adm-input" id="order" name="displayOrder" type="number" value={i?.displayOrder ?? industries.length} />
+		</div>
+		<label class="adm-switch-row">
+			<div><strong>Visible on site</strong><span>Hidden industries are kept but not shown publicly.</span></div>
+			<input type="checkbox" class="adm-switch" name="isActive" value="true" checked={i?.isActive ?? true} />
+		</label>
+		<div class="adm-form-actions">
+			<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
+			<button class="adm-btn adm-btn--primary" type="submit">{i ? 'Save changes' : 'Create industry'}</button>
+		</div>
+	</form>
+</Drawer>
+
+<Drawer bind:open={linkDrawerOpen} title="Link a project" description={linkingFor ? `Show a project under ${linkingFor.name}.` : undefined}>
+	{#if linkingFor}
+		{@const linked = new Set(links.filter((l) => l.industryId === linkingFor?.id).map((l) => l.projectId))}
+		<form method="POST" action="?/addLink" use:enhance={submit({ success: 'Project linked', onSuccess: () => (linkDrawerOpen = false) })}>
+			<input type="hidden" name="industryId" value={linkingFor.id} />
+			<div class="adm-field">
+				<label for="projectId">Project</label>
+				<select class="adm-select" id="projectId" name="projectId" required>
+					<option value="">Choose a project…</option>
+					{#each projects.filter((p) => !linked.has(p.id)) as p (p.id)}<option value={p.id}>{p.name}</option>{/each}
+				</select>
+			</div>
+			<div class="adm-field">
+				<label for="customLabel">Custom label</label>
+				<input class="adm-input" id="customLabel" name="customLabel" placeholder="Defaults to the project name" />
+			</div>
+			<div class="adm-field">
+				<label for="customStat">Custom stat</label>
+				<input class="adm-input" id="customStat" name="customStat" placeholder="Defaults to the project stat" />
+			</div>
+			<div class="adm-form-actions">
+				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
+				<button class="adm-btn adm-btn--primary" type="submit">Link project</button>
+			</div>
+		</form>
+	{/if}
+</Drawer>
 
 <style>
-	.ind-title { font-size: 15px; font-weight: 600; }
-	.edit-form { margin-top: 16px; }
-	.links-block { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--adm-border); }
-	.links-label { font-size: 12px; font-weight: 600; color: var(--adm-text-muted); }
-	.tag-remove { background: none; border: none; color: inherit; cursor: pointer; font-size: 13px; line-height: 1; padding: 0; margin-left: 2px; }
-	.link-form { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+	.ind-row {
+		align-items: flex-start;
+	}
+	.ind-row .adm-order {
+		padding-top: 10px;
+	}
+	.links {
+		margin-top: 10px;
+	}
+	.link-stat {
+		opacity: 0.7;
+		font-weight: 500;
+	}
+	.link-add {
+		height: 22px;
+		padding: 0 9px;
+		border-radius: 999px;
+		border: 1px dashed var(--adm-border-strong);
+		background: none;
+		color: var(--adm-text-muted);
+		font: inherit;
+		font-size: 11.5px;
+		cursor: pointer;
+	}
+	.link-add:hover {
+		color: var(--adm-text);
+		border-color: var(--adm-text-faint);
+	}
 </style>

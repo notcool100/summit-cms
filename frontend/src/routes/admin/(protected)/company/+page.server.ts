@@ -8,7 +8,9 @@ interface PageDto {
 }
 interface MediaItem {
 	id: string;
+	url: string;
 	fileName: string;
+	altText?: string;
 }
 interface Milestone {
 	id: string;

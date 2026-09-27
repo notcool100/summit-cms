@@ -1,81 +1,80 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { submit } from '$lib/admin/feedback.svelte';
+	import { formatDateTime, timeAgo } from '$lib/admin/format';
 	import type { PageProps } from './$types';
 
-	let { data, form }: PageProps = $props();
+	let { data }: PageProps = $props();
 	let page = $derived(data.page);
 	let versions = $derived(data.versions);
 	let previewVersion = $derived(data.previewVersion);
+	const live = $derived(versions.find((v) => v.isPublished));
 </script>
 
 <div class="adm-page-head">
 	<div>
-		<a href="/admin/pages" class="back-link">← All pages</a>
+		<a href="/admin/pages" class="adm-back">← All pages</a>
 		<h1>{page.title}</h1>
-		<p class="adm-mono">/{page.slug === 'home' ? '' : page.slug}</p>
+		<p>Every save creates a version. Publish an older one to roll the page back.</p>
 	</div>
 </div>
 
-{#if form?.error}
-	<div class="adm-banner adm-banner--error">{form.error}</div>
-{:else if form?.success}
-	<div class="adm-banner adm-banner--success">Published.</div>
-{/if}
-
 {#if previewVersion}
-	<div class="adm-card preview-card">
-		<div class="adm-flex-between">
-			<h2 class="card-title">Version {previewVersion.versionNumber} preview</h2>
-			<a class="adm-btn adm-btn--ghost adm-btn--sm" href="/admin/pages/{page.id}/history">Close preview</a>
+	<section class="adm-card preview-card">
+		<div class="adm-flex-between preview-head">
+			<div>
+				<h2>Version {previewVersion.versionNumber}</h2>
+				{#if live && live.id !== previewVersion.id}<p class="adm-muted">Compare with the live version #{live.versionNumber}</p>{/if}
+			</div>
+			<div class="adm-row-actions">
+				<a class="adm-btn adm-btn--ghost adm-btn--sm" href="/admin/pages/{page.id}/history">Close preview</a>
+			</div>
 		</div>
-		<dl class="preview-fields">
-			<div><dt>Title</dt><dd>{previewVersion.title}</dd></div>
-			<div><dt>Meta description</dt><dd>{previewVersion.metaDescription}</dd></div>
-			<div><dt>Hero heading</dt><dd>{previewVersion.heroHeading}</dd></div>
-			<div><dt>Hero subheading</dt><dd>{previewVersion.heroSubheading}</dd></div>
+		<dl class="adm-dl">
+			<dt>Browser title</dt><dd>{previewVersion.title}</dd>
+			<dt>Meta description</dt><dd>{previewVersion.metaDescription}</dd>
+			<dt>Hero heading</dt><dd>{previewVersion.heroHeading}</dd>
+			<dt>Hero subheading</dt><dd>{previewVersion.heroSubheading}</dd>
 		</dl>
-	</div>
+	</section>
 {/if}
 
 <div class="adm-table-wrap">
 	{#if versions.length === 0}
-		<div class="adm-empty">
-			<h3>No versions yet</h3>
-			<p>Saving from the Pages screen will create the first version.</p>
-		</div>
+		<div class="adm-empty"><h3>No versions yet</h3><p>Saving from the Pages screen creates the first version.</p></div>
 	{:else}
 		<table class="adm-table">
-			<thead>
-				<tr>
-					<th>Version</th>
-					<th>Status</th>
-					<th>Created</th>
-					<th>Created by</th>
-					<th></th>
-				</tr>
-			</thead>
+			<thead><tr><th>Version</th><th>Status</th><th>Saved</th><th>By</th><th></th></tr></thead>
 			<tbody>
 				{#each versions as v (v.id)}
-					<tr>
-						<td>#{v.versionNumber}</td>
+					<tr class:previewing={previewVersion?.id === v.id}>
+						<td class="adm-cell-title">#{v.versionNumber}</td>
 						<td>
-							{#if v.isPublished}
-								<span class="adm-badge adm-badge--success">Live</span>
-							{:else}
-								<span class="adm-badge">Not live</span>
-							{/if}
+							{#if v.isPublished}<span class="adm-badge adm-badge--success adm-badge--dot">Live</span>{:else}<span class="adm-muted">-</span>{/if}
 						</td>
-						<td class="adm-muted">{new Date(v.createdAt).toLocaleString()}</td>
+						<td class="adm-muted" title={formatDateTime(v.createdAt)}>{timeAgo(v.createdAt)}</td>
 						<td>{v.createdByName ?? '-'}</td>
 						<td>
 							<div class="adm-row-actions">
-								<a class="adm-btn adm-btn--secondary adm-btn--sm" href="?preview={v.id}">Preview</a>
-								<form method="POST" action="?/publish" use:enhance>
-									<input type="hidden" name="versionId" value={v.id} />
-									<button class="adm-btn adm-btn--primary adm-btn--sm" type="submit" disabled={v.isPublished}>
-										{v.isPublished ? 'Published' : 'Publish this version'}
-									</button>
-								</form>
+								<a class="adm-btn adm-btn--ghost adm-btn--sm" href="?preview={v.id}">Preview</a>
+								{#if !v.isPublished}
+									<form
+										method="POST"
+										action="?/publish"
+										use:enhance={submit({
+											success: `Version ${v.versionNumber} is now live`,
+											confirm: {
+												title: `Publish version ${v.versionNumber}?`,
+												message: 'It replaces the live content on the public page immediately.',
+												confirmLabel: 'Publish',
+												danger: false
+											}
+										})}
+									>
+										<input type="hidden" name="versionId" value={v.id} />
+										<button class="adm-btn adm-btn--secondary adm-btn--sm" type="submit">Publish</button>
+									</form>
+								{/if}
 							</div>
 						</td>
 					</tr>
@@ -86,34 +85,22 @@
 </div>
 
 <style>
-	.back-link {
-		font-size: 12.5px;
-		color: var(--adm-text-faint);
-		display: inline-block;
-		margin-bottom: 8px;
-	}
-	.card-title {
-		font-size: 15px;
-		margin: 0;
-	}
 	.preview-card {
 		margin-bottom: 20px;
 	}
-	.preview-fields {
-		margin: 16px 0 0;
-		display: grid;
-		gap: 12px;
+	.preview-head {
+		margin-bottom: 18px;
+		align-items: flex-start;
 	}
-	.preview-fields dt {
-		font-size: 11.5px;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.03em;
-		color: var(--adm-text-faint);
-		margin-bottom: 2px;
-	}
-	.preview-fields dd {
+	.preview-head h2 {
+		font-size: 15px;
 		margin: 0;
-		font-size: 13.5px;
+	}
+	.preview-head p {
+		margin: 4px 0 0;
+		font-size: 12.5px;
+	}
+	tr.previewing td {
+		background: var(--adm-accent-soft) !important;
 	}
 </style>

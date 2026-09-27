@@ -1,86 +1,187 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Drawer from '$lib/admin/Drawer.svelte';
+	import Pager from '$lib/admin/Pager.svelte';
+	import { submit } from '$lib/admin/feedback.svelte';
+	import { formatDateTime, matches, timeAgo } from '$lib/admin/format';
 	import type { PageProps } from './$types';
 
-	let { data, form }: PageProps = $props();
+	let { data }: PageProps = $props();
 	let result = $derived(data.result);
 	let enquiryTypes = $derived(data.enquiryTypes);
 	let users = $derived(data.users);
 
-	const STATUSES = ['New', 'InReview', 'Resolved', 'Archived'];
-	let expanded = $state<string | null>(null);
+	const STATUSES = [
+		{ value: 'New', label: 'New', tone: 'accent' },
+		{ value: 'InReview', label: 'In review', tone: 'warning' },
+		{ value: 'Resolved', label: 'Resolved', tone: 'success' },
+		{ value: 'Archived', label: 'Archived', tone: '' }
+	] as const;
+	const statusMeta = (s: string) => STATUSES.find((x) => x.value === s) ?? STATUSES[0];
+
+	let query = $state('');
+	let status = $state<string>('open');
+	const enquiryLabel = (id: string) => enquiryTypes.find((e) => e.id === id)?.label ?? 'General';
+	const assignee = (id: string | null) => users.find((u) => u.id === id);
+	const isOpen = (s: string) => s === 'New' || s === 'InReview';
+
+	const filtered = $derived(
+		result.items.filter(
+			(s) =>
+				(status === 'all' || (status === 'open' ? isOpen(s.status) : s.status === status)) &&
+				matches(query, s.name, s.email, s.company, s.message, enquiryLabel(s.enquiryTypeId))
+		)
+	);
+	const countOf = (key: string) =>
+		key === 'all' ? result.items.length : key === 'open' ? result.items.filter((s) => isOpen(s.status)).length : result.items.filter((s) => s.status === key).length;
+
+	let detailOpen = $state(false);
+	let selectedId = $state<string | null>(null);
+	const selected = $derived(result.items.find((s) => s.id === selectedId) ?? null);
+
+	function openLead(id: string) {
+		selectedId = id;
+		detailOpen = true;
+	}
 </script>
 
 <div class="adm-page-head">
 	<div>
 		<h1>Contact leads</h1>
-		<p>Every submission from the public contact form, newest first.</p>
+		<p>Submissions from the public contact form. Open a lead to read the message, assign it, and track its status.</p>
 	</div>
-	<a class="adm-btn adm-btn--secondary" href="/admin/contact/export">Export CSV</a>
+	<a class="adm-btn adm-btn--secondary" href="/admin/contact/export" download>Export CSV</a>
 </div>
 
-{#if form?.error}
-	<div class="adm-banner adm-banner--error">{form.error}</div>
-{/if}
+<div class="adm-toolbar">
+	<div class="adm-search"><input class="adm-input" type="search" placeholder="Search name, email, company, message…" bind:value={query} /></div>
+	<div class="adm-tabs" role="tablist" aria-label="Filter by status">
+		{#each [{ value: 'open', label: 'Open' }, ...STATUSES, { value: 'all', label: 'All' }] as t (t.value)}
+			<button class="adm-tab" class:active={status === t.value} role="tab" aria-selected={status === t.value} onclick={() => (status = t.value)}>
+				{t.label} <span class="adm-tab-count">{countOf(t.value)}</span>
+			</button>
+		{/each}
+	</div>
+</div>
 
 <div class="adm-table-wrap">
 	{#if result.items.length === 0}
 		<div class="adm-empty"><h3>No leads yet</h3><p>Submissions from the public contact form will show up here.</p></div>
+	{:else if filtered.length === 0}
+		<div class="adm-empty"><h3>Nothing here</h3><p>No leads match this filter{query ? ' and search' : ''}.</p></div>
 	{:else}
 		<table class="adm-table">
-			<thead><tr><th>Received</th><th>From</th><th>Enquiry</th><th>Status</th><th>Assigned</th><th></th></tr></thead>
+			<thead><tr><th>From</th><th>Enquiry</th><th>Status</th><th>Assigned</th><th>Received</th></tr></thead>
 			<tbody>
-				{#each result.items as s (s.id)}
-					<tr>
-						<td class="adm-muted">{new Date(s.createdAt).toLocaleDateString()}</td>
+				{#each filtered as s (s.id)}
+					{@const meta = statusMeta(s.status)}
+					{@const owner = assignee(s.assignedUserId)}
+					<tr class="is-clickable" class:unread={s.status === 'New'} onclick={() => openLead(s.id)}>
 						<td>
-							<div class="lead-name">{s.name}</div>
-							<div class="adm-muted">{s.email}{s.company ? ` · ${s.company}` : ''}</div>
+							<div class="adm-cell-title">{s.name}</div>
+							<div class="adm-cell-sub">{s.email}{s.company ? ` · ${s.company}` : ''}</div>
 						</td>
-						<td>{enquiryTypes.find((e) => e.id === s.enquiryTypeId)?.label ?? '-'}</td>
-						<td>
-							<form method="POST" action="?/setStatus" use:enhance class="status-form">
-								<input type="hidden" name="id" value={s.id} />
-								<select class="adm-select status-select" name="status" onchange={(e) => e.currentTarget.form?.requestSubmit()}>
-									{#each STATUSES as st (st)}<option value={st} selected={st === s.status}>{st}</option>{/each}
-								</select>
-							</form>
-						</td>
-						<td>
-							<form method="POST" action="?/assign" use:enhance class="status-form">
-								<input type="hidden" name="id" value={s.id} />
-								<select class="adm-select status-select" name="userId" onchange={(e) => e.currentTarget.form?.requestSubmit()}>
-									<option value="">Unassigned</option>
-									{#each users as u (u.id)}<option value={u.id} selected={u.id === s.assignedUserId}>{u.fullName || u.email}</option>{/each}
-								</select>
-							</form>
-						</td>
-						<td>
-							<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => (expanded = expanded === s.id ? null : s.id)}>
-								{expanded === s.id ? 'Hide' : 'Message'}
-							</button>
-						</td>
+						<td class="adm-muted">{enquiryLabel(s.enquiryTypeId)}</td>
+						<td><span class="adm-badge adm-badge--dot {meta.tone ? `adm-badge--${meta.tone}` : ''}">{meta.label}</span></td>
+						<td class={owner ? '' : 'adm-muted'}>{owner ? owner.fullName || owner.email : 'Unassigned'}</td>
+						<td class="adm-muted" title={formatDateTime(s.createdAt)}>{timeAgo(s.createdAt)}</td>
 					</tr>
-					{#if expanded === s.id}
-						<tr><td colspan="6"><p class="message-body">{s.message}</p>{#if s.phone}<p class="adm-muted">Phone: {s.phone}</p>{/if}</td></tr>
-					{/if}
 				{/each}
 			</tbody>
 		</table>
 	{/if}
 </div>
 
-{#if result.totalPages > 1}
-	<div class="pager">
-		{#each Array(result.totalPages) as _, i (i)}
-			<a href="?page={i + 1}" class="adm-btn adm-btn--sm {result.page === i + 1 ? 'adm-btn--primary' : 'adm-btn--secondary'}">{i + 1}</a>
-		{/each}
-	</div>
-{/if}
+<Pager page={result.page} totalPages={result.totalPages} totalCount={result.totalCount} />
+
+<Drawer bind:open={detailOpen} guard={false} title={selected?.name ?? 'Lead'} description={selected ? `${enquiryLabel(selected.enquiryTypeId)} · received ${formatDateTime(selected.createdAt)}` : undefined}>
+	{#if selected}
+		{@const s = selected}
+		<div class="lead-actions">
+			<a class="adm-btn adm-btn--primary" href="mailto:{s.email}?subject={encodeURIComponent(`Re: your ${enquiryLabel(s.enquiryTypeId).toLowerCase()} enquiry`)}">Reply by email</a>
+			{#if s.phone}<a class="adm-btn adm-btn--secondary" href="tel:{s.phone}">Call</a>{/if}
+			{#if s.status !== 'Resolved'}
+				<form method="POST" action="?/setStatus" use:enhance={submit({ success: 'Marked as resolved' })}>
+					<input type="hidden" name="id" value={s.id} />
+					<input type="hidden" name="status" value="Resolved" />
+					<button class="adm-btn adm-btn--secondary" type="submit">Mark resolved</button>
+				</form>
+			{/if}
+		</div>
+
+		<dl class="adm-dl lead-dl">
+			<dt>Email</dt><dd><a class="link" href="mailto:{s.email}">{s.email}</a></dd>
+			<dt>Phone</dt><dd>{#if s.phone}<a class="link" href="tel:{s.phone}">{s.phone}</a>{:else}<span class="adm-muted">Not provided</span>{/if}</dd>
+			<dt>Company</dt><dd>{s.company || '-'}</dd>
+		</dl>
+
+		<div class="message">
+			<div class="message-label">Message</div>
+			<p>{s.message}</p>
+		</div>
+
+		<div class="adm-form-grid">
+			<form method="POST" action="?/setStatus" class="adm-field" use:enhance={submit({ success: 'Status updated' })}>
+				<input type="hidden" name="id" value={s.id} />
+				<label for="lead-status">Status</label>
+				<select class="adm-select" id="lead-status" name="status" onchange={(e) => e.currentTarget.form?.requestSubmit()}>
+					{#each STATUSES as st (st.value)}<option value={st.value} selected={st.value === s.status}>{st.label}</option>{/each}
+				</select>
+			</form>
+			<form method="POST" action="?/assign" class="adm-field" use:enhance={submit({ success: 'Lead reassigned' })}>
+				<input type="hidden" name="id" value={s.id} />
+				<label for="lead-owner">Assigned to</label>
+				<select class="adm-select" id="lead-owner" name="userId" onchange={(e) => e.currentTarget.form?.requestSubmit()}>
+					<option value="">Unassigned</option>
+					{#each users as u (u.id)}<option value={u.id} selected={u.id === s.assignedUserId}>{u.fullName || u.email}</option>{/each}
+				</select>
+			</form>
+		</div>
+		<p class="adm-hint">Status and assignment save as soon as you change them.</p>
+	{/if}
+</Drawer>
 
 <style>
-	.lead-name { font-weight: 600; }
-	.status-select { height: 32px; font-size: 12.5px; }
-	.message-body { margin: 8px 0; max-width: 70ch; white-space: pre-wrap; }
-	.pager { display: flex; gap: 6px; margin-top: 16px; }
+	tr.unread .adm-cell-title {
+		font-weight: 600;
+	}
+	tr.unread td:first-child {
+		box-shadow: inset 2px 0 0 var(--adm-accent);
+	}
+	.lead-actions {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+		margin-bottom: 24px;
+	}
+	.lead-dl {
+		grid-template-columns: 90px 1fr;
+		margin-bottom: 24px;
+	}
+	.link {
+		color: var(--adm-accent) !important;
+	}
+	.message {
+		background: var(--adm-bg);
+		border: 1px solid var(--adm-border);
+		border-radius: var(--adm-radius-sm);
+		padding: 16px;
+		margin-bottom: 24px;
+	}
+	.message-label {
+		font-size: 12px;
+		color: var(--adm-text-faint);
+		margin-bottom: 8px;
+	}
+	.message p {
+		margin: 0;
+		white-space: pre-wrap;
+		line-height: 1.65;
+		font-size: 14px;
+	}
+	.adm-hint {
+		font-size: 12px;
+		color: var(--adm-text-faint);
+		margin: 0 0 24px;
+	}
 </style>

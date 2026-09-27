@@ -8,7 +8,9 @@ interface CategoryDto {
 }
 interface MediaItem {
 	id: string;
+	url: string;
 	fileName: string;
+	altText?: string;
 }
 interface ProjectDetail {
 	id: string;

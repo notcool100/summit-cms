@@ -14,7 +14,7 @@
 
 <div class="admin-root login-screen">
 	<div class="login-card">
-		<div class="login-brand">SummitCms</div>
+		<div class="login-brand"><span class="login-mark">SC</span>Summit CMS</div>
 		<h1>Sign in</h1>
 		<p class="adm-muted">Admin access for Summit content, media, and leads.</p>
 
@@ -59,7 +59,7 @@
 
 	.login-card {
 		width: 100%;
-		max-width: 360px;
+		max-width: 380px;
 		background: var(--adm-surface);
 		border: 1px solid var(--adm-border);
 		border-radius: var(--adm-radius);
@@ -68,12 +68,24 @@
 	}
 
 	.login-brand {
-		font-size: 12.5px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 14px;
+		font-weight: 600;
+		margin-bottom: 28px;
+	}
+
+	.login-mark {
+		width: 28px;
+		height: 28px;
+		border-radius: 7px;
+		background: var(--adm-accent);
+		color: #fff;
+		display: grid;
+		place-items: center;
+		font-size: 11.5px;
 		font-weight: 700;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--adm-accent);
-		margin-bottom: 20px;
 	}
 
 	.login-card h1 {

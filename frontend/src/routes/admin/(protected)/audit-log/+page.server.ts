@@ -20,12 +20,19 @@ interface PagedResult<T> {
 	totalPages: number;
 }
 
+interface UserListItem {
+	id: string;
+	email: string;
+	fullName: string;
+}
+
 export const load: PageServerLoad = async ({ locals, fetch, url }) => {
 	const page = Number(url.searchParams.get('page') ?? '1') || 1;
-	const result = await adminFetch<PagedResult<AuditLogItem>>(
-		fetch,
-		locals.accessToken!,
-		`/api/admin/audit-logs?page=${page}&pageSize=30`
-	);
-	return { result };
+	const token = locals.accessToken!;
+	const [result, users] = await Promise.all([
+		adminFetch<PagedResult<AuditLogItem>>(fetch, token, `/api/admin/audit-logs?page=${page}&pageSize=30`),
+		// Only used to show names instead of ids; roles without user access just see "Unknown user".
+		adminFetch<UserListItem[]>(fetch, token, '/api/admin/users').catch(() => [] as UserListItem[])
+	]);
+	return { result, users };
 };

@@ -15,7 +15,9 @@ interface IndustryDto {
 }
 interface MediaItem {
 	id: string;
+	url: string;
 	fileName: string;
+	altText?: string;
 }
 interface ProjectListItem {
 	id: string;

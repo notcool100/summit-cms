@@ -35,7 +35,7 @@ export const load: PageServerLoad = async ({ locals, fetch, url }) => {
 	const token = locals.accessToken!;
 	const page = Number(url.searchParams.get('page') ?? '1') || 1;
 	const [result, enquiryTypes, users] = await Promise.all([
-		adminFetch<PagedResult<SubmissionItem>>(fetch, token, `/api/admin/contact/submissions?page=${page}&pageSize=25`),
+		adminFetch<PagedResult<SubmissionItem>>(fetch, token, `/api/admin/contact/submissions?page=${page}&pageSize=50`),
 		adminFetch<EnquiryTypeDto[]>(fetch, token, '/api/admin/enquiry-types'),
 		adminFetch<UserListItem[]>(fetch, token, '/api/admin/users')
 	]);

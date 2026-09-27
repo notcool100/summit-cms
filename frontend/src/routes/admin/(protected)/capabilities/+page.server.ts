@@ -19,7 +19,9 @@ interface CapabilityDto {
 }
 interface MediaItem {
 	id: string;
+	url: string;
 	fileName: string;
+	altText?: string;
 }
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
