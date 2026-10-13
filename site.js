@@ -50,7 +50,7 @@
     }
     io.observe(el);
     pendingReveals.push(el);
-    // IO can be inert in some embeds — position-check now and via the rAF loop
+    // IO can be inert in some embeds  position-check now and via the rAF loop
     requestAnimationFrame(function () { if (inView(el)) doReveal(el); });
     setTimeout(function () { if (inView(el)) doReveal(el); }, 2500);
   }
