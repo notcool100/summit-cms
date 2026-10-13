@@ -10,7 +10,6 @@ public static partial class DataSeeder
     private static async Task SeedIndustriesAsync(IServiceProvider sp, Dictionary<string, Guid> mediaMap, Dictionary<string, Guid> projectSlugToId)
     {
         var db = sp.GetRequiredService<IndustriesDbContext>();
-        if (await db.Industries.AnyAsync()) return;
 
         Guid Media(string url) => mediaMap[url];
 
@@ -20,7 +19,7 @@ public static partial class DataSeeder
                 "Access and rigging support for energy infrastructure, maintenance, construction and project activities across the Pilbara region. Supporting operational facilities, planned shutdowns and construction phases with integrated scaffolding, rigging and inspection services.",
                 "https://summit.us/wp-content/uploads/2022/03/0_552547_2015-09-04-07-13-49-051.jpg", "ENERGY INFRASTRUCTURE",
                 []),
-            ("02", "Resources & Minerals Processing", "Specialist support for mining and processing operations",
+            ("02", "Resources & Minerals", "Specialist support for mining and processing operations",
                 "Specialist services supporting mining and mineral processing operations, shutdowns, maintenance and projects with integrated scaffolding, access and rigging solutions. Experienced in demanding operational environments where safety, reliability and schedule adherence are critical.",
                 "https://summit.us/wp-content/uploads/2023/01/Eagle-Mod-Assembly-1.jpeg", "RESOURCES & MINERALS PROCESSING",
                 []),
@@ -33,11 +32,11 @@ public static partial class DataSeeder
                 "https://summit.us/wp-content/uploads/2022/03/MAIN_3-07-18-13-scaled.jpg", "RENEWABLE ENERGY PROJECTS",
                 []),
             ("05", "Rail", "Specialized solutions for rail infrastructure",
-                "Specialised access and rigging solutions supporting rail infrastructure, maintenance, upgrades and construction projects across Western Australia. Coordinated delivery for track-side, overhead and structural access requirements.",
+                "Specialised access and rigging solutions supporting rail infrastructure, maintenance, upgrades and projects.",
                 "https://summit.us/wp-content/uploads/2022/04/IMG_1373-scaled-e1649187636615-875x1024.jpg", "RAIL INFRASTRUCTURE",
                 []),
             ("06", "Marine & Construction", "Integrated support for marine and industrial construction",
-                "Support for ports, marine infrastructure and industrial construction environments with integrated scaffolding, access and rigging capability. Experienced in challenging marine conditions and complex construction sequences.",
+                "Support for ports, marine infrastructure and industrial construction environments with scaffolding, access and rigging capability.",
                 "https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg", "MARINE & CONSTRUCTION",
                 [])
         ];
@@ -45,7 +44,19 @@ public static partial class DataSeeder
         for (var i = 0; i < rows.Length; i++)
         {
             var r = rows[i];
-            var industry = new Industry { Idx = r.Idx, Name = r.Name, Tag = r.Tag, Body = r.Body, MediaId = Media(r.Url), FigureLabel = r.Fig, DisplayOrder = i, IsActive = true };
+            var industry = await db.Industries.FirstOrDefaultAsync(item => item.Idx == r.Idx);
+            if (industry is null)
+            {
+                industry = new Industry { Idx = r.Idx, MediaId = Media(r.Url) };
+                db.Industries.Add(industry);
+            }
+
+            industry.Name = r.Name;
+            industry.Tag = r.Tag;
+            industry.Body = r.Body;
+            industry.FigureLabel = r.Fig;
+            industry.DisplayOrder = i;
+            industry.IsActive = true;
 
             for (var j = 0; j < r.Links.Length; j++)
             {
@@ -61,7 +72,6 @@ public static partial class DataSeeder
                 });
             }
 
-            db.Industries.Add(industry);
         }
 
         await db.SaveChangesAsync();

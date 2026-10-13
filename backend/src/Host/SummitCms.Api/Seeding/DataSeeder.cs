@@ -42,10 +42,12 @@ public static partial class DataSeeder
         await SeedSiteSettingsAndEnquiryTypesAsync(sp);
         await SeedCompanyAsync(sp, pageIds, mediaMap);
         await SeedCapabilitiesAsync(sp, mediaMap);
-        var projectIds = await SeedProjectsAsync(sp, mediaMap);
+        await RetireUnverifiedProjectSamplesAsync(sp);
+        var projectIds = await SeedRepresentativeProjectsAsync(sp, mediaMap);
         await SeedIndustriesAsync(sp, mediaMap, projectIds);
         await SeedMetricStatsAsync(sp, pageIds);
-        await SeedBlogAsync(sp, mediaMap);
+        await SeedVerifiedInsightsAsync(sp, mediaMap);
+        await RetireUnverifiedBlogSamplesAsync(sp);
     }
 
     private static async Task SeedIdentityAsync(IServiceProvider sp, IConfiguration config)

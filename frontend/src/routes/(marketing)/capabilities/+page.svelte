@@ -58,22 +58,22 @@
 	</section>
 {/each}
 
-<!-- ============ SELF-PERFORM BAND ============ -->
+<!-- ============ INTEGRATED DELIVERY BAND ============ -->
 <section class="band">
-	<div use:reveal={{ kind: 'fade' }} class="band-eyebrow">The differentiator</div>
+	<div use:reveal={{ kind: 'fade' }} class="band-eyebrow">Integrated delivery</div>
 	<h2>
 		<span class="mask-line"
-			><span use:reveal={{ kind: 'mask' }}>90% of our field hours are</span></span
+			><span use:reveal={{ kind: 'mask' }}>One coordinated service model.</span></span
 		>
 		<span class="mask-line"
-			><span use:reveal={{ kind: 'mask', delay: 0.12 }}>self-performed craft labor.</span></span
+			><span use:reveal={{ kind: 'mask', delay: 0.12 }}>Access, rigging and support.</span></span
 		>
 	</h2>
 	<p use:reveal={{ kind: 'up', delay: 0.25 }} class="band-body">
-		No broker layers. No pass-through margins. When schedule pressure hits, we surge our own people
-		because they're already ours.
+		Planning, mobilisation, inspection, engineering coordination, logistics and materials management
+		bring the right people and equipment together for shutdown, maintenance and project work.
 	</p>
-	<a use:magnetic data-cursor-view href="/projects" class="band-cta">See it in the field →</a>
+	<a use:magnetic data-cursor-view href="/contact" class="band-cta">Discuss a project →</a>
 </section>
 
 <style>
@@ -269,7 +269,7 @@
 		pointer-events: none;
 	}
 
-	/* Self-perform band */
+	/* Integrated delivery band */
 	.band {
 		position: relative;
 		z-index: 5;

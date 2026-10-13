@@ -30,36 +30,61 @@ public static partial class DataSeeder
                 {
                     PageId = aboutPageId, DisplayOrder = 1, Eyebrow = "Our Approach",
                     TitleLine1 = "Integrated delivery,", TitleLine2 = "coordinated execution.",
-                    Body = "Successful project delivery requires more than skilled personnel and equipment. It requires effective planning, responsive coordination and the ability to adapt quickly to changing site conditions and operational priorities. Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management. Through Just-In-Time sequencing and coordinated mobilisation, we ensure the right equipment, materials and resources are available when and where required, helping reduce site congestion, minimize downtime and eliminate unnecessary material movements.",
+                    Body = "Successful project delivery requires more than skilled personnel and equipment. It requires effective planning, responsive coordination and the ability to adapt to changing site conditions and operational priorities. Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management. Through Just-In-Time sequencing and coordinated mobilisation, we aim to have the right equipment, materials and resources available when and where required, helping reduce congestion, downtime and unnecessary material movements.",
                     MediaId = Media("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg"),
                     ImageCaption = "COORDINATED EXECUTION", ImageFirst = false
                 });
         }
 
-        if (!await db.Milestones.AnyAsync())
+            var integratedNarrative = await db.NarrativeBlocks.FirstOrDefaultAsync(n => n.Eyebrow == "Our Approach");
+            if (integratedNarrative is not null)
+            {
+                integratedNarrative.Body = integratedNarrative.Body.Replace(
+                "Through Just-In-Time sequencing and coordinated mobilisation, we ensure the right equipment, materials and resources are available when and where required, helping reduce site congestion, minimize downtime and eliminate unnecessary material movements.",
+                "Through Just-In-Time sequencing and coordinated mobilisation, we aim to have the right equipment, materials and resources available when and where required, helping reduce congestion, downtime and unnecessary material movements.");
+            }
+
+        var seededMilestoneTitles = new[]
         {
-            (string Year, string Title, string Body)[] milestones =
-            [
-                ("2026", "Capability Statement Published", "Summit Industrial Services releases updated capability statement covering scaffolding, rigging, inspection and integrated industrial services across the Pilbara."),
-                ("2020s", "Pilbara Expansion", "Expanded operations across energy, resources & minerals, utilities, renewables, rail, marine and construction sectors in the greater Pilbara region."),
-                ("2010s", "Team Growth", "Built a team with 50+ years of combined industry experience in scaffolding, rigging and industrial services."),
-                ("Founding", "Established in Karratha", "Founded as a Pilbara-based specialist access and rigging provider operating from Karratha Industrial Estate.")
-            ];
-            for (var i = 0; i < milestones.Length; i++)
-                db.Milestones.Add(new Milestone { PageId = aboutPageId, DisplayOrder = i, Year = milestones[i].Year, Title = milestones[i].Title, Body = milestones[i].Body });
+            "Capability Statement Published", "Pilbara Expansion", "Team Growth", "Established in Karratha"
+        };
+        var unsupportedMilestones = await db.Milestones
+            .Where(m => seededMilestoneTitles.Contains(m.Title))
+            .ToListAsync();
+        db.Milestones.RemoveRange(unsupportedMilestones);
+        if (!await db.Milestones.AnyAsync(m => m.Title == "2026 Capability Statement"))
+        {
+            db.Milestones.Add(new Milestone
+            {
+                PageId = aboutPageId,
+                DisplayOrder = 0,
+                Year = "2026",
+                Title = "2026 Capability Statement",
+                Body = "Updated company profile, capabilities, safety commitments and Greater Pilbara service coverage."
+            });
         }
 
-        if (!await db.CompanyValues.AnyAsync())
+        (string Code, string Name, string Body)[] values =
+        [
+            ("01", "Safety First", "Safety is fundamental to our work. We apply a risk-based approach using pre-start planning, SWMS, JHAs, task-specific risk assessments, competent personnel and fit-for-purpose equipment, following applicable WHS requirements and relevant standards."),
+            ("02", "Integrated Service Model", "Our service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management for coordinated project delivery."),
+            ("03", "Local Knowledge", "Pilbara-based and locally responsive, Summit services the Greater Pilbara region from its Karratha Industrial Estate base."),
+            ("04", "Built on Trust, Driven by Excellence", "We are committed to dependable service, transparent communication and consistently high standards of workmanship.")
+        ];
+        for (var i = 0; i < values.Length; i++)
         {
-            (string Code, string Name, string Body)[] values =
-            [
-                ("01", "Safety First", "Safety is fundamental to every aspect of our operations. We apply a risk-based approach to protecting our people, clients and assets in accordance with WHS legislation, codes of practice and Australian Standards including AS/NZS 1891 series. All personnel hold relevant High Risk Work Licences and competency verification."),
-                ("02", "Integrated Service Model", "Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management for seamless project delivery. One provider, coordinated execution, reduced interfaces."),
-                ("03", "Local Knowledge", "Pilbara-based and locally responsive with deep understanding of regional operational challenges. Coordinated mobilisation, Just-In-Time sequencing and practical problem solving backed by local presence and regional expertise."),
-                ("04", "Built on Trust, Driven by Excellence", "Committed to dependable service, transparent communication and consistently high standards of workmanship. We deliver what we promise, when we promise it, to the standard expected in demanding industrial environments.")
-            ];
-            for (var i = 0; i < values.Length; i++)
-                db.CompanyValues.Add(new CompanyValue { PageId = aboutPageId, DisplayOrder = i, Code = values[i].Code, Name = values[i].Name, Body = values[i].Body });
+            var value = values[i];
+            var existing = await db.CompanyValues.FirstOrDefaultAsync(item => item.Code == value.Code);
+            if (existing is null)
+            {
+                existing = new CompanyValue { PageId = aboutPageId, Code = value.Code };
+                db.CompanyValues.Add(existing);
+            }
+
+            existing.PageId = aboutPageId;
+            existing.DisplayOrder = i;
+            existing.Name = value.Name;
+            existing.Body = value.Body;
         }
 
         if (!await db.TeamMembers.AnyAsync())
@@ -75,27 +100,36 @@ public static partial class DataSeeder
                 db.TeamMembers.Add(new TeamMember { PageId = aboutPageId, DisplayOrder = i, Name = leaders[i].Name, Title = leaders[i].Title, MediaId = null, IsActive = true });
         }
 
-        if (!await db.OfficeLocations.AnyAsync())
+        var officeLocations = await db.OfficeLocations.OrderBy(l => l.DisplayOrder).ToListAsync();
+        var headquarters = officeLocations.FirstOrDefault();
+        if (headquarters is null)
         {
-            (string City, string Role, bool Hq)[] locations =
-            [
-                ("Karratha Industrial Estate, WA 6714", "HQ · Servicing the Greater Pilbara Region", true)
-            ];
-            for (var i = 0; i < locations.Length; i++)
-                db.OfficeLocations.Add(new OfficeLocation { PageId = aboutPageId, DisplayOrder = i, City = locations[i].City, RoleDescription = locations[i].Role, IsHeadquarters = locations[i].Hq });
+            headquarters = new OfficeLocation();
+            db.OfficeLocations.Add(headquarters);
         }
+        headquarters.PageId = aboutPageId;
+        headquarters.DisplayOrder = 0;
+        headquarters.City = "Karratha Industrial Estate, WA 6714";
+        headquarters.RoleDescription = "HQ · Servicing the Greater Pilbara Region";
+        headquarters.IsHeadquarters = true;
+        db.OfficeLocations.RemoveRange(officeLocations.Skip(1));
 
         if (!await db.Awards.AnyAsync())
         {
             (string Year, string Name)[] awards =
             [
                 ("2026", "Working towards ISO accreditation for safety, quality and continuous improvement systems"),
-                ("Ongoing", "Compliance with WHS legislation, codes of practice and AS/NZS 1891 series requirements"),
+                ("Ongoing", "Work-at-heights activities managed in accordance with applicable WHS requirements and relevant Australian Standards"),
                 ("Ongoing", "High Risk Work Licence, competency and VOC verification programs")
             ];
             for (var i = 0; i < awards.Length; i++)
                 db.Awards.Add(new Award { PageId = aboutPageId, DisplayOrder = i, Year = awards[i].Year, Name = awards[i].Name });
         }
+
+        var outdatedStandardAward = await db.Awards.FirstOrDefaultAsync(a =>
+            a.Name == "Compliance with WHS legislation, codes of practice and AS/NZS 1891 series requirements");
+        if (outdatedStandardAward is not null)
+            outdatedStandardAward.Name = "Work-at-heights activities managed in accordance with applicable WHS requirements and relevant Australian Standards";
 
         await db.SaveChangesAsync();
     }

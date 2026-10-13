@@ -11,29 +11,33 @@ public static partial class DataSeeder
     private static async Task SeedMetricStatsAsync(IServiceProvider sp, Dictionary<string, Guid> pageIds)
     {
         var db = sp.GetRequiredService<SiteContentDbContext>();
-        if (await db.MetricStats.AnyAsync()) return;
-
         var homeId = pageIds[PageSlugs.Home];
-        var aboutId = pageIds[PageSlugs.About];
+        var staleLabels = new[]
+        {
+            "Safety (TRIR)", "Craft workforce", "Work hours", "Regions served",
+            "TRIR, 3yr avg", "Certified safety pros"
+        };
+        var staleStats = await db.MetricStats.Where(s => staleLabels.Contains(s.Label)).ToListAsync();
+        db.MetricStats.RemoveRange(staleStats);
 
-        (Guid PageId, string Group, string Label, decimal Value, string? Prefix, string? Suffix, string? Note)[] rows =
+        (string Label, decimal Value, string Suffix, string Note)[] rows =
         [
-            (homeId, "home_stats", "Safety (TRIR)", 0.42m, null, null, "Rolling 3-year average"),
-            (homeId, "home_stats", "Craft workforce", 2400, null, "+", "Direct-hire, self-performed"),
-            (homeId, "home_stats", "Work hours", 18, null, "M+", "Executed since 1996"),
-            (homeId, "home_stats", "Regions served", 5, null, "+", "Licensed & registered"),
-
-            (aboutId, "hse", "TRIR, 3yr avg", 0.42m, null, "", null),
-            (aboutId, "hse", "Certified safety pros", 126, null, "", null)
+            ("Combined industry experience", 50, "+", "Years across the team"),
+            ("Core capabilities", 12, "", "Integrated industrial services"),
+            ("Industry groupings", 6, "", "Servicing the Greater Pilbara"),
+            ("Operating base", 1, "", "Karratha Industrial Estate")
         ];
 
         for (var i = 0; i < rows.Length; i++)
         {
             var r = rows[i];
+            var existing = await db.MetricStats.FirstOrDefaultAsync(s =>
+                s.PageId == homeId && s.GroupKey == "home_stats" && s.Label == r.Label);
+            if (existing is not null) continue;
             db.MetricStats.Add(new MetricStat
             {
-                PageId = r.PageId, GroupKey = r.Group, Label = r.Label, Value = r.Value,
-                Prefix = r.Prefix, Suffix = r.Suffix, Note = r.Note, DisplayOrder = i
+                PageId = homeId, GroupKey = "home_stats", Label = r.Label, Value = r.Value,
+                Suffix = r.Suffix, Note = r.Note, DisplayOrder = i
             });
         }
 

@@ -35,28 +35,24 @@
 
 	const faqs = [
 		{
-			q: 'What size of project do you take on?',
-			a: 'Most of our work runs from single-digit millions to nine figures in installed value. We size crews and yard capacity to the project, not the other way around, so a smaller design-assist engagement gets the same engineering rigor as a full self-perform award.'
+			q: 'What services does Summit provide?',
+			a: 'Summit provides Tube & Fit and AT-PAC Ringlock scaffolding, scaffold erection and dismantling, equipment hire and sales, crane and mechanical rigging, inspections, engineering coordination, logistics, and shutdown, maintenance and project support.'
 		},
 		{
-			q: 'Do you subcontract the craft labor?',
-			a: 'No. Every welder, pipefitter, and rigger on a Summit site is a Summit employee. We quote schedules based on our own crews\' measured productivity, not an estimate of a subcontractor we have not worked with.'
+			q: 'How does Summit approach safety?',
+			a: 'Safety is fundamental to our work. We use pre-start planning, SWMS, JHAs and task-specific risk assessments, competent personnel, fit-for-purpose equipment, scaffold handover and tagging processes, and applicable WHS legislation, codes, client procedures and Australian Standards.'
 		},
 		{
-			q: 'How do you handle safety on a multi-contractor site?',
-			a: 'Every Summit craft worker has stop-work authority and is expected to use it, independent of what other contractors on site are doing. Our trailing TRIR is 0.42 across more than 18 million work hours; our safety team can walk your team through the full program before award.'
+			q: 'Can Summit support scaffold design?',
+			a: 'We provide tailored scaffold design and engineering coordination. Where engineered design is required, drawings and supporting documentation can be developed and verified by suitably qualified engineers.'
 		},
 		{
-			q: 'Can you take on design-assist or preconstruction work?',
-			a: 'Yes. Our in-house engineering group works alongside owners and EPCs from early design through constructability review, particularly on schedule-critical minerals processing and energy scopes where sequencing decisions made in design drive the field schedule.'
+			q: 'Where does Summit work?',
+			a: 'Summit is based in the Karratha Industrial Estate and services the Greater Pilbara region, supporting clients across energy, resources and minerals, utilities, renewables, rail, marine and construction.'
 		},
 		{
-			q: 'What regions and industries do you work in?',
-			a: 'We self-perform across Western Australia from our Karratha headquarters, concentrated in mining & minerals processing, power, energy and terminals, renewables, and heavy manufacturing. See the Industries page for scope examples in each.'
-		},
-		{
-			q: 'How do we get Summit on a bid list?',
-			a: 'Send project details through the form on this page with "New project / RFP" selected, or email info@summit-is.com.au directly. A business development lead responds within one business day.'
+			q: 'How can I contact Summit?',
+			a: 'Send an enquiry using the form on this page, call 0401 174 989, or email support@summit-is.com.au.'
 		}
 	];
 	let openFaq = $state<number | null>(null);
@@ -104,7 +100,9 @@
 			<div use:reveal={{ kind: 'clip', delay: 0.2 }} class="map-frame">
 				<GoogleMap query={mapQuery} title="Map showing {site.name} in Karratha Industrial Estate" />
 			</div>
-			<a class="map-directions" href={directionsHref} target="_blank" rel="noopener noreferrer">Get directions ↗</a>
+			<a class="map-directions" href={directionsHref} target="_blank" rel="noopener noreferrer"
+				>Get directions ↗</a
+			>
 		</div>
 
 		<!-- RIGHT: FORM -->
@@ -129,10 +127,24 @@
 					<FloatingInput label="Email" name="email" type="email" required bind:value={email} />
 					<FloatingInput label="Phone" name="phone" type="tel" required bind:value={phone} />
 				</div>
-				<FloatingSelect label="Enquiry type" name="enquiryType" options={enquiryOptions} bind:value={enquiryType} />
-				<FloatingTextarea label="Tell us about the work" name="message" rows={4} bind:value={message} />
+				<FloatingSelect
+					label="Enquiry type"
+					name="enquiryType"
+					options={enquiryOptions}
+					bind:value={enquiryType}
+				/>
+				<FloatingTextarea
+					label="Tell us about the work"
+					name="message"
+					rows={4}
+					bind:value={message}
+				/>
 				<div class="submit-row">
-					<button use:magnetic type="submit" class="submit-btn" disabled={submitting || form?.success}
+					<button
+						use:magnetic
+						type="submit"
+						class="submit-btn"
+						disabled={submitting || form?.success}
 						>{form?.success ? 'Sent ✓' : submitting ? 'Sending…' : 'Send enquiry'}</button
 					>
 					{#if form?.success}

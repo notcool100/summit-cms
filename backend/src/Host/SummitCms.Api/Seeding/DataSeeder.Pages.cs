@@ -15,11 +15,11 @@ public static partial class DataSeeder
         (string Slug, string Title, string Meta, string Hero, string Sub)[] pages =
         [
             (PageSlugs.Home, "Summit Industrial Services | Scaffolding, Access, Rigging & Inspection", "Pilbara-based specialist provider delivering integrated scaffolding, access, rigging, inspection and engineering support across demanding operational environments.", "Built on Trust, Driven by Excellence.", "SCAFFOLDING | ACCESS | RIGGING | INSPECTION"),
-            (PageSlugs.About, "About Summit Industrial Services", "Pilbara-based specialist access and rigging provider with 50+ years combined experience delivering integrated solutions across energy, resources, utilities and construction sectors.", "Pilbara-based specialist access & rigging.", "Summit Industrial Services — Built on Trust, Driven by Excellence."),
+            (PageSlugs.About, "About Summit Industrial Services", "Pilbara-based specialist access and rigging provider with 50+ years of combined industry experience, serving energy, resources and minerals, utilities, renewables, rail, marine and construction.", "Pilbara-based specialist access & rigging.", "Summit Industrial Services — Built on Trust, Driven by Excellence."),
             (PageSlugs.Capabilities, "Our Capabilities", "Scaffolding & access solutions, scaffold design & engineering, crane & mechanical rigging, inspection & tagging, shutdown support, logistics & materials management.", "Integrated scaffolding, access, rigging & inspection.", "Traditional and modular systems — engineered solutions for complex access."),
             (PageSlugs.Contact, "Contact Summit Industrial Services", "Get in touch about scaffolding, rigging, inspection, engineering support or integrated industrial services across the Pilbara region.", "Let's talk about your project.", "1537 Pyramid Road, Karratha Industrial Estate WA 6714"),
-            (PageSlugs.Industries, "Industries We Serve", "Energy, Resources & Minerals Processing, Utilities, Renewables, Rail, Marine & Construction — specialist access and rigging across the Pilbara.", "Industries that demand excellence.", "Schedule-critical access and rigging solutions across six key sectors."),
-            (PageSlugs.Projects, "Featured Projects", "Shutdown, maintenance and construction support across energy, resources, utilities and industrial sectors.", "Delivering in demanding environments.", "Integrated access and rigging solutions for complex operational requirements."),
+            (PageSlugs.Industries, "Industries We Serve", "Energy, Resources & Minerals, Utilities, Renewables, Rail, and Marine & Construction — specialist access and rigging across the Greater Pilbara.", "Industries we serve.", "Access and rigging support across the Greater Pilbara."),
+            (PageSlugs.Projects, "Project Support | Summit Industrial Services", "Discuss scaffolding, rigging, inspection, shutdown, maintenance and project support across the Greater Pilbara.", "Discuss your project scope.", "Pilbara-based access, rigging and industrial support."),
             (PageSlugs.Insights, "Insights", "Technical notes on safety, scaffolding, rigging, inspection and industry developments from Summit's operational experience.", "Notes from the field.", "Insights from our crews, engineers and project teams.")
         ];
 
@@ -27,7 +27,28 @@ public static partial class DataSeeder
 
         foreach (var (slug, title, meta, hero, sub) in pages)
         {
-            if (existingPages.ContainsKey(slug)) continue;
+            if (existingPages.TryGetValue(slug, out var existingPage))
+            {
+                if (slug == PageSlugs.Projects && existingPage.Title == "Featured Projects")
+                {
+                    existingPage.Title = title;
+                    existingPage.MetaDescription = meta;
+                    existingPage.HeroHeading = hero;
+                    existingPage.HeroSubheading = sub;
+                }
+                else if (slug == PageSlugs.About && existingPage.MetaDescription.Contains("50+ years combined experience"))
+                {
+                    existingPage.MetaDescription = meta;
+                }
+                else if (slug == PageSlugs.Industries && existingPage.MetaDescription.Contains("Resources & Minerals Processing"))
+                {
+                    existingPage.MetaDescription = meta;
+                    existingPage.HeroHeading = hero;
+                    existingPage.HeroSubheading = sub;
+                }
+
+                continue;
+            }
 
             var page = new Page { Slug = slug, Title = title, MetaDescription = meta, HeroHeading = hero, HeroSubheading = sub };
             db.Pages.Add(page);
@@ -67,6 +88,11 @@ public static partial class DataSeeder
             if (!existingKeys.Contains(key))
                 db.SiteSettings.Add(new SiteSetting { Key = key, Value = value, ValueType = type });
         }
+
+        var outdatedSupportEmail = await db.SiteSettings.FirstOrDefaultAsync(s =>
+            s.Key == "company_email" && s.Value == "info@summit-is.com.au");
+        if (outdatedSupportEmail is not null)
+            outdatedSupportEmail.Value = "support@summit-is.com.au";
 
         if (!await db.EnquiryTypes.AnyAsync())
         {

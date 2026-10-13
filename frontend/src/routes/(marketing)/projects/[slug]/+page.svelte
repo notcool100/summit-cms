@@ -54,7 +54,9 @@
 	<div class="hero-copy">
 		<div use:reveal={{ kind: 'fade' }} class="hero-tags">
 			<span class="badge">{industryBadge}</span>
-			<span class="case-label">Case study</span>
+			<span class="case-label"
+				>{title.startsWith('Representative scope:') ? 'Representative scope' : 'Case study'}</span
+			>
 		</div>
 		<h1>
 			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{titleLine1}</span></span>
@@ -118,6 +120,7 @@
 </section>
 
 <!-- ============ PULL QUOTE ============ -->
+{#if pullQuote.quote}
 <section class="quote-section">
 	<blockquote class="quote">
 		<p use:reveal={{ kind: 'up' }} class="quote-text">{pullQuote.quote}</p>
@@ -126,6 +129,7 @@
 		</footer>
 	</blockquote>
 </section>
+{/if}
 
 <!-- ============ PREV / NEXT ============ -->
 <section class="adjacent">

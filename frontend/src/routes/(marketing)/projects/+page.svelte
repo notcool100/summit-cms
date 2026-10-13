@@ -42,51 +42,95 @@
 	</h1>
 </section>
 
-<!-- ============ FILTER BAR ============ -->
-<div class="filter-bar">
-	{#each filters as label (label)}
-		<button class="filter-btn" class:active={label === activeFilter} onclick={() => pick(label)}>
-			{label}
-			<span class="underline" class:active={label === activeFilter}></span>
-		</button>
-	{/each}
-	<div class="filter-count">{count} PROJECTS</div>
-</div>
-
-<!-- ============ GRID ============ -->
-<section class="grid-section">
-	<div class="grid" class:fading={!visible}>
-		{#each shown as project (project.idx)}
-			<a
-				data-cursor-view
-				use:hoverZoom
-				href={project.href}
-				class="card"
-				style:grid-column="span {project.span}"
-				style:margin-top={project.offset ?? '0'}
-			>
-				<div class="frame" style:aspect-ratio={project.ratio}>
-					<div class="img-wrap">
-						<div use:parallax={0.06} class="img-inner">
-							<ResponsiveImage src={project.src} alt={project.alt} />
-						</div>
-					</div>
-					<div class="scrim" aria-hidden="true"></div>
-					<div class="idx" aria-hidden="true">{project.idx}</div>
-					<div class="industry-badge">{project.industry}</div>
-				</div>
-				<div class="meta">
-					<span class="name">{project.name}</span>
-					<span class="stat">{project.stat}</span>
-				</div>
-			</a>
+{#if projects.length > 0}
+	<!-- ============ FILTER BAR ============ -->
+	<div class="filter-bar">
+		{#each filters as label (label)}
+			<button class="filter-btn" class:active={label === activeFilter} onclick={() => pick(label)}>
+				{label}
+				<span class="underline" class:active={label === activeFilter}></span>
+			</button>
 		{/each}
+		<div class="filter-count">{count} PROJECTS</div>
 	</div>
-</section>
+
+	<!-- ============ GRID ============ -->
+	<section class="grid-section">
+		<div class="grid" class:fading={!visible}>
+			{#each shown as project (project.idx)}
+				<a
+					data-cursor-view
+					use:hoverZoom
+					href={project.href}
+					class="card"
+					style:grid-column="span {project.span}"
+					style:margin-top={project.offset ?? '0'}
+				>
+					<div class="frame" style:aspect-ratio={project.ratio}>
+						<div class="img-wrap">
+							<div use:parallax={0.06} class="img-inner">
+								<ResponsiveImage src={project.src} alt={project.alt} />
+							</div>
+						</div>
+						<div class="scrim" aria-hidden="true"></div>
+						<div class="idx" aria-hidden="true">{project.idx}</div>
+						<div class="industry-badge">{project.industry}</div>
+					</div>
+					<div class="meta">
+						<span class="name">{project.name}</span>
+						<span class="stat">{project.stat}</span>
+					</div>
+				</a>
+			{/each}
+		</div>
+	</section>
+{:else}
+	<section class="empty-state">
+		<h2>Discuss a project scope</h2>
+		<p>
+			Contact Summit about scaffolding, rigging, shutdown, maintenance or project support across the
+			Greater Pilbara.
+		</p>
+		<a href="/contact" class="empty-cta">Contact Summit <span aria-hidden="true">↗</span></a>
+	</section>
+{/if}
 
 <style>
 	.accent {
 		color: var(--accent);
+	}
+
+	.empty-state {
+		padding: clamp(56px, 9vh, 112px) clamp(20px, 4vw, 64px);
+		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.empty-state h2 {
+		max-width: 14ch;
+		font-family: var(--font-display);
+		font-size: 48px;
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.empty-state p {
+		max-width: 58ch;
+		margin-top: 18px;
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.68);
+	}
+
+	.empty-cta {
+		display: inline-flex;
+		gap: 12px;
+		margin-top: 28px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid var(--accent);
+		color: var(--ink);
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0;
+		text-transform: uppercase;
 	}
 
 	/* Hero */
@@ -217,6 +261,12 @@
 		.card {
 			grid-column: span 12 !important;
 			margin-top: 0 !important;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.empty-state h2 {
+			font-size: 34px;
 		}
 	}
 

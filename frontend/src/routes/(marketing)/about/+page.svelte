@@ -14,16 +14,30 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, narrative, milestones, values, leaders, locations, hseStats, awards } = data;
+	const {
+		heroHeading,
+		heroSubheading,
+		narrative,
+		milestones,
+		values,
+		leaders,
+		locations,
+		hseStats,
+		awards
+	} = data;
 
 	// The map follows whichever office is picked; HQ uses its full street address so the pin
 	// lands on the building, the rest centre on their town.
 	let hqAddress = $derived(
-		(page.data.siteSettings?.company_address || `${site.address.line1}, ${site.address.line2}`).replace(/\s*\n\s*/g, ', ')
+		(
+			page.data.siteSettings?.company_address || `${site.address.line1}, ${site.address.line2}`
+		).replace(/\s*\n\s*/g, ', ')
 	);
 	let selectedIdx = $state(locations.find((l) => l.hq)?.idx ?? locations[0]?.idx);
 	let selected = $derived(locations.find((l) => l.idx === selectedIdx));
-	let mapQuery = $derived(selected?.hq ? `${hqAddress}, Australia` : `${selected?.city ?? 'Western Australia'}, Australia`);
+	let mapQuery = $derived(
+		selected?.hq ? `${hqAddress}, Australia` : `${selected?.city ?? 'Western Australia'}, Australia`
+	);
 </script>
 
 <SeoHead title={data.seoTitle} description={data.seoDescription} image={narrative[0]?.image.src} />
@@ -39,9 +53,8 @@
 			{heroSubheading}
 		</p>
 		<p use:reveal={{ kind: 'up', delay: 0.4 }} class="sub">
-			Three decades later, that bet has carried us from single-unit boiler retrofits to the largest
-			resources sites in the Pilbara. The model hasn't changed. We hire the hands, we own the
-			schedule, and we send our own people through the gate every morning.
+			With more than 50 years of combined industry experience, our team supports demanding projects
+			with a practical focus on safety, reliability, responsiveness and efficient execution.
 		</p>
 	</div>
 </section>
@@ -110,7 +123,7 @@
 <section class="leadership">
 	<div class="leadership-head">
 		<SectionLabel idx="04" label="Leadership" />
-		<span class="leadership-note">Field-raised. Every one of them.</span>
+		<span class="leadership-note">Operational leadership and project support.</span>
 	</div>
 	<div class="leadership-grid stack-mobile">
 		{#each leaders as p, i (p.name)}
@@ -150,7 +163,11 @@
 			{/each}
 		</div>
 		<div use:reveal={{ kind: 'clip' }} class="map-frame">
-			<GoogleMap query={mapQuery} zoom={selected?.hq ? 14 : 12} title="Map showing {selected?.city ?? 'our offices'}" />
+			<GoogleMap
+				query={mapQuery}
+				zoom={selected?.hq ? 14 : 12}
+				title="Map showing {selected?.city ?? 'our offices'}"
+			/>
 		</div>
 	</div>
 </section>
@@ -169,23 +186,23 @@
 				>
 			</h2>
 			<p use:reveal={{ kind: 'up', delay: 0.2 }} class="hse-body">
-				Our HSE program is built on stop-work authority for every employee, daily pre-task planning,
-				and leading-indicator tracking, not lagging paperwork. A TRIR of 0.42 across 18 million
-				hours isn't luck. It's a system, audited relentlessly.
+				Safety is fundamental to our work. Our teams combine pre-start planning, competent
+				personnel, fit-for-purpose equipment and disciplined work methods, following applicable WHS
+				legislation, codes of practice, client procedures and relevant Australian Standards.
 			</p>
 			<div class="hse-stats">
 				{#each hseStats as s (s.label)}
 					<div>
 						<div class="hse-stat-value" use:countUp={{ value: s.value, suffix: s.suffix }}>
-						{formatCount(s.value, { suffix: s.suffix })}
-					</div>
+							{formatCount(s.value, { suffix: s.suffix })}
+						</div>
 						<div class="hse-stat-label">{s.label}</div>
 					</div>
 				{/each}
 			</div>
 		</div>
 		<div>
-			<div class="awards-eyebrow">Safety awards</div>
+			<div class="awards-eyebrow">Safety &amp; quality commitments</div>
 			<div class="awards-grid">
 				{#each awards as a, i (a.name)}
 					<div use:reveal={{ kind: 'up', delay: i * 0.07 }} class="award-card">
@@ -197,9 +214,8 @@
 			<div class="quality">
 				<div class="quality-eyebrow"><SectionLabel label="Quality program" /></div>
 				<p class="quality-body">
-					ASME Section I, VIII &amp; B31 code stamps held in-house. NDE, weld mapping, and turnover
-					documentation digital from day one, with every weld traceable to a name, a rod, and a heat
-					number.
+					Summit is working towards ISO accreditation as part of its commitment to strengthening
+					safety, quality and continuous improvement systems.
 				</p>
 			</div>
 		</div>
@@ -579,7 +595,6 @@
 		aspect-ratio: 5 / 4;
 		border: 1px solid rgba(var(--ink-rgb), 0.12);
 	}
-
 
 	/* HSE */
 	.hse-grid {

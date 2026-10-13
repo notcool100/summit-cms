@@ -133,7 +133,7 @@
 		<div class="hero-eyebrow">
 			<span use:reveal={{ kind: 'fade' }} class="rule"></span>
 			<span use:reveal={{ kind: 'fade', delay: 0.1 }} class="eyebrow-text"
-				>Specialty Mechanical Contractor, Karratha, WA</span
+				>Pilbara-based access, rigging &amp; scaffolding</span
 			>
 		</div>
 		<h1>
@@ -144,7 +144,9 @@
 				{heroSubheading}
 			</p>
 			<div use:reveal={{ kind: 'up', delay: 0.45 }} class="hero-cta">
-				<a use:magnetic data-cursor-view href="/projects" class="btn btn--outline">See the Work</a>
+				<a use:magnetic data-cursor-view href="/contact" class="btn btn--outline"
+					>Discuss a Project</a
+				>
 			</div>
 		</div>
 	</div>
@@ -180,9 +182,8 @@
 			>
 			<span class="mask-line manifesto-body-line">
 				<span use:reveal={{ kind: 'mask', delay: 0.2 }} class="manifesto-body">
-					Ore, megawatts, molecules. Summit self-performs the critical-path mechanical scope on
-					the projects Australia can't afford to get wrong, using our own craft workforce, our own
-					engineering, and a safety record we'd put against anyone's.
+					From scaffolding and rigging to inspection and engineering coordination, Summit supports
+					maintenance, shutdown, construction, marine and project works across the Greater Pilbara.
 				</span>
 			</span>
 		</h2>
@@ -256,7 +257,9 @@
 				<p class="industry-tag">{industries[0].tag}</p>
 				<p class="industry-lede">{industries[0].body.split('. ')[0]}.</p>
 				{#if industries[0].links[0]}
-					<span class="industry-stat">{industries[0].links[0].stat} · {industries[0].links[0].name}</span>
+					<span class="industry-stat"
+						>{industries[0].links[0].stat} · {industries[0].links[0].name}</span
+					>
 				{/if}
 			</div>
 		</a>
@@ -279,43 +282,45 @@
 </section>
 
 <!-- ============ SELECT PROJECTS: HORIZONTAL SCROLL ============ -->
-<HorizontalScroll heightVh={320}>
-	{#snippet header()}
-		<div class="projects-head">
-			<SectionLabel idx="04" label="Select Projects" />
-			<a href="/projects" class="link-accent">All projects →</a>
+{#if featuredProjects.length > 0}
+	<HorizontalScroll heightVh={320}>
+		{#snippet header()}
+			<div class="projects-head">
+				<SectionLabel idx="04" label="Select Projects" />
+				<a href="/projects" class="link-accent">All projects →</a>
+			</div>
+		{/snippet}
+		<div class="projects-track">
+			{#each featuredProjects as project (project.idx)}
+				<a data-cursor-view use:hoverZoom href={project.href} class="project-card">
+					<div class="project-frame">
+						<ResponsiveImage src={project.src} alt={project.alt} />
+						<div class="project-scrim" aria-hidden="true"></div>
+						<div class="project-idx" aria-hidden="true">{project.idx}</div>
+						<div class="project-industry">{project.industry}</div>
+					</div>
+					<div class="project-meta">
+						<span class="project-name">{project.name}</span>
+						<span class="project-stat">{project.stat}</span>
+					</div>
+				</a>
+			{/each}
+			<a data-cursor-view href="/projects" class="project-more">View all →</a>
 		</div>
-	{/snippet}
-	<div class="projects-track">
-		{#each featuredProjects as project (project.idx)}
-			<a data-cursor-view use:hoverZoom href={project.href} class="project-card">
-				<div class="project-frame">
-					<ResponsiveImage src={project.src} alt={project.alt} />
-					<div class="project-scrim" aria-hidden="true"></div>
-					<div class="project-idx" aria-hidden="true">{project.idx}</div>
-					<div class="project-industry">{project.industry}</div>
-				</div>
-				<div class="project-meta">
-					<span class="project-name">{project.name}</span>
-					<span class="project-stat">{project.stat}</span>
-				</div>
-			</a>
-		{/each}
-		<a data-cursor-view href="/projects" class="project-more">View all →</a>
-	</div>
-</HorizontalScroll>
+	</HorizontalScroll>
+{/if}
 
 <!-- ============ SAFETY MARQUEE ============ -->
 <section class="safety">
 	<Marquee>
 		<span class="safety-line"
-			>Safety is not a priority. <span class="accent">It's a value.</span>&nbsp;</span
+			>Every person goes home safely, <span class="accent">every day.</span>&nbsp;</span
 		>
 	</Marquee>
 	<div class="safety-facts">
-		<span>TRIR 0.42</span><span class="dot">·</span><span>18M+ safe work hours</span><span
+		<span>Risk-based safety</span><span class="dot">·</span><span>Competent people</span><span
 			class="dot">·</span
-		><span><a href="/about#hse">Our HSE program →</a></span>
+		><span><a href="/about#hse">Safety &amp; compliance →</a></span>
 	</div>
 </section>
 
@@ -372,7 +377,11 @@
 		<div class="testimonials-eyebrow"><SectionLabel idx="06" label="Client voice" /></div>
 		<div class="testimonials-stage">
 			{#each testimonials as t, i (t.projectName)}
-				<blockquote class="testimonial-slide" class:active={i === activeTestimonial} aria-hidden={i !== activeTestimonial}>
+				<blockquote
+					class="testimonial-slide"
+					class:active={i === activeTestimonial}
+					aria-hidden={i !== activeTestimonial}
+				>
 					<p use:reveal={{ kind: 'up' }} class="testimonial-quote">{t.quote}</p>
 					<footer class="testimonial-footer">
 						<span class="testimonial-attribution">{t.attribution}</span>

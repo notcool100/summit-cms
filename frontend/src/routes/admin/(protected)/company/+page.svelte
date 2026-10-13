@@ -64,24 +64,40 @@
 	}
 	const isEdit = $derived(!!(eNarrative || eMilestone || eValue || eMember || eLocation || eAward));
 	const drawerNoun = $derived(TABS.find((t) => t.id === drawerKind)!.noun);
-	const saved = () => submit({ success: isEdit ? 'Changes saved' : `${drawerNoun.charAt(0).toUpperCase()}${drawerNoun.slice(1)} added`, onSuccess: () => (drawerOpen = false) });
+	const saved = () =>
+		submit({
+			success: isEdit
+				? 'Changes saved'
+				: `${drawerNoun.charAt(0).toUpperCase()}${drawerNoun.slice(1)} added`,
+			onSuccess: () => (drawerOpen = false)
+		});
 	const thumb = (id: string | null) => media.find((m) => m.id === id)?.url;
 </script>
 
 <div class="adm-page-head">
 	<div>
 		<h1>About page</h1>
-		<p>The founding story, milestones, values, leadership team, offices, and safety awards on the public About page.</p>
+		<p>
+			The company profile, milestones, values, leadership team, operating base, and safety
+			commitments on the public About page.
+		</p>
 	</div>
 	<div class="adm-row-actions">
 		<a class="adm-btn adm-btn--secondary" href="/about" target="_blank" rel="noopener">View page</a>
-		<button class="adm-btn adm-btn--primary" onclick={() => open(tab)}>Add {currentTab.noun}</button>
+		<button class="adm-btn adm-btn--primary" onclick={() => open(tab)}>Add {currentTab.noun}</button
+		>
 	</div>
 </div>
 
 <div class="adm-page-tabs" role="tablist">
 	{#each TABS as t (t.id)}
-		<button class="adm-tab" class:active={tab === t.id} role="tab" aria-selected={tab === t.id} onclick={() => (tab = t.id)}>
+		<button
+			class="adm-tab"
+			class:active={tab === t.id}
+			role="tab"
+			aria-selected={tab === t.id}
+			onclick={() => (tab = t.id)}
+		>
 			{t.label} <span class="adm-tab-count">{counts[t.id]}</span>
 		</button>
 	{/each}
@@ -89,8 +105,17 @@
 
 {#snippet actions(kind: Tab, item: unknown, deleteAction: string, id: string, label: string)}
 	<div class="adm-row-actions">
-		<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => open(kind, item)}>Edit</button>
-		<form method="POST" action="?/{deleteAction}" use:enhance={confirmDelete(TABS.find((t) => t.id === kind)!.noun, `“${label}” will be removed from the About page.`)}>
+		<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => open(kind, item)}
+			>Edit</button
+		>
+		<form
+			method="POST"
+			action="?/{deleteAction}"
+			use:enhance={confirmDelete(
+				TABS.find((t) => t.id === kind)!.noun,
+				`“${label}” will be removed from the About page.`
+			)}
+		>
 			<input type="hidden" name="id" value={id} />
 			<button class="adm-btn adm-btn--ghost adm-btn--sm" type="submit">Delete</button>
 		</form>
@@ -98,7 +123,10 @@
 {/snippet}
 
 {#snippet empty()}
-	<div class="adm-empty"><h3>Nothing here yet</h3><p>Use “Add {currentTab.noun}” to create the first one.</p></div>
+	<div class="adm-empty">
+		<h3>Nothing here yet</h3>
+		<p>Use “Add {currentTab.noun}” to create the first one.</p>
+	</div>
 {/snippet}
 
 <div class="adm-list">
@@ -106,7 +134,9 @@
 		{#each narrative as n (n.id)}
 			<div class="adm-list-row">
 				<span class="adm-order">{n.displayOrder}</span>
-				{#if thumb(n.mediaId)}<img class="adm-thumb" src={thumb(n.mediaId)} alt="" />{:else}<span class="adm-thumb"></span>{/if}
+				{#if thumb(n.mediaId)}<img class="adm-thumb" src={thumb(n.mediaId)} alt="" />{:else}<span
+						class="adm-thumb"
+					></span>{/if}
 				<div class="adm-list-main">
 					<div class="adm-list-title">{[n.titleLine1, n.titleLine2].filter(Boolean).join(' ')}</div>
 					<div class="adm-list-sub">{n.eyebrow}{n.eyebrow && n.body ? ' · ' : ''}{n.body}</div>
@@ -140,7 +170,9 @@
 		{#each team as t (t.id)}
 			<div class="adm-list-row">
 				<span class="adm-order">{t.displayOrder}</span>
-				{#if thumb(t.mediaId)}<img class="avatar" src={thumb(t.mediaId)} alt="" />{:else}<span class="avatar"></span>{/if}
+				{#if thumb(t.mediaId)}<img class="avatar" src={thumb(t.mediaId)} alt="" />{:else}<span
+						class="avatar"
+					></span>{/if}
 				<div class="adm-list-main">
 					<div class="adm-list-title">
 						{t.name}
@@ -179,42 +211,144 @@
 {#snippet footer(label: string)}
 	<div class="adm-form-actions">
 		<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
-		<button class="adm-btn adm-btn--primary" type="submit">{isEdit ? 'Save changes' : label}</button>
+		<button class="adm-btn adm-btn--primary" type="submit">{isEdit ? 'Save changes' : label}</button
+		>
 	</div>
 {/snippet}
 
-<Drawer bind:open={drawerOpen} title={`${isEdit ? 'Edit' : 'New'} ${drawerNoun}`} size={drawerKind === 'story' ? 'lg' : 'md'}>
+<Drawer
+	bind:open={drawerOpen}
+	title={`${isEdit ? 'Edit' : 'New'} ${drawerNoun}`}
+	size={drawerKind === 'story' ? 'lg' : 'md'}
+>
 	{#if drawerKind === 'story'}
 		{@const n = eNarrative}
-		<form method="POST" action={n ? '?/updateNarrative' : '?/createNarrative'} use:enhance={saved()}>
+		<form
+			method="POST"
+			action={n ? '?/updateNarrative' : '?/createNarrative'}
+			use:enhance={saved()}
+		>
 			{#if n}<input type="hidden" name="id" value={n.id} />{/if}
 			<input type="hidden" name="pageId" value={n?.pageId ?? aboutPageId} />
 			<div class="adm-form-grid">
-				<div class="adm-field"><label for="n-eyebrow">Eyebrow</label><input class="adm-input" id="n-eyebrow" name="eyebrow" value={n?.eyebrow ?? ''} placeholder="Est. 1998" /></div>
-				<div class="adm-field"><label for="n-order">Display order</label><input class="adm-input" id="n-order" name="displayOrder" type="number" value={n?.displayOrder ?? narrative.length} /></div>
-				<div class="adm-field"><label for="n-t1">Title line 1</label><input class="adm-input" id="n-t1" name="titleLine1" value={n?.titleLine1 ?? ''} /></div>
-				<div class="adm-field"><label for="n-t2">Title line 2</label><input class="adm-input" id="n-t2" name="titleLine2" value={n?.titleLine2 ?? ''} /></div>
+				<div class="adm-field">
+					<label for="n-eyebrow">Eyebrow</label><input
+						class="adm-input"
+						id="n-eyebrow"
+						name="eyebrow"
+						value={n?.eyebrow ?? ''}
+						placeholder="Est. 1998"
+					/>
+				</div>
+				<div class="adm-field">
+					<label for="n-order">Display order</label><input
+						class="adm-input"
+						id="n-order"
+						name="displayOrder"
+						type="number"
+						value={n?.displayOrder ?? narrative.length}
+					/>
+				</div>
+				<div class="adm-field">
+					<label for="n-t1">Title line 1</label><input
+						class="adm-input"
+						id="n-t1"
+						name="titleLine1"
+						value={n?.titleLine1 ?? ''}
+					/>
+				</div>
+				<div class="adm-field">
+					<label for="n-t2">Title line 2</label><input
+						class="adm-input"
+						id="n-t2"
+						name="titleLine2"
+						value={n?.titleLine2 ?? ''}
+					/>
+				</div>
 			</div>
-			<div class="adm-field"><label for="n-body">Body</label><textarea class="adm-textarea" id="n-body" name="body" rows="6">{n?.body ?? ''}</textarea></div>
-			<div class="adm-field"><label for="n-media">Image</label><MediaPicker id="n-media" name="mediaId" {media} value={n?.mediaId ?? null} /></div>
-			<div class="adm-field"><label for="n-cap">Image caption</label><input class="adm-input" id="n-cap" name="imageCaption" value={n?.imageCaption ?? ''} /></div>
+			<div class="adm-field">
+				<label for="n-body">Body</label><textarea
+					class="adm-textarea"
+					id="n-body"
+					name="body"
+					rows="6">{n?.body ?? ''}</textarea
+				>
+			</div>
+			<div class="adm-field">
+				<label for="n-media">Image</label><MediaPicker
+					id="n-media"
+					name="mediaId"
+					{media}
+					value={n?.mediaId ?? null}
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="n-cap">Image caption</label><input
+					class="adm-input"
+					id="n-cap"
+					name="imageCaption"
+					value={n?.imageCaption ?? ''}
+				/>
+			</div>
 			<label class="adm-switch-row">
 				<div><strong>Image first</strong><span>Place the image on the left of the text.</span></div>
-				<input type="checkbox" class="adm-switch" name="imageFirst" value="true" checked={n?.imageFirst ?? false} />
+				<input
+					type="checkbox"
+					class="adm-switch"
+					name="imageFirst"
+					value="true"
+					checked={n?.imageFirst ?? false}
+				/>
 			</label>
 			{@render footer('Add block')}
 		</form>
 	{:else if drawerKind === 'milestones'}
 		{@const m = eMilestone}
-		<form method="POST" action={m ? '?/updateMilestone' : '?/createMilestone'} use:enhance={saved()}>
+		<form
+			method="POST"
+			action={m ? '?/updateMilestone' : '?/createMilestone'}
+			use:enhance={saved()}
+		>
 			{#if m}<input type="hidden" name="id" value={m.id} />{/if}
 			<input type="hidden" name="pageId" value={m?.pageId ?? aboutPageId} />
 			<div class="adm-form-grid">
-				<div class="adm-field"><label for="m-year">Year</label><input class="adm-input" id="m-year" name="year" value={m?.year ?? ''} placeholder="2012" required /></div>
-				<div class="adm-field"><label for="m-order">Display order</label><input class="adm-input" id="m-order" name="displayOrder" type="number" value={m?.displayOrder ?? milestones.length} /></div>
+				<div class="adm-field">
+					<label for="m-year">Year</label><input
+						class="adm-input"
+						id="m-year"
+						name="year"
+						value={m?.year ?? ''}
+						placeholder="2012"
+						required
+					/>
+				</div>
+				<div class="adm-field">
+					<label for="m-order">Display order</label><input
+						class="adm-input"
+						id="m-order"
+						name="displayOrder"
+						type="number"
+						value={m?.displayOrder ?? milestones.length}
+					/>
+				</div>
 			</div>
-			<div class="adm-field"><label for="m-title">Title</label><input class="adm-input" id="m-title" name="title" value={m?.title ?? ''} required /></div>
-			<div class="adm-field"><label for="m-body">Body</label><textarea class="adm-textarea" id="m-body" name="body" rows="4">{m?.body ?? ''}</textarea></div>
+			<div class="adm-field">
+				<label for="m-title">Title</label><input
+					class="adm-input"
+					id="m-title"
+					name="title"
+					value={m?.title ?? ''}
+					required
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="m-body">Body</label><textarea
+					class="adm-textarea"
+					id="m-body"
+					name="body"
+					rows="4">{m?.body ?? ''}</textarea
+				>
+			</div>
 			{@render footer('Add milestone')}
 		</form>
 	{:else if drawerKind === 'values'}
@@ -223,11 +357,43 @@
 			{#if v}<input type="hidden" name="id" value={v.id} />{/if}
 			<input type="hidden" name="pageId" value={v?.pageId ?? aboutPageId} />
 			<div class="adm-form-grid">
-				<div class="adm-field"><label for="v-code">Code</label><input class="adm-input" id="v-code" name="code" value={v?.code ?? ''} placeholder="01" required /></div>
-				<div class="adm-field"><label for="v-order">Display order</label><input class="adm-input" id="v-order" name="displayOrder" type="number" value={v?.displayOrder ?? values.length} /></div>
+				<div class="adm-field">
+					<label for="v-code">Code</label><input
+						class="adm-input"
+						id="v-code"
+						name="code"
+						value={v?.code ?? ''}
+						placeholder="01"
+						required
+					/>
+				</div>
+				<div class="adm-field">
+					<label for="v-order">Display order</label><input
+						class="adm-input"
+						id="v-order"
+						name="displayOrder"
+						type="number"
+						value={v?.displayOrder ?? values.length}
+					/>
+				</div>
 			</div>
-			<div class="adm-field"><label for="v-name">Name</label><input class="adm-input" id="v-name" name="name" value={v?.name ?? ''} required /></div>
-			<div class="adm-field"><label for="v-body">Body</label><textarea class="adm-textarea" id="v-body" name="body" rows="4">{v?.body ?? ''}</textarea></div>
+			<div class="adm-field">
+				<label for="v-name">Name</label><input
+					class="adm-input"
+					id="v-name"
+					name="name"
+					value={v?.name ?? ''}
+					required
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="v-body">Body</label><textarea
+					class="adm-textarea"
+					id="v-body"
+					name="body"
+					rows="4">{v?.body ?? ''}</textarea
+				>
+			</div>
 			{@render footer('Add value')}
 		</form>
 	{:else if drawerKind === 'team'}
@@ -235,13 +401,52 @@
 		<form method="POST" action={t ? '?/updateTeam' : '?/createTeam'} use:enhance={saved()}>
 			{#if t}<input type="hidden" name="id" value={t.id} />{/if}
 			<input type="hidden" name="pageId" value={t?.pageId ?? aboutPageId} />
-			<div class="adm-field"><label for="t-name">Name</label><input class="adm-input" id="t-name" name="name" value={t?.name ?? ''} required /></div>
-			<div class="adm-field"><label for="t-title">Job title</label><input class="adm-input" id="t-title" name="title" value={t?.title ?? ''} required /></div>
-			<div class="adm-field"><label for="t-media">Photo</label><MediaPicker id="t-media" name="mediaId" {media} value={t?.mediaId ?? null} /></div>
-			<div class="adm-field"><label for="t-order">Display order</label><input class="adm-input" id="t-order" name="displayOrder" type="number" value={t?.displayOrder ?? team.length} /></div>
+			<div class="adm-field">
+				<label for="t-name">Name</label><input
+					class="adm-input"
+					id="t-name"
+					name="name"
+					value={t?.name ?? ''}
+					required
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="t-title">Job title</label><input
+					class="adm-input"
+					id="t-title"
+					name="title"
+					value={t?.title ?? ''}
+					required
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="t-media">Photo</label><MediaPicker
+					id="t-media"
+					name="mediaId"
+					{media}
+					value={t?.mediaId ?? null}
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="t-order">Display order</label><input
+					class="adm-input"
+					id="t-order"
+					name="displayOrder"
+					type="number"
+					value={t?.displayOrder ?? team.length}
+				/>
+			</div>
 			<label class="adm-switch-row">
-				<div><strong>Visible on site</strong><span>Hide someone without deleting their profile.</span></div>
-				<input type="checkbox" class="adm-switch" name="isActive" value="true" checked={t?.isActive ?? true} />
+				<div>
+					<strong>Visible on site</strong><span>Hide someone without deleting their profile.</span>
+				</div>
+				<input
+					type="checkbox"
+					class="adm-switch"
+					name="isActive"
+					value="true"
+					checked={t?.isActive ?? true}
+				/>
 			</label>
 			{@render footer('Add member')}
 		</form>
@@ -250,12 +455,42 @@
 		<form method="POST" action={l ? '?/updateLocation' : '?/createLocation'} use:enhance={saved()}>
 			{#if l}<input type="hidden" name="id" value={l.id} />{/if}
 			<input type="hidden" name="pageId" value={l?.pageId ?? aboutPageId} />
-			<div class="adm-field"><label for="l-city">City</label><input class="adm-input" id="l-city" name="city" value={l?.city ?? ''} required /></div>
-			<div class="adm-field"><label for="l-role">Role description</label><input class="adm-input" id="l-role" name="roleDescription" value={l?.roleDescription ?? ''} placeholder="Fabrication yard and field operations" /></div>
-			<div class="adm-field"><label for="l-order">Display order</label><input class="adm-input" id="l-order" name="displayOrder" type="number" value={l?.displayOrder ?? locations.length} /></div>
+			<div class="adm-field">
+				<label for="l-city">City</label><input
+					class="adm-input"
+					id="l-city"
+					name="city"
+					value={l?.city ?? ''}
+					required
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="l-role">Role description</label><input
+					class="adm-input"
+					id="l-role"
+					name="roleDescription"
+					value={l?.roleDescription ?? ''}
+					placeholder="Fabrication yard and field operations"
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="l-order">Display order</label><input
+					class="adm-input"
+					id="l-order"
+					name="displayOrder"
+					type="number"
+					value={l?.displayOrder ?? locations.length}
+				/>
+			</div>
 			<label class="adm-switch-row">
 				<div><strong>Headquarters</strong><span>Highlighted as the main office.</span></div>
-				<input type="checkbox" class="adm-switch" name="isHeadquarters" value="true" checked={l?.isHeadquarters ?? false} />
+				<input
+					type="checkbox"
+					class="adm-switch"
+					name="isHeadquarters"
+					value="true"
+					checked={l?.isHeadquarters ?? false}
+				/>
 			</label>
 			{@render footer('Add office')}
 		</form>
@@ -265,10 +500,34 @@
 			{#if a}<input type="hidden" name="id" value={a.id} />{/if}
 			<input type="hidden" name="pageId" value={a?.pageId ?? aboutPageId} />
 			<div class="adm-form-grid">
-				<div class="adm-field"><label for="a-year">Year</label><input class="adm-input" id="a-year" name="year" value={a?.year ?? ''} required /></div>
-				<div class="adm-field"><label for="a-order">Display order</label><input class="adm-input" id="a-order" name="displayOrder" type="number" value={a?.displayOrder ?? awards.length} /></div>
+				<div class="adm-field">
+					<label for="a-year">Year</label><input
+						class="adm-input"
+						id="a-year"
+						name="year"
+						value={a?.year ?? ''}
+						required
+					/>
+				</div>
+				<div class="adm-field">
+					<label for="a-order">Display order</label><input
+						class="adm-input"
+						id="a-order"
+						name="displayOrder"
+						type="number"
+						value={a?.displayOrder ?? awards.length}
+					/>
+				</div>
 			</div>
-			<div class="adm-field"><label for="a-name">Award name</label><input class="adm-input" id="a-name" name="name" value={a?.name ?? ''} required /></div>
+			<div class="adm-field">
+				<label for="a-name">Award name</label><input
+					class="adm-input"
+					id="a-name"
+					name="name"
+					value={a?.name ?? ''}
+					required
+				/>
+			</div>
 			{@render footer('Add award')}
 		</form>
 	{/if}
