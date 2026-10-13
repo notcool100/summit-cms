@@ -20,19 +20,19 @@ public static partial class DataSeeder
             db.NarrativeBlocks.AddRange(
                 new NarrativeBlock
                 {
-                    PageId = aboutPageId, DisplayOrder = 0, Eyebrow = "The founding bet",
-                    TitleLine1 = "Self-perform", TitleLine2 = "or don't bid.",
-                    Body = "Our first contract was 4,100 feet of chrome piping nobody else wanted, on a schedule everyone said was impossible. We staffed it with welders we knew by name, finished eleven days early, and never looked back. Today more than 90% of our field hours are worked by Summit employees, not subcontractors.",
+                    PageId = aboutPageId, DisplayOrder = 0, Eyebrow = "Who We Are",
+                    TitleLine1 = "Pilbara-based", TitleLine2 = "specialist access & rigging.",
+                    Body = "Summit Industrial Services is a Pilbara-based specialist access and rigging provider delivering scaffolding, rigging, inspection, engineering support and integrated industrial services across demanding operational environments. With more than 50 years of combined industry experience, our team supports maintenance, shutdown, construction, marine and project works with a practical focus on safety, reliability, responsiveness and efficient execution. Based in the Karratha Industrial Estate and servicing the greater Pilbara region, Summit is positioned to support clients across energy, resources, minerals processing, utilities, renewables, rail, marine and construction sectors.",
                     MediaId = Media("https://summit.us/wp-content/uploads/2022/05/20140514_161421-edited-scaled.jpg"),
-                    ImageCaption = "KARRATHA YARD, 1996", ImageFirst = true
+                    ImageCaption = "KARRATHA INDUSTRIAL ESTATE", ImageFirst = true
                 },
                 new NarrativeBlock
                 {
-                    PageId = aboutPageId, DisplayOrder = 1, Eyebrow = "Scale, without losing the plot",
-                    TitleLine1 = "From one crew", TitleLine2 = "to 2,400 craft.",
-                    Body = "The Pilbara expansion cycle changed everything. Production-locked schedules demand modular thinking, so we built our own off-site manufacturing yards, where trestles and pipe racks are assembled under cover, on the ground, at quality levels field work can't touch. What ships to site arrives ready to set.",
+                    PageId = aboutPageId, DisplayOrder = 1, Eyebrow = "Our Approach",
+                    TitleLine1 = "Integrated delivery,", TitleLine2 = "coordinated execution.",
+                    Body = "Successful project delivery requires more than skilled personnel and equipment. It requires effective planning, responsive coordination and the ability to adapt quickly to changing site conditions and operational priorities. Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management. Through Just-In-Time sequencing and coordinated mobilisation, we ensure the right equipment, materials and resources are available when and where required, helping reduce site congestion, minimize downtime and eliminate unnecessary material movements.",
                     MediaId = Media("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg"),
-                    ImageCaption = "OSM YARD, PRESENT DAY", ImageFirst = false
+                    ImageCaption = "COORDINATED EXECUTION", ImageFirst = false
                 });
         }
 
@@ -40,12 +40,10 @@ public static partial class DataSeeder
         {
             (string Year, string Title, string Body)[] milestones =
             [
-                ("1996", "Founded in Karratha", "Three superintendents, one rented yard, and a chrome-piping contract nobody else would touch."),
-                ("2012", "First full power scope", "Ironbark Power Station Units 5-11, our first multi-unit plant, delivered with 100% self-performed mechanical."),
-                ("2016", "OSM yard opens", "Off-site manufacturing changes our economics: assembly on the ground, under cover, at shop quality."),
-                ("2019", "Minerals processing entry", "First major processing-plant scope. Production-schedule discipline meets heavy mechanical."),
-                ("2022", "18M safe work hours", "TRIR at 0.42 across the rolling period, while headcount tripled."),
-                ("2025", "Project Phoenix", "480,000 LF of pipe underground and above grade on the largest processing plant build in the region.")
+                ("2026", "Capability Statement Published", "Summit Industrial Services releases updated capability statement covering scaffolding, rigging, inspection and integrated industrial services across the Pilbara."),
+                ("2020s", "Pilbara Expansion", "Expanded operations across energy, resources & minerals, utilities, renewables, rail, marine and construction sectors in the greater Pilbara region."),
+                ("2010s", "Team Growth", "Built a team with 50+ years of combined industry experience in scaffolding, rigging and industrial services."),
+                ("Founding", "Established in Karratha", "Founded as a Pilbara-based specialist access and rigging provider operating from Karratha Industrial Estate.")
             ];
             for (var i = 0; i < milestones.Length; i++)
                 db.Milestones.Add(new Milestone { PageId = aboutPageId, DisplayOrder = i, Year = milestones[i].Year, Title = milestones[i].Title, Body = milestones[i].Body });
@@ -55,10 +53,10 @@ public static partial class DataSeeder
         {
             (string Code, string Name, string Body)[] values =
             [
-                ("01", "Safety", "Not a program. A condition of employment. Stop-work authority belongs to everyone with boots on our site."),
-                ("02", "Quality", "Every weld traceable. Every turnover package complete before we call it done."),
-                ("03", "People", "Direct-hire craft, trained in our own programs, kept between projects. Loyalty runs both directions."),
-                ("04", "Execution", "Schedules are promises. We plan the work, work the plan, and report the truth.")
+                ("01", "Safety First", "Safety is fundamental to every aspect of our operations. We apply a risk-based approach to protecting our people, clients and assets in accordance with WHS legislation, codes of practice and Australian Standards including AS/NZS 1891 series. All personnel hold relevant High Risk Work Licences and competency verification."),
+                ("02", "Integrated Service Model", "Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management for seamless project delivery. One provider, coordinated execution, reduced interfaces."),
+                ("03", "Local Knowledge", "Pilbara-based and locally responsive with deep understanding of regional operational challenges. Coordinated mobilisation, Just-In-Time sequencing and practical problem solving backed by local presence and regional expertise."),
+                ("04", "Built on Trust, Driven by Excellence", "Committed to dependable service, transparent communication and consistently high standards of workmanship. We deliver what we promise, when we promise it, to the standard expected in demanding industrial environments.")
             ];
             for (var i = 0; i < values.Length; i++)
                 db.CompanyValues.Add(new CompanyValue { PageId = aboutPageId, DisplayOrder = i, Code = values[i].Code, Name = values[i].Name, Body = values[i].Body });
@@ -66,27 +64,22 @@ public static partial class DataSeeder
 
         if (!await db.TeamMembers.AnyAsync())
         {
-            (string Name, string Title, string Url)[] leaders =
+            (string Name, string Title)[] leaders =
             [
-                ("W. Jeff Johnson", "Chief Executive Officer", "https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots208003-edited.jpg"),
-                ("Josh Johnson", "President", "https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots209831-edited.jpg"),
-                ("Taylor Madden", "Chief Financial Officer", "https://summit.us/wp-content/uploads/2023/04/Taylor-Madden-website-2-1024x941.jpg"),
-                ("Jordan Dombart", "Chief Operating Officer", "https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots208058-edited.jpg"),
-                ("Robby Luna", "Executive Vice President", "https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots208147-edited.jpg")
+                ("Jason Matakatea", "Managing Director"),
+                ("Rebecca Neumann", "Director & Accounts"),
+                ("Travis Kuru", "North West Operations Manager"),
+                ("Nikki Sharpe", "Planning & Scheduling")
             ];
             for (var i = 0; i < leaders.Length; i++)
-                db.TeamMembers.Add(new TeamMember { PageId = aboutPageId, DisplayOrder = i, Name = leaders[i].Name, Title = leaders[i].Title, MediaId = Media(leaders[i].Url), IsActive = true });
+                db.TeamMembers.Add(new TeamMember { PageId = aboutPageId, DisplayOrder = i, Name = leaders[i].Name, Title = leaders[i].Title, MediaId = null, IsActive = true });
         }
 
         if (!await db.OfficeLocations.AnyAsync())
         {
             (string City, string Role, bool Hq)[] locations =
             [
-                ("Karratha, WA", "HQ · Engineering · OSM Yard", true),
-                ("Port Hedland, WA", "Pilbara port operations", false),
-                ("Newman, WA", "Mine site support", false),
-                ("Perth, WA", "Corporate & commercial office", false),
-                ("Onslow, WA", "Field office", false)
+                ("Karratha Industrial Estate, WA 6714", "HQ · Servicing the Greater Pilbara Region", true)
             ];
             for (var i = 0; i < locations.Length; i++)
                 db.OfficeLocations.Add(new OfficeLocation { PageId = aboutPageId, DisplayOrder = i, City = locations[i].City, RoleDescription = locations[i].Role, IsHeadquarters = locations[i].Hq });
@@ -96,12 +89,9 @@ public static partial class DataSeeder
         {
             (string Year, string Name)[] awards =
             [
-                ("2025", "WorkSafe WA Gold Award for Safety Excellence"),
-                ("2024", "Chamber of Minerals & Energy WA Safety Excellence, Finalist"),
-                ("2024", "NOSA 5-Star Safety Rating, Karratha Yard"),
-                ("2023", "Master Builders WA Safety Excellence Diamond"),
-                ("2022", "AMMA Safety Innovation Award"),
-                ("2021", "Client Zero-Harm Award, Pilbara LNG Program")
+                ("2026", "Working towards ISO accreditation for safety, quality and continuous improvement systems"),
+                ("Ongoing", "Compliance with WHS legislation, codes of practice and AS/NZS 1891 series requirements"),
+                ("Ongoing", "High Risk Work Licence, competency and VOC verification programs")
             ];
             for (var i = 0; i < awards.Length; i++)
                 db.Awards.Add(new Award { PageId = aboutPageId, DisplayOrder = i, Year = awards[i].Year, Name = awards[i].Name });

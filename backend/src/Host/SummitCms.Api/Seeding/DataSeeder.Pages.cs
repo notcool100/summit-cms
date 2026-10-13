@@ -14,13 +14,13 @@ public static partial class DataSeeder
 
         (string Slug, string Title, string Meta, string Hero, string Sub)[] pages =
         [
-            (PageSlugs.Home, "Summit Industrial Services | Industrial Services", "Self-performed mechanical, structural, and modular construction for the Pilbara's most demanding industrial sites.", "Built by the people who show up.", "2,400+ direct-hire craft. 18M+ safe work hours. Self-perform or don't bid."),
-            (PageSlugs.About, "About Summit Industrial Services", "Founded in 1996 on a piping contract nobody else would touch. Now 2,400 craft strong.", "Self-perform or don't bid.", "The story, the values, and the people behind Summit Industrial Services."),
-            (PageSlugs.Capabilities, "Capabilities", "Mechanical, structural, modular, underground, equipment setting, and design-assist engineering.", "Every discipline the work needs, under one roof.", "From chrome piping to constructability engineering."),
-            (PageSlugs.Contact, "Contact Summit Industrial Services", "Get in touch about a project, a career, or a partnership.", "Let's talk about the work.", "New projects, design-assist, employment, or vendor inquiries."),
-            (PageSlugs.Industries, "Industries We Serve", "Mining & minerals processing, power, energy & terminals, renewables, and heavy manufacturing.", "Industries that can't afford to slip.", "Schedule-critical construction across five industries."),
-            (PageSlugs.Projects, "Featured Projects", "480,000 LF of pipe. 900,000 BBL of storage. 7 recommissioned power units.", "The scale of work we self-perform.", "A sample of what Summit crews have delivered."),
-            (PageSlugs.Insights, "Insights", "Notes on safety, craft workforce, modular construction, and the industries Summit builds for.", "Notes from the field.", "What our crews, engineers, and leadership are seeing on the ground.")
+            (PageSlugs.Home, "Summit Industrial Services | Scaffolding, Access, Rigging & Inspection", "Pilbara-based specialist provider delivering integrated scaffolding, access, rigging, inspection and engineering support across demanding operational environments.", "Built on Trust, Driven by Excellence.", "SCAFFOLDING | ACCESS | RIGGING | INSPECTION"),
+            (PageSlugs.About, "About Summit Industrial Services", "Pilbara-based specialist access and rigging provider with 50+ years combined experience delivering integrated solutions across energy, resources, utilities and construction sectors.", "Pilbara-based specialist access & rigging.", "Summit Industrial Services — Built on Trust, Driven by Excellence."),
+            (PageSlugs.Capabilities, "Our Capabilities", "Scaffolding & access solutions, scaffold design & engineering, crane & mechanical rigging, inspection & tagging, shutdown support, logistics & materials management.", "Integrated scaffolding, access, rigging & inspection.", "Traditional and modular systems — engineered solutions for complex access."),
+            (PageSlugs.Contact, "Contact Summit Industrial Services", "Get in touch about scaffolding, rigging, inspection, engineering support or integrated industrial services across the Pilbara region.", "Let's talk about your project.", "1537 Pyramid Road, Karratha Industrial Estate WA 6714"),
+            (PageSlugs.Industries, "Industries We Serve", "Energy, Resources & Minerals Processing, Utilities, Renewables, Rail, Marine & Construction — specialist access and rigging across the Pilbara.", "Industries that demand excellence.", "Schedule-critical access and rigging solutions across six key sectors."),
+            (PageSlugs.Projects, "Featured Projects", "Shutdown, maintenance and construction support across energy, resources, utilities and industrial sectors.", "Delivering in demanding environments.", "Integrated access and rigging solutions for complex operational requirements."),
+            (PageSlugs.Insights, "Insights", "Technical notes on safety, scaffolding, rigging, inspection and industry developments from Summit's operational experience.", "Notes from the field.", "Insights from our crews, engineers and project teams.")
         ];
 
         var existingPages = await db.Pages.ToDictionaryAsync(p => p.Slug, p => p);
@@ -57,7 +57,7 @@ public static partial class DataSeeder
         [
             ("company_name", "Summit Industrial Services", "string"),
             ("company_phone", "0401 174 989", "string"),
-            ("company_email", "info@summit-is.com.au", "email"),
+            ("company_email", "support@summit-is.com.au", "email"),
             ("company_address", "1537 Pyramid Road, Karratha Industrial Estate, WA 6714", "string"),
             ("footer_text", $"© {DateTimeOffset.UtcNow.Year} Summit Industrial Services. All rights reserved.", "string")
         ];
@@ -70,7 +70,7 @@ public static partial class DataSeeder
 
         if (!await db.EnquiryTypes.AnyAsync())
         {
-            string[] labels = ["New project / RFP", "Design-assist engagement", "Craft employment", "Professional employment", "Vendor / subcontractor", "Media"];
+            string[] labels = ["Project enquiry / RFP", "Shutdown or maintenance support", "Equipment hire or sales", "Engineering or design coordination", "Employment opportunities", "General enquiry"];
             for (var i = 0; i < labels.Length; i++)
                 db.EnquiryTypes.Add(new EnquiryType { Label = labels[i], DisplayOrder = i, IsActive = true });
         }
