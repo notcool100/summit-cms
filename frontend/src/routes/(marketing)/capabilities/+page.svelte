@@ -6,10 +6,11 @@
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, panels } = data;
+	const { heroHeading, heroSubheading, panels, sections } = data;
 </script>
 
 <SeoHead title={data.seoTitle} description={data.seoDescription} image={panels[0]?.src} />
@@ -25,6 +26,8 @@
 		{heroSubheading}
 	</p>
 </section>
+
+<SectionRenderer {sections} slot="after-hero" />
 
 <!-- ============ STACKED PANELS ============ -->
 {#each panels as panel (panel.key)}
@@ -57,6 +60,8 @@
 		</div>
 	</section>
 {/each}
+
+<SectionRenderer {sections} slot="before-band" />
 
 <!-- ============ INTEGRATED DELIVERY BAND ============ -->
 <section class="band">

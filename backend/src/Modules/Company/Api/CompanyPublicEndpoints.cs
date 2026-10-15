@@ -17,6 +17,12 @@ public static class CompanyPublicEndpoints
     public sealed record PublicAward(string Year, string Name);
     public sealed record PublicNarrative(string Eyebrow, string TitleLine1, string TitleLine2, string Body, string? MediaUrl, string? MediaAlt, string ImageCaption, bool ImageFirst);
 
+    public sealed record PublicItem(string Title, string Subtitle, string Detail, string Body, string[] Tags);
+    public sealed record PublicSection(string Key, string Slot, string Layout, string Eyebrow, string[] Heading, string Intro, string Note, int Columns, bool Numbered, bool Tinted, PublicItem[] Items);
+
+    private static string[] Lines(string value) =>
+        value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
     public static void Map(IEndpointRouteBuilder app)
     {
         app.MapGet("/api/public/about", async (CompanyDbContext db, IMediaCatalog media, CancellationToken ct) =>
@@ -44,6 +50,22 @@ public static class CompanyPublicEndpoints
                 locations = locations.Select(l => new PublicLocation(l.City, l.RoleDescription, l.IsHeadquarters)),
                 awards = awards.Select(a => new PublicAward(a.Year, a.Name))
             });
+        }).WithTags("Public.Company");
+
+        // Configurable content blocks for any marketing page, grouped by slot so the page can drop each at its fixed position.
+        app.MapGet("/api/public/pages/{slug}/sections", async (string slug, CompanyDbContext db, CancellationToken ct) =>
+        {
+            var sections = await db.ContentSections
+                .Where(c => c.PageSlug == slug && c.IsActive)
+                .Include(c => c.Items)
+                .OrderBy(c => c.DisplayOrder)
+                .AsNoTracking()
+                .ToListAsync(ct);
+
+            return Results.Ok(sections.Select(c => new PublicSection(
+                c.Key, c.Slot, c.Layout, c.Eyebrow, Lines(c.Heading), c.Intro, c.Note, c.Columns, c.Numbered, c.Tinted,
+                c.Items.OrderBy(i => i.DisplayOrder)
+                    .Select(i => new PublicItem(i.Title, i.Subtitle, i.Detail, i.Body, Lines(i.Tags))).ToArray())));
         }).WithTags("Public.Company");
     }
 }

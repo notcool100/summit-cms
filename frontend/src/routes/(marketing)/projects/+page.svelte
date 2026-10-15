@@ -4,12 +4,13 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
+	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 	import type { IndustryFilter } from '$lib/types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, filters, projects } = data;
+	const { heroHeading, filters, projects, sections } = data;
 
 	let activeFilter = $state<IndustryFilter>('All');
 	let visible = $state(true);
@@ -94,6 +95,8 @@
 		<a href="/contact" class="empty-cta">Contact Summit <span aria-hidden="true">↗</span></a>
 	</section>
 {/if}
+
+<SectionRenderer {sections} slot="end" />
 
 <style>
 	.accent {

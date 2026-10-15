@@ -4,11 +4,12 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
+	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, categories, featured, posts } = data;
+	const { heroHeading, heroSubheading, categories, featured, posts, sections } = data;
 
 	let activeCategory = $state('All');
 	let visible = $state(true);
@@ -98,6 +99,8 @@
 		</div>
 	{/if}
 </section>
+
+<SectionRenderer {sections} slot="end" />
 
 <style>
 	/* Hero */

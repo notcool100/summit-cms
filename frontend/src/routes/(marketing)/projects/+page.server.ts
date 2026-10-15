@@ -1,4 +1,4 @@
-import { getPublic } from '$lib/server/publicApi';
+import { getSections, getPublic } from '$lib/server/publicApi';
 import type { PageServerLoad } from './$types';
 
 interface ApiProjectListItem {
@@ -39,12 +39,14 @@ function offsetFor(i: number): string | undefined {
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const [projects, page] = await Promise.all([
+	const [projects, page, sections] = await Promise.all([
 		getPublic<ApiProjectListItem[]>(fetch, '/api/public/projects'),
-		getPublic<ApiPage>(fetch, '/api/public/pages/projects')
+		getPublic<ApiPage>(fetch, '/api/public/pages/projects'),
+		getSections(fetch, 'projects')
 	]);
 
 	return {
+		sections,
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
 		heroHeading: page.heroHeading,

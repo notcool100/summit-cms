@@ -21,6 +21,9 @@ public static class CompanyModule
         services.AddScoped<ICrudRepository<Award>, EfCrudRepository<CompanyDbContext, Award>>();
         services.AddScoped<ICrudRepository<NarrativeBlock>, EfCrudRepository<CompanyDbContext, NarrativeBlock>>();
 
+        services.AddScoped<ICrudRepository<ContentSection>, EfCrudRepository<CompanyDbContext, ContentSection>>();
+        services.AddScoped<ICrudRepository<ContentItem>, EfCrudRepository<CompanyDbContext, ContentItem>>();
+
         return services;
     }
 

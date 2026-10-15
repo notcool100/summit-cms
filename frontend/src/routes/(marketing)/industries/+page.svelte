@@ -4,11 +4,12 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { magnetic } from '$lib/actions/magnetic';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
+	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, industries } = data;
+	const { heroHeading, heroSubheading, industries, sections } = data;
 
 	let openIdx = $state<number | null>(null);
 
@@ -30,6 +31,8 @@
 		{heroSubheading}
 	</p>
 </section>
+
+<SectionRenderer {sections} slot="after-hero" />
 
 <!-- ============ INDUSTRY PANELS ============ -->
 <section class="panels">
@@ -71,6 +74,8 @@
 		</div>
 	{/each}
 </section>
+
+<SectionRenderer {sections} slot="before-cta" />
 
 <!-- ============ CTA ============ -->
 <section class="cta">

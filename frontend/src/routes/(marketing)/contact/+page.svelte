@@ -8,6 +8,7 @@
 	import HeroIndex from '$lib/components/ui/HeroIndex.svelte';
 	import { page } from '$app/state';
 	import { site } from '$lib/config/site';
+	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import JsonLd from '$lib/components/layout/JsonLd.svelte';
 	import GoogleMap from '$lib/components/common/GoogleMap.svelte';
@@ -25,6 +26,10 @@
 		`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}`
 	);
 
+	const detailItems = $derived(
+		data.sections.find((x) => x.slot === 'details')?.items.map((i) => ({ title: i.title, body: i.body })) ?? []
+	);
+
 	let fullName = $state('');
 	let company = $state('');
 	let email = $state('');
@@ -33,28 +38,9 @@
 	let message = $state('');
 	let submitting = $state(false);
 
-	const faqs = [
-		{
-			q: 'What services does Summit provide?',
-			a: 'Summit provides Tube & Fit and AT-PAC Ringlock scaffolding, scaffold erection and dismantling, equipment hire and sales, crane and mechanical rigging, inspections, engineering coordination, logistics, and shutdown, maintenance and project support.'
-		},
-		{
-			q: 'How does Summit approach safety?',
-			a: 'Safety is fundamental to our work. We use pre-start planning, SWMS, JHAs and task-specific risk assessments, competent personnel, fit-for-purpose equipment, scaffold handover and tagging processes, and applicable WHS legislation, codes, client procedures and Australian Standards.'
-		},
-		{
-			q: 'Can Summit support scaffold design?',
-			a: 'We provide tailored scaffold design and engineering coordination. Where engineered design is required, drawings and supporting documentation can be developed and verified by suitably qualified engineers.'
-		},
-		{
-			q: 'Where does Summit work?',
-			a: 'Summit is based in the Karratha Industrial Estate and services the Greater Pilbara region, supporting clients across energy, resources and minerals, utilities, renewables, rail, marine and construction.'
-		},
-		{
-			q: 'How can I contact Summit?',
-			a: 'Send an enquiry using the form on this page, call 0401 174 989, or email support@summit-is.com.au.'
-		}
-	];
+	const faqs = $derived(
+		(data.sections.find((x) => x.layout === 'faq')?.items ?? []).map((i) => ({ q: i.title, a: i.body }))
+	);
 	let openFaq = $state<number | null>(null);
 
 	let faqSchema = $derived({
@@ -92,6 +78,12 @@
 					<div class="details-label">Direct</div>
 					{companyPhone}<br />{companyEmail}
 				</div>
+				{#each detailItems as d (d.title)}
+					<div>
+						<div class="details-label">{d.title}</div>
+						<span class="pre">{d.body}</span>
+					</div>
+				{/each}
 				<div>
 					<div class="details-label">ABN</div>
 					{site.abn}
@@ -158,6 +150,8 @@
 	</div>
 </section>
 
+<SectionRenderer sections={data.sections} slot="before-faq" />
+
 <!-- ============ FAQ ============ -->
 <section class="faq">
 	<div class="faq-inner">
@@ -187,6 +181,10 @@
 </section>
 
 <style>
+	.pre {
+		white-space: pre-line;
+	}
+
 	.accent {
 		color: var(--accent);
 	}

@@ -28,6 +28,7 @@
 			{ href: '/admin/pages', label: 'Pages', icon: 'pages', permission: 'content.pages.manage' },
 			{ href: '/admin/capabilities', label: 'Capabilities', icon: 'layers', permission: 'capabilities.manage' },
 			{ href: '/admin/company', label: 'About page', icon: 'building', permission: 'company.manage' },
+			{ href: '/admin/sections', label: 'Page sections', icon: 'layers', permission: 'company.manage' },
 			{ href: '/admin/industries', label: 'Industries', icon: 'factory', permission: 'industries.manage' },
 			{ href: '/admin/projects', label: 'Projects', icon: 'briefcase', permission: 'projects.manage' },
 			{ href: '/admin/blog', label: 'Blog', icon: 'newspaper', permission: 'blog.manage' }

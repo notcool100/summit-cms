@@ -10,6 +10,7 @@
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import GoogleMap from '$lib/components/common/GoogleMap.svelte';
 	import { page } from '$app/state';
+	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import { site } from '$lib/config/site';
 	import type { PageProps } from './$types';
 
@@ -23,7 +24,8 @@
 		leaders,
 		locations,
 		hseStats,
-		awards
+		awards,
+		sections
 	} = data;
 
 	// The map follows whichever office is picked; HQ uses its full street address so the pin
@@ -58,6 +60,8 @@
 		</p>
 	</div>
 </section>
+
+<SectionRenderer {sections} slot="after-hero" />
 
 <!-- ============ NARRATIVE BLOCKS ============ -->
 <section class="narrative">
@@ -118,6 +122,8 @@
 		{/each}
 	</div>
 </section>
+
+<SectionRenderer {sections} slot="before-leadership" />
 
 <!-- ============ LEADERSHIP ============ -->
 <section class="leadership">
@@ -221,6 +227,8 @@
 		</div>
 	</div>
 </section>
+
+<SectionRenderer {sections} slot="end" />
 
 <style>
 	.accent {

@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getPublic, postPublic } from '$lib/server/publicApi';
+import { getSections, getPublic, postPublic } from '$lib/server/publicApi';
 import type { Actions, PageServerLoad } from './$types';
 
 interface ApiEnquiryType {
@@ -13,11 +13,13 @@ interface ApiPage {
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const [enquiryTypes, page] = await Promise.all([
+	const [enquiryTypes, page, sections] = await Promise.all([
 		getPublic<ApiEnquiryType[]>(fetch, '/api/public/enquiry-types'),
-		getPublic<ApiPage>(fetch, '/api/public/pages/contact')
+		getPublic<ApiPage>(fetch, '/api/public/pages/contact'),
+		getSections(fetch, 'contact')
 	]);
 	return {
+		sections,
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
 		heroHeading: page.heroHeading,

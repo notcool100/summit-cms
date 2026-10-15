@@ -34,3 +34,26 @@ export async function postPublic<T>(fetchFn: typeof fetch, path: string, body: u
 }
 
 export { BASE_URL as PUBLIC_API_BASE_URL };
+
+export interface PageSection {
+	key: string;
+	slot: string;
+	layout: 'cards' | 'facts' | 'quote' | 'people' | 'faq';
+	eyebrow: string;
+	heading: string[];
+	intro: string;
+	note: string;
+	columns: 2 | 3 | 4;
+	numbered: boolean;
+	tinted: boolean;
+	items: { title: string; subtitle: string; detail: string; body: string; tags: string[] }[];
+}
+
+/** Admin-managed content blocks for a page. Non-critical: an API hiccup yields no sections rather than a 500. */
+export async function getSections(fetchFn: typeof fetch, slug: string): Promise<PageSection[]> {
+	try {
+		return await getPublic<PageSection[]>(fetchFn, `/api/public/pages/${slug}/sections`);
+	} catch {
+		return [];
+	}
+}

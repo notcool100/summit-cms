@@ -1,4 +1,4 @@
-import { getPublic } from '$lib/server/publicApi';
+import { getSections, getPublic } from '$lib/server/publicApi';
 import type { PageServerLoad } from './$types';
 
 interface ApiPage {
@@ -66,7 +66,7 @@ interface ApiPostListItem {
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const [page, statsByGroup, capabilities, industries, projects, about, testimonials, posts] = await Promise.all([
+	const [page, statsByGroup, capabilities, industries, projects, about, testimonials, posts, sections] = await Promise.all([
 		getPublic<ApiPage>(fetch, '/api/public/pages/home'),
 		getPublic<Record<string, ApiStat[]>>(fetch, '/api/public/pages/home/stats'),
 		getPublic<ApiCapability[]>(fetch, '/api/public/capabilities'),
@@ -77,10 +77,12 @@ export const load: PageServerLoad = async ({ fetch }) => {
 			'/api/public/about'
 		),
 		getPublic<ApiTestimonial[]>(fetch, '/api/public/projects/testimonials'),
-		getPublic<ApiPostListItem[]>(fetch, '/api/public/blog/posts')
+		getPublic<ApiPostListItem[]>(fetch, '/api/public/blog/posts'),
+		getSections(fetch, 'home')
 	]);
 
 	return {
+		sections,
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
 		heroHeading: page.heroHeading,

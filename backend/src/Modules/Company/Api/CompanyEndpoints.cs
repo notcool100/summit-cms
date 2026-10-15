@@ -27,6 +27,12 @@ public static class CompanyEndpoints
     public sealed record NarrativeDto(Guid Id, Guid PageId, string Eyebrow, string TitleLine1, string TitleLine2, string Body, Guid? MediaId, string ImageCaption, bool ImageFirst, int DisplayOrder);
     public sealed record NarrativeWriteDto(Guid PageId, string Eyebrow, string TitleLine1, string TitleLine2, string Body, Guid? MediaId, string ImageCaption, bool ImageFirst, int DisplayOrder);
 
+    public sealed record SectionDto(Guid Id, string Key, string PageSlug, string Slot, string Layout, string Eyebrow, string Heading, string Intro, string Note, int Columns, bool Numbered, bool Tinted, bool IsActive, int DisplayOrder);
+    public sealed record SectionWriteDto(string Key, string PageSlug, string Slot, string Layout, string Eyebrow, string Heading, string Intro, string Note, int Columns, bool Numbered, bool Tinted, bool IsActive, int DisplayOrder);
+
+    public sealed record ItemDto(Guid Id, Guid SectionId, string Title, string Subtitle, string Detail, string Body, string Tags, int DisplayOrder);
+    public sealed record ItemWriteDto(Guid SectionId, string Title, string Subtitle, string Detail, string Body, string Tags, int DisplayOrder);
+
     public static void Map(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/admin/company").WithTags("Admin.Company");
@@ -66,5 +72,22 @@ public static class CompanyEndpoints
             n => new NarrativeDto(n.Id, n.PageId, n.Eyebrow, n.TitleLine1, n.TitleLine2, n.Body, n.MediaId, n.ImageCaption, n.ImageFirst, n.DisplayOrder),
             dto => new NarrativeBlock { PageId = dto.PageId, Eyebrow = dto.Eyebrow, TitleLine1 = dto.TitleLine1, TitleLine2 = dto.TitleLine2, Body = dto.Body, MediaId = dto.MediaId, ImageCaption = dto.ImageCaption, ImageFirst = dto.ImageFirst, DisplayOrder = dto.DisplayOrder },
             (n, dto) => { n.Eyebrow = dto.Eyebrow; n.TitleLine1 = dto.TitleLine1; n.TitleLine2 = dto.TitleLine2; n.Body = dto.Body; n.MediaId = dto.MediaId; n.ImageCaption = dto.ImageCaption; n.ImageFirst = dto.ImageFirst; n.DisplayOrder = dto.DisplayOrder; });
+
+        group.MapAdminCrud<ContentSection, SectionWriteDto, SectionWriteDto, SectionDto>(
+            "/sections", CompanyPermissions.Manage,
+            c => new SectionDto(c.Id, c.Key, c.PageSlug, c.Slot, c.Layout, c.Eyebrow, c.Heading, c.Intro, c.Note, c.Columns, c.Numbered, c.Tinted, c.IsActive, c.DisplayOrder),
+            dto => new ContentSection { Key = dto.Key, PageSlug = dto.PageSlug, Slot = dto.Slot, Layout = NormaliseLayout(dto.Layout), Eyebrow = dto.Eyebrow, Heading = dto.Heading, Intro = dto.Intro, Note = dto.Note, Columns = ClampColumns(dto.Columns), Numbered = dto.Numbered, Tinted = dto.Tinted, IsActive = dto.IsActive, DisplayOrder = dto.DisplayOrder },
+            (c, dto) => { c.Key = dto.Key; c.PageSlug = dto.PageSlug; c.Slot = dto.Slot; c.Layout = NormaliseLayout(dto.Layout); c.Eyebrow = dto.Eyebrow; c.Heading = dto.Heading; c.Intro = dto.Intro; c.Note = dto.Note; c.Columns = ClampColumns(dto.Columns); c.Numbered = dto.Numbered; c.Tinted = dto.Tinted; c.IsActive = dto.IsActive; c.DisplayOrder = dto.DisplayOrder; });
+
+        group.MapAdminCrud<ContentItem, ItemWriteDto, ItemWriteDto, ItemDto>(
+            "/section-items", CompanyPermissions.Manage,
+            i => new ItemDto(i.Id, i.SectionId, i.Title, i.Subtitle, i.Detail, i.Body, i.Tags, i.DisplayOrder),
+            dto => new ContentItem { SectionId = dto.SectionId, Title = dto.Title, Subtitle = dto.Subtitle, Detail = dto.Detail, Body = dto.Body, Tags = dto.Tags, DisplayOrder = dto.DisplayOrder },
+            (i, dto) => { i.Title = dto.Title; i.Subtitle = dto.Subtitle; i.Detail = dto.Detail; i.Body = dto.Body; i.Tags = dto.Tags; i.DisplayOrder = dto.DisplayOrder; });
     }
+
+    private static string NormaliseLayout(string layout) =>
+        ContentLayouts.All.Contains(layout) ? layout : ContentLayouts.Cards;
+
+    private static int ClampColumns(int columns) => Math.Clamp(columns, 2, 4);
 }

@@ -116,6 +116,160 @@ namespace SummitCms.Modules.Company.Infrastructure.Migrations
                     b.ToTable("company_values", "company");
                 });
 
+            modelBuilder.Entity("SummitCms.Modules.Company.Domain.ContentItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("body");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Detail")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("detail");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("display_order");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
+
+                    b.Property<string>("Subtitle")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("subtitle");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("tags");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("title");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_content_items");
+
+                    b.HasIndex("SectionId")
+                        .HasDatabaseName("ix_content_items_section_id");
+
+                    b.ToTable("content_items", "company");
+                });
+
+            modelBuilder.Entity("SummitCms.Modules.Company.Domain.ContentSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("Columns")
+                        .HasColumnType("integer")
+                        .HasColumnName("columns");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("display_order");
+
+                    b.Property<string>("Eyebrow")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("eyebrow");
+
+                    b.Property<string>("Heading")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("heading");
+
+                    b.Property<string>("Intro")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("intro");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("key");
+
+                    b.Property<string>("Layout")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("layout");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("note");
+
+                    b.Property<bool>("Numbered")
+                        .HasColumnType("boolean")
+                        .HasColumnName("numbered");
+
+                    b.Property<string>("PageSlug")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("page_slug");
+
+                    b.Property<string>("Slot")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("slot");
+
+                    b.Property<bool>("Tinted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("tinted");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_content_sections");
+
+                    b.HasIndex("Key")
+                        .IsUnique()
+                        .HasDatabaseName("ix_content_sections_key");
+
+                    b.HasIndex("PageSlug")
+                        .HasDatabaseName("ix_content_sections_page_slug");
+
+                    b.ToTable("content_sections", "company");
+                });
+
             modelBuilder.Entity("SummitCms.Modules.Company.Domain.Milestone", b =>
                 {
                     b.Property<Guid>("Id")
@@ -328,6 +482,21 @@ namespace SummitCms.Modules.Company.Infrastructure.Migrations
                         .HasDatabaseName("ix_team_members_page_id");
 
                     b.ToTable("team_members", "company");
+                });
+
+            modelBuilder.Entity("SummitCms.Modules.Company.Domain.ContentItem", b =>
+                {
+                    b.HasOne("SummitCms.Modules.Company.Domain.ContentSection", null)
+                        .WithMany("Items")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_content_items_content_sections_section_id");
+                });
+
+            modelBuilder.Entity("SummitCms.Modules.Company.Domain.ContentSection", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

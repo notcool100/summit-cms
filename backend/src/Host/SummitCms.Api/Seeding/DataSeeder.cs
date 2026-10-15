@@ -41,6 +41,7 @@ public static partial class DataSeeder
         await SeedPageVersionsAsync(sp);
         await SeedSiteSettingsAndEnquiryTypesAsync(sp);
         await SeedCompanyAsync(sp, pageIds, mediaMap);
+        await SeedContentSectionsAsync(sp);
         await SeedCapabilitiesAsync(sp, mediaMap);
         await RetireUnverifiedProjectSamplesAsync(sp);
         var projectIds = await SeedRepresentativeProjectsAsync(sp, mediaMap);

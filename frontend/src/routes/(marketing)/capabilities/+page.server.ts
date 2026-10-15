@@ -1,4 +1,4 @@
-import { getPublic } from '$lib/server/publicApi';
+import { getSections, getPublic } from '$lib/server/publicApi';
 import type { PageServerLoad } from './$types';
 
 interface ApiCapability {
@@ -21,12 +21,14 @@ interface ApiPage {
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const [capabilities, page] = await Promise.all([
+	const [capabilities, page, sections] = await Promise.all([
 		getPublic<ApiCapability[]>(fetch, '/api/public/capabilities'),
-		getPublic<ApiPage>(fetch, '/api/public/pages/capabilities')
+		getPublic<ApiPage>(fetch, '/api/public/pages/capabilities'),
+		getSections(fetch, 'capabilities')
 	]);
 
 	return {
+		sections,
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
 		heroHeading: page.heroHeading,

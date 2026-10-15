@@ -13,6 +13,8 @@ public class CompanyDbContext(DbContextOptions<CompanyDbContext> options) : DbCo
     public DbSet<OfficeLocation> OfficeLocations => Set<OfficeLocation>();
     public DbSet<Award> Awards => Set<Award>();
     public DbSet<NarrativeBlock> NarrativeBlocks => Set<NarrativeBlock>();
+    public DbSet<ContentSection> ContentSections => Set<ContentSection>();
+    public DbSet<ContentItem> ContentItems => Set<ContentItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,6 +26,26 @@ public class CompanyDbContext(DbContextOptions<CompanyDbContext> options) : DbCo
         modelBuilder.Entity<OfficeLocation>(b => b.Property(o => o.City).HasMaxLength(150));
         modelBuilder.Entity<Award>(b => { b.Property(a => a.Year).HasMaxLength(16); b.Property(a => a.Name).HasMaxLength(250); });
         modelBuilder.Entity<NarrativeBlock>(b => b.Property(n => n.Eyebrow).HasMaxLength(200));
+
+        modelBuilder.Entity<ContentSection>(b =>
+        {
+            b.Property(c => c.Key).HasMaxLength(100);
+            b.Property(c => c.PageSlug).HasMaxLength(50);
+            b.Property(c => c.Slot).HasMaxLength(50);
+            b.Property(c => c.Layout).HasMaxLength(20);
+            b.Property(c => c.Eyebrow).HasMaxLength(100);
+            b.Property(c => c.Heading).HasMaxLength(300);
+            b.HasIndex(c => c.Key).IsUnique();
+            b.HasIndex(c => c.PageSlug);
+            b.HasMany(c => c.Items).WithOne().HasForeignKey(i => i.SectionId).OnDelete(DeleteBehavior.Cascade);
+        });
+        modelBuilder.Entity<ContentItem>(b =>
+        {
+            b.Property(i => i.Title).HasMaxLength(250);
+            b.Property(i => i.Subtitle).HasMaxLength(150);
+            b.Property(i => i.Detail).HasMaxLength(250);
+            b.HasIndex(i => i.SectionId);
+        });
 
         modelBuilder.Entity<Milestone>().HasIndex(m => m.PageId);
         modelBuilder.Entity<CompanyValue>().HasIndex(v => v.PageId);

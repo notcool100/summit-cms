@@ -11,6 +11,7 @@
 	import { parallax } from '$lib/actions/parallax';
 	import { tilt } from '$lib/actions/tilt';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -27,8 +28,11 @@
 		awards,
 		hseStats,
 		testimonials,
-		latestPosts
+		latestPosts,
+		sections
 	} = data;
+
+	const manifesto = $derived(sections.find((x) => x.slot === 'manifesto'));
 
 	let video: HTMLVideoElement;
 	let hoveredCap = $state<string | null>(null);
@@ -171,22 +175,41 @@
 	</div>
 </section>
 
+<SectionRenderer {sections} slot="after-stats" />
+
 <!-- ============ MANIFESTO ============ -->
 <section class="manifesto">
 	<div class="manifesto-eyebrow"><SectionLabel idx="01" label="Manifesto" /></div>
 	<div class="manifesto-grid stack-mobile">
-		<h2>
-			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>We build the plants</span></span>
-			<span class="mask-line"
-				><span use:reveal={{ kind: 'mask', delay: 0.1 }}>that build everything else.</span></span
-			>
-			<span class="mask-line manifesto-body-line">
-				<span use:reveal={{ kind: 'mask', delay: 0.2 }} class="manifesto-body">
-					From scaffolding and rigging to inspection and engineering coordination, Summit supports
-					maintenance, shutdown, construction, marine and project works across the Greater Pilbara.
-				</span>
-			</span>
-		</h2>
+		<div class="manifesto-text">
+			<h2>
+				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>We build the plants</span></span>
+				<span class="mask-line"
+					><span use:reveal={{ kind: 'mask', delay: 0.1 }}>that build everything else.</span></span
+				>
+			</h2>
+			<p use:reveal={{ kind: 'up', delay: 0.2 }} class="manifesto-body">
+				From scaffolding and rigging to inspection and engineering coordination, Summit supports
+				maintenance, shutdown, construction, marine and project works across the Greater Pilbara.
+			</p>
+			{#if manifesto}
+				{#each manifesto.intro.split('\n').filter(Boolean) as para, i (para)}
+					<p use:reveal={{ kind: 'up', delay: 0.25 + i * 0.08 }} class="manifesto-para">{para}</p>
+				{/each}
+				<ul class="manifesto-points">
+					{#each manifesto.items as item, i (item.title)}
+						<li use:reveal={{ kind: 'up', delay: Math.min(0.3 + i * 0.05, 0.6) }}>
+							<span class="mp-idx">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<div class="mp-title">{item.title}</div>
+								{#if item.body}<p class="mp-body">{item.body}</p>{/if}
+							</div>
+						</li>
+					{/each}
+				</ul>
+				{#if manifesto.note}<p class="manifesto-note">{manifesto.note}</p>{/if}
+			{/if}
+		</div>
 		<div use:reveal={{ kind: 'clip' }} class="manifesto-figure">
 			<div use:parallax={0.08} class="manifesto-img">
 				<ResponsiveImage src={manifestoImage.src} alt={manifestoImage.alt} />
@@ -281,6 +304,8 @@
 	</div>
 </section>
 
+<SectionRenderer {sections} slot="after-industries" />
+
 <!-- ============ SELECT PROJECTS: HORIZONTAL SCROLL ============ -->
 {#if featuredProjects.length > 0}
 	<HorizontalScroll heightVh={320}>
@@ -309,6 +334,8 @@
 		</div>
 	</HorizontalScroll>
 {/if}
+
+<SectionRenderer {sections} slot="before-safety" />
 
 <!-- ============ SAFETY MARQUEE ============ -->
 <section class="safety">
@@ -370,6 +397,8 @@
 		</div>
 	</div>
 </section>
+
+<SectionRenderer {sections} slot="after-standard" />
 
 {#if testimonials.length > 0}
 	<!-- ============ CLIENT VOICE ============ -->
@@ -660,6 +689,68 @@
 		position: relative;
 	}
 
+	.manifesto-para {
+		font-size: 15px;
+		line-height: 1.8;
+		color: rgba(var(--ink-rgb), 0.7);
+		margin: 18px 0 0;
+		max-width: 56ch;
+	}
+
+	.manifesto-note {
+		font-size: 12px;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-top: 28px;
+	}
+
+	.manifesto-points {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0 clamp(20px, 3vw, 40px);
+		margin-top: 32px;
+	}
+
+	.manifesto-points li {
+		display: flex;
+		gap: 16px;
+		padding: 20px 0;
+		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+	}
+
+	.mp-idx {
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.2em;
+		color: var(--accent);
+		padding-top: 3px;
+	}
+
+	.mp-title {
+		font-family: var(--font-display);
+		font-size: clamp(16px, 1.4vw, 20px);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		line-height: 1.2;
+	}
+
+	.mp-body {
+		margin: 8px 0 0;
+		font-size: 13.5px;
+		line-height: 1.65;
+		color: rgba(var(--ink-rgb), 0.62);
+	}
+
+	@media (max-width: 560px) {
+		.manifesto-points {
+			grid-template-columns: 1fr;
+		}
+	}
+
 	.manifesto-eyebrow {
 		margin-bottom: 48px;
 	}
@@ -668,7 +759,7 @@
 		display: grid;
 		grid-template-columns: 7fr 5fr;
 		gap: clamp(32px, 5vw, 96px);
-		align-items: center;
+		align-items: start;
 	}
 
 	.manifesto-grid h2 {
@@ -679,10 +770,6 @@
 		letter-spacing: 0.01em;
 	}
 
-	.manifesto-body-line {
-		margin-top: 24px;
-	}
-
 	.manifesto-body {
 		font-family: var(--font-body);
 		font-size: clamp(15px, 1.25vw, 19px);
@@ -691,10 +778,12 @@
 		text-transform: none;
 		color: rgba(var(--ink-rgb), 0.75);
 		max-width: 52ch;
+		margin: 24px 0 0;
 	}
 
 	.manifesto-figure {
-		position: relative;
+		position: sticky;
+		top: 96px;
 		overflow: hidden;
 		aspect-ratio: 4 / 5;
 	}

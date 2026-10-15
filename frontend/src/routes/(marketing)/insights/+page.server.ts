@@ -1,4 +1,4 @@
-import { getPublic } from '$lib/server/publicApi';
+import { getSections, getPublic } from '$lib/server/publicApi';
 import type { PageServerLoad } from './$types';
 
 interface ApiPostListItem {
@@ -25,9 +25,10 @@ function formatDate(iso: string) {
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const [posts, page] = await Promise.all([
+	const [posts, page, sections] = await Promise.all([
 		getPublic<ApiPostListItem[]>(fetch, '/api/public/blog/posts'),
-		getPublic<ApiPage>(fetch, '/api/public/pages/insights')
+		getPublic<ApiPage>(fetch, '/api/public/pages/insights'),
+		getSections(fetch, 'insights')
 	]);
 
 	const categories = ['All', ...Array.from(new Set(posts.map((p) => p.category)))];
@@ -35,6 +36,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	const rest = posts.filter((p) => p.slug !== featured?.slug);
 
 	return {
+		sections,
 		seoTitle: page.title,
 		seoDescription: page.metaDescription,
 		heroHeading: page.heroHeading,
