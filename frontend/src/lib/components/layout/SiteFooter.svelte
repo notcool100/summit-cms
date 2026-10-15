@@ -70,8 +70,6 @@
 	<div class="bottom">
 		<span>© {site.year} {companyName} · ABN {site.abn}</span>
 		<div class="social">
-			<a href={site.social.linkedin}>LinkedIn</a>
-			<a href={site.social.instagram}>Instagram</a>
 			<a href="#top" class="top" onclick={scrollToTop}>Back to top ↑</a>
 		</div>
 	</div>

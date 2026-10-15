@@ -30,10 +30,7 @@
 			: {}),
 		// Single-HQ contractor delivering projects across the state, not a fixed-radius local service
 		// business - areaServed is the schema-correct fit here, not location pages or a service radius.
-		areaServed: { '@type': 'State', name: 'Western Australia' },
-		sameAs: ([site.social.linkedin, site.social.instagram] as string[]).filter(
-			(url) => !!url && url !== '#'
-		)
+		areaServed: { '@type': 'State', name: 'Western Australia' }
 	});
 </script>
 

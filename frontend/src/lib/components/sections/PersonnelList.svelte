@@ -36,6 +36,9 @@
 
 <style>
 	.people {
+		position: relative;
+		z-index: 1;
+		background: var(--paper);
 		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
 		border-top: 1px solid rgba(var(--ink-rgb), 0.1);
 	}

@@ -6,7 +6,7 @@ export const site = {
 	url: (env.PUBLIC_SITE_URL ?? 'https://www.summit-is.com.au').replace(/\/$/, ''),
 	tagline: 'Built on Trust, Driven by Excellence',
 	description:
-		'Pilbara-based scaffolding, access, rigging, inspection and industrial support across the Greater Pilbara region.',
+		'Pilbara based scaffolding, access, rigging, inspection and industrial support across the Greater Pilbara region.',
 	address: {
 		line1: '1537 Pyramid Road',
 		line2: 'Karratha Industrial Estate, WA 6714'
@@ -15,9 +15,5 @@ export const site = {
 	email: 'support@summit-is.com.au',
 	abn: '41 693 462 421',
 	favicon: '/favicon.ico',
-	social: {
-		linkedin: '#',
-		instagram: '#'
-	},
 	year: new Date().getFullYear()
 } as const;

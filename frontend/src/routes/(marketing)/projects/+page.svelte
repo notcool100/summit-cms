@@ -29,6 +29,12 @@
 	let shown = $derived(
 		projects.filter((p) => activeFilter === 'All' || p.industry === activeFilter)
 	);
+	// Industry specific blocks use slot "category:<Industry>"; "All" (or an industry without its own block) falls back to "end".
+	let sectionSlot = $derived(
+		activeFilter !== 'All' && sections.some((x) => x.slot === `category:${activeFilter}`)
+			? `category:${activeFilter}`
+			: 'end'
+	);
 	let count = $derived(String(shown.length).padStart(2, '0'));
 </script>
 
@@ -96,7 +102,7 @@
 	</section>
 {/if}
 
-<SectionRenderer {sections} slot="end" />
+<SectionRenderer {sections} slot={sectionSlot} />
 
 <style>
 	.accent {

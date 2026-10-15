@@ -54,8 +54,23 @@
 			{ id: 'after-hero', label: 'Under the hero' },
 			{ id: 'before-cta', label: 'Before the closing call to action' }
 		],
-		projects: [{ id: 'end', label: 'End of page' }],
-		insights: [{ id: 'end', label: 'End of page' }]
+		projects: [
+			{ id: 'end', label: 'End of page (shown for All and any industry without its own block)' },
+			{ id: 'category:Energy', label: 'When the Energy filter is selected' },
+			{ id: 'category:Resources & Minerals', label: 'When the Resources & Minerals filter is selected' },
+			{ id: 'category:Utilities', label: 'When the Utilities filter is selected' },
+			{ id: 'category:Renewables', label: 'When the Renewables filter is selected' },
+			{ id: 'category:Rail', label: 'When the Rail filter is selected' },
+			{ id: 'category:Marine & Construction', label: 'When the Marine & Construction filter is selected' }
+		],
+		insights: [
+			{ id: 'end', label: 'End of page (shown for All and any category without its own block)' },
+			{ id: 'category:Scaffolding', label: 'When the Scaffolding filter is selected' },
+			{ id: 'category:Safety', label: 'When the Safety filter is selected' },
+			{ id: 'category:Project Planning', label: 'When the Project Planning filter is selected' },
+			{ id: 'category:Rigging', label: 'When the Rigging filter is selected' },
+			{ id: 'category:Logistics', label: 'When the Logistics filter is selected' }
+		]
 	};
 
 	let pageSlug = $state('home');

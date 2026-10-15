@@ -25,6 +25,13 @@
 		}, 60);
 	}
 
+	// Category specific blocks use slot "category:<Name>"; "All" (or a category without its own block) falls back to "end".
+	let sectionSlot = $derived(
+		activeCategory !== 'All' && sections.some((x) => x.slot === `category:${activeCategory}`)
+			? `category:${activeCategory}`
+			: 'end'
+	);
+
 	let shown = $derived(posts.filter((p) => activeCategory === 'All' || p.category === activeCategory));
 </script>
 
@@ -100,7 +107,7 @@
 	{/if}
 </section>
 
-<SectionRenderer {sections} slot="end" />
+<SectionRenderer {sections} slot={sectionSlot} />
 
 <style>
 	/* Hero */

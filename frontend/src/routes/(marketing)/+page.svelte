@@ -137,7 +137,7 @@
 		<div class="hero-eyebrow">
 			<span use:reveal={{ kind: 'fade' }} class="rule"></span>
 			<span use:reveal={{ kind: 'fade', delay: 0.1 }} class="eyebrow-text"
-				>Pilbara-based access, rigging &amp; scaffolding</span
+				>Pilbara based access, rigging &amp; scaffolding</span
 			>
 		</div>
 		<h1>
@@ -345,7 +345,7 @@
 		>
 	</Marquee>
 	<div class="safety-facts">
-		<span>Risk-based safety</span><span class="dot">·</span><span>Competent people</span><span
+		<span>Risk based safety</span><span class="dot">·</span><span>Competent people</span><span
 			class="dot">·</span
 		><span><a href="/about#hse">Safety &amp; compliance →</a></span>
 	</div>

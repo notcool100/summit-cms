@@ -192,8 +192,8 @@
 				>
 			</h2>
 			<p use:reveal={{ kind: 'up', delay: 0.2 }} class="hse-body">
-				Safety is fundamental to our work. Our teams combine pre-start planning, competent
-				personnel, fit-for-purpose equipment and disciplined work methods, following applicable WHS
+				Safety is fundamental to our work. Our teams combine pre start planning, competent
+				personnel, fit for purpose equipment and disciplined work methods, following applicable WHS
 				legislation, codes of practice, client procedures and relevant Australian Standards.
 			</p>
 			<div class="hse-stats">

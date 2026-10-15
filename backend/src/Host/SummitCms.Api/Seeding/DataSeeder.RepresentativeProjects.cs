@@ -42,12 +42,12 @@ public static partial class DataSeeder
                 "https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg", "Rigging and lifting support", "CRANE & MECHANICAL RIGGING",
                 [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Rigging support", "Crane and mechanical rigging services support maintenance, shutdown, construction, marine and project works.", "Rigging inspections and lifting support are coordinated with project requirements and site procedures."),
-                 ("Safety and competency", "Work is planned around competent personnel, fit-for-purpose equipment and disciplined work methods.", "High Risk Work Licence and competency verification support forms part of Summit's safety and compliance approach.")]),
+                 ("Safety and competency", "Work is planned around competent personnel, fit for purpose equipment and disciplined work methods.", "High Risk Work Licence and competency verification support forms part of Summit's safety and compliance approach.")]),
             ("representative-shutdown-maintenance", "Representative scope: Shutdown & maintenance support", "Utilities",
                 "https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", "Industrial maintenance access support", "SHUTDOWN & MAINTENANCE SUPPORT",
                 [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Coordinated scope", "Scaffolding, access and rigging support can be brought together for shutdown and maintenance requirements.", "Project planning, mobilisation, workforce and equipment coordination help align resources with operational priorities."),
-                 ("Integrated delivery", "Inspection, tagging, lifting support, logistics and materials management contribute to a coordinated service model.", "Just-In-Time sequencing aims to make the required equipment and materials available when and where they are needed.")]),
+                 ("Integrated delivery", "Inspection, tagging, lifting support, logistics and materials management contribute to a coordinated service model.", "Just In Time sequencing aims to make the required equipment and materials available when and where they are needed.")]),
             ("representative-marine-construction", "Representative scope: Marine & construction access", "Marine & Construction",
                 "https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg", "Marine and construction infrastructure", "MARINE & INDUSTRIAL CONSTRUCTION",
                 [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
@@ -57,7 +57,7 @@ public static partial class DataSeeder
                 "https://summit.us/wp-content/uploads/2022/03/MAIN_3-07-18-13-scaled.jpg", "Renewable energy project structure", "RENEWABLE ENERGY PROJECT SUPPORT",
                 [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Project support", "Scaffolding, access and rigging support is available for renewable energy and emerging energy projects.", "Tube & Fit or modular access options can be selected to suit site conditions and project requirements."),
-                 ("Coordinated resources", "Planning, equipment supply and logistics support mobilisation and project delivery.", "Working-at-heights equipment inspection, scaffold handover and tagging processes form part of the broader service capability.")])
+                 ("Coordinated resources", "Planning, equipment supply and logistics support mobilisation and project delivery.", "Working at heights equipment inspection, scaffold handover and tagging processes form part of the broader service capability.")])
         ];
 
         var ids = new Dictionary<string, Guid>();

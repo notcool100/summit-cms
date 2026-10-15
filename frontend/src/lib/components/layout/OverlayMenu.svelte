@@ -12,7 +12,9 @@
 
 <div class="overlay" class:is-open={menuStore.open} aria-hidden={!menuStore.open}>
 	<div class="bar">
-		<span class="logo"><img src="/summit-logo.png" alt={companyName} /></span>
+		<a class="logo" href="/" aria-label="{companyName} home" onclick={() => menuStore.close()}
+			><img src="/summit-logo.png" alt={companyName} /></a
+		>
 		<button class="close" aria-label="Close menu" onclick={() => menuStore.close()}>✕</button>
 	</div>
 
@@ -69,6 +71,7 @@
 	.logo {
 		display: flex;
 		align-items: center;
+		cursor: pointer;
 	}
 
 	.logo img {

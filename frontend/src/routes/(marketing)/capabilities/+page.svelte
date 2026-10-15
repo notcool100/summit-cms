@@ -30,6 +30,7 @@
 <SectionRenderer {sections} slot="after-hero" />
 
 <!-- ============ STACKED PANELS ============ -->
+<div class="panels">
 {#each panels as panel (panel.key)}
 	<section id={panel.key} class="panel" class:bg-panel={panel.background === 'panel'}>
 		<div class="panel-watermark" aria-hidden="true">{panel.idx}</div>
@@ -60,6 +61,7 @@
 		</div>
 	</section>
 {/each}
+</div>
 
 <SectionRenderer {sections} slot="before-band" />
 
@@ -128,7 +130,11 @@
 		color: rgba(var(--ink-rgb), 0.75);
 	}
 
-	/* Stacked panels */
+	/* Stacked panels. The wrapper bounds the sticky effect so the last panel un-pins once the stack ends. */
+	.panels {
+		position: relative;
+	}
+
 	.panel {
 		position: sticky;
 		top: 0;

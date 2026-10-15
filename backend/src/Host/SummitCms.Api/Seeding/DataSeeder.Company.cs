@@ -21,8 +21,8 @@ public static partial class DataSeeder
                 new NarrativeBlock
                 {
                     PageId = aboutPageId, DisplayOrder = 0, Eyebrow = "Who We Are",
-                    TitleLine1 = "Pilbara-based", TitleLine2 = "specialist access & rigging.",
-                    Body = "Summit Industrial Services is a Pilbara-based specialist access and rigging provider delivering scaffolding, rigging, inspection, engineering support and integrated industrial services across demanding operational environments. With more than 50 years of combined industry experience, our team supports maintenance, shutdown, construction, marine and project works with a practical focus on safety, reliability, responsiveness and efficient execution. Based in the Karratha Industrial Estate and servicing the greater Pilbara region, Summit is positioned to support clients across energy, resources, minerals processing, utilities, renewables, rail, marine and construction sectors.",
+                    TitleLine1 = "Pilbara based", TitleLine2 = "specialist access & rigging.",
+                    Body = "Summit Industrial Services is a Pilbara based specialist access and rigging provider delivering scaffolding, rigging, inspection, engineering support and integrated industrial services across demanding operational environments. With more than 50 years of combined industry experience, our team supports maintenance, shutdown, construction, marine and project works with a practical focus on safety, reliability, responsiveness and efficient execution. Based in the Karratha Industrial Estate and servicing the greater Pilbara region, Summit is positioned to support clients across energy, resources, minerals processing, utilities, renewables, rail, marine and construction sectors.",
                     MediaId = Media("https://summit.us/wp-content/uploads/2022/05/20140514_161421-edited-scaled.jpg"),
                     ImageCaption = "KARRATHA INDUSTRIAL ESTATE", ImageFirst = true
                 },
@@ -30,7 +30,7 @@ public static partial class DataSeeder
                 {
                     PageId = aboutPageId, DisplayOrder = 1, Eyebrow = "Our Approach",
                     TitleLine1 = "Integrated delivery,", TitleLine2 = "coordinated execution.",
-                    Body = "Successful project delivery requires more than skilled personnel and equipment. It requires effective planning, responsive coordination and the ability to adapt to changing site conditions and operational priorities. Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management. Through Just-In-Time sequencing and coordinated mobilisation, we aim to have the right equipment, materials and resources available when and where required, helping reduce congestion, downtime and unnecessary material movements.",
+                    Body = "Successful project delivery requires more than skilled personnel and equipment. It requires effective planning, responsive coordination and the ability to adapt to changing site conditions and operational priorities. Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management. Through Just In Time sequencing and coordinated mobilisation, we aim to have the right equipment, materials and resources available when and where required, helping reduce congestion, downtime and unnecessary material movements.",
                     MediaId = Media("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg"),
                     ImageCaption = "COORDINATED EXECUTION", ImageFirst = false
                 });
@@ -40,8 +40,8 @@ public static partial class DataSeeder
             if (integratedNarrative is not null)
             {
                 integratedNarrative.Body = integratedNarrative.Body.Replace(
-                "Through Just-In-Time sequencing and coordinated mobilisation, we ensure the right equipment, materials and resources are available when and where required, helping reduce site congestion, minimize downtime and eliminate unnecessary material movements.",
-                "Through Just-In-Time sequencing and coordinated mobilisation, we aim to have the right equipment, materials and resources available when and where required, helping reduce congestion, downtime and unnecessary material movements.");
+                "Through Just In Time sequencing and coordinated mobilisation, we ensure the right equipment, materials and resources are available when and where required, helping reduce site congestion, minimize downtime and eliminate unnecessary material movements.",
+                "Through Just In Time sequencing and coordinated mobilisation, we aim to have the right equipment, materials and resources available when and where required, helping reduce congestion, downtime and unnecessary material movements.");
             }
 
         var seededMilestoneTitles = new[]
@@ -66,9 +66,9 @@ public static partial class DataSeeder
 
         (string Code, string Name, string Body)[] values =
         [
-            ("01", "Safety First", "Safety is fundamental to our work. We apply a risk-based approach using pre-start planning, SWMS, JHAs, task-specific risk assessments, competent personnel and fit-for-purpose equipment, following applicable WHS requirements and relevant standards."),
+            ("01", "Safety First", "Safety is fundamental to our work. We apply a risk based approach using pre start planning, SWMS, JHAs, task specific risk assessments, competent personnel and fit for purpose equipment, following applicable WHS requirements and relevant standards."),
             ("02", "Integrated Service Model", "Our service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management for coordinated project delivery."),
-            ("03", "Local Knowledge", "Pilbara-based and locally responsive, Summit services the Greater Pilbara region from its Karratha Industrial Estate base."),
+            ("03", "Local Knowledge", "Pilbara based and locally responsive, Summit services the Greater Pilbara region from its Karratha Industrial Estate base."),
             ("04", "Built on Trust, Driven by Excellence", "We are committed to dependable service, transparent communication and consistently high standards of workmanship.")
         ];
         for (var i = 0; i < values.Length; i++)
@@ -119,7 +119,7 @@ public static partial class DataSeeder
             (string Year, string Name)[] awards =
             [
                 ("2026", "Working towards ISO accreditation for safety, quality and continuous improvement systems"),
-                ("Ongoing", "Work-at-heights activities managed in accordance with applicable WHS requirements and relevant Australian Standards"),
+                ("Ongoing", "Work at heights activities managed in accordance with applicable WHS requirements and relevant Australian Standards"),
                 ("Ongoing", "High Risk Work Licence, competency and VOC verification programs")
             ];
             for (var i = 0; i < awards.Length; i++)
@@ -129,7 +129,7 @@ public static partial class DataSeeder
         var outdatedStandardAward = await db.Awards.FirstOrDefaultAsync(a =>
             a.Name == "Compliance with WHS legislation, codes of practice and AS/NZS 1891 series requirements");
         if (outdatedStandardAward is not null)
-            outdatedStandardAward.Name = "Work-at-heights activities managed in accordance with applicable WHS requirements and relevant Australian Standards";
+            outdatedStandardAward.Name = "Work at heights activities managed in accordance with applicable WHS requirements and relevant Australian Standards";
 
         await db.SaveChangesAsync();
     }
