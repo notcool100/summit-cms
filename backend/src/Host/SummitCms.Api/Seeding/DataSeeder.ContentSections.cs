@@ -37,7 +37,7 @@ public static partial class DataSeeder
 
         SeedSection[] sections =
         [
-            new("home-why-summit", PageSlugs.Home, "before-safety", ContentLayouts.Cards, "Why Summit", "Local. Integrated.\nSafety-focused.",
+            new("home-why-summit", PageSlugs.Home, "before-safety", ContentLayouts.Cards, "Why Summit", "Local. Integrated.\nSafety focused.",
                 "Summit is a Pilbara based specialist access and rigging provider with more than 50 years of combined industry experience.", "", 4, true, false, whySummit),
 
             new("about-facts", PageSlugs.About, "after-hero", ContentLayouts.Facts, "Company at a glance", "", "", "", 4, false, false,
@@ -200,7 +200,7 @@ public static partial class DataSeeder
                 new("Hire and sales", "Scaffolding equipment hire and sales, backed by coordinated logistics and materials supply.")
             ]),
 
-            new("capabilities-engineering", PageSlugs.Capabilities, "before-band", ContentLayouts.Cards, "Design & engineering", "Documented, verified,\nsite-ready.",
+            new("capabilities-engineering", PageSlugs.Capabilities, "before-band", ContentLayouts.Cards, "Design & engineering", "Documented, verified,\nsite ready.",
                 "Working with suitably qualified professionals, Summit develops practical solutions for complex structures, challenging work environments and specialised access requirements.",
                 "Engineered design is developed and verified by suitably qualified engineers in accordance with applicable Australian Standards, regulatory obligations and site requirements.", 4, false, true,
             [
