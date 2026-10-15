@@ -250,55 +250,55 @@ public static partial class DataSeeder
             new("projects-energy", PageSlugs.Projects, "category:Energy", ContentLayouts.Cards, "How an energy project runs", "Energy infrastructure,\nfrom enquiry to close out.",
                 "", "", 4, true, false,
             [
-                new("Discuss scope", "Access and rigging support for energy infrastructure, maintenance, construction and project activities."),
-                new("Plan and design", "Scaffold, access and rigging design coordination, with engineering where required."),
-                new("Mobilise and execute", "Supporting operational facilities, planned shutdowns and construction phases."),
-                new("Demobilise", "Demobilisation and materials reconciliation to finish the job.")
+                new("Scope the facility work", "Access and rigging support for energy infrastructure, maintenance, construction and project activities."),
+                new("Plan access and lifts", "Scaffold, access and rigging design coordination, with engineering where required."),
+                new("Support operations and shutdowns", "Supporting operational facilities, planned shutdowns and construction phases."),
+                new("Hand the site back", "Demobilisation and materials reconciliation to finish the job.")
             ]),
 
             new("projects-resources", PageSlugs.Projects, "category:Resources & Minerals", ContentLayouts.Cards, "How a resources and minerals project runs", "Mining and processing,\nfrom enquiry to close out.",
                 "", "", 4, true, false,
             [
-                new("Discuss scope", "Tell us about the operation, the shutdown or maintenance window and the schedule."),
-                new("Plan and design", "Integrated scaffolding, access and rigging solutions coordinated with engineering where required."),
-                new("Mobilise and execute", "Safe, coordinated delivery where safety, reliability and schedule adherence are critical."),
-                new("Demobilise", "Demobilisation and materials reconciliation to finish the job.")
+                new("Scope the shutdown window", "Tell us about the operation, the shutdown or maintenance window and the schedule."),
+                new("Engineer the access", "Integrated scaffolding, access and rigging solutions coordinated with engineering where required."),
+                new("Deliver to schedule", "Safe, coordinated delivery where safety, reliability and schedule adherence are critical."),
+                new("Demobilise and reconcile", "Demobilisation and materials reconciliation to finish the job.")
             ]),
 
             new("projects-utilities", PageSlugs.Projects, "category:Utilities", ContentLayouts.Cards, "How a utilities project runs", "Essential infrastructure,\nfrom enquiry to close out.",
                 "", "", 4, true, false,
             [
-                new("Discuss scope", "Tell us about the infrastructure, the upgrade or maintenance and the schedule."),
-                new("Plan and design", "Practical access solutions planned around the existing infrastructure."),
-                new("Mobilise and execute", "Coordinated execution that aims to keep disruption to a minimum."),
-                new("Demobilise", "Demobilisation and materials reconciliation to finish the job.")
+                new("Scope the upgrade", "Tell us about the infrastructure, the upgrade or maintenance and the schedule."),
+                new("Plan around live infrastructure", "Practical access solutions planned around the existing infrastructure."),
+                new("Work with minimal disruption", "Coordinated execution that aims to keep disruption to a minimum."),
+                new("Close out the works", "Demobilisation and materials reconciliation to finish the job.")
             ]),
 
             new("projects-renewables", PageSlugs.Projects, "category:Renewables", ContentLayouts.Cards, "How a renewables project runs", "Renewable projects,\nfrom enquiry to close out.",
                 "", "", 4, true, false,
             [
-                new("Discuss scope", "Tell us about the renewable or emerging energy project and its construction method."),
-                new("Plan and design", "Adaptable scaffolding, access and rigging solutions for evolving technologies."),
-                new("Mobilise and execute", "Coordinated delivery with inspection, tagging and compliance support."),
-                new("Demobilise", "Demobilisation and materials reconciliation to finish the job.")
+                new("Scope the project", "Tell us about the renewable or emerging energy project and its construction method."),
+                new("Adapt the design", "Adaptable scaffolding, access and rigging solutions for evolving technologies."),
+                new("Build with the programme", "Coordinated delivery with inspection, tagging and compliance support."),
+                new("Demobilise and reconcile", "Demobilisation and materials reconciliation to finish the job.")
             ]),
 
             new("projects-rail", PageSlugs.Projects, "category:Rail", ContentLayouts.Cards, "How a rail project runs", "Rail infrastructure,\nfrom enquiry to close out.",
                 "", "", 4, true, false,
             [
-                new("Discuss scope", "Tell us about the rail infrastructure, the upgrade or maintenance and the schedule."),
-                new("Plan and design", "Specialised access and rigging solutions, with engineering where required."),
-                new("Mobilise and execute", "Safe, coordinated delivery with inspection, tagging and compliance support."),
-                new("Demobilise", "Demobilisation and materials reconciliation to finish the job.")
+                new("Scope the rail works", "Tell us about the rail infrastructure, the upgrade or maintenance and the schedule."),
+                new("Plan specialised access", "Specialised access and rigging solutions, with engineering where required."),
+                new("Deliver safely on the corridor", "Safe, coordinated delivery with inspection, tagging and compliance support."),
+                new("Demobilise and reconcile", "Demobilisation and materials reconciliation to finish the job.")
             ]),
 
             new("projects-marine", PageSlugs.Projects, "category:Marine & Construction", ContentLayouts.Cards, "How a marine and construction project runs", "Ports and construction,\nfrom enquiry to close out.",
                 "", "", 4, true, false,
             [
-                new("Discuss scope", "Tell us about the port, marine structure or construction site and the schedule."),
-                new("Plan and design", "Scaffolding, access and rigging capability planned around the marine and industrial environment."),
-                new("Mobilise and execute", "Coordinated delivery with inspection, tagging and compliance support."),
-                new("Demobilise", "Demobilisation and materials reconciliation to finish the job.")
+                new("Scope the site", "Tell us about the port, marine structure or construction site and the schedule."),
+                new("Plan for the environment", "Scaffolding, access and rigging capability planned around the marine and industrial environment."),
+                new("Mobilise on port and site", "Coordinated delivery with inspection, tagging and compliance support."),
+                new("Demobilise and reconcile", "Demobilisation and materials reconciliation to finish the job.")
             ]),
 
             new("insights-safety-principles", PageSlugs.Insights, "category:Safety", ContentLayouts.Cards, "How we think about safety", "Every person goes home\nsafely, every day.",
@@ -377,6 +377,18 @@ public static partial class DataSeeder
         // Insights blocks became category specific: move the original Safety block off the shared "end" slot.
         var legacySafety = await db.ContentSections.FirstOrDefaultAsync(c => c.Key == "insights-safety-principles" && c.Slot == "end");
         if (legacySafety is not null) legacySafety.Slot = "category:Safety";
+
+        // Industry blocks originally shipped with identical step headings; refresh them if still untouched.
+        var legacyProjectSteps = await db.ContentSections.Include(c => c.Items)
+            .Where(c => c.Key.StartsWith("projects-") && c.Slot.StartsWith("category:"))
+            .ToListAsync();
+        foreach (var legacy in legacyProjectSteps.Where(c => c.Items.Any(i => i.Title == "Discuss scope")))
+        {
+            var fresh = sections.First(x => x.Key == legacy.Key);
+            db.ContentItems.RemoveRange(legacy.Items.ToList());
+            for (var i = 0; i < fresh.Items.Length; i++)
+                db.ContentItems.Add(new ContentItem { SectionId = legacy.Id, Title = fresh.Items[i].Title, Body = fresh.Items[i].Body, Subtitle = fresh.Items[i].Subtitle, Detail = fresh.Items[i].Detail, Tags = fresh.Items[i].Tags, DisplayOrder = i });
+        }
 
         var order = await db.ContentSections.AnyAsync() ? await db.ContentSections.MaxAsync(s => s.DisplayOrder) + 1 : 0;
         foreach (var s in sections)
