@@ -122,13 +122,13 @@ public static partial class DataSeeder
                 new("Do you offer equipment hire and sales?", "Yes. Scaffolding equipment hire and sales are supported by our logistics and materials management, including Just In Time sequencing, demobilisation and materials reconciliation."),
                 new("Can you verify licences and competencies?", "We support High Risk Work Licence, competency and VOC verification, and carry out working at heights equipment inspection and tagging."),
                 new("Does Summit hold ISO accreditation?", "Summit is working towards ISO accreditation as part of our commitment to strengthening safety, quality and continuous improvement systems."),
-                new("How can I contact Summit?", "Send an enquiry using the form on this page, call 0401 174 989, or email support@summit-is.com.au.")
+                new("How can I contact Summit?", "Send an enquiry using the form on this page, call 0401 174 989, email support@summit-is.com.au for general enquiries, or contact Jason Matakatea directly at Jason@summit-is.com.au.")
             ]),
 
             // ---- Additional sections (all content drawn from the 2026 Capability Statement) ----
             new("home-manifesto", PageSlugs.Home, "manifesto", ContentLayouts.Cards, "Manifesto", "",
                 "Summit Industrial Services is a Pilbara based specialist access and rigging provider. Our team brings more than 50 years of combined industry experience to maintenance, shutdown, construction, marine and project works.\nWe tailor our approach to site conditions, operational priorities and project schedules, supported by coordinated logistics, materials management and equipment supply.",
-                "Every person goes home safely, every day.", 2, false, false,
+                "", 2, false, false,
             [
                 new("Scaffolding and access", "Tube & Fit and AT-PAC Ringlock systems, erected, modified and dismantled safely and efficiently."),
                 new("Rigging and lifting", "Crane and mechanical rigging, rigging inspections and lifting support."),
@@ -200,14 +200,14 @@ public static partial class DataSeeder
                 new("Hire and sales", "Scaffolding equipment hire and sales, backed by coordinated logistics and materials supply.")
             ]),
 
-            new("capabilities-engineering", PageSlugs.Capabilities, "before-band", ContentLayouts.Cards, "Design & engineering", "Documented, verified,\nsite ready.",
+            new("capabilities-engineering", PageSlugs.Capabilities, "before-band", ContentLayouts.Cards, "Design & engineering", "Engineering coordination,\nwhere required.",
                 "Working with suitably qualified professionals, Summit develops practical solutions for complex structures, challenging work environments and specialised access requirements.",
                 "Engineered design is developed and verified by suitably qualified engineers in accordance with applicable Australian Standards, regulatory obligations and site requirements.", 4, false, true,
             [
                 new("Detailed drawings", "Drawings prepared where engineered design is required."),
                 new("Plans", "Project specific access plans for complex structures."),
                 new("Supporting documentation", "Documentation that supports approvals, handover and compliance."),
-                new("Engineer verification", "Verification by suitably qualified engineers.")
+                new("Engineer verification", "Verification by suitably qualified engineers where engineered design is required.")
             ]),
 
             new("capabilities-rigging", PageSlugs.Capabilities, "before-band", ContentLayouts.Cards, "Rigging & lifting", "Licensed people.\nVerified competency.",
@@ -310,7 +310,7 @@ public static partial class DataSeeder
                 new("Disciplined methods", "Handover processes, toolbox meetings and ongoing safety communication.")
             ]),
 
-            new("insights-overview", PageSlugs.Insights, "end", ContentLayouts.Cards, "What we write about", "Notes from the field,\nby topic.",
+            new("insights-overview", PageSlugs.Insights, "end", ContentLayouts.Cards, "What we write about", "Capability notes,\nby topic.",
                 "Pick a topic above to see how Summit approaches it.", "", 4, false, false,
             [
                 new("Scaffolding", "Tube & Fit and AT-PAC Ringlock systems, from installation to dismantling."),

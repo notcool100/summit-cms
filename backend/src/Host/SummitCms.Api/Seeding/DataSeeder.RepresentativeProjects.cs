@@ -7,6 +7,12 @@ namespace SummitCms.Api.Seeding;
 
 public static partial class DataSeeder
 {
+    // Client review (Oct 2026, P0-03): these entries are capability illustrations, not completed client
+    // projects, and every label must make that unmistakable.
+    internal const string WorkScopeStat = "Capability example, not a completed project";
+    internal const string WorkScopeFactLabel = "Status";
+    internal const string WorkScopeFactValue = "Typical work scope. Illustrates how our services can support a project; not an individual completed client project.";
+
     private static async Task<Dictionary<string, Guid>> SeedRepresentativeProjectsAsync(
         IServiceProvider sp,
         Dictionary<string, Guid> mediaMap)
@@ -33,29 +39,29 @@ public static partial class DataSeeder
             (string Label, string Value)[] Facts,
             (string Title, string First, string Second)[] Sections)[] profiles =
         [
-            ("representative-scaffolding-access", "Representative scope: Scaffolding & access", "Resources & Minerals",
-                "https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg", "Scaffolding access structure", "TUBE & FIT / AT-PAC RINGLOCK",
-                [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
+            ("representative-scaffolding-access", "Scaffolding & access work scope", "Resources & Minerals",
+                Stock("structural-access-frames"), "Scaffolding access structure", "TUBE & FIT / AT-PAC RINGLOCK",
+                [(WorkScopeFactLabel, WorkScopeFactValue), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Access requirements", "Tube & Fit and AT-PAC Ringlock systems support access needs across projects of varying size and complexity.", "Summit provides scaffold erection, modification and dismantling, with coordinated equipment supply, logistics and materials management."),
                  ("Delivery approach", "Each scope is tailored to site conditions, operational priorities and project schedules.", "Where required, scaffold design and engineering coordination can support complex structures and specialised access requirements.")]),
-            ("representative-rigging-lifting", "Representative scope: Crane & mechanical rigging", "Energy",
-                "https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg", "Rigging and lifting support", "CRANE & MECHANICAL RIGGING",
-                [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
+            ("representative-rigging-lifting", "Crane & mechanical rigging work scope", "Energy",
+                Stock("pick-and-carry-crane"), "Rigging and lifting support", "CRANE & MECHANICAL RIGGING",
+                [(WorkScopeFactLabel, WorkScopeFactValue), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Rigging support", "Crane and mechanical rigging services support maintenance, shutdown, construction, marine and project works.", "Rigging inspections and lifting support are coordinated with project requirements and site procedures."),
                  ("Safety and competency", "Work is planned around competent personnel, fit for purpose equipment and disciplined work methods.", "High Risk Work Licence and competency verification support forms part of Summit's safety and compliance approach.")]),
-            ("representative-shutdown-maintenance", "Representative scope: Shutdown & maintenance support", "Utilities",
-                "https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", "Industrial maintenance access support", "SHUTDOWN & MAINTENANCE SUPPORT",
-                [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
+            ("representative-shutdown-maintenance", "Shutdown & maintenance support work scope", "Utilities",
+                Stock("shutdown-process-facility"), "Industrial maintenance access support", "SHUTDOWN & MAINTENANCE SUPPORT",
+                [(WorkScopeFactLabel, WorkScopeFactValue), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Coordinated scope", "Scaffolding, access and rigging support can be brought together for shutdown and maintenance requirements.", "Project planning, mobilisation, workforce and equipment coordination help align resources with operational priorities."),
                  ("Integrated delivery", "Inspection, tagging, lifting support, logistics and materials management contribute to a coordinated service model.", "Just In Time sequencing aims to make the required equipment and materials available when and where they are needed.")]),
-            ("representative-marine-construction", "Representative scope: Marine & construction access", "Marine & Construction",
-                "https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg", "Marine and construction infrastructure", "MARINE & INDUSTRIAL CONSTRUCTION",
-                [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
+            ("representative-marine-construction", "Marine & construction access work scope", "Marine & Construction",
+                Stock("marine-wharf-cranes"), "Marine and construction infrastructure", "MARINE & INDUSTRIAL CONSTRUCTION",
+                [(WorkScopeFactLabel, WorkScopeFactValue), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Access and rigging", "Summit supports ports, marine infrastructure and industrial construction environments with scaffolding, access and rigging capability.", "Work methods and equipment are selected to suit the operational environment and project requirements."),
                  ("Planning and coordination", "Mobilisation, logistics and materials management help coordinate people and equipment.", "Inspection and handover processes support safe, practical access throughout the work scope.")]),
-            ("representative-renewables-access", "Representative scope: Renewables access support", "Renewables",
-                "https://summit.us/wp-content/uploads/2022/03/MAIN_3-07-18-13-scaled.jpg", "Renewable energy project structure", "RENEWABLE ENERGY PROJECT SUPPORT",
-                [("Profile type", "Representative capability example"), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
+            ("representative-renewables-access", "Renewables access support work scope", "Renewables",
+                Stock("renewables-platform-crew"), "Renewable energy project structure", "RENEWABLE ENERGY PROJECT SUPPORT",
+                [(WorkScopeFactLabel, WorkScopeFactValue), ("Base", "Karratha Industrial Estate"), ("Service area", "Greater Pilbara Region")],
                 [("Project support", "Scaffolding, access and rigging support is available for renewable energy and emerging energy projects.", "Tube & Fit or modular access options can be selected to suit site conditions and project requirements."),
                  ("Coordinated resources", "Planning, equipment supply and logistics support mobilisation and project delivery.", "Working at heights equipment inspection, scaffold handover and tagging processes form part of the broader service capability.")])
         ];
@@ -74,10 +80,10 @@ public static partial class DataSeeder
 
             project.Name = profile.Name;
             project.IndustryCategoryId = categoryId;
-            project.Stat = "Representative capability profile";
+            project.Stat = WorkScopeStat;
             project.IsFeatured = true;
             project.DisplayOrder = index;
-            project.HeroMediaId = mediaMap[profile.MediaUrl];
+            if (project.HeroMediaId is null || IsThirdPartyMedia(project.HeroMediaId)) project.HeroMediaId = mediaMap[profile.MediaUrl];
             project.Ratio = index % 2 == 0 ? "16/10" : "4/5";
             project.Span = index == 0 ? 7 : 5;
             ids[profile.Slug] = project.Id;
@@ -119,7 +125,7 @@ public static partial class DataSeeder
                 ProjectId = project.Id,
                 MediaId = mediaMap[profile.MediaUrl],
                 Role = ProjectImageRole.Break,
-                Caption = profile.Figure,
+                Caption = $"ILLUSTRATIVE IMAGE · {profile.Figure}",
                 DisplayOrder = 0
             });
             await db.SaveChangesAsync();

@@ -23,6 +23,9 @@
 	let narrative = $derived(data.narrative);
 	let pullQuote = $derived(data.pullQuote);
 	let adjacentProjects = $derived(data.adjacentProjects);
+	// Seeded entries are capability illustrations (client review P0-03); only a real, approved case study
+	// added later through the admin panel (any slug not starting "representative-") is labelled as one.
+	let isIllustrative = $derived((page.params.slug ?? '').startsWith('representative-'));
 
 	// The hand-tuned two-line, accent-highlighted headline was bespoke copy for one project - for any
 	// project name, split into two roughly-even lines so the mask-reveal animation still has two lines to work with.
@@ -36,7 +39,12 @@
 		'@type': 'BreadcrumbList',
 		itemListElement: [
 			{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
-			{ '@type': 'ListItem', position: 2, name: 'Projects', item: `${site.url}/projects` },
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Typical Work Scopes',
+				item: `${site.url}/work-scopes`
+			},
 			{ '@type': 'ListItem', position: 3, name: title, item: `${site.url}${page.url.pathname}` }
 		]
 	});
@@ -54,9 +62,7 @@
 	<div class="hero-copy">
 		<div use:reveal={{ kind: 'fade' }} class="hero-tags">
 			<span class="badge">{industryBadge}</span>
-			<span class="case-label"
-				>{title.startsWith('Representative scope:') ? 'Representative scope' : 'Case study'}</span
-			>
+			<span class="case-label">{isIllustrative ? 'Typical work scope' : 'Case study'}</span>
 		</div>
 		<h1>
 			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{titleLine1}</span></span>
@@ -68,6 +74,14 @@
 		</h1>
 	</div>
 </section>
+
+{#if isIllustrative}
+	<aside class="illustrative-note" role="note">
+		<strong>Capability illustration.</strong> This page describes how our services can support this
+		type of work. It is not an individual completed client project, and images are illustrative.
+		<a href="/contact">Discuss your project →</a>
+	</aside>
+{/if}
 
 <!-- ============ STATS BAR ============ -->
 <section class="scope">
@@ -121,14 +135,14 @@
 
 <!-- ============ PULL QUOTE ============ -->
 {#if pullQuote.quote}
-<section class="quote-section">
-	<blockquote class="quote">
-		<p use:reveal={{ kind: 'up' }} class="quote-text">{pullQuote.quote}</p>
-		<footer use:reveal={{ kind: 'fade', delay: 0.15 }} class="quote-attribution">
-			{pullQuote.attribution}
-		</footer>
-	</blockquote>
-</section>
+	<section class="quote-section">
+		<blockquote class="quote">
+			<p use:reveal={{ kind: 'up' }} class="quote-text">{pullQuote.quote}</p>
+			<footer use:reveal={{ kind: 'fade', delay: 0.15 }} class="quote-attribution">
+				{pullQuote.attribution}
+			</footer>
+		</blockquote>
+	</section>
 {/if}
 
 <!-- ============ PREV / NEXT ============ -->
@@ -157,7 +171,21 @@
 </section>
 
 <style>
+	.illustrative-note {
+		margin: 0;
+		padding: 20px clamp(20px, 4vw, 64px);
+		border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
+		background: rgba(var(--accent-rgb), 0.08);
+		font-size: 14px;
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.85);
+	}
 
+	.illustrative-note a {
+		color: var(--accent);
+		font-weight: 600;
+		white-space: nowrap;
+	}
 
 	/* Hero */
 	.hero {

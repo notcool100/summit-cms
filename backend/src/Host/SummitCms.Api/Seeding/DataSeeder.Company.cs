@@ -23,16 +23,16 @@ public static partial class DataSeeder
                     PageId = aboutPageId, DisplayOrder = 0, Eyebrow = "Who We Are",
                     TitleLine1 = "Pilbara based", TitleLine2 = "specialist access & rigging.",
                     Body = "Summit Industrial Services is a Pilbara based specialist access and rigging provider delivering scaffolding, rigging, inspection, engineering support and integrated industrial services across demanding operational environments. With more than 50 years of combined industry experience, our team supports maintenance, shutdown, construction, marine and project works with a practical focus on safety, reliability, responsiveness and efficient execution. Based in the Karratha Industrial Estate and servicing the greater Pilbara region, Summit is positioned to support clients across energy, resources, minerals processing, utilities, renewables, rail, marine and construction sectors.",
-                    MediaId = Media("https://summit.us/wp-content/uploads/2022/05/20140514_161421-edited-scaled.jpg"),
-                    ImageCaption = "KARRATHA INDUSTRIAL ESTATE", ImageFirst = true
+                    MediaId = Media(Stock("site-planning-engineers")),
+                    ImageCaption = "ILLUSTRATIVE IMAGE", ImageFirst = true
                 },
                 new NarrativeBlock
                 {
                     PageId = aboutPageId, DisplayOrder = 1, Eyebrow = "Our Approach",
                     TitleLine1 = "Integrated delivery,", TitleLine2 = "coordinated execution.",
                     Body = "Successful project delivery requires more than skilled personnel and equipment. It requires effective planning, responsive coordination and the ability to adapt to changing site conditions and operational priorities. Our integrated service model brings together scaffolding, access, rigging, inspection, engineering support, logistics and materials management. Through Just In Time sequencing and coordinated mobilisation, we aim to have the right equipment, materials and resources available when and where required, helping reduce congestion, downtime and unnecessary material movements.",
-                    MediaId = Media("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg"),
-                    ImageCaption = "COORDINATED EXECUTION", ImageFirst = false
+                    MediaId = Media(Stock("road-train-logistics")),
+                    ImageCaption = "ILLUSTRATIVE IMAGE", ImageFirst = false
                 });
         }
 

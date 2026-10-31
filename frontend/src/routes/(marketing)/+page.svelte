@@ -12,6 +12,7 @@
 	import { tilt } from '$lib/actions/tilt';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
 	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
+	import { site } from '$lib/config/site';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -34,7 +35,6 @@
 
 	const manifesto = $derived(sections.find((x) => x.slot === 'manifesto'));
 
-	let video: HTMLVideoElement;
 	let hoveredCap = $state<string | null>(null);
 	let previewEl: HTMLDivElement;
 	let finePointer = $state(false);
@@ -42,17 +42,6 @@
 
 	onMount(() => {
 		finePointer = window.matchMedia('(pointer: fine)').matches;
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-			video?.pause();
-			return;
-		}
-		// The <video autoplay> element can start (and fire its one-time `playing` event) as soon
-		// as the browser parses the tag - before Svelte finishes hydrating and attaches the
-		// onplaying handler below. When that race is lost the video keeps playing silently at
-		// opacity 0 forever. If it's already rolling by the time we get here, reveal it now.
-		if (video && !video.paused) {
-			video.style.opacity = '1';
-		}
 	});
 
 	function onTeaserMove(e: MouseEvent) {
@@ -68,29 +57,6 @@
 	<div class="hero-media" style="animation: kenburns 24s linear infinite alternate">
 		<ResponsiveImage src={heroImage.src} alt={heroImage.alt} loading="eager" fetchpriority="high" />
 	</div>
-	<video
-		bind:this={video}
-		class="hero-video"
-		autoplay
-		muted
-		loop
-		playsinline
-		preload="auto"
-		onplaying={(e) => ((e.currentTarget as HTMLVideoElement).style.opacity = '1')}
-	>
-		<source
-			src="https://videos.pexels.com/video-files/2053100/2053100-hd_1920_1080_30fps.mp4"
-			type="video/mp4"
-		/>
-		<source
-			src="https://videos.pexels.com/video-files/6046358/6046358-hd_1920_1080_25fps.mp4"
-			type="video/mp4"
-		/>
-		<source
-			src="https://videos.pexels.com/video-files/4941357/4941357-hd_1920_1080_25fps.mp4"
-			type="video/mp4"
-		/>
-	</video>
 	<div class="hero-scrim" aria-hidden="true"></div>
 	<div class="hero-tint" aria-hidden="true"></div>
 
@@ -119,7 +85,7 @@
 				font-family="Archivo"
 				font-size="11"
 				letter-spacing="2"
-				transform="rotate(-90 30 265)">42'-6"</text
+				transform="rotate(-90 30 265)">12 950 MM</text
 			>
 			<text
 				x="300"
@@ -128,7 +94,7 @@
 				opacity="0.5"
 				font-family="Archivo"
 				font-size="11"
-				letter-spacing="2">MODULE GRID A-F</text
+				letter-spacing="2">SCAFFOLD BAYS A-F</text
 			>
 		</svg>
 	</div>
@@ -137,7 +103,7 @@
 		<div class="hero-eyebrow">
 			<span use:reveal={{ kind: 'fade' }} class="rule"></span>
 			<span use:reveal={{ kind: 'fade', delay: 0.1 }} class="eyebrow-text"
-				>Pilbara based access, rigging &amp; scaffolding</span
+				>Karratha Industrial Estate · Greater Pilbara</span
 			>
 		</div>
 		<h1>
@@ -148,8 +114,11 @@
 				{heroSubheading}
 			</p>
 			<div use:reveal={{ kind: 'up', delay: 0.45 }} class="hero-cta">
-				<a use:magnetic data-cursor-view href="/contact" class="btn btn--outline"
-					>Discuss a Project</a
+				<a use:magnetic data-cursor-view href="/contact" class="btn btn--primary"
+					>Discuss Your Project</a
+				>
+				<a data-cursor-view href={site.capabilityStatement.href} download class="btn btn--outline"
+					>{site.capabilityStatement.label} ↓</a
 				>
 			</div>
 		</div>
@@ -183,9 +152,9 @@
 	<div class="manifesto-grid stack-mobile">
 		<div class="manifesto-text">
 			<h2>
-				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>We build the plants</span></span>
+				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Specialist access</span></span>
 				<span class="mask-line"
-					><span use:reveal={{ kind: 'mask', delay: 0.1 }}>that build everything else.</span></span
+					><span use:reveal={{ kind: 'mask', delay: 0.1 }}>and rigging, Pilbara based.</span></span
 				>
 			</h2>
 			<p use:reveal={{ kind: 'up', delay: 0.2 }} class="manifesto-body">
@@ -215,7 +184,7 @@
 				<ResponsiveImage src={manifestoImage.src} alt={manifestoImage.alt} />
 			</div>
 			<div class="manifesto-fade" aria-hidden="true"></div>
-			<div class="fig-tag">FIG. 01: DIRECT HIRE</div>
+			<div class="fig-tag">ILLUSTRATIVE IMAGE</div>
 		</div>
 	</div>
 </section>
@@ -311,9 +280,13 @@
 	<HorizontalScroll heightVh={320}>
 		{#snippet header()}
 			<div class="projects-head">
-				<SectionLabel idx="04" label="Select Projects" />
-				<a href="/projects" class="link-accent">All projects →</a>
+				<SectionLabel idx="04" label="Typical Work Scopes" />
+				<a href="/work-scopes" class="link-accent">All work scopes →</a>
 			</div>
+			<p class="projects-note">
+				Representative examples of how our services can support your project. These are capability
+				illustrations, not individual completed client projects.
+			</p>
 		{/snippet}
 		<div class="projects-track">
 			{#each featuredProjects as project (project.idx)}
@@ -330,7 +303,7 @@
 					</div>
 				</a>
 			{/each}
-			<a data-cursor-view href="/projects" class="project-more">View all →</a>
+			<a data-cursor-view href="/work-scopes" class="project-more">View all →</a>
 		</div>
 	</HorizontalScroll>
 {/if}
@@ -355,7 +328,7 @@
 <section class="standard">
 	<div class="standard-grid stack-mobile">
 		<div class="standard-values">
-			<div class="standard-eyebrow"><SectionLabel idx="05" label="How we build" /></div>
+			<div class="standard-eyebrow"><SectionLabel idx="05" label="How we work" /></div>
 			<h2>
 				<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>Four things</span></span>
 				<span class="mask-line"
@@ -385,7 +358,7 @@
 					</div>
 				{/each}
 			</div>
-			<div class="awards-eyebrow">Recognition</div>
+			<div class="awards-eyebrow">Safety &amp; compliance</div>
 			<div class="awards-list">
 				{#each awards.slice(0, 4) as a (a.name)}
 					<div class="award-chip">
@@ -438,7 +411,7 @@
 	<!-- ============ FROM THE FIELD: BLOG TEASER ============ -->
 	<section class="insights-teaser">
 		<div class="insights-head">
-			<SectionLabel idx="07" label="From the field" />
+			<SectionLabel idx="07" label="Insights" />
 			<a href="/insights" class="link-accent">All insights →</a>
 		</div>
 		<div class="insights-grid">
@@ -478,16 +451,6 @@
 	.hero-media {
 		position: absolute;
 		inset: 0;
-	}
-
-	.hero-video {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		opacity: 0;
-		transition: opacity 1.4s var(--ease);
 	}
 
 	.hero-scrim {
@@ -558,8 +521,9 @@
 
 	.hero h1 {
 		font-family: var(--font-display);
-		font-size: clamp(56px, 10.5vw, 168px);
-		line-height: 0.92;
+		font-size: clamp(38px, 6.4vw, 108px);
+		line-height: 0.95;
+		max-width: 16ch;
 		letter-spacing: 0.01em;
 		text-transform: uppercase;
 	}
@@ -581,9 +545,31 @@
 
 	.hero-cta {
 		display: flex;
-		gap: 16px;
+		flex-wrap: wrap;
+		gap: 12px 16px;
 		justify-content: flex-end;
 		pointer-events: auto;
+	}
+
+	.btn--primary {
+		background: var(--accent);
+		border: 1px solid var(--accent);
+		padding: 16px 28px;
+		color: var(--paper);
+	}
+
+	.btn--primary:hover {
+		background: var(--ink);
+		border-color: var(--ink);
+		color: var(--paper);
+	}
+
+	.projects-note {
+		margin: 12px 0 0;
+		max-width: 62ch;
+		font-size: 14px;
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.7);
 	}
 
 	.scroll-hint {
@@ -1447,7 +1433,7 @@
 		background: var(--accent);
 	}
 
-	/* From the field */
+	/* Insights teaser */
 	.insights-teaser {
 		padding: clamp(70px, 10vh, 140px) clamp(20px, 4vw, 64px);
 		border-top: 1px solid rgba(var(--ink-rgb), 0.1);

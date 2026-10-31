@@ -5,7 +5,7 @@ import type { MenuLink, NavLink } from '$lib/types';
 export const primaryNav: NavLink[] = [
 	{ label: 'Who We Are', href: '/about' },
 	{ label: 'Capabilities', href: '/capabilities' },
-	{ label: 'Projects', href: '/projects' },
+	{ label: 'Work Scopes', href: '/work-scopes' },
 	{ label: 'Industries', href: '/industries' },
 	{ label: 'Insights', href: '/insights' },
 	{ label: 'Contact', href: '/contact' }

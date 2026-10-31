@@ -17,27 +17,27 @@ public static partial class DataSeeder
         [
             ("01", "Energy", "Infrastructure access and rigging for energy sector",
                 "Access and rigging support for energy infrastructure, maintenance, construction and project activities across the Pilbara region. Supporting operational facilities, planned shutdowns and construction phases with integrated scaffolding, rigging and inspection services.",
-                "https://summit.us/wp-content/uploads/2022/03/0_552547_2015-09-04-07-13-49-051.jpg", "ENERGY INFRASTRUCTURE",
+                Stock("energy-process-plant"), "ENERGY INFRASTRUCTURE",
                 []),
             ("02", "Resources & Minerals", "Specialist support for mining and processing operations",
                 "Specialist services supporting mining and mineral processing operations, shutdowns, maintenance and projects with integrated scaffolding, access and rigging solutions. Experienced in demanding operational environments where safety, reliability and schedule adherence are critical.",
-                "https://summit.us/wp-content/uploads/2023/01/Eagle-Mod-Assembly-1.jpeg", "RESOURCES & MINERALS PROCESSING",
+                Stock("resources-haul-truck"), "RESOURCES & MINERALS PROCESSING",
                 []),
             ("03", "Utilities", "Access solutions for essential infrastructure",
                 "Practical access solutions supporting essential infrastructure, upgrades, maintenance and construction across the Pilbara. Reliable support for utilities sectors requiring minimal disruption and coordinated execution.",
-                "https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", "UTILITIES INFRASTRUCTURE",
+                Stock("utilities-water-treatment"), "UTILITIES INFRASTRUCTURE",
                 []),
             ("04", "Renewables", "Supporting renewable and emerging energy projects",
                 "Scaffolding, access and rigging support for renewable energy and emerging energy projects in the Pilbara region. Adaptable solutions for evolving technologies and construction methodologies.",
-                "https://summit.us/wp-content/uploads/2022/03/MAIN_3-07-18-13-scaled.jpg", "RENEWABLE ENERGY PROJECTS",
+                Stock("renewables-offshore-wind"), "RENEWABLE ENERGY PROJECTS",
                 []),
-            ("05", "Rail", "Specialized solutions for rail infrastructure",
+            ("05", "Rail", "Specialised solutions for rail infrastructure",
                 "Specialised access and rigging solutions supporting rail infrastructure, maintenance, upgrades and projects.",
-                "https://summit.us/wp-content/uploads/2022/04/IMG_1373-scaled-e1649187636615-875x1024.jpg", "RAIL INFRASTRUCTURE",
+                Stock("rail-freight-wagons"), "RAIL INFRASTRUCTURE",
                 []),
             ("06", "Marine & Construction", "Integrated support for marine and industrial construction",
                 "Support for ports, marine infrastructure and industrial construction environments with scaffolding, access and rigging capability.",
-                "https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg", "MARINE & CONSTRUCTION",
+                Stock("marine-port-cranes"), "MARINE & CONSTRUCTION",
                 [])
         ];
 
@@ -51,6 +51,7 @@ public static partial class DataSeeder
                 db.Industries.Add(industry);
             }
 
+            if (IsThirdPartyMedia(industry.MediaId)) industry.MediaId = Media(r.Url);
             industry.Name = r.Name;
             industry.Tag = r.Tag;
             industry.Body = r.Body;

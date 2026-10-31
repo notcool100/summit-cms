@@ -17,7 +17,7 @@
 		{ slug: 'capabilities', label: 'Capabilities', url: '/capabilities' },
 		{ slug: 'contact', label: 'Contact', url: '/contact' },
 		{ slug: 'industries', label: 'Industries', url: '/industries' },
-		{ slug: 'projects', label: 'Projects', url: '/projects' },
+		{ slug: 'projects', label: 'Work Scopes', url: '/work-scopes' },
 		{ slug: 'insights', label: 'Insights', url: '/insights' }
 	];
 	const LAYOUTS = [

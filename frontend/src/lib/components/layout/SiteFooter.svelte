@@ -1,20 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { site } from '$lib/config/site';
-	import { magnetic } from '$lib/actions/magnetic';
-	import FloatingInput from '$lib/components/ui/FloatingInput.svelte';
 
-	let email = $state('');
-	let subscribed = $state(false);
 	let companyName = $derived(page.data.siteSettings?.company_name || site.name);
 	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
 	let companyAddress = $derived(page.data.siteSettings?.company_address);
-	let featuredProject = $derived(page.data.featuredProject as { slug: string; name: string } | null);
-
-	function subscribe() {
-		if (!email) return;
-		subscribed = true;
-	}
+	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
+	let telHref = $derived(`tel:${companyPhone.replace(/\s+/g, '')}`);
 
 	function scrollToTop(e: MouseEvent) {
 		e.preventDefault();
@@ -34,7 +26,7 @@
 					{site.address.line1}<br />
 					{site.address.line2}<br />
 				{/if}
-				<a href="/contact">{companyPhone}</a>
+				<a href={telHref}>{companyPhone}</a>
 			</div>
 		</div>
 
@@ -47,29 +39,32 @@
 
 		<nav class="col">
 			<span class="col-title">Work</span>
-			<a href="/projects">Projects</a>
+			<a href="/work-scopes">Typical Work Scopes</a>
 			<a href="/insights">Insights</a>
-			{#if featuredProject}
-				<a href="/projects/{featuredProject.slug}">{featuredProject.name}</a>
-			{/if}
-			<a href="/contact">Start a project</a>
+			<a href="/contact">Discuss Your Project</a>
 		</nav>
 
-		<div>
-			<span class="col-title">Field Notes</span>
-			<p class="note">Project milestones and hiring calls, quarterly. No noise.</p>
-			{#if subscribed}
-				<p class="subscribed">Subscribed ✓ Welcome aboard.</p>
-			{:else}
-				<FloatingInput label="Email address" type="email" bind:value={email} />
-				<button use:magnetic class="subscribe" onclick={subscribe}>Subscribe</button>
-			{/if}
+		<div class="col">
+			<span class="col-title">Get in touch</span>
+			<a href="mailto:{companyEmail}">{companyEmail}</a>
+			<a href="mailto:{site.directContact.email}"
+				>{site.directContact.name}, {site.directContact.role}<br /><span class="muted"
+					>{site.directContact.email}</span
+				></a
+			>
+			<a href={telHref}>{companyPhone}</a>
+			<a class="download" href={site.capabilityStatement.href} download
+				>{site.capabilityStatement.label} ↓<br /><span class="muted"
+					>{site.capabilityStatement.meta}</span
+				></a
+			>
 		</div>
 	</div>
 
 	<div class="bottom">
 		<span>© {site.year} {companyName} · ABN {site.abn}</span>
 		<div class="social">
+			<a href="/privacy">Privacy</a>
 			<a href="#top" class="top" onclick={scrollToTop}>Back to top ↑</a>
 		</div>
 	</div>
@@ -134,36 +129,20 @@
 		margin-bottom: 6px;
 	}
 
-	.note {
-		margin: 12px 0 20px;
-		font-size: 13px;
-		color: rgba(var(--ink-rgb), 0.6);
+	.muted {
+		color: rgba(var(--ink-rgb), 0.55);
+		font-size: 12px;
+		letter-spacing: 0.04em;
 	}
 
-	.subscribed {
-		margin: 12px 0 0;
-		font-size: 13px;
+	.col a {
+		overflow-wrap: anywhere;
+		line-height: 1.5;
+	}
+
+	.download {
 		color: var(--accent);
-	}
-
-	.subscribe {
-		margin-top: 18px;
-		background: none;
-		border: 1px solid rgba(var(--ink-rgb), 0.3);
-		color: var(--ink);
-		padding: 12px 24px;
-		font-size: 11px;
-		font-weight: 700;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		cursor: pointer;
-		font-family: var(--font-body);
-	}
-
-	.subscribe:hover {
-		background: var(--accent);
-		border-color: var(--accent);
-		color: var(--paper);
+		font-weight: 600;
 	}
 
 	.bottom {
@@ -211,8 +190,8 @@
 	}
 
 	@media (max-width: 900px) {
-		/* Brand and Field Notes stay full-width (a paragraph + address, and
-		   a form, both need the room); Company and Work are just short link
+		/* Brand and Get in touch stay full-width (a paragraph + address, and
+		   long email addresses, both need the room); Company and Work are just short link
 		   lists, so they sit side by side as a cozy 2-up pair instead of
 		   each taking a full screen-height row. */
 		.grid.stack-mobile {

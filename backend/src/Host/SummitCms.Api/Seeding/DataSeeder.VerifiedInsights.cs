@@ -16,7 +16,7 @@ public static partial class DataSeeder
         [
             ("scaffold-erection-modification-and-dismantling", "Erection, Modification and Dismantling: Planning the Whole Scaffold Lifecycle",
                 "A scaffold is not finished when it is built. Modification, ongoing support and dismantling deserve the same planning as installation.",
-                "Scaffolding", "https://summit.us/wp-content/uploads/2022/05/IMG_5350-scaled.jpg",
+                "Scaffolding", Stock("scaffold-crew-deck"),
                 new DateTimeOffset(2026, 10, 15, 8, 0, 0, TimeSpan.Zero),
                 [
                     "Scaffolding is often discussed in terms of the day it goes up. In practice the work spans a longer lifecycle: installation, modification as the job develops, ongoing support while crews rely on it, and dismantling once access is no longer needed.",
@@ -28,7 +28,7 @@ public static partial class DataSeeder
                 ]),
             ("choosing-a-scaffolding-system", "Choosing a Scaffolding System for the Work",
                 "Tube & Fit and modular Ringlock systems each have a place. Start with the access requirement, site conditions and project sequence.",
-                "Scaffolding", "https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg",
+                "Scaffolding", Stock("scaffold-tower-crew"),
                 new DateTimeOffset(2026, 10, 13, 8, 0, 0, TimeSpan.Zero),
                 [
                     "Scaffolding selection starts with the work that needs to be reached. The structure, access points, site conditions and operational priorities all shape the solution. A system that suits one task may not be the best fit for another.",
@@ -38,7 +38,7 @@ public static partial class DataSeeder
                 ]),
             ("scaffold-handover-inspection-and-tagging", "Scaffold Handover, Inspection and Tagging",
                 "Clear handover and tagging processes help teams understand access status and keep inspection responsibilities visible.",
-                "Safety", "https://summit.us/wp-content/uploads/2022/04/IMG_1373-scaled-e1649187636615-875x1024.jpg",
+                "Safety", Stock("work-at-height-harness"),
                 new DateTimeOffset(2026, 10, 10, 8, 0, 0, TimeSpan.Zero),
                 [
                     "Scaffold inspection, handover and tagging are identified in Summit's capability statement as part of its operating processes. These steps sit alongside planning, competent personnel, fit for purpose equipment and disciplined work methods.",
@@ -48,7 +48,7 @@ public static partial class DataSeeder
                 ]),
             ("planning-access-for-shutdown-work", "Planning Access for Shutdown and Maintenance Work",
                 "Access needs, mobilisation, equipment and the work sequence are easier to coordinate when they are considered together.",
-                "Project Planning", "https://summit.us/wp-content/uploads/2023/01/1.-OSM-Yard-61-Modular-Assembly.jpg",
+                "Project Planning", Stock("site-planning-engineers"),
                 new DateTimeOffset(2026, 10, 7, 8, 0, 0, TimeSpan.Zero),
                 [
                     "Shutdown and maintenance work depends on effective planning, responsive coordination and the ability to adapt to site conditions and operational priorities. Access requirements affect how crews, equipment and materials move through the work area.",
@@ -58,7 +58,7 @@ public static partial class DataSeeder
                 ]),
             ("integrating-rigging-and-access-support", "Coordinating Rigging and Access Support",
                 "When lifting and access needs meet in the same work area, early coordination helps align planning, people and equipment.",
-                "Rigging", "https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg",
+                "Rigging", Stock("mobile-crane-outriggers"),
                 new DateTimeOffset(2026, 10, 4, 8, 0, 0, TimeSpan.Zero),
                 [
                     "Crane and mechanical rigging often sits alongside scaffolding, access, inspection and other project support. Coordinating these activities can help teams plan around shared work areas, operational priorities and mobilisation requirements.",
@@ -68,7 +68,7 @@ public static partial class DataSeeder
                 ]),
             ("just-in-time-materials-for-industrial-projects", "Just In Time Materials and Equipment Coordination",
                 "Logistics and materials management are part of project delivery: the aim is to have the right resources available at the right time.",
-                "Logistics", "https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg",
+                "Logistics", Stock("road-train-logistics"),
                 new DateTimeOffset(2026, 10, 1, 8, 0, 0, TimeSpan.Zero),
                 [
                     "Materials management is more than moving equipment to site. It connects planning, mobilisation, storage, availability and the sequence in which work is ready to proceed.",

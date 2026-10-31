@@ -55,14 +55,16 @@
 					<div class="panel-body-grid stack-mobile">
 						<div>
 							<p class="panel-body">{ind.body}</p>
-							<div class="related-label">Related work</div>
-							<div class="related-list">
-								{#each ind.links as link (link.name)}
-									<a data-cursor-view href={link.href} class="related-link">
-										<span>{link.name}</span><span class="related-stat">{link.stat} →</span>
-									</a>
-								{/each}
-							</div>
+							{#if ind.links.length > 0}
+								<div class="related-label">Related work scopes</div>
+								<div class="related-list">
+									{#each ind.links as link (link.name)}
+										<a data-cursor-view href={link.href} class="related-link">
+											<span>{link.name}</span><span class="related-stat">{link.stat} →</span>
+										</a>
+									{/each}
+								</div>
+							{/if}
 						</div>
 						<div use:hoverZoom class="panel-figure">
 							<ResponsiveImage src={ind.src} alt={ind.alt} />
@@ -81,7 +83,7 @@
 <section class="cta">
 	<h2>
 		<span class="mask-line"
-			><span use:reveal={{ kind: 'mask' }}>Building in one of these sectors?</span></span
+			><span use:reveal={{ kind: 'mask' }}>Working in one of these sectors?</span></span
 		>
 	</h2>
 	<div use:reveal={{ kind: 'up', delay: 0.2 }} class="cta-btn-wrap">

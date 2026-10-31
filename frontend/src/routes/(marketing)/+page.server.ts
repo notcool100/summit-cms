@@ -119,7 +119,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 				name: p.name,
 				industry: p.industryCategory,
 				stat: p.stat,
-				href: `/projects/${p.slug}`,
+				href: `/work-scopes/${p.slug}`,
 				src: p.heroUrl ?? '',
 				alt: p.heroAlt ?? ''
 			})),
@@ -131,7 +131,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 			attribution: t.attribution,
 			projectName: t.projectName,
 			industry: t.industryCategory,
-			href: `/projects/${t.projectSlug}`
+			href: `/work-scopes/${t.projectSlug}`
 		})),
 		latestPosts: posts.slice(0, 3).map((p) => ({
 			slug: p.slug,

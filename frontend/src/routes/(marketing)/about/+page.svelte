@@ -8,6 +8,7 @@
 	import { parallax } from '$lib/actions/parallax';
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import CapabilityStatementLink from '$lib/components/common/CapabilityStatementLink.svelte';
 	import GoogleMap from '$lib/components/common/GoogleMap.svelte';
 	import { page } from '$app/state';
 	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
@@ -58,6 +59,9 @@
 			With more than 50 years of combined industry experience, our team supports demanding projects
 			with a practical focus on safety, reliability, responsiveness and efficient execution.
 		</p>
+	</div>
+	<div use:reveal={{ kind: 'up', delay: 0.5 }} class="hero-actions">
+		<CapabilityStatementLink />
 	</div>
 </section>
 
@@ -231,6 +235,10 @@
 <SectionRenderer {sections} slot="end" />
 
 <style>
+	.hero-actions {
+		margin-top: 32px;
+	}
+
 	.accent {
 		color: var(--accent);
 	}

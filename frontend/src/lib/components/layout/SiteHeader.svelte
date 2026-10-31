@@ -44,7 +44,9 @@
 
 <header bind:this={header} class:is-hidden={hidden}>
 	<div class="bar">
-		<a href="/" class="logo"><img src="/summit-logo.png" alt={companyName} /></a>
+		<a href="/" class="logo" aria-label="{companyName} home"
+			><img src="/summit-logo.png" alt={companyName} width="794" height="573" /></a
+		>
 
 		<nav class="hide-tablet nav">
 			{#each primaryNav as link (link.href)}
@@ -53,7 +55,7 @@
 		</nav>
 
 		<div class="actions">
-			<a use:magnetic href="/contact" class="hide-tablet cta">Get in Touch</a>
+			<a use:magnetic href="/contact" class="hide-tablet cta">Discuss Your Project</a>
 			<ThemeSwitcher />
 			<button
 				class="hamburger"
@@ -105,7 +107,7 @@
 	}
 
 	.logo img {
-		height: clamp(34px, 6vw, 44px);
+		height: clamp(40px, 6vw, 54px);
 		width: auto;
 	}
 

@@ -1,10 +1,29 @@
-import type { Handle } from '@sveltejs/kit';
-import { AUTH_COOKIES, refreshRequest, setAuthCookies, clearAuthCookies } from '$lib/server/adminApi';
+import { redirect, type Handle } from '@sveltejs/kit';
+import { site } from '$lib/config/site';
+import {
+	AUTH_COOKIES,
+	refreshRequest,
+	setAuthCookies,
+	clearAuthCookies
+} from '$lib/server/adminApi';
 import { decodeAccessToken } from '$lib/server/jwt';
 
 const REFRESH_SKEW_MS = 60_000; // refresh proactively if the access token expires within 60s
 
+const canonicalHost = new URL(site.url).host;
+
+/** True when serving from anything other than the configured production domain (staging, preview, IP). */
+function isNonCanonicalHost(host: string): boolean {
+	return host.replace(/^www\./, '') !== canonicalHost.replace(/^www\./, '');
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
+	// "Projects" became "Typical Work Scopes" (client review P0-03); keep old links and bookmarks working.
+	const { pathname, search } = event.url;
+	if (pathname === '/projects' || pathname.startsWith('/projects/')) {
+		redirect(301, `/work-scopes${pathname.slice('/projects'.length)}${search}`);
+	}
+
 	event.locals.user = null;
 	event.locals.accessToken = null;
 
@@ -43,5 +62,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.accessToken = activeToken;
 	}
 
-	return resolve(event);
+	const response = await resolve(event);
+	// Staging and preview hosts must never be indexed (client review P1-06). Belt and braces with robots.txt.
+	if (isNonCanonicalHost(event.url.host)) {
+		response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+	}
+	return response;
 };

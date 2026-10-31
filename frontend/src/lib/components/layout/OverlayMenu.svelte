@@ -32,7 +32,14 @@
 			</div>
 		{/each}
 		<div class="meta">
-			<span>{companyCity}</span><span>{companyPhone}</span><span>{companyEmail}</span>
+			<span>{companyCity}</span>
+			<a href="tel:{companyPhone.replace(/\s+/g, '')}" onclick={() => menuStore.close()}
+				>{companyPhone}</a
+			>
+			<a href="mailto:{companyEmail}" onclick={() => menuStore.close()}>{companyEmail}</a>
+			<a href={site.capabilityStatement.href} download onclick={() => menuStore.close()}
+				>{site.capabilityStatement.label} ↓</a
+			>
 		</div>
 	</nav>
 </div>

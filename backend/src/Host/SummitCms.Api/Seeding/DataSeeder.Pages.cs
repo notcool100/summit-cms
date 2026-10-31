@@ -8,20 +8,48 @@ namespace SummitCms.Api.Seeding;
 
 public static partial class DataSeeder
 {
+    /// <summary>
+    /// Page titles, descriptions and hero copy as approved in the October 2026 client website review:
+    /// unique plain-language titles, Karratha/Pilbara focus, honest "Typical Work Scopes" framing and no
+    /// implied field authorship on Insights.
+    /// </summary>
+    internal static readonly (string Slug, string Title, string Meta, string Hero, string Sub)[] ReviewedPageCopy =
+    [
+        (PageSlugs.Home, "Scaffolding, Access, Rigging & Inspection in the Pilbara | Summit Industrial Services",
+            "Pilbara based scaffolding, access, rigging and inspection from the Karratha Industrial Estate, supporting shutdown, maintenance, construction and marine projects across the Greater Pilbara.",
+            "Pilbara-based scaffolding, access, rigging and inspection.",
+            "Summit Industrial Services supports shutdown, maintenance, construction and marine projects across the Greater Pilbara through practical access solutions, rigging, inspection, engineering coordination and materials support."),
+        (PageSlugs.About, "About Us | Summit Industrial Services, Karratha WA",
+            "Pilbara based specialist access and rigging provider with 50+ years of combined industry experience, serving energy, resources and minerals, utilities, renewables, rail, marine and construction.",
+            "Pilbara based specialist access & rigging.",
+            "Summit Industrial Services. Built on Trust, Driven by Excellence."),
+        (PageSlugs.Capabilities, "Scaffolding, Rigging & Inspection Capabilities | Summit Industrial Services",
+            "Scaffolding and access solutions, scaffold design and engineering coordination, crane and mechanical rigging, inspection and tagging, shutdown support, and logistics and materials management in the Pilbara.",
+            "Integrated scaffolding, access, rigging & inspection.",
+            "Traditional and modular systems, with engineering coordination for complex access."),
+        (PageSlugs.Contact, "Contact Us | Summit Industrial Services, Karratha WA",
+            "Contact Summit Industrial Services at 1537 Pyramid Road, Karratha Industrial Estate WA 6714 about scaffolding, rigging, inspection or industrial support across the Greater Pilbara.",
+            "Let's talk about your project.",
+            "1537 Pyramid Road, Karratha Industrial Estate WA 6714"),
+        (PageSlugs.Industries, "Industries We Serve in the Pilbara | Summit Industrial Services",
+            "Energy, resources and minerals, utilities, renewables, rail, and marine and construction. Specialist access and rigging support across the Greater Pilbara.",
+            "Industries we serve.",
+            "Access and rigging support across the Greater Pilbara."),
+        (PageSlugs.Projects, "Typical Work Scopes | Summit Industrial Services",
+            "Capability examples showing how Summit's scaffolding, rigging, inspection and shutdown support services can be applied across the Greater Pilbara. These are illustrations, not completed client projects.",
+            "Typical work scopes.",
+            "Representative examples of how our services can support your project. These are capability illustrations, not individual completed client projects."),
+        (PageSlugs.Insights, "Insights | Summit Industrial Services",
+            "General information on safety, scaffolding, rigging, inspection and project planning from Summit Industrial Services, Karratha WA.",
+            "Capability notes.",
+            "General information on scaffolding, rigging, safety and project planning from Summit Industrial Services.")
+    ];
+
     private static async Task<Dictionary<string, Guid>> SeedPagesAsync(IServiceProvider sp, Dictionary<string, Guid> mediaMap)
     {
         var db = sp.GetRequiredService<SiteContentDbContext>();
 
-        (string Slug, string Title, string Meta, string Hero, string Sub)[] pages =
-        [
-            (PageSlugs.Home, "Summit Industrial Services | Scaffolding, Access, Rigging & Inspection", "Pilbara based specialist provider delivering integrated scaffolding, access, rigging, inspection and engineering support across demanding operational environments.", "Built on Trust, Driven by Excellence.", "SCAFFOLDING | ACCESS | RIGGING | INSPECTION"),
-            (PageSlugs.About, "About Summit Industrial Services", "Pilbara based specialist access and rigging provider with 50+ years of combined industry experience, serving energy, resources and minerals, utilities, renewables, rail, marine and construction.", "Pilbara based specialist access & rigging.", "Summit Industrial Services  Built on Trust, Driven by Excellence."),
-            (PageSlugs.Capabilities, "Our Capabilities", "Scaffolding & access solutions, scaffold design & engineering, crane & mechanical rigging, inspection & tagging, shutdown support, logistics & materials management.", "Integrated scaffolding, access, rigging & inspection.", "Traditional and modular systems  engineered solutions for complex access."),
-            (PageSlugs.Contact, "Contact Summit Industrial Services", "Get in touch about scaffolding, rigging, inspection, engineering support or integrated industrial services across the Pilbara region.", "Let's talk about your project.", "1537 Pyramid Road, Karratha Industrial Estate WA 6714"),
-            (PageSlugs.Industries, "Industries We Serve", "Energy, Resources & Minerals, Utilities, Renewables, Rail, and Marine & Construction  specialist access and rigging across the Greater Pilbara.", "Industries we serve.", "Access and rigging support across the Greater Pilbara."),
-            (PageSlugs.Projects, "Project Support | Summit Industrial Services", "Discuss scaffolding, rigging, inspection, shutdown, maintenance and project support across the Greater Pilbara.", "Discuss your project scope.", "Pilbara based access, rigging and industrial support."),
-            (PageSlugs.Insights, "Insights", "Technical notes on safety, scaffolding, rigging, inspection and industry developments from Summit's operational experience.", "Notes from the field.", "Insights from our crews, engineers and project teams.")
-        ];
+        (string Slug, string Title, string Meta, string Hero, string Sub)[] pages = ReviewedPageCopy;
 
         var existingPages = await db.Pages.ToDictionaryAsync(p => p.Slug, p => p);
 
@@ -61,8 +89,8 @@ public static partial class DataSeeder
 
         if (existingPages.TryGetValue(PageSlugs.Home, out var homePage))
         {
-            homePage.HeroMediaId ??= Media("https://summit.us/wp-content/uploads/2022/05/IMG_5350-scaled.jpg");
-            homePage.SecondaryMediaId ??= Media("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg");
+            if (homePage.HeroMediaId is null || IsThirdPartyMedia(homePage.HeroMediaId)) homePage.HeroMediaId = Media(Stock("scaffold-crew-deck"));
+            if (homePage.SecondaryMediaId is null || IsThirdPartyMedia(homePage.SecondaryMediaId)) homePage.SecondaryMediaId = Media(Stock("scaffold-tower-crew"));
         }
 
         await db.SaveChangesAsync();

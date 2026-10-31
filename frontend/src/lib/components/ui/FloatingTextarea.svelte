@@ -4,26 +4,44 @@
 		rows?: number;
 		name?: string;
 		value?: string;
+		required?: boolean;
+		maxlength?: number;
 	}
 
-	let { label, rows = 4, name, value = $bindable('') }: Props = $props();
+	let {
+		label,
+		rows = 4,
+		name,
+		value = $bindable(''),
+		required = false,
+		maxlength
+	}: Props = $props();
 	let focused = $state(false);
 	let floated = $derived(focused || value.length > 0);
 </script>
 
-<div class="field">
-	<span class="label" class:floated>{label}</span>
+<label class="field">
+	<span class="label" class:floated
+		>{label}{#if required}<span class="req" aria-hidden="true"> *</span>{/if}</span
+	>
 	<textarea
 		{rows}
 		{name}
+		{required}
+		{maxlength}
 		bind:value
 		onfocus={() => (focused = true)}
 		onblur={() => (focused = false)}></textarea>
 	<span class="line" class:active={focused}></span>
-</div>
+</label>
 
 <style>
+	.req {
+		color: var(--accent);
+	}
+
 	.field {
+		display: block;
 		position: relative;
 		padding-top: 20px;
 	}

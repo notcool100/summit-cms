@@ -14,10 +14,15 @@ export async function getPublic<T>(fetchFn: typeof fetch, path: string): Promise
 	return (await res.json()) as T;
 }
 
-export async function postPublic<T>(fetchFn: typeof fetch, path: string, body: unknown): Promise<T> {
+export async function postPublic<T>(
+	fetchFn: typeof fetch,
+	path: string,
+	body: unknown,
+	extraHeaders: Record<string, string> = {}
+): Promise<T> {
 	const res = await fetchFn(`${BASE_URL}${path}`, {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { 'Content-Type': 'application/json', ...extraHeaders },
 		body: JSON.stringify(body)
 	});
 	if (!res.ok) {
@@ -28,6 +33,7 @@ export async function postPublic<T>(fetchFn: typeof fetch, path: string, body: u
 		} catch {
 			/* not JSON */
 		}
+		if (res.status === 429) throw new Error('429 Too many requests');
 		throw new Error(message || `POST ${path} failed: ${res.status}`);
 	}
 	return (await res.json()) as T;

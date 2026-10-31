@@ -12,45 +12,71 @@ public static partial class DataSeeder
     /// existing content has something real to point at. Returns url -> MediaAsset.Id.
     /// Idempotent: re-running never creates duplicates for a URL already recorded.
     /// </summary>
+    /// <summary>Public path of a bundled illustrative stock image.</summary>
+    private static string Stock(string slug) => $"/images/stock/{slug}.jpg";
+
+    /// <summary>
+    /// Ids of media rows that still point at the unrelated summit.us website. Filled by
+    /// <see cref="SeedMediaAsync"/>; every seeder swaps references to these for stock images and
+    /// <see cref="RetireThirdPartyMediaAsync"/> deletes the rows once nothing points at them.
+    /// </summary>
+    private static readonly HashSet<Guid> ThirdPartyMediaIds = [];
+
+    private static bool IsThirdPartyMedia(Guid? id) => id is Guid g && ThirdPartyMediaIds.Contains(g);
+
     private static async Task<Dictionary<string, Guid>> SeedMediaAsync(IServiceProvider sp)
     {
         var db = sp.GetRequiredService<MediaDbContext>();
 
+        // Illustrative stock photography (Pexels License, see frontend/static/images/stock/CREDITS.txt),
+        // served by the frontend as static files. These replace the images previously hotlinked from
+        // summit.us, which belongs to an unrelated US company. Swap for owner-approved Summit photos
+        // through the admin Media library when they are supplied.
         (string Url, string Alt)[] images =
         [
-            ("https://summit.us/wp-content/uploads/2022/05/IMG_5350-scaled.jpg", "Summit crew on an active industrial construction site"),
-            ("https://summit.us/wp-content/uploads/2022/05/IMG_5350-1024x768.jpg", "Hydrotest and QC inspection"),
-            ("https://summit.us/wp-content/uploads/2022/04/IMG_5382-scaled-e1649187397362-839x1024.jpg", "Summit welder at work on a pipe rack"),
-            ("https://summit.us/wp-content/uploads/2022/04/4-19.002-Splitter-Hot-Oil-1024x768.jpg", "Structural steel erection with crane"),
-            ("https://summit.us/wp-content/uploads/2023/01/1.-OSM-Yard-61-Modular-Assembly.jpg", "Modules assembled in the OSM yard"),
-            ("https://summit.us/wp-content/uploads/2022/04/IMG_1373-scaled-e1649187636615-875x1024.jpg", "Deep excavation for underground utilities"),
-            ("https://summit.us/wp-content/uploads/2022/04/IMG_1679-scaled-e1649188273711.jpg", "Heavy equipment being set by rigging crew"),
-            ("https://summit.us/wp-content/uploads/2022/05/Intel-Rendering-PNG-edited.png", "Engineers reviewing a constructability model"),
-            ("https://summit.us/wp-content/uploads/2022/03/21.004-TSMC-3.jpeg", "Underground piping installation at an industrial processing site"),
-            ("https://summit.us/wp-content/uploads/2023/01/22.006-Project-Star-CUB-Trestle-Modules.jpeg", "Modular trestle module being lifted into place"),
-            ("https://summit.us/wp-content/uploads/2022/03/4.-19.005-P66-Central-Three-Rivers.jpeg", "Pilbara Marine Terminal tank farm"),
-            ("https://summit.us/wp-content/uploads/2022/03/0_552547_2015-09-04-07-13-49-051.jpg", "Ironbark Power Station turbine hall"),
-            ("https://summit.us/wp-content/uploads/2022/05/20140514_161421-edited-scaled.jpg", "Early Summit fabrication yard in 1996"),
-            ("https://summit.us/wp-content/uploads/2022/04/IMG_0239-scaled-e1649186987916-873x1024.jpg", "Aerial view of the OSM modular assembly yard"),
-            ("https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots208003-edited.jpg", "Portrait of W. Jeff Johnson, Chief Executive Officer"),
-            ("https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots209831-edited.jpg", "Portrait of Josh Johnson, President"),
-            ("https://summit.us/wp-content/uploads/2023/04/Taylor-Madden-website-2-1024x941.jpg", "Portrait of Taylor Madden, Chief Financial Officer"),
-            ("https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots208058-edited.jpg", "Portrait of Jordan Dombart, Chief Operating Officer"),
-            ("https://summit.us/wp-content/uploads/2022/04/220116-Summit-Headshots208147-edited.jpg", "Portrait of Robby Luna, Executive Vice President"),
-            ("https://summit.us/wp-content/uploads/2022/05/22.005-Project-Hedgehog-Rio-Rancho-03.jpg", "Summit crew working at height during golden hour"),
-            ("https://summit.us/wp-content/uploads/2023/01/Eagle-Mod-Assembly-1.jpeg", "Aerial view of an industrial processing plant under construction"),
-            ("https://summit.us/wp-content/uploads/2022/03/MAIN_3-07-18-13-scaled.jpg", "Structural steel at a biomass facility"),
-            ("https://summit.us/wp-content/uploads/2022/03/louisiana_helicam_crosstexenergy_lores011114-28-of-32-1-1-edited.jpg", "Interior of a manufacturing plant"),
-            ("https://summit.us/wp-content/uploads/2022/04/louisiana_helicam_enlinkmidstream_lores081614-53-e1649186720160.jpg", "Wide shot of the pipe corridor trench with crews at scale")
+            (Stock("scaffold-crew-deck"), "Illustrative image: scaffold crew working on an access platform"),
+            (Stock("scaffold-tower-crew"), "Illustrative image: crew working across a tall scaffold structure"),
+            (Stock("scaffold-access-worker"), "Illustrative image: worker in high visibility clothing beside a scaffold"),
+            (Stock("scaffold-design-cad"), "Illustrative image: access design drawing on a computer screen"),
+            (Stock("mobile-crane-outriggers"), "Illustrative image: mobile crane set up on outriggers"),
+            (Stock("work-at-height-harness"), "Illustrative image: worker in a harness working at height"),
+            (Stock("plant-maintenance-conveyor"), "Illustrative image: maintenance worker walking beside a plant conveyor"),
+            (Stock("low-loader-transport"), "Illustrative image: equipment loaded on a low loader trailer"),
+            (Stock("energy-process-plant"), "Illustrative image: energy processing plant structure and pipework"),
+            (Stock("resources-haul-truck"), "Illustrative image: haul truck in an open cut mine"),
+            (Stock("utilities-water-treatment"), "Illustrative image: water treatment facility basins"),
+            (Stock("renewables-offshore-wind"), "Illustrative image: wind turbines with an installation vessel offshore"),
+            (Stock("rail-freight-wagons"), "Illustrative image: freight wagons in a rail yard"),
+            (Stock("marine-port-cranes"), "Illustrative image: port container cranes and storage yard"),
+            (Stock("structural-access-frames"), "Illustrative image: steel access frames on a structure"),
+            (Stock("pick-and-carry-crane"), "Illustrative image: pick and carry crane in an industrial yard"),
+            (Stock("shutdown-process-facility"), "Illustrative image: aerial view of an industrial process facility"),
+            (Stock("marine-wharf-cranes"), "Illustrative image: wharf cranes beside the water"),
+            (Stock("renewables-platform-crew"), "Illustrative image: technicians working on a turbine platform"),
+            (Stock("site-planning-engineers"), "Illustrative image: two people in high visibility clothing planning on site"),
+            (Stock("road-train-logistics"), "Illustrative image: road train transporting freight")
         ];
 
-        var existing = await db.MediaAssets
+        var externalAssets = await db.MediaAssets
             .Where(a => a.SourceType == MediaSourceType.External)
-            .ToDictionaryAsync(a => a.ExternalUrl!, a => a.Id);
+            .ToListAsync();
+        ThirdPartyMediaIds.Clear();
+        foreach (var asset in externalAssets.Where(a => a.ExternalUrl!.Contains("summit.us/", StringComparison.OrdinalIgnoreCase)))
+            ThirdPartyMediaIds.Add(asset.Id);
+        var existing = externalAssets
+            .Where(a => !ThirdPartyMediaIds.Contains(a.Id))
+            .GroupBy(a => a.ExternalUrl!)
+            .ToDictionary(g => g.Key, g => g.First().Id);
 
         foreach (var (url, alt) in images)
         {
-            if (existing.ContainsKey(url)) continue;
+            if (existing.TryGetValue(url, out var existingId))
+            {
+                // Keep alt text honest about the image being illustrative.
+                var current = externalAssets.First(a => a.Id == existingId);
+                if (!current.AltText.StartsWith("Illustrative", StringComparison.Ordinal)) current.AltText = alt;
+                continue;
+            }
 
             var asset = new MediaAsset
             {

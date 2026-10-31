@@ -32,6 +32,17 @@
 		author: { '@type': 'Person', name: authorName },
 		publisher: { '@type': 'Organization', name: companyName }
 	});
+
+	// Map an article's category to the capability panel it relates to.
+	const services: Record<string, [string, string]> = {
+		Scaffolding: ['scaffolding-access', 'Scaffolding & Access Solutions'],
+		Safety: ['inspection-tagging', 'Inspection, Tagging & Compliance'],
+		Rigging: ['rigging', 'Crane & Mechanical Rigging'],
+		'Project Planning': ['shutdown-support', 'Shutdown, Maintenance & Project Support'],
+		Logistics: ['logistics-materials', 'Logistics & Materials Management']
+	};
+	let serviceAnchor = $derived((services[category] ?? services.Scaffolding)[0]);
+	let serviceName = $derived((services[category] ?? services.Scaffolding)[1]);
 </script>
 
 <SeoHead title={`${title} | ${companyName}`} {description} image={heroImage.src} type="article" />
@@ -41,7 +52,12 @@
 <section class="hero">
 	{#if heroImage.src}
 		<div class="hero-media" style="animation: kenburns 22s linear infinite alternate">
-			<ResponsiveImage src={heroImage.src} alt={heroImage.alt} loading="eager" fetchpriority="high" />
+			<ResponsiveImage
+				src={heroImage.src}
+				alt={heroImage.alt}
+				loading="eager"
+				fetchpriority="high"
+			/>
 		</div>
 		<div class="hero-scrim" aria-hidden="true"></div>
 	{/if}
@@ -68,6 +84,22 @@
 	</div>
 </section>
 
+<!-- ============ RELATED SERVICE CTA (client review P1-07) ============ -->
+<section class="service-cta">
+	<div class="service-cta-inner">
+		<p class="service-note">
+			General information only. Site conditions, client procedures and applicable standards
+			determine the right approach for each job.
+		</p>
+		<div class="service-actions">
+			<a href="/capabilities#{serviceAnchor}" class="service-link"
+				>Related service: {serviceName} →</a
+			>
+			<a href="/contact" class="service-link service-link--primary">Discuss your project →</a>
+		</div>
+	</div>
+</section>
+
 <!-- ============ PREV / NEXT ============ -->
 <section class="adjacent">
 	<div class="adjacent-grid stack-mobile">
@@ -83,6 +115,46 @@
 </section>
 
 <style>
+	.service-cta {
+		padding: 0 clamp(20px, 4vw, 64px) clamp(48px, 8vh, 88px);
+	}
+
+	.service-cta-inner {
+		max-width: 760px;
+		margin: 0 auto;
+		padding-top: 32px;
+		border-top: 1px solid rgba(var(--ink-rgb), 0.12);
+	}
+
+	.service-note {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.65);
+	}
+
+	.service-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px 28px;
+		margin-top: 20px;
+	}
+
+	.service-link {
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink);
+		border-bottom: 1px solid rgba(var(--ink-rgb), 0.3);
+		padding-bottom: 4px;
+	}
+
+	.service-link--primary {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
 	/* Hero */
 	.hero {
 		position: relative;

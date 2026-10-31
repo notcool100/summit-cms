@@ -68,7 +68,21 @@ builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
     options.AddFixedWindowLimiter("auth", o => { o.PermitLimit = 10; o.Window = TimeSpan.FromMinutes(1); o.QueueLimit = 0; });
-    options.AddFixedWindowLimiter("contact", o => { o.PermitLimit = 5; o.Window = TimeSpan.FromMinutes(1); o.QueueLimit = 0; });
+    // Per-visitor, not global: one spammer must not lock everyone else out of the contact form.
+    // The SvelteKit server proxies submissions, so the visitor IP arrives in X-Forwarded-For.
+    options.AddPolicy("contact", http =>
+    {
+        var forwarded = http.Request.Headers["X-Forwarded-For"].ToString();
+        var clientIp = !string.IsNullOrWhiteSpace(forwarded)
+            ? forwarded.Split(',')[0].Trim()
+            : http.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        return RateLimitPartition.GetFixedWindowLimiter(clientIp, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 5,
+            Window = TimeSpan.FromMinutes(10),
+            QueueLimit = 0
+        });
+    });
 });
 
 // ---- CORS ----
