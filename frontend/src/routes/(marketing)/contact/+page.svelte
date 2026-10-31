@@ -19,6 +19,7 @@
 	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
 	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
 	let companyAddress = $derived(page.data.siteSettings?.company_address);
+	let telHref = $derived(`tel:${companyPhone.replace(/\s+/g, '')}`);
 	let mapQuery = $derived(
 		`${(companyAddress || `${site.address.line1}, ${site.address.line2}`).replace(/\s*\n\s*/g, ', ')}, Australia`
 	);
@@ -27,7 +28,9 @@
 	);
 
 	const detailItems = $derived(
-		data.sections.find((x) => x.slot === 'details')?.items.map((i) => ({ title: i.title, body: i.body })) ?? []
+		data.sections
+			.find((x) => x.slot === 'details')
+			?.items.map((i) => ({ title: i.title, body: i.body })) ?? []
 	);
 
 	let fullName = $state('');
@@ -39,7 +42,10 @@
 	let submitting = $state(false);
 
 	const faqs = $derived(
-		(data.sections.find((x) => x.layout === 'faq')?.items ?? []).map((i) => ({ q: i.title, a: i.body }))
+		(data.sections.find((x) => x.layout === 'faq')?.items ?? []).map((i) => ({
+			q: i.title,
+			a: i.body
+		}))
 	);
 	let openFaq = $state<number | null>(null);
 
@@ -75,10 +81,18 @@
 					{/if}
 				</div>
 				<div>
-					<div class="details-label">Direct</div>
-					{companyPhone}<br />{companyEmail}
+					<div class="details-label">General enquiries</div>
+					<a href={telHref}>{companyPhone}</a><br /><a href="mailto:{companyEmail}"
+						>{companyEmail}</a
+					>
 				</div>
-				{#each detailItems as d (d.title)}
+				<div>
+					<div class="details-label">{site.directContact.name}, {site.directContact.role}</div>
+					<a href={telHref}>{companyPhone}</a><br /><a href="mailto:{site.directContact.email}"
+						>{site.directContact.email}</a
+					>
+				</div>
+				{#each detailItems.filter((d) => !d.title.startsWith(site.directContact.name)) as d (d.title)}
 					<div>
 						<div class="details-label">{d.title}</div>
 						<span class="pre">{d.body}</span>
@@ -92,9 +106,14 @@
 			<div use:reveal={{ kind: 'clip', delay: 0.2 }} class="map-frame">
 				<GoogleMap query={mapQuery} title="Map showing {site.name} in Karratha Industrial Estate" />
 			</div>
-			<a class="map-directions" href={directionsHref} target="_blank" rel="noopener noreferrer"
-				>Get directions ↗</a
-			>
+			<div class="map-links">
+				<a class="map-directions" href={directionsHref} target="_blank" rel="noopener noreferrer"
+					>Get directions ↗</a
+				>
+				<a class="map-directions" href={site.capabilityStatement.href} download
+					>{site.capabilityStatement.label} ↓</a
+				>
+			</div>
 		</div>
 
 		<!-- RIGHT: FORM -->
@@ -112,25 +131,72 @@
 				}}
 			>
 				<div class="row stack-mobile">
-					<FloatingInput label="Full name" name="fullName" required bind:value={fullName} />
-					<FloatingInput label="Company" name="company" bind:value={company} />
+					<FloatingInput
+						label="Full name"
+						name="fullName"
+						required
+						autocomplete="name"
+						maxlength={120}
+						bind:value={fullName}
+					/>
+					<FloatingInput
+						label="Company"
+						name="company"
+						autocomplete="organization"
+						maxlength={160}
+						bind:value={company}
+					/>
 				</div>
 				<div class="row stack-mobile">
-					<FloatingInput label="Email" name="email" type="email" required bind:value={email} />
-					<FloatingInput label="Phone" name="phone" type="tel" required bind:value={phone} />
+					<FloatingInput
+						label="Email"
+						name="email"
+						type="email"
+						required
+						autocomplete="email"
+						maxlength={254}
+						bind:value={email}
+					/>
+					<FloatingInput
+						label="Phone"
+						name="phone"
+						type="tel"
+						required
+						autocomplete="tel"
+						maxlength={40}
+						bind:value={phone}
+					/>
 				</div>
 				<FloatingSelect
 					label="Enquiry type"
 					name="enquiryType"
+					required
 					options={enquiryOptions}
 					bind:value={enquiryType}
 				/>
 				<FloatingTextarea
 					label="Tell us about the work"
 					name="message"
+					required
+					maxlength={5000}
 					rows={4}
 					bind:value={message}
 				/>
+				<!-- Spam trap: hidden from people and assistive tech, but naive bots fill it in. -->
+				<div class="hp" aria-hidden="true">
+					<label
+						>Leave this field empty <input
+							type="text"
+							name="website"
+							tabindex="-1"
+							autocomplete="off"
+						/></label
+					>
+				</div>
+				<p class="privacy-note">
+					We use these details only to respond to your enquiry. See our
+					<a href="/privacy">privacy notice</a>.
+				</p>
 				<div class="submit-row">
 					<button
 						use:magnetic
@@ -139,11 +205,15 @@
 						disabled={submitting || form?.success}
 						>{form?.success ? 'Sent ✓' : submitting ? 'Sending…' : 'Send enquiry'}</button
 					>
-					{#if form?.success}
-						<span class="sent-note">Received. We'll respond within one business day.</span>
-					{:else if form?.error}
-						<span class="sent-note error">{form.error}</span>
-					{/if}
+					<div aria-live="polite" role="status">
+						{#if form?.success}
+							<span class="sent-note"
+								>Thanks, your enquiry has been received. We'll be in touch soon.</span
+							>
+						{:else if form?.error}
+							<span class="sent-note error" role="alert">{form.error}</span>
+						{/if}
+					</div>
 				</div>
 			</form>
 		</div>
@@ -181,6 +251,34 @@
 </section>
 
 <style>
+	.hp {
+		position: absolute;
+		left: -10000px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	.privacy-note {
+		margin: 4px 0 0;
+		font-size: 13px;
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.65);
+	}
+
+	.privacy-note a,
+	.details a {
+		color: inherit;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.map-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px 28px;
+	}
+
 	.pre {
 		white-space: pre-line;
 	}

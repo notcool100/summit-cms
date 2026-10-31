@@ -10,8 +10,11 @@
 	--ink: #0f1113;
 	--ink-rgb: 15, 17, 19;
 	--panel: #eae6dd;
-	--accent: #ff5c1f;
-	--accent-rgb: 255, 92, 31;
+	/* Brand red and gold sampled from the approved Summit logo (2026 capability statement). */
+	--accent: #d7262f;
+	--accent-rgb: 215, 38, 47;
+	--gold: #c49a5c;
+	--gold-rgb: 196, 154, 92;
 
 	--font-display: 'Anton', sans-serif;
 	--font-body: 'Archivo', sans-serif;

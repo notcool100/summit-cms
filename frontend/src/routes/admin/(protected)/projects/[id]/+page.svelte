@@ -38,9 +38,9 @@
 	<div>
 		<a href="/admin/projects" class="adm-back">← All projects</a>
 		<h1>{project.name}</h1>
-		<p class="adm-mono">/projects/{project.slug}</p>
+		<p class="adm-mono">/work-scopes/{project.slug}</p>
 	</div>
-	<a class="adm-btn adm-btn--secondary" href="/projects/{project.slug}" target="_blank" rel="noopener">
+	<a class="adm-btn adm-btn--secondary" href="/work-scopes/{project.slug}" target="_blank" rel="noopener">
 		<Icon name="external" size={15} /> View live
 	</a>
 </div>

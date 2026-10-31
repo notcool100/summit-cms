@@ -4,26 +4,40 @@
 		options: string[];
 		name?: string;
 		value?: string;
+		required?: boolean;
 	}
 
-	let { label, options, name, value = $bindable('') }: Props = $props();
+	let { label, options, name, value = $bindable(''), required = false }: Props = $props();
 	let focused = $state(false);
 </script>
 
-<div class="field">
-	<span class="label floated">{label}</span>
-	<select {name} bind:value onfocus={() => (focused = true)} onblur={() => (focused = false)}>
+<label class="field">
+	<span class="label floated"
+		>{label}{#if required}<span class="req" aria-hidden="true"> *</span>{/if}</span
+	>
+	<select
+		{name}
+		{required}
+		bind:value
+		onfocus={() => (focused = true)}
+		onblur={() => (focused = false)}
+	>
 		<option value="">Select one…</option>
 		{#each options as option (option)}
 			<option value={option}>{option}</option>
 		{/each}
 	</select>
 	<span class="line" class:active={focused}></span>
-	<span class="chevron">▼</span>
-</div>
+	<span class="chevron" aria-hidden="true">▼</span>
+</label>
 
 <style>
+	.req {
+		color: var(--accent);
+	}
+
 	.field {
+		display: block;
 		position: relative;
 		padding-top: 20px;
 	}

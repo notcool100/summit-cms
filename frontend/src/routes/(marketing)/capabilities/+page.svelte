@@ -6,6 +6,7 @@
 	import { hoverZoom } from '$lib/actions/hoverZoom';
 	import { parallax } from '$lib/actions/parallax';
 	import SeoHead from '$lib/components/layout/SeoHead.svelte';
+	import CapabilityStatementLink from '$lib/components/common/CapabilityStatementLink.svelte';
 	import SectionRenderer from '$lib/components/sections/SectionRenderer.svelte';
 	import type { PageProps } from './$types';
 
@@ -25,6 +26,10 @@
 	<p use:reveal={{ kind: 'up', delay: 0.25 }} class="lede">
 		{heroSubheading}
 	</p>
+	<div use:reveal={{ kind: 'up', delay: 0.35 }} class="hero-actions">
+		<a href="/contact" class="hero-primary">Discuss Your Project →</a>
+		<CapabilityStatementLink />
+	</div>
 </section>
 
 <SectionRenderer {sections} slot="after-hero" />
@@ -80,10 +85,37 @@
 		Planning, mobilisation, inspection, engineering coordination, logistics and materials management
 		bring the right people and equipment together for shutdown, maintenance and project work.
 	</p>
-	<a use:magnetic data-cursor-view href="/contact" class="band-cta">Discuss a project →</a>
+	<div class="band-actions">
+		<a use:magnetic data-cursor-view href="/contact" class="band-cta">Discuss your project →</a>
+		<CapabilityStatementLink />
+	</div>
 </section>
 
 <style>
+	.hero-actions,
+	.band-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 16px 24px;
+		margin-top: 28px;
+	}
+
+	.hero-primary {
+		display: inline-block;
+		background: var(--accent);
+		color: var(--paper);
+		padding: 18px 26px;
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.hero-primary:hover {
+		background: var(--ink);
+	}
+
 	.accent {
 		color: var(--accent);
 	}

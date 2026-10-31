@@ -66,8 +66,8 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 
 	function adjacentOrFallback(a: ApiAdjacent | null) {
 		return a
-			? { href: `/projects/${a.slug}`, name: a.name, src: a.heroUrl ?? '', alt: a.heroAlt ?? '' }
-			: { href: '/projects', name: 'All projects', src: '', alt: '' };
+			? { href: `/work-scopes/${a.slug}`, name: a.name, src: a.heroUrl ?? '', alt: a.heroAlt ?? '' }
+			: { href: '/work-scopes', name: 'All work scopes', src: '', alt: '' };
 	}
 
 	return {

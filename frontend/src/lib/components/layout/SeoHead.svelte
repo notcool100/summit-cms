@@ -13,6 +13,10 @@
 	let { title, description, image, type = 'website', noindex = false }: Props = $props();
 
 	let canonical = $derived(`${site.url}${page.url.pathname}`);
+	// Staging/preview hosts are never indexable, whatever the page asks for.
+	let stagingHost = $derived(
+		new URL(site.url).host.replace(/^www\./, '') !== page.url.host.replace(/^www\./, '')
+	);
 	let absoluteImage = $derived(
 		image ? (image.startsWith('http') ? image : `${site.url}${image}`) : undefined
 	);
@@ -22,7 +26,7 @@
 	<title>{title}</title>
 	<meta name="description" content={description} />
 	<link rel="canonical" href={canonical} />
-	<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+	<meta name="robots" content={noindex || stagingHost ? 'noindex, nofollow' : 'index, follow'} />
 
 	<meta property="og:type" content={type} />
 	<meta property="og:site_name" content={site.name} />

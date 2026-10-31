@@ -10,7 +10,7 @@
 	import type { IndustryFilter } from '$lib/types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, filters, projects, sections } = data;
+	const { heroHeading, heroSubheading, filters, projects, sections } = data;
 
 	let activeFilter = $state<IndustryFilter>('All');
 	let visible = $state(true);
@@ -43,10 +43,13 @@
 <!-- ============ HERO ============ -->
 <section class="hero">
 	<div class="hero-watermark" aria-hidden="true">03</div>
-	<HeroIndex idx="03" label="Projects" />
+	<HeroIndex idx="03" label="Typical Work Scopes" />
 	<h1>
 		<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{heroHeading}</span></span>
 	</h1>
+	{#if heroSubheading}
+		<p use:reveal={{ kind: 'up', delay: 0.2 }} class="hero-sub">{heroSubheading}</p>
+	{/if}
 </section>
 
 {#if projects.length > 0}
@@ -58,7 +61,7 @@
 				<span class="underline" class:active={label === activeFilter}></span>
 			</button>
 		{/each}
-		<div class="filter-count">{count} PROJECTS</div>
+		<div class="filter-count">{count} {shown.length === 1 ? 'WORK SCOPE' : 'WORK SCOPES'}</div>
 	</div>
 
 	<!-- ============ GRID ============ -->
@@ -105,6 +108,15 @@
 <SectionRenderer {sections} slot={sectionSlot} />
 
 <style>
+	.hero-sub {
+		position: relative;
+		max-width: 62ch;
+		margin: 24px 0 0;
+		font-size: clamp(15px, 1.2vw, 18px);
+		line-height: 1.6;
+		color: rgba(var(--ink-rgb), 0.75);
+	}
+
 	.accent {
 		color: var(--accent);
 	}

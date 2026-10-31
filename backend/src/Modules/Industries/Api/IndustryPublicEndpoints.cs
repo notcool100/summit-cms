@@ -38,7 +38,7 @@ public static class IndustryPublicEndpoints
                     .Select(l =>
                     {
                         var p = projectMap[l.ProjectId];
-                        return new PublicLink(l.CustomLabel ?? p.Name, l.CustomStat ?? p.Stat, $"/projects/{p.Slug}");
+                        return new PublicLink(l.CustomLabel ?? p.Name, l.CustomStat ?? p.Stat, $"/work-scopes/{p.Slug}");
                     })
                     .ToList()));
 

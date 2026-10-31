@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SummitCms.Modules.Contact.Api;
+using SummitCms.Modules.Contact.Application;
 using SummitCms.Modules.Contact.Infrastructure;
 using SummitCms.Shared.Infrastructure.Persistence;
 
@@ -12,6 +13,8 @@ public static class ContactModule
     public static IServiceCollection AddContactModule(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddModuleDbContext<ContactDbContext>(configuration, ContactDbContext.Schema);
+        services.Configure<EnquiryEmailOptions>(configuration.GetSection(EnquiryEmailOptions.Section));
+        services.AddScoped<IEnquiryNotifier, SmtpEnquiryNotifier>();
         return services;
     }
 

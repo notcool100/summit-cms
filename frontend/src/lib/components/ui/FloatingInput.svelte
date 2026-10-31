@@ -5,28 +5,44 @@
 		name?: string;
 		value?: string;
 		required?: boolean;
+		autocomplete?: HTMLInputElement['autocomplete'];
+		maxlength?: number;
 	}
 
-	let { label, type = 'text', name, value = $bindable(''), required = false }: Props = $props();
+	let {
+		label,
+		type = 'text',
+		name,
+		value = $bindable(''),
+		required = false,
+		autocomplete,
+		maxlength
+	}: Props = $props();
 	let focused = $state(false);
 	let floated = $derived(focused || value.length > 0);
 </script>
 
-<div class="field">
-	<span class="label" class:floated>{label}{#if required}<span class="req" aria-hidden="true"> *</span>{/if}</span>
+<!-- A <label> wrapper gives the input its accessible name and makes the whole field clickable. -->
+<label class="field">
+	<span class="label" class:floated
+		>{label}{#if required}<span class="req" aria-hidden="true"> *</span>{/if}</span
+	>
 	<input
 		{type}
 		{name}
 		{required}
+		{autocomplete}
+		{maxlength}
 		bind:value
 		onfocus={() => (focused = true)}
 		onblur={() => (focused = false)}
 	/>
 	<span class="line" class:active={focused}></span>
-</div>
+</label>
 
 <style>
 	.field {
+		display: block;
 		position: relative;
 		padding-top: 20px;
 	}

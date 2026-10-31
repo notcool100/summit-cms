@@ -178,7 +178,7 @@
 				placeholder="project-name"
 				required
 			/>
-			<span class="adm-hint">/projects/{newSlug || 'project-name'}</span>
+			<span class="adm-hint">/work-scopes/{newSlug || 'project-name'}</span>
 		</div>
 		<div class="adm-form-grid">
 			<div class="adm-field">

@@ -9,13 +9,34 @@ namespace SummitCms.Modules.Contact.Application;
 public sealed record CreateSubmissionCommand(string Name, string Email, string? Phone, string? Company, Guid EnquiryTypeId, string Message)
     : IRequest<Result<Guid>>;
 
-public sealed class CreateSubmissionCommandHandler(ContactDbContext db, IEnquiryTypeCatalog enquiryTypes)
+public sealed class CreateSubmissionCommandHandler(ContactDbContext db, IEnquiryTypeCatalog enquiryTypes, IEnquiryNotifier notifier)
     : IRequestHandler<CreateSubmissionCommand, Result<Guid>>
 {
+    // Generous enough for real enquiries, small enough to stop someone pasting a novel or a payload.
+    private const int MaxName = 120, MaxEmail = 254, MaxPhone = 40, MaxCompany = 160, MaxMessage = 5000;
+
+    private static readonly System.Text.RegularExpressions.Regex EmailPattern =
+        new(@"^[^\s@]+@[^\s@]+\.[^\s@]+$", System.Text.RegularExpressions.RegexOptions.Compiled);
+    private static readonly System.Text.RegularExpressions.Regex PhonePattern =
+        new(@"^[0-9+()\-\s]{6,40}$", System.Text.RegularExpressions.RegexOptions.Compiled);
+
     public async Task<Result<Guid>> Handle(CreateSubmissionCommand request, CancellationToken ct)
     {
-        if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Phone))
-            return Result.Failure<Guid>("Name, email, and phone are required.", "validation");
+        var name = request.Name?.Trim() ?? string.Empty;
+        var email = request.Email?.Trim() ?? string.Empty;
+        var phone = request.Phone?.Trim() ?? string.Empty;
+        var company = string.IsNullOrWhiteSpace(request.Company) ? null : request.Company.Trim();
+        var message = request.Message?.Trim() ?? string.Empty;
+
+        if (name.Length == 0 || email.Length == 0 || phone.Length == 0 || message.Length == 0)
+            return Result.Failure<Guid>("Name, email, phone and message are required.", "validation");
+        if (name.Length > MaxName || email.Length > MaxEmail || phone.Length > MaxPhone
+            || (company?.Length ?? 0) > MaxCompany || message.Length > MaxMessage)
+            return Result.Failure<Guid>("One or more fields are too long.", "validation");
+        if (!EmailPattern.IsMatch(email))
+            return Result.Failure<Guid>("Please enter a valid email address.", "validation");
+        if (!PhonePattern.IsMatch(phone))
+            return Result.Failure<Guid>("Please enter a valid phone number.", "validation");
 
         var enquiryType = await enquiryTypes.GetAsync(request.EnquiryTypeId, ct);
         if (enquiryType is null)
@@ -23,15 +44,20 @@ public sealed class CreateSubmissionCommandHandler(ContactDbContext db, IEnquiry
 
         var submission = new Domain.ContactSubmission
         {
-            Name = request.Name.Trim(),
-            Email = request.Email.Trim().ToLowerInvariant(),
-            Phone = request.Phone.Trim(),
-            Company = request.Company?.Trim(),
+            Name = name,
+            Email = email.ToLowerInvariant(),
+            Phone = phone,
+            Company = company,
             EnquiryTypeId = request.EnquiryTypeId,
-            Message = request.Message.Trim()
+            Message = message
         };
         db.Submissions.Add(submission);
         await db.SaveChangesAsync(ct);
+
+        // The enquiry is already safely stored; email is a best-effort alert on top, so a mail outage
+        // never loses a lead (it still shows in the admin Enquiries inbox).
+        await notifier.NotifyAsync(submission, enquiryType.Label, ct);
+
         return Result.Success(submission.Id);
     }
 }

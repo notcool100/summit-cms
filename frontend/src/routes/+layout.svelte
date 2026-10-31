@@ -30,7 +30,10 @@
 			: {}),
 		// Single-HQ contractor delivering projects across the state, not a fixed-radius local service
 		// business - areaServed is the schema-correct fit here, not location pages or a service radius.
-		areaServed: { '@type': 'State', name: 'Western Australia' }
+		logo: `${site.url}/summit-logo.png`,
+		image: `${site.url}/summit-logo.png`,
+		taxID: `ABN ${site.abn}`,
+		areaServed: { '@type': 'AdministrativeArea', name: 'Greater Pilbara, Western Australia' }
 	});
 </script>
 
@@ -39,8 +42,8 @@
 	     duplicate <title> tags (last one wins), but NOT duplicate <meta> tags - a second
 	     name="description" here would sit alongside, not replace, each page's SeoHead description,
 	     and most crawlers read whichever occurs first in the HTML. Don't add one here. -->
-	<title>{companyName} | Built at Industrial Scale</title>
-	<meta name="theme-color" content="#0b0b0c" />
+	<title>{companyName} | Scaffolding, Access &amp; Rigging, Karratha WA</title>
+	<meta name="theme-color" content="#d7262f" />
 </svelte:head>
 
 <JsonLd data={organizationSchema} />

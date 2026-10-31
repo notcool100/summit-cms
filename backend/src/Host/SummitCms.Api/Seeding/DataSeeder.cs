@@ -49,6 +49,7 @@ public static partial class DataSeeder
         await SeedMetricStatsAsync(sp, pageIds);
         await SeedVerifiedInsightsAsync(sp, mediaMap);
         await RetireUnverifiedBlogSamplesAsync(sp);
+        await ApplyClientReview2026Async(sp, mediaMap);
     }
 
     private static async Task SeedIdentityAsync(IServiceProvider sp, IConfiguration config)
