@@ -1,0 +1,70 @@
+# Production stack for Coolify (Build Pack: Docker Compose).
+#
+# - Only the frontend gets a public domain. In Coolify, set its domain as
+#   https://www.summit-is.com.au:3000  (the ":3000" tells the proxy which container port to use).
+# - The backend stays on the private network; the frontend reaches it at http://backend:8080, which
+#   also keeps the visitor's real IP intact for the contact-form rate limit.
+# - Variables written as ${NAME} show up in Coolify's Environment Variables tab. ":?" marks required.
+#
+# Note: the Dockerfile in the repository root is a legacy static build and is not used here.
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Default: ${DB_CONNECTION_STRING:?Postgres connection string required}
+      Jwt__SigningKey: ${JWT_SIGNING_KEY:?Random secret of 48+ characters required}
+      Seed__AdminEmail: ${SEED_ADMIN_EMAIL:-}
+      Seed__AdminPassword: ${SEED_ADMIN_PASSWORD:-}
+      Email__NotifyTo: ${EMAIL_NOTIFY_TO:-support@summit-is.com.au}
+      Email__From: ${EMAIL_FROM:-}
+      Email__FromName: ${EMAIL_FROM_NAME:-Summit Industrial Services Website}
+      Email__Smtp__Host: ${SMTP_HOST:-}
+      Email__Smtp__Port: ${SMTP_PORT:-587}
+      Email__Smtp__EnableSsl: ${SMTP_ENABLE_SSL:-true}
+      Email__Smtp__Username: ${SMTP_USER:-}
+      Email__Smtp__Password: ${SMTP_PASSWORD:-}
+    volumes:
+      # Admin-uploaded media. A named volume (not a bind mount) so the non-root app user can write
+      # to it, and so uploads survive redeploys.
+      - summit-uploads:/app/App_Data/uploads
+    expose:
+      - '8080'
+    healthcheck:
+      test: ['CMD', 'curl', '-fsS', 'http://localhost:8080/health']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      # First start applies database migrations and seeds content.
+      start_period: 90s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      PUBLIC_API_BASE_URL: http://backend:8080
+      PUBLIC_SITE_URL: ${SITE_URL:-https://www.summit-is.com.au}
+      # Required behind a proxy: SvelteKit rejects form posts (contact form, admin) without it.
+      ORIGIN: ${SITE_URL:-https://www.summit-is.com.au}
+      ADDRESS_HEADER: X-Forwarded-For
+      XFF_DEPTH: '1'
+    expose:
+      - '3000'
+    healthcheck:
+      test: ['CMD', 'curl', '-fsS', 'http://localhost:3000/health']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  summit-uploads:
