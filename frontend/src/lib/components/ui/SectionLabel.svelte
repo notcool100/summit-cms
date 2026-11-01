@@ -14,7 +14,7 @@
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.28em;
-		color: rgba(var(--ink-rgb), 0.4);
+		color: rgba(var(--ink-rgb), max(0.4, var(--muted-a)));
 		text-transform: uppercase;
 	}
 </style>

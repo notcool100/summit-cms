@@ -38,7 +38,7 @@
 		font-size: 10px;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.45);
+		color: rgba(var(--ink-rgb), max(0.45, var(--muted-a)));
 		margin-bottom: 8px;
 	}
 

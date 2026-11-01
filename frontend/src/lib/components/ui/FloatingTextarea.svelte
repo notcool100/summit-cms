@@ -37,7 +37,7 @@
 
 <style>
 	.req {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.field {
@@ -51,7 +51,7 @@
 		left: 0;
 		top: 26px;
 		font-size: 14px;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 		pointer-events: none;
 		transform-origin: left top;
 		transition:
@@ -64,7 +64,7 @@
 	}
 
 	.field:focus-within .label {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	textarea {

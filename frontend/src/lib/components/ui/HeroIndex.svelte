@@ -33,6 +33,6 @@
 		font-weight: 600;
 		letter-spacing: 0.28em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 	}
 </style>

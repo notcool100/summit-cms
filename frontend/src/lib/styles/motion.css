@@ -72,6 +72,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* Decorative loops (hero zoom, pulsing lines, marquees) stop on their final frame.
+	   !important also beats the inline `style="animation: …"` used on the home hero. */
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+	}
+
 	.reveal {
 		transition: none !important;
 		opacity: 1 !important;

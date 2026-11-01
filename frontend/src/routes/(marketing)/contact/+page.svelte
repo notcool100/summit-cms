@@ -40,6 +40,8 @@
 	let enquiryType = $state('');
 	let message = $state('');
 	let submitting = $state(false);
+	// Shown when the request never reaches the server (dropped connection, timeout).
+	let networkError = $state('');
 
 	const faqs = $derived(
 		(data.sections.find((x) => x.layout === 'faq')?.items ?? []).map((i) => ({
@@ -124,8 +126,16 @@
 				method="POST"
 				use:enhance={() => {
 					submitting = true;
-					return async ({ update }) => {
-						await update();
+					networkError = '';
+					return async ({ result, update }) => {
+						if (result.type === 'error') {
+							// Keep the visitor on the form with their text intact instead of
+							// replacing the page with the error screen.
+							networkError =
+								'Your enquiry could not be sent. Please check your connection and try again, or call 0401 174 989.';
+						} else {
+							await update();
+						}
 						submitting = false;
 					};
 				}}
@@ -210,6 +220,8 @@
 							<span class="sent-note"
 								>Thanks, your enquiry has been received. We'll be in touch soon.</span
 							>
+						{:else if networkError}
+							<span class="sent-note error" role="alert">{networkError}</span>
 						{:else if form?.error}
 							<span class="sent-note error" role="alert">{form.error}</span>
 						{/if}
@@ -263,11 +275,13 @@
 		margin: 4px 0 0;
 		font-size: 13px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.65);
+		color: rgba(var(--ink-rgb), max(0.65, var(--muted-a)));
 	}
 
 	.privacy-note a,
 	.details a {
+		display: inline-block;
+		padding-block: 5px;
 		color: inherit;
 		text-decoration: underline;
 		text-underline-offset: 3px;
@@ -284,7 +298,7 @@
 	}
 
 	.accent {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.contact {
@@ -311,7 +325,7 @@
 		gap: 22px;
 		font-size: 14px;
 		line-height: 1.8;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 		max-width: 40ch;
 	}
 
@@ -319,7 +333,7 @@
 		font-size: 11px;
 		font-weight: 700;
 		letter-spacing: 0.24em;
-		color: var(--accent);
+		color: var(--accent-text);
 		text-transform: uppercase;
 		margin-bottom: 6px;
 	}
@@ -340,13 +354,15 @@
 
 	.map-directions {
 		display: inline-block;
+		padding-block: 6px;
+		min-height: 24px;
 		margin-top: 16px;
 		font-size: 11px;
 		font-weight: 700;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
 		text-decoration: none;
-		color: var(--accent);
+		color: var(--accent-text);
 		border-bottom: 1px solid rgba(var(--accent-rgb), 0.4);
 		padding-bottom: 4px;
 		transition: border-color 0.3s;
@@ -366,7 +382,7 @@
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.28em;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 		text-transform: uppercase;
 		margin-bottom: 36px;
 	}
@@ -392,7 +408,7 @@
 	.submit-btn {
 		background: var(--accent);
 		border: none;
-		color: var(--paper);
+		color: var(--on-accent);
 		padding: 18px 40px;
 		font-size: 12px;
 		font-weight: 700;
@@ -408,7 +424,7 @@
 
 	.sent-note {
 		font-size: 13px;
-		color: var(--accent);
+		color: var(--accent-text);
 		letter-spacing: 0.06em;
 	}
 
@@ -468,7 +484,7 @@
 		flex: none;
 		font-family: var(--font-display);
 		font-size: 22px;
-		color: var(--accent);
+		color: var(--accent-text);
 		transition: transform 0.3s var(--ease);
 	}
 
@@ -481,7 +497,7 @@
 		max-width: 60ch;
 		font-size: 14.5px;
 		line-height: 1.75;
-		color: rgba(var(--ink-rgb), 0.72);
+		color: rgba(var(--ink-rgb), max(0.72, var(--muted-a)));
 	}
 
 	@media (max-width: 900px) {

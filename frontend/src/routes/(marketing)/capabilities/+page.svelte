@@ -87,7 +87,7 @@
 	</p>
 	<div class="band-actions">
 		<a use:magnetic data-cursor-view href="/contact" class="band-cta">Discuss your project →</a>
-		<CapabilityStatementLink />
+		<CapabilityStatementLink onAccent />
 	</div>
 </section>
 
@@ -104,7 +104,7 @@
 	.hero-primary {
 		display: inline-block;
 		background: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 		padding: 18px 26px;
 		font-size: 12px;
 		font-weight: 700;
@@ -117,7 +117,7 @@
 	}
 
 	.accent {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	/* Hero */
@@ -159,7 +159,7 @@
 		max-width: 56ch;
 		font-size: clamp(15px, 1.25vw, 19px);
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 	}
 
 	/* Stacked panels. The wrapper bounds the sticky effect so the last panel un-pins once the stack ends. */
@@ -229,7 +229,7 @@
 		font-size: 13px;
 		font-weight: 600;
 		letter-spacing: 0.22em;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.panel-rule {
@@ -251,7 +251,7 @@
 		margin: 0 0 30px;
 		font-size: 15px;
 		line-height: 1.75;
-		color: rgba(var(--ink-rgb), 0.72);
+		color: rgba(var(--ink-rgb), max(0.72, var(--muted-a)));
 		max-width: 50ch;
 	}
 
@@ -267,14 +267,14 @@
 		font-family: var(--font-display);
 		font-size: clamp(28px, 2.6vw, 42px);
 		line-height: 1;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.panel-stat-label {
 		font-size: 11px;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 	}
 
 	.panel-figure {
@@ -306,7 +306,7 @@
 		bottom: 14px;
 		font-size: 10px;
 		letter-spacing: 0.2em;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 		border: 1px dashed rgba(var(--ink-rgb), 0.3);
 		padding: 6px 10px;
 		pointer-events: none;
@@ -317,7 +317,7 @@
 		position: relative;
 		z-index: 5;
 		background: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 		padding: clamp(80px, 12vh, 160px) clamp(20px, 4vw, 64px);
 		text-align: center;
 	}

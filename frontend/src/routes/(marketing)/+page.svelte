@@ -50,7 +50,7 @@
 	}
 </script>
 
-<SeoHead title={data.seoTitle} description={data.seoDescription} image={heroImage.src} />
+<SeoHead title={data.seoTitle} description={data.seoDescription} />
 
 <!-- ============ HERO ============ -->
 <section class="hero">
@@ -434,7 +434,7 @@
 
 <style>
 	.accent {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	/* Hero */
@@ -516,7 +516,7 @@
 		font-weight: 600;
 		letter-spacing: 0.28em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 	}
 
 	.hero h1 {
@@ -555,7 +555,7 @@
 		background: var(--accent);
 		border: 1px solid var(--accent);
 		padding: 16px 28px;
-		color: var(--paper);
+		color: var(--on-accent);
 	}
 
 	.btn--primary:hover {
@@ -569,7 +569,7 @@
 		max-width: 62ch;
 		font-size: 14px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 	}
 
 	.scroll-hint {
@@ -583,7 +583,7 @@
 		font-size: 11px;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 	}
 
 	.scroll-line {
@@ -617,12 +617,12 @@
 	.btn--outline:hover {
 		background: var(--accent);
 		border-color: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 	}
 
 	.btn--solid {
 		background: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 		padding: 20px 44px;
 	}
 
@@ -653,7 +653,7 @@
 		font-weight: 600;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 		margin-bottom: 14px;
 	}
 
@@ -665,7 +665,7 @@
 
 	.stat-note {
 		font-size: 13px;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		margin-top: 10px;
 	}
 
@@ -678,7 +678,7 @@
 	.manifesto-para {
 		font-size: 15px;
 		line-height: 1.8;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 		margin: 18px 0 0;
 		max-width: 56ch;
 	}
@@ -687,7 +687,7 @@
 		font-size: 12px;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 		margin-top: 28px;
 	}
 
@@ -712,7 +712,7 @@
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.2em;
-		color: var(--accent);
+		color: var(--accent-text);
 		padding-top: 3px;
 	}
 
@@ -728,7 +728,7 @@
 		margin: 8px 0 0;
 		font-size: 13.5px;
 		line-height: 1.65;
-		color: rgba(var(--ink-rgb), 0.62);
+		color: rgba(var(--ink-rgb), max(0.62, var(--muted-a)));
 	}
 
 	@media (max-width: 560px) {
@@ -762,7 +762,7 @@
 		font-weight: 400;
 		line-height: 1.7;
 		text-transform: none;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 		max-width: 52ch;
 		margin: 24px 0 0;
 	}
@@ -792,7 +792,7 @@
 		top: 14px;
 		font-size: 10px;
 		letter-spacing: 0.2em;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 		border: 1px dashed rgba(var(--ink-rgb), 0.3);
 		padding: 6px 10px;
 		pointer-events: none;
@@ -816,11 +816,13 @@
 	}
 
 	.link-accent {
+		display: inline-block;
+		padding-block: 6px;
 		font-size: 12px;
 		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.teaser-preview {
@@ -872,7 +874,7 @@
 		position: absolute;
 		right: 12px;
 		top: 12px;
-		color: var(--accent);
+		color: var(--accent-text);
 		font-size: 11px;
 		letter-spacing: 0.2em;
 	}
@@ -893,7 +895,7 @@
 
 	.teaser-row:hover {
 		background: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 	}
 
 	.teaser-idx {
@@ -967,7 +969,7 @@
 		font-size: 12px;
 		font-weight: 700;
 		letter-spacing: 0.2em;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.industry-feature-copy {
@@ -984,7 +986,7 @@
 
 	.industry-tag {
 		font-size: 13px;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		letter-spacing: 0.04em;
 		margin-top: 8px;
 	}
@@ -992,7 +994,7 @@
 	.industry-lede {
 		font-size: 15px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 		margin-top: 12px;
 		max-width: 46ch;
 	}
@@ -1044,7 +1046,7 @@
 
 	.industry-card-tag {
 		font-size: 11px;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 	}
 
 	@media (max-width: 900px) {
@@ -1104,7 +1106,7 @@
 		font-family: var(--font-display);
 		font-size: 32px;
 		color: transparent;
-		-webkit-text-stroke: 1px rgba(var(--ink-rgb), 0.4);
+		-webkit-text-stroke: 1px rgba(var(--ink-rgb), var(--muted-a));
 		line-height: 1;
 	}
 
@@ -1119,7 +1121,7 @@
 	.value-row p {
 		font-size: 14px;
 		line-height: 1.65;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 		max-width: 46ch;
 	}
 
@@ -1145,7 +1147,7 @@
 
 	.recognition-stat-label {
 		font-size: 12px;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		margin-top: 8px;
 	}
 
@@ -1154,7 +1156,7 @@
 		font-weight: 700;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.4);
+		color: rgba(var(--ink-rgb), max(0.4, var(--muted-a)));
 		margin-bottom: 16px;
 	}
 
@@ -1176,7 +1178,7 @@
 		font-size: 11px;
 		font-weight: 700;
 		letter-spacing: 0.1em;
-		color: var(--accent);
+		color: var(--accent-text);
 		flex: none;
 	}
 
@@ -1255,7 +1257,7 @@
 		font-weight: 700;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: var(--paper);
+		color: var(--on-accent);
 		background: var(--accent);
 		padding: 5px 10px;
 		pointer-events: none;
@@ -1279,7 +1281,7 @@
 
 	.project-stat {
 		font-size: 12px;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		letter-spacing: 0.08em;
 		white-space: nowrap;
 	}
@@ -1300,7 +1302,7 @@
 
 	.project-more:hover {
 		border-color: var(--accent);
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	/* Safety marquee */
@@ -1333,15 +1335,17 @@
 		font-size: 12px;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 	}
 
 	.safety-facts a {
-		color: rgba(var(--ink-rgb), 0.5);
+		display: inline-block;
+		padding-block: 5px;
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 	}
 
 	.dot {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	/* Client voice */
@@ -1409,7 +1413,7 @@
 	.testimonial-project {
 		font-size: 12px;
 		letter-spacing: 0.08em;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.testimonial-dots {
@@ -1481,7 +1485,7 @@
 		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--paper);
+		color: var(--on-accent);
 		background: var(--accent);
 		padding: 4px 9px;
 		pointer-events: none;
@@ -1504,7 +1508,7 @@
 		margin-top: 8px;
 		font-size: 13px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 	}
 
 	@media (max-width: 900px) {

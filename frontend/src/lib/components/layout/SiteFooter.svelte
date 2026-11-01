@@ -17,7 +17,7 @@
 <footer>
 	<div class="grid stack-mobile">
 		<div>
-			<img class="logo" src="/summit-logo.png" alt={companyName} />
+			<img class="logo" src="/summit-logo.png" alt={companyName} loading="lazy" decoding="async" />
 			<p class="tagline">{site.tagline}</p>
 			<div class="address">
 				{#if companyAddress}
@@ -97,7 +97,7 @@
 		margin: 16px 0 0;
 		font-size: 14px;
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 		max-width: 34ch;
 	}
 
@@ -105,10 +105,12 @@
 		margin-top: 24px;
 		font-size: 13px;
 		line-height: 1.9;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 	}
 
 	.address a {
+		display: inline-block;
+		min-height: 24px;
 		color: var(--ink);
 	}
 
@@ -124,13 +126,13 @@
 		font-size: 11px;
 		font-weight: 700;
 		letter-spacing: 0.24em;
-		color: var(--accent);
+		color: var(--accent-text);
 		text-transform: uppercase;
 		margin-bottom: 6px;
 	}
 
 	.muted {
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		font-size: 12px;
 		letter-spacing: 0.04em;
 	}
@@ -138,10 +140,12 @@
 	.col a {
 		overflow-wrap: anywhere;
 		line-height: 1.5;
+		/* WCAG 2.5.8: at least 24px tall touch targets. */
+		padding-block: 3px;
 	}
 
 	.download {
-		color: var(--accent);
+		color: var(--accent-text);
 		font-weight: 600;
 	}
 
@@ -155,7 +159,7 @@
 		font-size: 11px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.4);
+		color: rgba(var(--ink-rgb), max(0.4, var(--muted-a)));
 	}
 
 	.social {
@@ -165,11 +169,13 @@
 	}
 
 	.social a {
-		color: rgba(var(--ink-rgb), 0.4);
+		display: inline-block;
+		padding-block: 6px;
+		color: rgba(var(--ink-rgb), max(0.4, var(--muted-a)));
 	}
 
 	.social a.top {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.watermark {

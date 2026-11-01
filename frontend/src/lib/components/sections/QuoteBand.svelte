@@ -42,6 +42,6 @@
 		font-size: 12px;
 		letter-spacing: 0.28em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 </style>

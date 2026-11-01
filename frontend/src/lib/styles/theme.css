@@ -3,6 +3,10 @@
    custom properties so no component needs theme-aware logic of its own. */
 
 :root {
+	/* Lowest ink opacity / red that still meets WCAG AA (4.5:1) on this theme's paper and panel. */
+	--muted-a: 0.64;
+	--accent-text: #c5232b;
+	--on-accent: #ffffff;
 	/* Fixed site header's height (bar + 1px border), sticky bars dock under it. */
 	--header-h: calc(clamp(60px, 8vw, 72px) + 1px);
 	--paper: #f5f3ee;
@@ -22,6 +26,8 @@
 }
 
 :root[data-theme='dark'] {
+	--muted-a: 0.6;
+	--accent-text: #e04f56;
 	--paper: #0f1113;
 	--paper-rgb: 15, 17, 19;
 	--ink: #f5f3ee;
@@ -30,6 +36,8 @@
 }
 
 :root[data-theme='blueprint'] {
+	--muted-a: 0.62;
+	--accent-text: #e56b71;
 	--paper: #0b1e33;
 	--paper-rgb: 11, 30, 51;
 	--ink: #e8eef5;
@@ -38,6 +46,8 @@
 }
 
 :root[data-theme='concrete'] {
+	--muted-a: 0.8;
+	--accent-text: #9c1b22;
 	--paper: #d8d5ce;
 	--paper-rgb: 216, 213, 206;
 	--ink: #2b2926;
@@ -46,6 +56,8 @@
 }
 
 :root[data-theme='safety'] {
+	--muted-a: 0.6;
+	--accent-text: #d0252e;
 	--paper: #ffffff;
 	--paper-rgb: 255, 255, 255;
 	--ink: #000000;
@@ -54,6 +66,8 @@
 }
 
 :root[data-theme='steel'] {
+	--muted-a: 0.8;
+	--accent-text: #f0abae;
 	--paper: #3a3f44;
 	--paper-rgb: 58, 63, 68;
 	--ink: #e4e7ea;

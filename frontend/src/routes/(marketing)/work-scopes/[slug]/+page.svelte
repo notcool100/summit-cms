@@ -149,7 +149,7 @@
 <section class="adjacent">
 	<div class="adjacent-grid stack-mobile">
 		<a data-cursor-view use:hoverZoom href={adjacentProjects.prev.href} class="adjacent-card">
-			<div class="adjacent-label">← Previous project</div>
+			<div class="adjacent-label">← Previous work scope</div>
 			<div class="adjacent-name">{adjacentProjects.prev.name}</div>
 			<div class="adjacent-thumb hide-mobile prev-thumb">
 				<ResponsiveImage src={adjacentProjects.prev.src} alt={adjacentProjects.prev.alt} />
@@ -161,7 +161,7 @@
 			href={adjacentProjects.next.href}
 			class="adjacent-card adjacent-card--next"
 		>
-			<div class="adjacent-label">Next project →</div>
+			<div class="adjacent-label">Next work scope →</div>
 			<div class="adjacent-name">{adjacentProjects.next.name}</div>
 			<div class="adjacent-thumb hide-mobile next-thumb">
 				<ResponsiveImage src={adjacentProjects.next.src} alt={adjacentProjects.next.alt} />
@@ -182,7 +182,9 @@
 	}
 
 	.illustrative-note a {
-		color: var(--accent);
+		display: inline-block;
+		padding-block: 4px;
+		color: var(--accent-text);
 		font-weight: 600;
 		white-space: nowrap;
 	}
@@ -235,7 +237,7 @@
 		font-weight: 700;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: var(--paper);
+		color: var(--on-accent);
 		background: var(--accent);
 		padding: 5px 10px;
 	}
@@ -244,7 +246,7 @@
 		font-size: 12px;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 	}
 
 	.hero h1 {
@@ -276,7 +278,7 @@
 		font-weight: 600;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 		margin-bottom: 12px;
 	}
 
@@ -334,7 +336,7 @@
 		margin-top: 20px;
 		font-size: 15px;
 		line-height: 1.8;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 	}
 
 	/* Image break */
@@ -360,7 +362,7 @@
 		bottom: 24px;
 		font-size: 10px;
 		letter-spacing: 0.2em;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 		border: 1px dashed rgba(var(--ink-rgb), 0.35);
 		padding: 6px 10px;
 		pointer-events: none;
@@ -409,7 +411,7 @@
 		font-size: 12px;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 	}
 
 	/* Prev/next */
@@ -444,7 +446,7 @@
 		font-size: 11px;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 		margin-bottom: 14px;
 	}
 

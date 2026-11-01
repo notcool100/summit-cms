@@ -55,7 +55,7 @@
 		font-size: 13px;
 		font-weight: 700;
 		letter-spacing: 0.24em;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	h1 {
@@ -71,7 +71,7 @@
 		margin: 24px 0 0;
 		font-size: 17px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 	}
 
 	.lede a {
