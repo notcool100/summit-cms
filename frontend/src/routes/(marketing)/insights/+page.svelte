@@ -32,7 +32,9 @@
 			: 'end'
 	);
 
-	let shown = $derived(posts.filter((p) => activeCategory === 'All' || p.category === activeCategory));
+	let shown = $derived(
+		posts.filter((p) => activeCategory === 'All' || p.category === activeCategory)
+	);
 </script>
 
 <SeoHead title={data.seoTitle} description={data.seoDescription} image={featured?.src} />
@@ -53,7 +55,12 @@
 		<a data-cursor-view href="/insights/{featured.slug}" class="featured-card">
 			<div use:reveal={{ kind: 'clip' }} class="featured-frame">
 				<div use:parallax={0.08} class="featured-img">
-					<ResponsiveImage src={featured.src} alt={featured.alt} loading="eager" fetchpriority="high" />
+					<ResponsiveImage
+						src={featured.src}
+						alt={featured.alt}
+						loading="eager"
+						fetchpriority="high"
+					/>
 				</div>
 				<div class="featured-scrim" aria-hidden="true"></div>
 			</div>
@@ -76,7 +83,13 @@
 <!-- ============ FILTER BAR ============ -->
 <div class="filter-bar">
 	{#each categories as label (label)}
-		<button class="filter-btn" class:active={label === activeCategory} onclick={() => pick(label)}>
+		<button
+			type="button"
+			class="filter-btn"
+			class:active={label === activeCategory}
+			aria-pressed={label === activeCategory}
+			onclick={() => pick(label)}
+		>
 			{label}
 			<span class="underline" class:active={label === activeCategory}></span>
 		</button>
@@ -148,7 +161,7 @@
 		max-width: 52ch;
 		font-size: clamp(15px, 1.2vw, 18px);
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 	}
 
 	/* Featured */
@@ -192,15 +205,15 @@
 		font-weight: 600;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 	}
 
 	.featured-category {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.dot {
-		color: rgba(var(--ink-rgb), 0.3);
+		color: rgba(var(--ink-rgb), max(0.3, var(--muted-a)));
 	}
 
 	.featured-title {
@@ -216,7 +229,7 @@
 		max-width: 48ch;
 		font-size: 15px;
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.72);
+		color: rgba(var(--ink-rgb), max(0.72, var(--muted-a)));
 	}
 
 	.featured-author {
@@ -264,7 +277,7 @@
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		white-space: nowrap;
-		color: rgba(var(--ink-rgb), 0.45);
+		color: rgba(var(--ink-rgb), max(0.45, var(--muted-a)));
 		transition: color 0.3s;
 	}
 
@@ -297,7 +310,7 @@
 		padding: clamp(60px, 10vh, 100px) 0;
 		text-align: center;
 		font-size: 14px;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 	}
 
 	.grid {
@@ -343,7 +356,7 @@
 		font-weight: 700;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
-		color: var(--paper);
+		color: var(--on-accent);
 		background: var(--accent);
 		padding: 5px 10px;
 		pointer-events: none;
@@ -366,7 +379,7 @@
 		margin-top: 10px;
 		font-size: 14px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.65);
+		color: rgba(var(--ink-rgb), max(0.65, var(--muted-a)));
 		max-width: 46ch;
 	}
 
@@ -376,7 +389,7 @@
 		font-size: 11px;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.45);
+		color: rgba(var(--ink-rgb), max(0.45, var(--muted-a)));
 	}
 
 	@media (max-width: 700px) {

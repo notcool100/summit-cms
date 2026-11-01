@@ -133,7 +133,7 @@
 	}
 
 	.link:hover {
-		color: var(--accent);
+		color: var(--accent-text);
 		padding-left: 18px;
 	}
 
@@ -141,7 +141,7 @@
 		font-family: var(--font-body);
 		font-size: 13px;
 		font-weight: 600;
-		color: var(--accent);
+		color: var(--accent-text);
 		letter-spacing: 0.2em;
 	}
 
@@ -153,7 +153,7 @@
 		font-size: 13px;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 	}
 
 	@media (max-width: 600px) {

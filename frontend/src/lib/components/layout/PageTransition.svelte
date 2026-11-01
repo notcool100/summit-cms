@@ -23,7 +23,8 @@
 	class:is-revealing={stage === 'revealing'}
 	aria-hidden="true"
 >
-	<span class="wordmark">SUMMIT<span class="accent">.</span></span>
+	<!-- Mirrors the approved logo lockup: full company name, red + gold (client review P1-01). -->
+	<span class="wordmark">SUMMIT<span class="wordmark-sub">INDUSTRIAL SERVICES</span></span>
 </div>
 
 <style>
@@ -50,13 +51,22 @@
 	}
 
 	.wordmark {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		font-family: var(--font-display);
 		font-size: clamp(40px, 8vw, 120px);
+		line-height: 1;
 		letter-spacing: 0.04em;
-		color: var(--paper);
+		color: var(--accent);
 	}
 
-	.accent {
-		color: var(--accent);
+	.wordmark-sub {
+		margin-top: 0.35em;
+		font-family: var(--font-body);
+		font-size: 0.17em;
+		font-weight: 700;
+		letter-spacing: 0.32em;
+		color: var(--gold);
 	}
 </style>

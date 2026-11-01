@@ -93,7 +93,7 @@
 
 <style>
 	.accent {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	/* Hero */
@@ -134,7 +134,7 @@
 		max-width: 56ch;
 		font-size: clamp(15px, 1.25vw, 19px);
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 	}
 
 	/* Panels */
@@ -162,7 +162,7 @@
 	}
 
 	.panel-toggle.is-open {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.panel-toggle:hover {
@@ -174,7 +174,7 @@
 		font-weight: 600;
 		letter-spacing: 0.2em;
 		min-width: 44px;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.panel-name {
@@ -231,7 +231,7 @@
 		margin: 0 0 28px;
 		font-size: 15px;
 		line-height: 1.8;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 		max-width: 58ch;
 	}
 
@@ -240,7 +240,7 @@
 		font-weight: 700;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 		margin-bottom: 14px;
 	}
 
@@ -271,11 +271,11 @@
 
 	.related-link:hover {
 		padding-left: 12px;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.related-stat {
-		color: rgba(var(--ink-rgb), 0.45);
+		color: rgba(var(--ink-rgb), max(0.45, var(--muted-a)));
 		font-size: 12px;
 	}
 
@@ -292,7 +292,7 @@
 		bottom: 12px;
 		font-size: 10px;
 		letter-spacing: 0.2em;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 		border: 1px dashed rgba(var(--ink-rgb), 0.3);
 		padding: 5px 9px;
 		pointer-events: none;
@@ -320,7 +320,7 @@
 	.cta-btn {
 		display: inline-block;
 		background: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 		padding: 20px 44px;
 		font-size: 13px;
 		font-weight: 700;

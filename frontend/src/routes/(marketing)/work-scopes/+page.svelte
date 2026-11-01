@@ -56,7 +56,13 @@
 	<!-- ============ FILTER BAR ============ -->
 	<div class="filter-bar">
 		{#each filters as label (label)}
-			<button class="filter-btn" class:active={label === activeFilter} onclick={() => pick(label)}>
+			<button
+				type="button"
+				class="filter-btn"
+				class:active={label === activeFilter}
+				aria-pressed={label === activeFilter}
+				onclick={() => pick(label)}
+			>
 				{label}
 				<span class="underline" class:active={label === activeFilter}></span>
 			</button>
@@ -114,11 +120,11 @@
 		margin: 24px 0 0;
 		font-size: clamp(15px, 1.2vw, 18px);
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.75);
+		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
 	}
 
 	.accent {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.empty-state {
@@ -138,7 +144,7 @@
 		max-width: 58ch;
 		margin-top: 18px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.68);
+		color: rgba(var(--ink-rgb), max(0.68, var(--muted-a)));
 	}
 
 	.empty-cta {
@@ -218,7 +224,7 @@
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		white-space: nowrap;
-		color: rgba(var(--ink-rgb), 0.45);
+		color: rgba(var(--ink-rgb), max(0.45, var(--muted-a)));
 		transition: color 0.3s;
 	}
 
@@ -247,7 +253,7 @@
 		align-self: center;
 		font-size: 11px;
 		letter-spacing: 0.2em;
-		color: rgba(var(--ink-rgb), 0.4);
+		color: rgba(var(--ink-rgb), max(0.4, var(--muted-a)));
 		white-space: nowrap;
 	}
 
@@ -333,7 +339,7 @@
 		font-weight: 700;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
-		color: var(--paper);
+		color: var(--on-accent);
 		background: var(--accent);
 		padding: 5px 10px;
 		pointer-events: none;
@@ -360,7 +366,7 @@
 
 	.stat {
 		font-size: 12px;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		letter-spacing: 0.06em;
 		white-space: nowrap;
 	}

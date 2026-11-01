@@ -115,7 +115,7 @@
 		font-weight: 700;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	p {
@@ -134,6 +134,6 @@
 	.updated {
 		margin-top: 48px;
 		font-size: 13px;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 	}
 </style>

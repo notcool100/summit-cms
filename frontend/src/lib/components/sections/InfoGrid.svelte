@@ -94,7 +94,7 @@
 	.info-intro {
 		font-size: 15px;
 		line-height: 1.75;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 		max-width: 56ch;
 	}
 
@@ -122,7 +122,7 @@
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.2em;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.info-title {
@@ -136,14 +136,14 @@
 	.info-body {
 		font-size: 13.5px;
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.62);
+		color: rgba(var(--ink-rgb), max(0.62, var(--muted-a)));
 	}
 
 	.info-note {
 		margin-top: 28px;
 		font-size: 13px;
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		max-width: 90ch;
 	}
 

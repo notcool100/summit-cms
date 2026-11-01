@@ -68,21 +68,21 @@
 		font-size: 12px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.person-cred {
 		margin-top: 10px;
 		font-size: 13px;
 		line-height: 1.5;
-		color: rgba(var(--ink-rgb), 0.55);
+		color: rgba(var(--ink-rgb), max(0.55, var(--muted-a)));
 		max-width: 34ch;
 	}
 
 	.person-bio {
 		font-size: 15px;
 		line-height: 1.75;
-		color: rgba(var(--ink-rgb), 0.72);
+		color: rgba(var(--ink-rgb), max(0.72, var(--muted-a)));
 		max-width: 64ch;
 	}
 
@@ -101,7 +101,7 @@
 		text-transform: uppercase;
 		border: 1px solid rgba(var(--ink-rgb), 0.18);
 		padding: 6px 10px;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 	}
 
 	@media (max-width: 800px) {

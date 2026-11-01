@@ -51,7 +51,7 @@ button {
 
 ::selection {
 	background: var(--accent);
-	color: var(--paper);
+	color: var(--on-accent);
 }
 
 /* Responsive helpers used across page layouts. */

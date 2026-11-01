@@ -136,7 +136,7 @@
 		align-items: center;
 		gap: 10px;
 		background: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 		font-size: 12px;
 		font-weight: 700;
 		letter-spacing: 0.14em;

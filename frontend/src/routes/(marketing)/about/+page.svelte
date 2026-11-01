@@ -240,7 +240,7 @@
 	}
 
 	.accent {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	section {
@@ -281,7 +281,7 @@
 	.sub {
 		font-size: 15px;
 		line-height: 1.75;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 	}
 
 	/* Narrative */
@@ -324,7 +324,7 @@
 		bottom: 14px;
 		font-size: 10px;
 		letter-spacing: 0.2em;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 		border: 1px dashed rgba(var(--ink-rgb), 0.3);
 		padding: 6px 10px;
 		pointer-events: none;
@@ -334,7 +334,7 @@
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.28em;
-		color: var(--accent);
+		color: var(--accent-text);
 		text-transform: uppercase;
 		margin-bottom: 18px;
 	}
@@ -350,7 +350,7 @@
 	.narrative-body {
 		font-size: 15px;
 		line-height: 1.75;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 		max-width: 52ch;
 	}
 
@@ -403,7 +403,7 @@
 	.milestone-body {
 		font-size: 14px;
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 		max-width: 38ch;
 	}
 
@@ -412,7 +412,7 @@
 		font-size: 11px;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.4);
+		color: rgba(var(--ink-rgb), max(0.4, var(--muted-a)));
 	}
 
 	/* Values */
@@ -444,7 +444,7 @@
 		font-size: 13px;
 		font-weight: 600;
 		letter-spacing: 0.2em;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.value-name {
@@ -457,7 +457,7 @@
 	.value-body {
 		font-size: 13.5px;
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 	}
 
 	/* Leadership */
@@ -472,7 +472,7 @@
 
 	.leadership-note {
 		font-size: 13px;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 	}
 
 	.leadership-grid {
@@ -511,7 +511,7 @@
 		font-size: 12px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 		margin-top: 5px;
 	}
 
@@ -568,6 +568,12 @@
 		padding-left: 20px;
 	}
 
+	/* Red text on the red-tinted row falls below 4.5:1; the inset bar already marks it. */
+	.location-row.active .location-idx,
+	.location-row:hover .location-idx {
+		color: var(--ink);
+	}
+
 	.location-left {
 		display: flex;
 		align-items: baseline;
@@ -577,7 +583,7 @@
 	.location-idx {
 		font-size: 11px;
 		letter-spacing: 0.2em;
-		color: var(--accent);
+		color: var(--accent-text);
 		min-width: 32px;
 	}
 
@@ -593,7 +599,7 @@
 		font-weight: 700;
 		letter-spacing: 0.2em;
 		background: var(--accent);
-		color: var(--paper);
+		color: var(--on-accent);
 		padding: 4px 8px;
 		text-transform: uppercase;
 	}
@@ -602,7 +608,7 @@
 		font-size: 12px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 	}
 
 	.map-frame {
@@ -635,7 +641,7 @@
 		margin: 0 0 28px;
 		font-size: 15px;
 		line-height: 1.75;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 		max-width: 52ch;
 	}
 
@@ -651,14 +657,14 @@
 	}
 
 	.hse-stats div:first-child .hse-stat-value {
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.hse-stat-label {
 		font-size: 11px;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 		margin-top: 8px;
 	}
 
@@ -666,7 +672,7 @@
 		font-size: 12px;
 		font-weight: 600;
 		letter-spacing: 0.28em;
-		color: rgba(var(--ink-rgb), 0.4);
+		color: rgba(var(--ink-rgb), max(0.4, var(--muted-a)));
 		margin-bottom: 24px;
 		text-transform: uppercase;
 	}
@@ -689,7 +695,7 @@
 	.award-year {
 		font-size: 11px;
 		letter-spacing: 0.2em;
-		color: var(--accent);
+		color: var(--accent-text);
 		margin-bottom: 8px;
 	}
 
@@ -712,7 +718,7 @@
 	.quality-body {
 		font-size: 14px;
 		line-height: 1.7;
-		color: rgba(var(--ink-rgb), 0.65);
+		color: rgba(var(--ink-rgb), max(0.65, var(--muted-a)));
 	}
 
 	@media (max-width: 900px) and (min-width: 480px) {

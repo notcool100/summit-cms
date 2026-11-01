@@ -17,9 +17,13 @@
 	let stagingHost = $derived(
 		new URL(site.url).host.replace(/^www\./, '') !== page.url.host.replace(/^www\./, '')
 	);
-	let absoluteImage = $derived(
-		image ? (image.startsWith('http') ? image : `${site.url}${image}`) : undefined
-	);
+	// Branded 1200x630 card for pages that don't supply their own image.
+	const defaultImage = '/og-default.jpg';
+	let usingDefault = $derived(!image);
+	let absoluteImage = $derived.by(() => {
+		const src = image || defaultImage;
+		return src.startsWith('http') ? src : `${site.url}${src}`;
+	});
 </script>
 
 <svelte:head>
@@ -33,14 +37,19 @@
 	<meta property="og:title" content={title} />
 	<meta property="og:description" content={description} />
 	<meta property="og:url" content={canonical} />
-	{#if absoluteImage}
-		<meta property="og:image" content={absoluteImage} />
+	<meta property="og:image" content={absoluteImage} />
+	{#if usingDefault}
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta
+			property="og:image:alt"
+			content="{site.legalName}: scaffolding, access, rigging and inspection in Karratha and the Pilbara"
+		/>
 	{/if}
 
-	<meta name="twitter:card" content={absoluteImage ? 'summary_large_image' : 'summary'} />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={title} />
 	<meta name="twitter:description" content={description} />
-	{#if absoluteImage}
-		<meta name="twitter:image" content={absoluteImage} />
-	{/if}
+	<meta name="twitter:image" content={absoluteImage} />
+	<meta property="og:locale" content="en_AU" />
 </svelte:head>

@@ -130,7 +130,7 @@
 		margin: 0;
 		font-size: 14px;
 		line-height: 1.6;
-		color: rgba(var(--ink-rgb), 0.65);
+		color: rgba(var(--ink-rgb), max(0.65, var(--muted-a)));
 	}
 
 	.service-actions {
@@ -141,6 +141,8 @@
 	}
 
 	.service-link {
+		display: inline-block;
+		padding-block: 4px;
 		font-size: 13px;
 		font-weight: 700;
 		letter-spacing: 0.08em;
@@ -151,7 +153,7 @@
 	}
 
 	.service-link--primary {
-		color: var(--accent);
+		color: var(--accent-text);
 		border-color: var(--accent);
 	}
 
@@ -207,7 +209,7 @@
 		font-weight: 700;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: var(--paper);
+		color: var(--on-accent);
 		background: var(--accent);
 		padding: 5px 10px;
 	}
@@ -216,7 +218,7 @@
 		font-size: 12px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.6);
+		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
 	}
 
 	.hero h1 {
@@ -232,11 +234,11 @@
 		font-weight: 600;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.7);
+		color: rgba(var(--ink-rgb), max(0.7, var(--muted-a)));
 	}
 
 	.byline .dot {
-		color: var(--accent);
+		color: var(--accent-text);
 		margin: 0 10px;
 	}
 
@@ -295,7 +297,7 @@
 		font-size: 11px;
 		letter-spacing: 0.24em;
 		text-transform: uppercase;
-		color: rgba(var(--ink-rgb), 0.5);
+		color: rgba(var(--ink-rgb), max(0.5, var(--muted-a)));
 		margin-bottom: 12px;
 	}
 
