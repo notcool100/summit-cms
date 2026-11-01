@@ -31,7 +31,7 @@
 		(
 			[
 				{ label: 'Site pages', value: counts.pages, href: '/admin/pages' },
-				{ label: 'Projects', value: counts.projects, href: '/admin/projects' },
+				{ label: 'Work scopes', value: counts.projects, href: '/admin/projects' },
 				{
 					label: 'Published posts',
 					value: counts.posts === null ? null : `${counts.publishedPosts} / ${counts.posts}`,
@@ -78,7 +78,11 @@
 		let offset = 0;
 		return nonEmpty.map((s) => {
 			const pct = (s.value / statusTotal) * 100;
-			const arc = { color: s.color, dash: `${Math.max(pct - gap, 0.01)} ${100 - Math.max(pct - gap, 0.01)}`, offset: -offset };
+			const arc = {
+				color: s.color,
+				dash: `${Math.max(pct - gap, 0.01)} ${100 - Math.max(pct - gap, 0.01)}`,
+				offset: -offset
+			};
 			offset += pct;
 			return arc;
 		});
@@ -88,7 +92,14 @@
 	// ---------- Enquiry types ----------
 	const typeMax = $derived(Math.max(1, ...(leadsByType ?? []).map((t) => t.count)));
 	const typeTotal = $derived((leadsByType ?? []).reduce((sum, t) => sum + t.count, 0));
-	const typeColors = ['--adm-chart-1', '--adm-chart-2', '--adm-chart-3', '--adm-chart-4', '--adm-chart-5', '--adm-chart-6'];
+	const typeColors = [
+		'--adm-chart-1',
+		'--adm-chart-2',
+		'--adm-chart-3',
+		'--adm-chart-4',
+		'--adm-chart-5',
+		'--adm-chart-6'
+	];
 
 	// ---------- Activity ----------
 	function actionColor(action: string) {
@@ -154,8 +165,15 @@
 					{/each}
 					<div class="bar-cols">
 						{#each leadTrend as day, i (day.date)}
-							<div class="bar-col" title="{dayLabel(day.date)}: {day.count} lead{day.count === 1 ? '' : 's'}">
-								<div class="bar" class:today={i === leadTrend.length - 1} style:height="{(day.count / trendMax) * 100}%">
+							<div
+								class="bar-col"
+								title="{dayLabel(day.date)}: {day.count} lead{day.count === 1 ? '' : 's'}"
+							>
+								<div
+									class="bar"
+									class:today={i === leadTrend.length - 1}
+									style:height="{(day.count / trendMax) * 100}%"
+								>
 									{#if day.count > 0}<span class="bar-value">{day.count}</span>{/if}
 								</div>
 							</div>
@@ -179,7 +197,14 @@
 			<div class="donut-wrap">
 				<svg class="donut" viewBox="0 0 42 42" role="img" aria-label="Lead status breakdown">
 					{#if statusTotal === 0}
-						<circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--adm-border)" stroke-width="5" />
+						<circle
+							cx="21"
+							cy="21"
+							r="15.9155"
+							fill="none"
+							stroke="var(--adm-border)"
+							stroke-width="5"
+						/>
 					{:else}
 						{#each donutArcs as arc, i (i)}
 							<circle
@@ -226,7 +251,9 @@
 						<li>
 							<div class="hbar-meta">
 								<span>{t.label}</span>
-								<span class="hbar-count">{t.count} <span class="legend-pct">{pct(t.count, typeTotal)}%</span></span>
+								<span class="hbar-count"
+									>{t.count} <span class="legend-pct">{pct(t.count, typeTotal)}%</span></span
+								>
 							</div>
 							<div class="hbar-track">
 								<div
@@ -259,7 +286,9 @@
 								<span class="activity-action">{entry.action}</span>
 								<span class="adm-muted">{entry.entityName}</span>
 							</span>
-							<span class="activity-when" title={new Date(entry.createdAt).toLocaleString()}>{timeAgo(entry.createdAt)}</span>
+							<span class="activity-when" title={new Date(entry.createdAt).toLocaleString()}
+								>{timeAgo(entry.createdAt)}</span
+							>
 						</li>
 					{/each}
 				</ul>

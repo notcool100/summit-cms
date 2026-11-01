@@ -18,7 +18,8 @@ public static class SiteContentEndpoints
     public sealed record PageDto(Guid Id, string Slug, string Title, string MetaDescription, string HeroHeading, string HeroSubheading, Guid? HeroMediaId, Guid? SecondaryMediaId, Guid? PublishedVersionId, DateTimeOffset? PublishedAt);
     public sealed record PageUpdateDto(string Title, string MetaDescription, string HeroHeading, string HeroSubheading, Guid? HeroMediaId, Guid? SecondaryMediaId);
 
-    public sealed record PageVersionSummaryDto(Guid Id, int VersionNumber, bool IsPublished, DateTimeOffset CreatedAt, Guid? CreatedByUserId, string? CreatedByName);
+    /// <summary>One row of a page's history. <c>ChangedFields</c> lists what differs from the version before it (QA-21).</summary>
+    public sealed record PageVersionSummaryDto(Guid Id, int VersionNumber, bool IsPublished, DateTimeOffset CreatedAt, Guid? CreatedByUserId, string? CreatedByName, string Title, List<string> ChangedFields);
     public sealed record PageVersionDetailDto(Guid Id, Guid PageId, int VersionNumber, string Title, string MetaDescription, string HeroHeading, string HeroSubheading, Guid? HeroMediaId, Guid? SecondaryMediaId, bool IsPublished, DateTimeOffset CreatedAt, Guid? CreatedByUserId);
 
     public sealed record SettingDto(Guid Id, string Key, string Value, string ValueType);
@@ -109,15 +110,28 @@ public static class SiteContentEndpoints
                 .ToListAsync(ct);
 
             var items = new List<PageVersionSummaryDto>(versions.Count);
-            foreach (var v in versions)
+            for (var i = 0; i < versions.Count; i++)
             {
+                var v = versions[i];
+                // Versions are newest-first, so the one this was created from is the next in the list.
+                var previous = i + 1 < versions.Count ? versions[i + 1] : null;
+                var changed = new List<string>();
+                if (previous is not null)
+                {
+                    if (v.Title != previous.Title) changed.Add("Title");
+                    if (v.MetaDescription != previous.MetaDescription) changed.Add("Meta description");
+                    if (v.HeroHeading != previous.HeroHeading) changed.Add("Hero heading");
+                    if (v.HeroSubheading != previous.HeroSubheading) changed.Add("Hero subheading");
+                    if (v.HeroMediaId != previous.HeroMediaId) changed.Add("Hero image");
+                    if (v.SecondaryMediaId != previous.SecondaryMediaId) changed.Add("Secondary image");
+                }
                 string? createdByName = null;
                 if (v.CreatedByUserId is Guid userId)
                 {
                     var summary = await users.GetAsync(userId, ct);
                     createdByName = summary is null ? null : (string.IsNullOrWhiteSpace(summary.FullName) ? summary.Email : summary.FullName);
                 }
-                items.Add(new PageVersionSummaryDto(v.Id, v.VersionNumber, v.IsPublished, v.CreatedAt, v.CreatedByUserId, createdByName));
+                items.Add(new PageVersionSummaryDto(v.Id, v.VersionNumber, v.IsPublished, v.CreatedAt, v.CreatedByUserId, createdByName, v.Title, changed));
             }
 
             return Results.Ok(items);

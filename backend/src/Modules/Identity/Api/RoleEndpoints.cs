@@ -34,30 +34,50 @@ public static class RoleEndpoints
                 .Select(p => new PermissionListItem(p.Id, p.Code, p.Description))
                 .ToListAsync(ct)));
 
-        group.MapPost("", async (CreateRoleRequest body, ISender sender, CancellationToken ct) =>
+        group.MapPost("", async (CreateRoleRequest body, ISender sender, IPublisher publisher, ICurrentUser actor, HttpContext http, CancellationToken ct) =>
         {
             var result = await sender.Send(new CreateRoleCommand(body.Name, body.Description), ct);
-            return result.IsSuccess ? Results.Created($"/api/admin/roles/{result.Value}", new { id = result.Value }) : Results.BadRequest(new { error = result.Error });
+            if (result.IsSuccess)
+                await publisher.AuditAsync(http, actor.UserId, "Created", "Role", result.Value.ToString(), after: body.Name?.Trim(), ct: ct);
+            return result.ToHttp(() => Results.Created($"/api/admin/roles/{result.Value}", new { id = result.Value }));
         });
 
-        group.MapPut("/{id:guid}/permissions", async (Guid id, SetPermissionsRequest body, ISender sender, CancellationToken ct) =>
+        group.MapPut("/{id:guid}/permissions", async (Guid id, SetPermissionsRequest body, ISender sender, IdentityDbContext db, IPublisher publisher, ICurrentUser actor, HttpContext http, CancellationToken ct) =>
         {
-            var result = await sender.Send(new SetRolePermissionsCommand(id, body.PermissionIds), ct);
-            return result.IsSuccess ? Results.NoContent() : Results.BadRequest(new { error = result.Error });
+            var before = string.Join(", ", await db.RolePermissions.Where(rp => rp.RoleId == id).Select(rp => rp.Permission.Code).ToListAsync(ct));
+            var result = await sender.Send(new SetRolePermissionsCommand(id, body.PermissionIds ?? []), ct);
+            if (result.IsSuccess)
+            {
+                var after = string.Join(", ", await db.RolePermissions.Where(rp => rp.RoleId == id).Select(rp => rp.Permission.Code).ToListAsync(ct));
+                await publisher.AuditAsync(http, actor.UserId, "PermissionsChanged", "Role", id.ToString(), before, after, ct);
+            }
+            return result.ToHttp(Results.NoContent);
         });
 
-        app.MapPost("/api/admin/users/{userId:guid}/roles", async (Guid userId, AssignRoleRequest body, ISender sender, CancellationToken ct) =>
+        group.MapDelete("/{id:guid}", async (Guid id, ISender sender, IPublisher publisher, ICurrentUser actor, HttpContext http, CancellationToken ct) =>
+        {
+            var result = await sender.Send(new DeleteRoleCommand(id), ct);
+            if (result.IsSuccess)
+                await publisher.AuditAsync(http, actor.UserId, "Deleted", "Role", id.ToString(), before: result.Value, ct: ct);
+            return result.ToHttp(Results.NoContent);
+        });
+
+        app.MapPost("/api/admin/users/{userId:guid}/roles", async (Guid userId, AssignRoleRequest body, ISender sender, IPublisher publisher, ICurrentUser actor, HttpContext http, CancellationToken ct) =>
             {
                 var result = await sender.Send(new AssignRoleToUserCommand(userId, body.RoleId), ct);
-                return result.IsSuccess ? Results.NoContent() : Results.BadRequest(new { error = result.Error });
+                if (result.IsSuccess)
+                    await publisher.AuditAsync(http, actor.UserId, "RoleAssigned", "User", userId.ToString(), after: body.RoleId.ToString(), ct: ct);
+                return result.ToHttp(Results.NoContent);
             })
             .WithTags("Admin.Users")
             .RequirePermission(IdentityPermissions.ManageUsers);
 
-        app.MapDelete("/api/admin/users/{userId:guid}/roles/{roleId:guid}", async (Guid userId, Guid roleId, ISender sender, CancellationToken ct) =>
+        app.MapDelete("/api/admin/users/{userId:guid}/roles/{roleId:guid}", async (Guid userId, Guid roleId, ISender sender, IPublisher publisher, ICurrentUser actor, HttpContext http, CancellationToken ct) =>
             {
-                await sender.Send(new RemoveRoleFromUserCommand(userId, roleId), ct);
-                return Results.NoContent();
+                var result = await sender.Send(new RemoveRoleFromUserCommand(userId, roleId), ct);
+                if (result.IsSuccess)
+                    await publisher.AuditAsync(http, actor.UserId, "RoleRemoved", "User", userId.ToString(), before: roleId.ToString(), ct: ct);
+                return result.ToHttp(Results.NoContent);
             })
             .WithTags("Admin.Users")
             .RequirePermission(IdentityPermissions.ManageUsers);

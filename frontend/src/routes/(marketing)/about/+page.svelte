@@ -16,7 +16,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const {
+	let {
 		heroHeading,
 		heroSubheading,
 		narrative,
@@ -27,7 +27,7 @@
 		hseStats,
 		awards,
 		sections
-	} = data;
+	} = $derived(data);
 
 	// The map follows whichever office is picked; HQ uses its full street address so the pin
 	// lands on the building, the rest centre on their town.
@@ -36,7 +36,9 @@
 			page.data.siteSettings?.company_address || `${site.address.line1}, ${site.address.line2}`
 		).replace(/\s*\n\s*/g, ', ')
 	);
-	let selectedIdx = $state(locations.find((l) => l.hq)?.idx ?? locations[0]?.idx);
+	// The visitor's pick, falling back to the head office (or first location) as the default.
+	let pickedIdx = $state<string | undefined>(undefined);
+	let selectedIdx = $derived(pickedIdx ?? locations.find((l) => l.hq)?.idx ?? locations[0]?.idx);
 	let selected = $derived(locations.find((l) => l.idx === selectedIdx));
 	let mapQuery = $derived(
 		selected?.hq ? `${hqAddress}, Australia` : `${selected?.city ?? 'Western Australia'}, Australia`
@@ -161,7 +163,7 @@
 					class="location-row"
 					class:active={l.idx === selectedIdx}
 					aria-pressed={l.idx === selectedIdx}
-					onclick={() => (selectedIdx = l.idx)}
+					onclick={() => (pickedIdx = l.idx)}
 				>
 					<span class="location-left">
 						<span class="location-idx">{l.idx}</span>

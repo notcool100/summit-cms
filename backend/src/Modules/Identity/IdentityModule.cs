@@ -19,6 +19,9 @@ public static class IdentityModule
         services.AddScoped<IPasswordHasherService, PasswordHasherService>();
         services.AddScoped<ITokenService, JwtTokenService>();
         services.AddScoped<IUserCatalog, UserCatalog>();
+        services.AddScoped<Application.Security.IdentityAccessGuard>();
+        services.AddSingleton<Application.Auth.LoginThrottle>();
+        services.AddMemoryCache();
 
         return services;
     }

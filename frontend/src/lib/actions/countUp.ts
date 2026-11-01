@@ -13,7 +13,10 @@ export interface CountUpParams {
  * so crawlers and no-JS clients see the real figure instead of a placeholder "0". When called with
  * the final target value (the normal case for static content) and no explicit `decimals`, the
  * decimal count is inferred from that value itself, same as the animation's own default. */
-export function formatCount(n: number, { prefix, suffix, decimals }: Omit<CountUpParams, 'value'> & { decimals?: number } = {}) {
+export function formatCount(
+	n: number,
+	{ prefix, suffix, decimals }: Omit<CountUpParams, 'value'> & { decimals?: number } = {}
+) {
 	const resolvedDecimals = decimals ?? String(n).split('.')[1]?.length ?? 0;
 	return `${prefix ?? ''}${n.toLocaleString('en-AU', {
 		minimumFractionDigits: resolvedDecimals,

@@ -15,7 +15,11 @@ export const site = {
 	/** General enquiries mailbox (capability statement, p5). */
 	email: 'support@summit-is.com.au',
 	/** Direct contact for the Managing Director (capability statement, p5). */
-	directContact: { name: 'Jason Matakatea', role: 'Managing Director', email: 'Jason@summit-is.com.au' },
+	directContact: {
+		name: 'Jason Matakatea',
+		role: 'Managing Director',
+		email: 'Jason@summit-is.com.au'
+	},
 	abn: '41 693 462 421',
 	favicon: '/favicon.ico',
 	/** The client-supplied 2026 capability statement, served as a static download. */

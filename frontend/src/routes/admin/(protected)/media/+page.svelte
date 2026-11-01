@@ -15,7 +15,12 @@
 		items.filter(
 			(i) =>
 				matches(query, i.fileName, i.altText) &&
-				(source === 'all' || (source === 'missing-alt' ? !i.altText : source === 'Upload' ? i.sourceType !== 'External' : i.sourceType === 'External'))
+				(source === 'all' ||
+					(source === 'missing-alt'
+						? !i.altText
+						: source === 'Upload'
+							? i.sourceType !== 'External'
+							: i.sourceType === 'External'))
 		)
 	);
 	const missingAlt = $derived(items.filter((i) => !i.altText).length);
@@ -78,19 +83,52 @@
 		<p>Images used by pages, capabilities, projects, team photos, and posts.</p>
 	</div>
 	<div class="adm-row-actions">
-		<button class="adm-btn adm-btn--secondary" onclick={() => (externalOpen = true)}>Add from URL</button>
+		<button class="adm-btn adm-btn--secondary" onclick={() => (externalOpen = true)}
+			>Add from URL</button
+		>
 		<button class="adm-btn adm-btn--primary" onclick={openUpload}>Upload</button>
 	</div>
 </div>
 
 <div class="adm-toolbar">
-	<div class="adm-search"><input class="adm-input" type="search" placeholder="Search by name or alt text…" bind:value={query} /></div>
+	<div class="adm-search">
+		<input
+			class="adm-input"
+			type="search"
+			placeholder="Search by name or alt text…"
+			bind:value={query}
+		/>
+	</div>
 	<div class="adm-tabs" role="tablist" aria-label="Filter media">
-		<button class="adm-tab" class:active={source === 'all'} role="tab" aria-selected={source === 'all'} onclick={() => (source = 'all')}>All <span class="adm-tab-count">{items.length}</span></button>
-		<button class="adm-tab" class:active={source === 'Upload'} role="tab" aria-selected={source === 'Upload'} onclick={() => (source = 'Upload')}>Uploaded</button>
-		<button class="adm-tab" class:active={source === 'External'} role="tab" aria-selected={source === 'External'} onclick={() => (source = 'External')}>External</button>
+		<button
+			class="adm-tab"
+			class:active={source === 'all'}
+			role="tab"
+			aria-selected={source === 'all'}
+			onclick={() => (source = 'all')}>All <span class="adm-tab-count">{items.length}</span></button
+		>
+		<button
+			class="adm-tab"
+			class:active={source === 'Upload'}
+			role="tab"
+			aria-selected={source === 'Upload'}
+			onclick={() => (source = 'Upload')}>Uploaded</button
+		>
+		<button
+			class="adm-tab"
+			class:active={source === 'External'}
+			role="tab"
+			aria-selected={source === 'External'}
+			onclick={() => (source = 'External')}>External</button
+		>
 		{#if missingAlt > 0}
-			<button class="adm-tab" class:active={source === 'missing-alt'} role="tab" aria-selected={source === 'missing-alt'} onclick={() => (source = 'missing-alt')}>
+			<button
+				class="adm-tab"
+				class:active={source === 'missing-alt'}
+				role="tab"
+				aria-selected={source === 'missing-alt'}
+				onclick={() => (source = 'missing-alt')}
+			>
 				Missing alt text <span class="adm-tab-count warn">{missingAlt}</span>
 			</button>
 		{/if}
@@ -103,32 +141,82 @@
 		<span>Upload a file or add an image by URL to get started.</span>
 	</button>
 {:else if filtered.length === 0}
-	<div class="adm-list"><div class="adm-empty"><h3>No matches</h3><p>Try a different search or filter.</p></div></div>
+	<div class="adm-list">
+		<div class="adm-empty">
+			<h3>No matches</h3>
+			<p>Try a different search or filter.</p>
+		</div>
+	</div>
 {:else}
 	<div class="media-grid">
 		{#each filtered as item (item.id)}
 			<div class="media-tile">
-				<button class="media-thumb" onclick={() => openDetail(item)} aria-label="Details for {item.fileName}">
+				<button
+					class="media-thumb"
+					onclick={() => openDetail(item)}
+					aria-label="Details for {item.fileName}"
+				>
 					<img src={item.url} alt={item.altText} loading="lazy" />
-					{#if !item.altText}<span class="adm-badge adm-badge--warning no-alt">No alt text</span>{/if}
+					{#if !item.altText}<span class="adm-badge adm-badge--warning no-alt">No alt text</span
+						>{/if}
 				</button>
 				<div class="media-meta">
 					<div class="media-name" title={item.fileName}>{item.fileName}</div>
 					<div class="media-sub">
-						{item.sourceType === 'External' ? 'External' : 'Uploaded'}{#if formatSize(item.sizeBytes)} · {formatSize(item.sizeBytes)}{/if}
+						{item.sourceType === 'External'
+							? 'External'
+							: 'Uploaded'}{#if formatSize(item.sizeBytes)}
+							· {formatSize(item.sizeBytes)}{/if}
 					</div>
 				</div>
 				<div class="media-actions">
-					<button class="adm-icon-btn" title="Copy URL" aria-label="Copy URL" onclick={() => copyUrl(item.url)}>
-						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-							><rect width="14" height="14" x="8" y="8" rx="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg
+					<button
+						class="adm-icon-btn"
+						title="Copy URL"
+						aria-label="Copy URL"
+						onclick={() => copyUrl(item.url)}
+					>
+						<svg
+							width="15"
+							height="15"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							><rect width="14" height="14" x="8" y="8" rx="2" /><path
+								d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+							/></svg
 						>
 					</button>
-					<form method="POST" action="?/remove" use:enhance={confirmDelete('file', `“${item.fileName}” will be removed. Anything still using it will show no image.`)}>
+					<form
+						method="POST"
+						action="?/remove"
+						use:enhance={confirmDelete(
+							'file',
+							`“${item.fileName}” will be removed. Anything still using it will show no image.`
+						)}
+					>
 						<input type="hidden" name="id" value={item.id} />
-						<button class="adm-icon-btn adm-icon-btn--danger" type="submit" title="Delete" aria-label="Delete {item.fileName}">
-							<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-								><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg
+						<button
+							class="adm-icon-btn adm-icon-btn--danger"
+							type="submit"
+							title="Delete"
+							aria-label="Delete {item.fileName}"
+						>
+							<svg
+								width="15"
+								height="15"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path
+									d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+								/></svg
 							>
 						</button>
 					</form>
@@ -139,7 +227,12 @@
 {/if}
 
 <Drawer bind:open={uploadOpen} title="Upload file">
-	<form method="POST" action="?/upload" enctype="multipart/form-data" use:enhance={submit({ success: 'File uploaded', onSuccess: () => (uploadOpen = false) })}>
+	<form
+		method="POST"
+		action="?/upload"
+		enctype="multipart/form-data"
+		use:enhance={submit({ success: 'File uploaded', onSuccess: () => (uploadOpen = false) })}
+	>
 		<label
 			class="dropzone"
 			class:dragging
@@ -155,11 +248,25 @@
 			{/if}
 			<strong>{pickedName || 'Drop an image here'}</strong>
 			<span>{pickedName ? 'Click to choose a different file' : 'or click to browse'}</span>
-			<input bind:this={fileInput} class="visually-hidden" name="file" type="file" accept="image/*" required onchange={(e) => setFile(e.currentTarget.files?.[0])} />
+			<input
+				bind:this={fileInput}
+				class="visually-hidden"
+				name="file"
+				type="file"
+				accept="image/jpeg,image/png,image/gif,image/webp,image/avif,application/pdf"
+				required
+				onchange={(e) => setFile(e.currentTarget.files?.[0])}
+			/>
 		</label>
 		<div class="adm-field">
 			<label for="altText">Alt text</label>
-			<input class="adm-input" id="altText" name="altText" type="text" placeholder="Describe the image for screen readers and SEO" />
+			<input
+				class="adm-input"
+				id="altText"
+				name="altText"
+				type="text"
+				placeholder="Describe the image for screen readers and SEO"
+			/>
 			<span class="adm-hint">E.g. “Crane lifting a pipe rack module at the OSM yard”.</span>
 		</div>
 		<div class="adm-form-actions">
@@ -169,11 +276,28 @@
 	</form>
 </Drawer>
 
-<Drawer bind:open={externalOpen} title="Add image from URL" description="Registers an image hosted elsewhere without copying it.">
-	<form method="POST" action="?/addExternal" use:enhance={submit({ success: 'Image added', onSuccess: () => (externalOpen = false) })}>
+<Drawer
+	bind:open={externalOpen}
+	title="Add image from URL"
+	description="Registers an image hosted elsewhere without copying it."
+>
+	<form
+		method="POST"
+		action="?/addExternal"
+		use:enhance={submit({ success: 'Image added', onSuccess: () => (externalOpen = false) })}
+	>
 		<div class="adm-field">
 			<label for="externalUrl">Image URL</label>
-			<input class="adm-input" id="externalUrl" name="externalUrl" type="url" placeholder="https://" required />
+			<input
+				class="adm-input"
+				id="externalUrl"
+				name="externalUrl"
+				type="url"
+				placeholder="https://"
+				pattern="https://.+"
+				title="Use a full https:// address"
+				required
+			/>
 		</div>
 		<div class="adm-field">
 			<label for="fileName">Display name</label>
@@ -193,19 +317,36 @@
 <Drawer bind:open={detailOpen} title={selected?.fileName ?? 'File details'}>
 	{#if selected}
 		{@const item = selected}
-		<a class="detail-preview" href={item.url} target="_blank" rel="noopener"><img src={item.url} alt={item.altText} /></a>
+		<a class="detail-preview" href={item.url} target="_blank" rel="noopener"
+			><img src={item.url} alt={item.altText} /></a
+		>
 		<dl class="adm-dl detail-dl">
-			<dt>Source</dt><dd>{item.sourceType === 'External' ? 'External URL' : 'Uploaded'}</dd>
-			{#if item.width && item.height}<dt>Dimensions</dt><dd>{item.width} × {item.height}</dd>{/if}
-			{#if formatSize(item.sizeBytes)}<dt>Size</dt><dd>{formatSize(item.sizeBytes)}</dd>{/if}
-			<dt>Added</dt><dd>{formatDate(item.createdAt)}</dd>
-			<dt>URL</dt><dd><button class="link-btn" onclick={() => copyUrl(item.url)}>Copy URL</button></dd>
+			<dt>Source</dt>
+			<dd>{item.sourceType === 'External' ? 'External URL' : 'Uploaded'}</dd>
+			{#if item.width && item.height}<dt>Dimensions</dt>
+				<dd>{item.width} × {item.height}</dd>{/if}
+			{#if formatSize(item.sizeBytes)}<dt>Size</dt>
+				<dd>{formatSize(item.sizeBytes)}</dd>{/if}
+			<dt>Added</dt>
+			<dd>{formatDate(item.createdAt)}</dd>
+			<dt>URL</dt>
+			<dd><button class="link-btn" onclick={() => copyUrl(item.url)}>Copy URL</button></dd>
 		</dl>
-		<form method="POST" action="?/updateAlt" use:enhance={submit({ success: 'Alt text saved', onSuccess: () => (detailOpen = false) })}>
+		<form
+			method="POST"
+			action="?/updateAlt"
+			use:enhance={submit({ success: 'Alt text saved', onSuccess: () => (detailOpen = false) })}
+		>
 			<input type="hidden" name="id" value={item.id} />
 			<div class="adm-field">
 				<label for="alt-edit">Alt text</label>
-				<textarea class="adm-textarea" id="alt-edit" name="altText" rows="3" placeholder="Describe the image">{item.altText}</textarea>
+				<textarea
+					class="adm-textarea"
+					id="alt-edit"
+					name="altText"
+					rows="3"
+					placeholder="Describe the image">{item.altText}</textarea
+				>
 			</div>
 			<div class="adm-form-actions">
 				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Close</button>
@@ -360,7 +501,7 @@
 		background: none;
 		border: none;
 		padding: 0;
-		color: var(--adm-accent);
+		color: var(--adm-accent-text);
 		font: inherit;
 		cursor: pointer;
 	}

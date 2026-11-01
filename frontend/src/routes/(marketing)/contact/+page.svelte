@@ -15,7 +15,7 @@
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
-	const { heroHeading, enquiryOptions } = data;
+	let { heroHeading, enquiryOptions } = $derived(data);
 	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
 	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
 	let companyAddress = $derived(page.data.siteSettings?.company_address);
@@ -295,10 +295,6 @@
 
 	.pre {
 		white-space: pre-line;
-	}
-
-	.accent {
-		color: var(--accent-text);
 	}
 
 	.contact {

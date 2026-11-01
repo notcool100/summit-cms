@@ -25,7 +25,7 @@
 
 	function generatePassword() {
 		const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';
-		const bytes = crypto.getRandomValues(new Uint32Array(14));
+		const bytes = crypto.getRandomValues(new Uint32Array(16));
 		return Array.from(bytes, (b) => chars[b % chars.length]).join('');
 	}
 	async function copy(text: string) {
@@ -65,21 +65,34 @@
 </div>
 
 <div class="adm-toolbar">
-	<div class="adm-search"><input class="adm-input" type="search" placeholder="Search users…" bind:value={query} /></div>
+	<div class="adm-search">
+		<input class="adm-input" type="search" placeholder="Search users…" bind:value={query} />
+	</div>
 	<span class="adm-result-count">{filtered.length} of {users.length}</span>
 </div>
 
 <div class="adm-table-wrap">
 	{#if users.length === 0}
-		<div class="adm-empty"><h3>No users yet</h3><p>Invite the first admin user.</p></div>
+		<div class="adm-empty">
+			<h3>No users yet</h3>
+			<p>Invite the first admin user.</p>
+		</div>
 	{:else if filtered.length === 0}
-		<div class="adm-empty"><h3>No matches</h3><p>Try a different search.</p></div>
+		<div class="adm-empty">
+			<h3>No matches</h3>
+			<p>Try a different search.</p>
+		</div>
 	{:else}
 		<table class="adm-table">
-			<thead><tr><th>User</th><th>Roles</th><th>Status</th><th>Last sign-in</th><th></th></tr></thead>
+			<thead
+				><tr><th>User</th><th>Roles</th><th>Status</th><th>Last sign-in</th><th></th></tr></thead
+			>
 			<tbody>
 				{#each filtered as u (u.id)}
-					<tr class="is-clickable" onclick={(e) => !(e.target as Element).closest('button,a,form') && openManage(u.id)}>
+					<tr
+						class="is-clickable"
+						onclick={(e) => !(e.target as Element).closest('button,a,form') && openManage(u.id)}
+					>
 						<td>
 							<div class="user-cell">
 								<span class="avatar">{initials(u)}</span>
@@ -94,14 +107,26 @@
 						</td>
 						<td>
 							<div class="adm-tag-list">
-								{#each u.roles as r (r)}<span class="adm-badge adm-badge--accent">{r}</span>{:else}<span class="adm-muted">No role</span>{/each}
+								{#each u.roles as r (r)}<span class="adm-badge adm-badge--accent">{r}</span
+									>{:else}<span class="adm-muted">No role</span>{/each}
 							</div>
 						</td>
 						<td>
-							<span class="adm-badge adm-badge--dot {u.isActive ? 'adm-badge--success' : 'adm-badge--danger'}">{u.isActive ? 'Active' : 'Deactivated'}</span>
+							<span
+								class="adm-badge adm-badge--dot {u.isActive
+									? 'adm-badge--success'
+									: 'adm-badge--danger'}">{u.isActive ? 'Active' : 'Deactivated'}</span
+							>
 						</td>
-						<td class="adm-muted" title={u.lastLoginAt ? formatDateTime(u.lastLoginAt) : undefined}>{u.lastLoginAt ? timeAgo(u.lastLoginAt) : 'Never'}</td>
-						<td><button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openManage(u.id)}>Manage</button></td>
+						<td class="adm-muted" title={u.lastLoginAt ? formatDateTime(u.lastLoginAt) : undefined}
+							>{u.lastLoginAt ? timeAgo(u.lastLoginAt) : 'Never'}</td
+						>
+						<td
+							><button
+								class="adm-btn adm-btn--secondary adm-btn--sm"
+								onclick={() => openManage(u.id)}>Manage</button
+							></td
+						>
 					</tr>
 				{/each}
 			</tbody>
@@ -109,21 +134,71 @@
 	{/if}
 </div>
 
-<Drawer bind:open={createOpen} title="New user" description="They sign in with this email and the temporary password.">
-	<form method="POST" action="?/create" use:enhance={submit({ success: 'User created', onSuccess: () => (createOpen = false) })}>
+<Drawer
+	bind:open={createOpen}
+	title="New user"
+	description="They sign in with this email and the temporary password."
+>
+	<form
+		method="POST"
+		action="?/create"
+		use:enhance={submit({ success: 'User created', onSuccess: () => (createOpen = false) })}
+	>
 		<div class="adm-form-grid">
-			<div class="adm-field"><label for="firstName">First name</label><input class="adm-input" id="firstName" name="firstName" autocomplete="off" /></div>
-			<div class="adm-field"><label for="lastName">Last name</label><input class="adm-input" id="lastName" name="lastName" autocomplete="off" /></div>
+			<div class="adm-field">
+				<label for="firstName">First name</label><input
+					class="adm-input"
+					id="firstName"
+					name="firstName"
+					autocomplete="off"
+				/>
+			</div>
+			<div class="adm-field">
+				<label for="lastName">Last name</label><input
+					class="adm-input"
+					id="lastName"
+					name="lastName"
+					autocomplete="off"
+				/>
+			</div>
 		</div>
-		<div class="adm-field"><label for="email">Email</label><input class="adm-input" id="email" name="email" type="email" autocomplete="off" required /></div>
+		<div class="adm-field">
+			<label for="email">Email</label><input
+				class="adm-input"
+				id="email"
+				name="email"
+				type="email"
+				autocomplete="off"
+				required
+			/>
+		</div>
 		<div class="adm-field">
 			<label for="password">Temporary password</label>
 			<div class="pw-row">
-				<input class="adm-input adm-mono" id="password" name="password" type="text" minlength="8" bind:value={newPassword} autocomplete="new-password" required />
-				<button class="adm-btn adm-btn--secondary" type="button" onclick={() => (newPassword = generatePassword())}>Generate</button>
-				<button class="adm-btn adm-btn--secondary" type="button" onclick={() => copy(newPassword)}>Copy</button>
+				<input
+					class="adm-input adm-mono"
+					id="password"
+					name="password"
+					type="text"
+					minlength="12"
+					maxlength="128"
+					bind:value={newPassword}
+					autocomplete="new-password"
+					required
+				/>
+				<button
+					class="adm-btn adm-btn--secondary"
+					type="button"
+					onclick={() => (newPassword = generatePassword())}>Generate</button
+				>
+				<button class="adm-btn adm-btn--secondary" type="button" onclick={() => copy(newPassword)}
+					>Copy</button
+				>
 			</div>
-			<span class="adm-hint">At least 8 characters. Share it with them securely.</span>
+			<span class="adm-hint"
+				>At least 12 characters and not a common password. Use Generate for a strong one, and share
+				it securely.</span
+			>
 		</div>
 		<fieldset class="adm-field roles-fieldset">
 			<legend>Roles</legend>
@@ -144,7 +219,12 @@
 	</form>
 </Drawer>
 
-<Drawer bind:open={manageOpen} guard={false} title={managing ? managing.fullName || managing.email : 'User'} description={managing?.fullName ? managing.email : undefined}>
+<Drawer
+	bind:open={manageOpen}
+	guard={false}
+	title={managing ? managing.fullName || managing.email : 'User'}
+	description={managing?.fullName ? managing.email : undefined}
+>
 	{#if managing}
 		{@const u = managing}
 		{@const available = roles.filter((r) => !u.roles.includes(r.name))}
@@ -159,11 +239,23 @@
 							<form
 								method="POST"
 								action="?/removeRole"
-								use:enhance={submit({ success: `${roleName} removed`, confirm: { title: `Remove ${roleName}?`, message: `${u.email} will lose the permissions this role grants.`, confirmLabel: 'Remove role' } })}
+								use:enhance={submit({
+									success: `${roleName} removed`,
+									confirm: {
+										title: `Remove ${roleName}?`,
+										message: `${u.email} will lose the permissions this role grants.`,
+										confirmLabel: 'Remove role'
+									}
+								})}
 							>
 								<input type="hidden" name="userId" value={u.id} />
 								<input type="hidden" name="roleId" value={role.id} />
-								<button type="submit" class="adm-chip-x" aria-label="Remove {roleName}" title="Remove role">×</button>
+								<button
+									type="submit"
+									class="adm-chip-x"
+									aria-label="Remove {roleName}"
+									title="Remove role">×</button
+								>
 							</form>
 						{/if}
 					</span>
@@ -172,7 +264,12 @@
 				{/each}
 			</div>
 			{#if available.length}
-				<form method="POST" action="?/assignRole" class="inline-form" use:enhance={submit({ success: 'Role assigned', reset: true })}>
+				<form
+					method="POST"
+					action="?/assignRole"
+					class="inline-form"
+					use:enhance={submit({ success: 'Role assigned', reset: true })}
+				>
 					<input type="hidden" name="userId" value={u.id} />
 					<select class="adm-select" name="roleId" aria-label="Role to add" required>
 						<option value="">Add a role…</option>
@@ -185,12 +282,35 @@
 
 		<section class="block">
 			<h3>Reset password</h3>
-			<form method="POST" action="?/resetPassword" use:enhance={submit({ success: 'Password updated', onSuccess: () => (resetPassword = '') })}>
+			<form
+				method="POST"
+				action="?/resetPassword"
+				use:enhance={submit({ success: 'Password updated', onSuccess: () => (resetPassword = '') })}
+			>
 				<input type="hidden" name="id" value={u.id} />
 				<div class="pw-row">
-					<input class="adm-input adm-mono" name="newPassword" type="text" minlength="8" placeholder="New password" aria-label="New password" bind:value={resetPassword} autocomplete="new-password" required />
-					<button class="adm-btn adm-btn--secondary" type="button" onclick={() => (resetPassword = generatePassword())}>Generate</button>
-					{#if resetPassword}<button class="adm-btn adm-btn--secondary" type="button" onclick={() => copy(resetPassword)}>Copy</button>{/if}
+					<input
+						class="adm-input adm-mono"
+						name="newPassword"
+						type="text"
+						minlength="12"
+						maxlength="128"
+						placeholder="New password"
+						aria-label="New password"
+						bind:value={resetPassword}
+						autocomplete="new-password"
+						required
+					/>
+					<button
+						class="adm-btn adm-btn--secondary"
+						type="button"
+						onclick={() => (resetPassword = generatePassword())}>Generate</button
+					>
+					{#if resetPassword}<button
+							class="adm-btn adm-btn--secondary"
+							type="button"
+							onclick={() => copy(resetPassword)}>Copy</button
+						>{/if}
 				</div>
 				<button class="adm-btn adm-btn--primary set-pw" type="submit">Set password</button>
 			</form>
@@ -200,25 +320,65 @@
 			<h3>Account access</h3>
 			<div class="adm-flex-between">
 				<p class="adm-muted">
-					{#if u.id === meId}You can't deactivate your own account.{:else if u.isActive}Deactivated users can't sign in. Their history is kept.{:else}This account is deactivated and can't sign in.{/if}
+					{#if u.id === meId}You can't deactivate your own account.{:else if u.isActive}Deactivated
+						users can't sign in. Their history is kept.{:else}This account is deactivated and can't
+						sign in.{/if}
 				</p>
 				<form
 					method="POST"
 					action="?/setActive"
 					use:enhance={submit(
 						u.isActive
-							? { success: 'User deactivated', confirm: { title: `Deactivate ${u.email}?`, message: 'They will be signed out and unable to sign in until reactivated.', confirmLabel: 'Deactivate' } }
+							? {
+									success: 'User deactivated',
+									confirm: {
+										title: `Deactivate ${u.email}?`,
+										message: 'They will be signed out and unable to sign in until reactivated.',
+										confirmLabel: 'Deactivate'
+									}
+								}
 							: { success: 'User reactivated' }
 					)}
 				>
 					<input type="hidden" name="id" value={u.id} />
 					<input type="hidden" name="isActive" value={(!u.isActive).toString()} />
-					<button class="adm-btn {u.isActive ? 'adm-btn--danger' : 'adm-btn--primary'}" type="submit" disabled={u.id === meId}>
+					<button
+						class="adm-btn {u.isActive ? 'adm-btn--danger' : 'adm-btn--primary'}"
+						type="submit"
+						disabled={u.id === meId}
+					>
 						{u.isActive ? 'Deactivate' : 'Reactivate'}
 					</button>
 				</form>
 			</div>
 		</section>
+
+		{#if u.id !== meId}
+			<section class="block danger-zone">
+				<h3>Delete user</h3>
+				<div class="adm-flex-between">
+					<p class="adm-muted">
+						Permanently removes this account and signs it out. The audit log keeps a record.
+					</p>
+					<form
+						method="POST"
+						action="?/deleteUser"
+						use:enhance={submit({
+							success: 'User deleted',
+							onSuccess: () => (manageOpen = false),
+							confirm: {
+								title: `Delete ${u.email}?`,
+								message: 'This permanently removes the account. It cannot be undone.',
+								confirmLabel: 'Delete user'
+							}
+						})}
+					>
+						<input type="hidden" name="id" value={u.id} />
+						<button class="adm-btn adm-btn--danger" type="submit">Delete user</button>
+					</form>
+				</div>
+			</section>
+		{/if}
 	{/if}
 </Drawer>
 

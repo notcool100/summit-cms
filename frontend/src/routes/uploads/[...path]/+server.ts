@@ -2,6 +2,15 @@ import { error } from '@sveltejs/kit';
 import { PUBLIC_API_BASE_URL } from '$lib/server/publicApi';
 import type { RequestHandler } from './$types';
 
+const SERVABLE_TYPES = new Set([
+	'image/jpeg',
+	'image/png',
+	'image/gif',
+	'image/webp',
+	'image/avif',
+	'application/pdf'
+]);
+
 /**
  * Serves admin-uploaded media from the backend under the site's own domain.
  *
@@ -35,6 +44,11 @@ export const GET: RequestHandler = async ({ params, fetch, request }) => {
 	if (upstream.status === 304) return new Response(null, { status: 304 });
 	if (!upstream.ok) error(upstream.status === 404 ? 404 : 502, 'Not found');
 
+	// Only pass through the media types uploads may be (images and PDF). Anything else - HTML, SVG,
+	// scripts - is refused, so an upload can never run as a page on this site (QA-02).
+	const type = (upstream.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase();
+	if (!SERVABLE_TYPES.has(type)) error(404, 'Not found');
+
 	const headers = new Headers();
 	for (const name of ['content-type', 'content-length', 'etag', 'last-modified']) {
 		const value = upstream.headers.get(name);
@@ -43,6 +57,10 @@ export const GET: RequestHandler = async ({ params, fetch, request }) => {
 	// Upload keys are unique per file, so they can be cached for a long time.
 	headers.set('cache-control', 'public, max-age=604800');
 	headers.set('x-content-type-options', 'nosniff');
+	headers.set(
+		'content-security-policy',
+		"default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; sandbox"
+	);
 
 	return new Response(upstream.body, { status: 200, headers });
 };

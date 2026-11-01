@@ -10,7 +10,7 @@
 	import type { IndustryFilter } from '$lib/types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, filters, projects, sections } = data;
+	let { heroHeading, heroSubheading, filters, projects, sections } = $derived(data);
 
 	let activeFilter = $state<IndustryFilter>('All');
 	let visible = $state(true);
@@ -121,10 +121,6 @@
 		font-size: clamp(15px, 1.2vw, 18px);
 		line-height: 1.6;
 		color: rgba(var(--ink-rgb), max(0.75, var(--muted-a)));
-	}
-
-	.accent {
-		color: var(--accent-text);
 	}
 
 	.empty-state {

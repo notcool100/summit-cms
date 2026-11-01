@@ -9,16 +9,20 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ locals, fetch }) => {
 	if (!locals.accessToken) error(401, 'Unauthorized');
 
-	const backendResponse = await fetch(`${ADMIN_API_BASE_URL}/api/admin/contact/submissions/export`, {
-		headers: { Authorization: `Bearer ${locals.accessToken}` }
-	});
+	const backendResponse = await fetch(
+		`${ADMIN_API_BASE_URL}/api/admin/contact/submissions/export`,
+		{
+			headers: { Authorization: `Bearer ${locals.accessToken}` }
+		}
+	);
 
 	if (!backendResponse.ok) error(backendResponse.status, 'Could not export submissions.');
 
 	return new Response(backendResponse.body, {
 		headers: {
 			'content-type': 'text/csv',
-			'content-disposition': backendResponse.headers.get('content-disposition') ?? 'attachment; filename="export.csv"'
+			'content-disposition':
+				backendResponse.headers.get('content-disposition') ?? 'attachment; filename="export.csv"'
 		}
 	});
 };

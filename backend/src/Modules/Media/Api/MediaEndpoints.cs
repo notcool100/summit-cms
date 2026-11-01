@@ -37,14 +37,24 @@ public static class MediaEndpoints
             var form = await request.ReadFormAsync(ct);
             var file = form.Files.GetFile("file");
             if (file is null || file.Length == 0) return Results.BadRequest(new { error = "No file provided." });
+            if (file.Length > MediaFileInspector.MaxBytes)
+                return Results.BadRequest(new { error = "File is too large. The maximum size is 15 MB." });
 
             await using var stream = file.OpenReadStream();
-            var stored = await storage.SaveAsync(stream, file.FileName, file.ContentType, ct);
+            // Identify the file by its contents, not its name/declared type, and store it under the
+            // matching extension - so e.g. an HTML file renamed .png can never be served as a page.
+            var detected = await MediaFileInspector.DetectAsync(stream, ct);
+            if (detected is null)
+                return Results.BadRequest(new { error = "Unsupported file type. Upload a JPEG, PNG, GIF, WebP, AVIF image or a PDF." });
+
+            var baseName = Path.GetFileNameWithoutExtension(file.FileName);
+            var safeName = (string.IsNullOrWhiteSpace(baseName) ? "upload" : baseName) + detected.Extension;
+            var stored = await storage.SaveAsync(stream, safeName, detected.ContentType, ct);
 
             var asset = new MediaAsset
             {
-                FileName = file.FileName,
-                ContentType = file.ContentType,
+                FileName = safeName,
+                ContentType = detected.ContentType,
                 SizeBytes = file.Length,
                 AltText = form["altText"].ToString(),
                 SourceType = MediaSourceType.Uploaded,
@@ -63,6 +73,11 @@ public static class MediaEndpoints
             CreateExternalRequest body, MediaDbContext db, IFileStorageService storage, ICurrentUser user,
             IPublisher publisher, HttpContext http, CancellationToken ct) =>
         {
+            if (!MediaFileInspector.IsAllowedExternalUrl(body.ExternalUrl))
+                return Results.BadRequest(new { error = "External images must use a full https:// URL." });
+            if (string.IsNullOrWhiteSpace(body.FileName))
+                return Results.BadRequest(new { error = "A name is required." });
+
             var asset = new MediaAsset
             {
                 FileName = body.FileName,
@@ -88,7 +103,7 @@ public static class MediaEndpoints
             asset.AltText = body.AltText;
             await db.SaveChangesAsync(ct);
             return Results.NoContent();
-        });
+        }).WithAudit("MediaAssetAltText");
 
         group.MapDelete("/{id:guid}", async (
             Guid id, MediaDbContext db, IFileStorageService storage, ICurrentUser user, IPublisher publisher,

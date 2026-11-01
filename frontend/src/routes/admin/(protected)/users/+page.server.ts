@@ -36,8 +36,8 @@ export const actions: Actions = {
 		const lastName = String(form.get('lastName') ?? '').trim();
 		const roleNames = form.getAll('roleNames').map(String);
 
-		if (!email || !password || password.length < 8) {
-			return fail(400, { error: 'Email and an 8+ character password are required.' });
+		if (!email || !password || password.length < 12) {
+			return fail(400, { error: 'Email and a password of at least 12 characters are required.' });
 		}
 
 		try {
@@ -70,14 +70,17 @@ export const actions: Actions = {
 		const form = await request.formData();
 		const id = String(form.get('id'));
 		const newPassword = String(form.get('newPassword') ?? '');
-		if (newPassword.length < 8) return fail(400, { error: 'New password must be at least 8 characters.' });
+		if (newPassword.length < 12)
+			return fail(400, { error: 'New password must be at least 12 characters.' });
 		try {
 			await adminFetch(fetch, locals.accessToken!, `/api/admin/users/${id}/password`, {
 				method: 'PUT',
 				body: JSON.stringify({ newPassword })
 			});
 		} catch (err) {
-			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not reset password.' });
+			return fail(400, {
+				error: err instanceof ApiError ? err.message : 'Could not reset password.'
+			});
 		}
 		return { success: true, passwordReset: id };
 	},
@@ -102,9 +105,22 @@ export const actions: Actions = {
 		const userId = String(form.get('userId'));
 		const roleId = String(form.get('roleId'));
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/users/${userId}/roles/${roleId}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/users/${userId}/roles/${roleId}`, {
+				method: 'DELETE'
+			});
 		} catch (err) {
 			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not remove role.' });
+		}
+		return { success: true };
+	},
+
+	deleteUser: async ({ request, locals, fetch }) => {
+		const form = await request.formData();
+		const id = String(form.get('id'));
+		try {
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/users/${id}`, { method: 'DELETE' });
+		} catch (err) {
+			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not delete user.' });
 		}
 		return { success: true };
 	}

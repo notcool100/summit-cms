@@ -35,7 +35,11 @@ export const load: PageServerLoad = async ({ locals, fetch, url }) => {
 	const token = locals.accessToken!;
 	const page = Number(url.searchParams.get('page') ?? '1') || 1;
 	const [result, enquiryTypes, users] = await Promise.all([
-		adminFetch<PagedResult<SubmissionItem>>(fetch, token, `/api/admin/contact/submissions?page=${page}&pageSize=50`),
+		adminFetch<PagedResult<SubmissionItem>>(
+			fetch,
+			token,
+			`/api/admin/contact/submissions?page=${page}&pageSize=50`
+		),
 		adminFetch<EnquiryTypeDto[]>(fetch, token, '/api/admin/enquiry-types'),
 		adminFetch<UserListItem[]>(fetch, token, '/api/admin/users')
 	]);
@@ -50,7 +54,10 @@ export const actions: Actions = {
 		const id = String(form.get('id'));
 		const status = STATUS_MAP[String(form.get('status'))] ?? 0;
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/contact/submissions/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/contact/submissions/${id}/status`, {
+				method: 'PUT',
+				body: JSON.stringify({ status })
+			});
 		} catch (e) {
 			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not update status.' });
 		}
@@ -61,7 +68,10 @@ export const actions: Actions = {
 		const id = String(form.get('id'));
 		const userId = String(form.get('userId') ?? '') || null;
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/contact/submissions/${id}/assign`, { method: 'PUT', body: JSON.stringify({ userId }) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/contact/submissions/${id}/assign`, {
+				method: 'PUT',
+				body: JSON.stringify({ userId })
+			});
 		} catch (e) {
 			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not assign.' });
 		}

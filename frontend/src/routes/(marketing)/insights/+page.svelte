@@ -9,7 +9,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, categories, featured, posts, sections } = data;
+	let { heroHeading, heroSubheading, categories, featured, posts, sections } = $derived(data);
 
 	let activeCategory = $state('All');
 	let visible = $state(true);

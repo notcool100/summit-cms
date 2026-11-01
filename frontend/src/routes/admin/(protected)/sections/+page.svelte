@@ -23,7 +23,11 @@
 	const LAYOUTS = [
 		{ id: 'cards', label: 'Card grid', hint: 'Title and short text per card.' },
 		{ id: 'facts', label: 'Fact strip', hint: 'Item title is the label, item text is the value.' },
-		{ id: 'quote', label: 'Statement', hint: 'Uses the intro as the statement and the note as a sign-off.' },
+		{
+			id: 'quote',
+			label: 'Statement',
+			hint: 'Uses the intro as the statement and the note as a sign-off.'
+		},
 		{ id: 'people', label: 'People', hint: 'Name, role, credential, bio and key-area tags.' },
 		{ id: 'faq', label: 'FAQ', hint: 'Item title is the question, item text is the answer.' }
 	];
@@ -57,11 +61,17 @@
 		projects: [
 			{ id: 'end', label: 'End of page (shown for All and any industry without its own block)' },
 			{ id: 'category:Energy', label: 'When the Energy filter is selected' },
-			{ id: 'category:Resources & Minerals', label: 'When the Resources & Minerals filter is selected' },
+			{
+				id: 'category:Resources & Minerals',
+				label: 'When the Resources & Minerals filter is selected'
+			},
 			{ id: 'category:Utilities', label: 'When the Utilities filter is selected' },
 			{ id: 'category:Renewables', label: 'When the Renewables filter is selected' },
 			{ id: 'category:Rail', label: 'When the Rail filter is selected' },
-			{ id: 'category:Marine & Construction', label: 'When the Marine & Construction filter is selected' }
+			{
+				id: 'category:Marine & Construction',
+				label: 'When the Marine & Construction filter is selected'
+			}
 		],
 		insights: [
 			{ id: 'end', label: 'End of page (shown for All and any category without its own block)' },
@@ -81,7 +91,8 @@
 	const countFor = (slug: string) => sections.filter((s) => s.pageSlug === slug).length;
 	const pageLabel = (slug: string) => PAGES.find((p) => p.slug === slug)?.label ?? slug;
 	const layoutLabel = (id: string) => LAYOUTS.find((l) => l.id === id)?.label ?? id;
-	const slotLabel = (page: string, id: string) => SLOTS[page]?.find((s) => s.id === id)?.label ?? id;
+	const slotLabel = (page: string, id: string) =>
+		SLOTS[page]?.find((s) => s.id === id)?.label ?? id;
 
 	let drawerOpen = $state(false);
 	let drawerKind = $state<'section' | 'item'>('section');
@@ -272,7 +283,12 @@
 				</div>
 				<div class="adm-field">
 					<label for="s-slot">Position on page</label>
-					<select class="adm-select" id="s-slot" name="slot" value={s?.slot ?? SLOTS[formPage][0].id}>
+					<select
+						class="adm-select"
+						id="s-slot"
+						name="slot"
+						value={s?.slot ?? SLOTS[formPage][0].id}
+					>
 						{#each SLOTS[formPage] as slot (slot.id)}<option value={slot.id}>{slot.label}</option
 							>{/each}
 					</select>
@@ -301,11 +317,14 @@
 			</div>
 			<div class="adm-field">
 				<label for="s-heading">Heading (one line per row)</label>
-				<textarea class="adm-textarea" id="s-heading" name="heading" rows="2">{s?.heading ?? ''}</textarea>
+				<textarea class="adm-textarea" id="s-heading" name="heading" rows="2"
+					>{s?.heading ?? ''}</textarea
+				>
 			</div>
 			<div class="adm-field">
 				<label for="s-intro">{formLayout === 'quote' ? 'Statement' : 'Intro'}</label>
-				<textarea class="adm-textarea" id="s-intro" name="intro" rows="3">{s?.intro ?? ''}</textarea>
+				<textarea class="adm-textarea" id="s-intro" name="intro" rows="3">{s?.intro ?? ''}</textarea
+				>
 			</div>
 			<div class="adm-field">
 				<label for="s-note">{formLayout === 'quote' ? 'Sign-off' : 'Footnote'}</label>
@@ -331,15 +350,37 @@
 			</div>
 			<label class="adm-switch-row">
 				<div><strong>Numbered cards</strong><span>Show 01, 02, 03 on each card.</span></div>
-				<input type="checkbox" class="adm-switch" name="numbered" value="true" checked={s?.numbered ?? false} />
+				<input
+					type="checkbox"
+					class="adm-switch"
+					name="numbered"
+					value="true"
+					checked={s?.numbered ?? false}
+				/>
 			</label>
 			<label class="adm-switch-row">
-				<div><strong>Tinted background</strong><span>Use the panel colour behind the section.</span></div>
-				<input type="checkbox" class="adm-switch" name="tinted" value="true" checked={s?.tinted ?? false} />
+				<div>
+					<strong>Tinted background</strong><span>Use the panel colour behind the section.</span>
+				</div>
+				<input
+					type="checkbox"
+					class="adm-switch"
+					name="tinted"
+					value="true"
+					checked={s?.tinted ?? false}
+				/>
 			</label>
 			<label class="adm-switch-row">
-				<div><strong>Visible on site</strong><span>Hide the section without deleting it.</span></div>
-				<input type="checkbox" class="adm-switch" name="isActive" value="true" checked={s?.isActive ?? true} />
+				<div>
+					<strong>Visible on site</strong><span>Hide the section without deleting it.</span>
+				</div>
+				<input
+					type="checkbox"
+					class="adm-switch"
+					name="isActive"
+					value="true"
+					checked={s?.isActive ?? true}
+				/>
 			</label>
 			{@render footer('Add section')}
 		</form>

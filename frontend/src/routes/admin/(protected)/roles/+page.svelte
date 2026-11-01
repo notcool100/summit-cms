@@ -10,14 +10,16 @@
 	let permissions = $derived(data.permissions);
 
 	type Role = (typeof roles)[number];
-	const grouped = $derived(Object.entries(Object.groupBy(permissions, (p) => p.code.split('.')[0])));
+	const grouped = $derived(
+		Object.entries(Object.groupBy(permissions, (p) => p.code.split('.')[0]))
+	);
 	const GROUP_LABELS: Record<string, string> = {
 		content: 'Site content',
 		identity: 'Users & access',
 		contact: 'Contact leads',
 		media: 'Media library',
 		blog: 'Blog',
-		projects: 'Projects',
+		projects: 'Work scopes',
 		industries: 'Industries',
 		capabilities: 'Capabilities',
 		company: 'About page'
@@ -49,7 +51,10 @@
 <div class="adm-page-head">
 	<div>
 		<h1>Roles &amp; permissions</h1>
-		<p>Roles bundle permissions and are assigned to users. SuperAdmin always has every permission; system roles can't be changed.</p>
+		<p>
+			Roles bundle permissions and are assigned to users. SuperAdmin always has every permission;
+			system roles can't be changed.
+		</p>
 	</div>
 	<button class="adm-btn adm-btn--primary" onclick={() => (createOpen = true)}>New role</button>
 </div>
@@ -66,21 +71,66 @@
 				<div class="adm-list-sub">{role.description || 'No description'}</div>
 			</div>
 			<span class="perm-count">
-				{#if isSuper(role)}All permissions{:else}{role.permissionCodes.length} of {permissions.length} permissions{/if}
+				{#if isSuper(role)}All permissions{:else}{role.permissionCodes.length} of {permissions.length}
+					permissions{/if}
 			</span>
 			<div class="adm-row-actions">
 				<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openEdit(role)}>
 					{role.isSystemRole ? 'View' : 'Edit permissions'}
 				</button>
+				{#if !role.isSystemRole}
+					<form
+						method="POST"
+						action="?/deleteRole"
+						use:enhance={submit({
+							success: 'Role deleted',
+							confirm: {
+								title: `Delete the ${role.name} role?`,
+								message: 'Remove it from any users first. This cannot be undone.',
+								confirmLabel: 'Delete role'
+							}
+						})}
+					>
+						<input type="hidden" name="roleId" value={role.id} />
+						<button
+							class="adm-btn adm-btn--danger adm-btn--sm"
+							type="submit"
+							aria-label="Delete role {role.name}">Delete</button
+						>
+					</form>
+				{/if}
 			</div>
 		</div>
 	{/each}
 </div>
 
-<Drawer bind:open={createOpen} title="New role" description="Create the role, then choose its permissions.">
-	<form method="POST" action="?/create" use:enhance={submit({ success: 'Role created', onSuccess: () => (createOpen = false) })}>
-		<div class="adm-field"><label for="name">Role name</label><input class="adm-input" id="name" name="name" placeholder="Content editor" required /></div>
-		<div class="adm-field"><label for="description">Description</label><input class="adm-input" id="description" name="description" placeholder="What people with this role do" /></div>
+<Drawer
+	bind:open={createOpen}
+	title="New role"
+	description="Create the role, then choose its permissions."
+>
+	<form
+		method="POST"
+		action="?/create"
+		use:enhance={submit({ success: 'Role created', onSuccess: () => (createOpen = false) })}
+	>
+		<div class="adm-field">
+			<label for="name">Role name</label><input
+				class="adm-input"
+				id="name"
+				name="name"
+				placeholder="Content editor"
+				required
+			/>
+		</div>
+		<div class="adm-field">
+			<label for="description">Description</label><input
+				class="adm-input"
+				id="description"
+				name="description"
+				placeholder="What people with this role do"
+			/>
+		</div>
 		<div class="adm-form-actions">
 			<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
 			<button class="adm-btn adm-btn--primary" type="submit">Create role</button>
@@ -88,10 +138,21 @@
 	</form>
 </Drawer>
 
-<Drawer bind:open={editOpen} size="lg" title={editing ? editing.name : 'Role'} description={editing?.isSystemRole ? 'System role. Permissions are fixed.' : `${checked.size} of ${permissions.length} permissions selected`}>
+<Drawer
+	bind:open={editOpen}
+	size="lg"
+	title={editing ? editing.name : 'Role'}
+	description={editing?.isSystemRole
+		? 'System role. Permissions are fixed.'
+		: `${checked.size} of ${permissions.length} permissions selected`}
+>
 	{#if editing}
 		{@const readonly = editing.isSystemRole}
-		<form method="POST" action="?/setPermissions" use:enhance={submit({ success: 'Permissions saved', onSuccess: () => (editOpen = false) })}>
+		<form
+			method="POST"
+			action="?/setPermissions"
+			use:enhance={submit({ success: 'Permissions saved', onSuccess: () => (editOpen = false) })}
+		>
 			<input type="hidden" name="roleId" value={editing.id} />
 			{#if isSuper(editing)}
 				<p class="adm-muted">SuperAdmin bypasses permission checks and can do everything.</p>
@@ -103,12 +164,20 @@
 					<div class="perm-group-head">
 						<legend>{groupLabel(group)}</legend>
 						{#if !readonly}
-							<button type="button" class="link-btn" onclick={() => toggleGroup(ids, !allOn)}>{allOn ? 'Clear all' : 'Select all'}</button>
+							<button type="button" class="link-btn" onclick={() => toggleGroup(ids, !allOn)}
+								>{allOn ? 'Clear all' : 'Select all'}</button
+							>
 						{/if}
 					</div>
 					{#each perms ?? [] as perm (perm.id)}
 						<label class="perm-row">
-							<input type="checkbox" name="permissionIds" value={perm.id} checked={checked.has(perm.id) || (readonly && isSuper(editing))} onchange={(e) => toggle(perm.id, e.currentTarget.checked)} />
+							<input
+								type="checkbox"
+								name="permissionIds"
+								value={perm.id}
+								checked={checked.has(perm.id) || (readonly && isSuper(editing))}
+								onchange={(e) => toggle(perm.id, e.currentTarget.checked)}
+							/>
 							<div>
 								<span class="perm-desc">{perm.description || perm.code}</span>
 								<code>{perm.code}</code>
@@ -118,8 +187,12 @@
 				</fieldset>
 			{/each}
 			<div class="adm-form-actions">
-				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>{readonly ? 'Close' : 'Cancel'}</button>
-				{#if !readonly}<button class="adm-btn adm-btn--primary" type="submit">Save permissions</button>{/if}
+				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close
+					>{readonly ? 'Close' : 'Cancel'}</button
+				>
+				{#if !readonly}<button class="adm-btn adm-btn--primary" type="submit"
+						>Save permissions</button
+					>{/if}
 			</div>
 		</form>
 	{/if}
@@ -134,7 +207,7 @@
 		place-items: center;
 		flex-shrink: 0;
 		background: var(--adm-accent-soft);
-		color: var(--adm-accent);
+		color: var(--adm-accent-text);
 		font-weight: 600;
 	}
 	.role-icon.system {
@@ -194,7 +267,7 @@
 		background: none;
 		border: none;
 		padding: 0;
-		color: var(--adm-accent);
+		color: var(--adm-accent-text);
 		font: inherit;
 		font-size: 12.5px;
 		cursor: pointer;

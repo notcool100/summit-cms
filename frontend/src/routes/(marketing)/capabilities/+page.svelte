@@ -11,7 +11,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, panels, sections } = data;
+	let { heroHeading, heroSubheading, panels, sections } = $derived(data);
 </script>
 
 <SeoHead title={data.seoTitle} description={data.seoDescription} image={panels[0]?.src} />
@@ -36,36 +36,36 @@
 
 <!-- ============ STACKED PANELS ============ -->
 <div class="panels">
-{#each panels as panel (panel.key)}
-	<section id={panel.key} class="panel" class:bg-panel={panel.background === 'panel'}>
-		<div class="panel-watermark" aria-hidden="true">{panel.idx}</div>
-		<div class="panel-grid stack-mobile" class:reverse={!panel.textFirst}>
-			<div class="panel-text">
-				<div class="panel-idx-row">
-					<span class="panel-idx">{panel.idx}</span>
-					<span class="panel-rule"></span>
-				</div>
-				<h2>
-					<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{panel.name}</span></span>
-				</h2>
-				<p use:reveal={{ kind: 'up', delay: 0.15 }} class="panel-body">{panel.body}</p>
-				<div use:reveal={{ kind: 'up', delay: 0.25 }} class="panel-stat">
-					<span class="panel-stat-value">{panel.stat}</span>
-					<span class="panel-stat-label">{panel.statLabel}</span>
-				</div>
-			</div>
-			<div use:reveal={{ kind: 'clip' }} use:hoverZoom class="panel-figure">
-				<div class="panel-img-wrap">
-					<div use:parallax={0.07} class="panel-img">
-						<ResponsiveImage src={panel.src} alt={panel.alt} />
+	{#each panels as panel (panel.key)}
+		<section id={panel.key} class="panel" class:bg-panel={panel.background === 'panel'}>
+			<div class="panel-watermark" aria-hidden="true">{panel.idx}</div>
+			<div class="panel-grid stack-mobile" class:reverse={!panel.textFirst}>
+				<div class="panel-text">
+					<div class="panel-idx-row">
+						<span class="panel-idx">{panel.idx}</span>
+						<span class="panel-rule"></span>
+					</div>
+					<h2>
+						<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{panel.name}</span></span>
+					</h2>
+					<p use:reveal={{ kind: 'up', delay: 0.15 }} class="panel-body">{panel.body}</p>
+					<div use:reveal={{ kind: 'up', delay: 0.25 }} class="panel-stat">
+						<span class="panel-stat-value">{panel.stat}</span>
+						<span class="panel-stat-label">{panel.statLabel}</span>
 					</div>
 				</div>
-				<div class="panel-fade" aria-hidden="true"></div>
-				<div class="fig-tag">{panel.fig}</div>
+				<div use:reveal={{ kind: 'clip' }} use:hoverZoom class="panel-figure">
+					<div class="panel-img-wrap">
+						<div use:parallax={0.07} class="panel-img">
+							<ResponsiveImage src={panel.src} alt={panel.alt} />
+						</div>
+					</div>
+					<div class="panel-fade" aria-hidden="true"></div>
+					<div class="fig-tag">{panel.fig}</div>
+				</div>
 			</div>
-		</div>
-	</section>
-{/each}
+		</section>
+	{/each}
 </div>
 
 <SectionRenderer {sections} slot="before-band" />
@@ -114,10 +114,6 @@
 
 	.hero-primary:hover {
 		background: var(--ink);
-	}
-
-	.accent {
-		color: var(--accent-text);
 	}
 
 	/* Hero */

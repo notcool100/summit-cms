@@ -67,6 +67,6 @@
 		font-size: 0.17em;
 		font-weight: 700;
 		letter-spacing: 0.32em;
-		color: var(--gold);
+		color: var(--gold-on-ink);
 	}
 </style>

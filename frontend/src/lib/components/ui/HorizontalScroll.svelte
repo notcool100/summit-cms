@@ -17,13 +17,7 @@
 		children: Snippet;
 	}
 
-	let {
-		heightVh = 300,
-		background = 'var(--paper)',
-		header,
-		footer,
-		children
-	}: Props = $props();
+	let { heightVh = 300, background = 'var(--paper)', header, footer, children }: Props = $props();
 
 	let wrapper: HTMLElement;
 	let track: HTMLElement;

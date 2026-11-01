@@ -40,17 +40,30 @@
 		{#each capabilities as c (c.id)}
 			<div class="adm-list-row">
 				<span class="adm-order">{c.displayOrder}</span>
-				{#if thumb(c.mediaId)}<img class="adm-thumb" src={thumb(c.mediaId)} alt="" />{:else}<span class="adm-thumb"></span>{/if}
+				{#if thumb(c.mediaId)}<img class="adm-thumb" src={thumb(c.mediaId)} alt="" />{:else}<span
+						class="adm-thumb"
+					></span>{/if}
 				<div class="adm-list-main">
 					<div class="adm-list-title">
 						{c.name}
 						{#if !c.isActive}<span class="adm-badge adm-badge--dot">Hidden</span>{/if}
 					</div>
-					<div class="adm-list-sub">{[c.stat, c.statLabel].filter(Boolean).join(' · ') || c.teaserTag}</div>
+					<div class="adm-list-sub">
+						{[c.stat, c.statLabel].filter(Boolean).join(' · ') || c.teaserTag}
+					</div>
 				</div>
 				<div class="adm-row-actions">
-					<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openDrawer(c)}>Edit</button>
-					<form method="POST" action="?/remove" use:enhance={confirmDelete('capability', `“${c.name}” will be removed from the home and capabilities pages.`)}>
+					<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openDrawer(c)}
+						>Edit</button
+					>
+					<form
+						method="POST"
+						action="?/remove"
+						use:enhance={confirmDelete(
+							'capability',
+							`“${c.name}” will be removed from the home and capabilities pages.`
+						)}
+					>
 						<input type="hidden" name="id" value={c.id} />
 						<button class="adm-btn adm-btn--ghost adm-btn--sm" type="submit">Delete</button>
 					</form>
@@ -60,12 +73,19 @@
 	</div>
 {/if}
 
-<Drawer bind:open={drawerOpen} title={editing ? `Edit ${editing.name}` : 'New capability'} size="lg">
+<Drawer
+	bind:open={drawerOpen}
+	title={editing ? `Edit ${editing.name}` : 'New capability'}
+	size="lg"
+>
 	{@const c = editing}
 	<form
 		method="POST"
 		action={c ? '?/update' : '?/create'}
-		use:enhance={submit({ success: c ? 'Capability saved' : 'Capability created', onSuccess: () => (drawerOpen = false) })}
+		use:enhance={submit({
+			success: c ? 'Capability saved' : 'Capability created',
+			onSuccess: () => (drawerOpen = false)
+		})}
 	>
 		{#if c}<input type="hidden" name="id" value={c.id} />{/if}
 		<div class="adm-form-grid">
@@ -75,16 +95,35 @@
 			</div>
 			<div class="adm-field">
 				<label for="key">Key</label>
-				<input class="adm-input" id="key" name="key" value={c?.key ?? ''} placeholder="mechanical-piping" required />
+				<input
+					class="adm-input"
+					id="key"
+					name="key"
+					value={c?.key ?? ''}
+					placeholder="mechanical-piping"
+					required
+				/>
 				<span class="adm-hint">Unique identifier used in page anchors.</span>
 			</div>
 			<div class="adm-field">
 				<label for="stat">Stat</label>
-				<input class="adm-input" id="stat" name="stat" value={c?.stat ?? ''} placeholder="480K LF" />
+				<input
+					class="adm-input"
+					id="stat"
+					name="stat"
+					value={c?.stat ?? ''}
+					placeholder="480K LF"
+				/>
 			</div>
 			<div class="adm-field">
 				<label for="statlabel">Stat label</label>
-				<input class="adm-input" id="statlabel" name="statLabel" value={c?.statLabel ?? ''} placeholder="Pipe installed, single site" />
+				<input
+					class="adm-input"
+					id="statlabel"
+					name="statLabel"
+					value={c?.statLabel ?? ''}
+					placeholder="Pipe installed, single site"
+				/>
 			</div>
 			<div class="adm-field">
 				<label for="tag">Home teaser tag</label>
@@ -113,20 +152,47 @@
 			</div>
 			<div class="adm-field">
 				<label for="order">Display order</label>
-				<input class="adm-input" id="order" name="displayOrder" type="number" value={c?.displayOrder ?? capabilities.length} />
+				<input
+					class="adm-input"
+					id="order"
+					name="displayOrder"
+					type="number"
+					value={c?.displayOrder ?? capabilities.length}
+				/>
 			</div>
 		</div>
 		<label class="adm-switch-row">
-			<div><strong>Text first</strong><span>Show the copy on the left and the image on the right.</span></div>
-			<input type="checkbox" class="adm-switch" name="textFirst" value="true" checked={c?.textFirst ?? true} />
+			<div>
+				<strong>Text first</strong><span>Show the copy on the left and the image on the right.</span
+				>
+			</div>
+			<input
+				type="checkbox"
+				class="adm-switch"
+				name="textFirst"
+				value="true"
+				checked={c?.textFirst ?? true}
+			/>
 		</label>
 		<label class="adm-switch-row">
-			<div><strong>Visible on site</strong><span>Hidden capabilities stay here but are not shown publicly.</span></div>
-			<input type="checkbox" class="adm-switch" name="isActive" value="true" checked={c?.isActive ?? true} />
+			<div>
+				<strong>Visible on site</strong><span
+					>Hidden capabilities stay here but are not shown publicly.</span
+				>
+			</div>
+			<input
+				type="checkbox"
+				class="adm-switch"
+				name="isActive"
+				value="true"
+				checked={c?.isActive ?? true}
+			/>
 		</label>
 		<div class="adm-form-actions">
 			<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
-			<button class="adm-btn adm-btn--primary" type="submit">{c ? 'Save changes' : 'Create capability'}</button>
+			<button class="adm-btn adm-btn--primary" type="submit"
+				>{c ? 'Save changes' : 'Create capability'}</button
+			>
 		</div>
 	</form>
 </Drawer>

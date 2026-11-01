@@ -45,7 +45,14 @@ export const actions: Actions = {
 		try {
 			await adminFetch(fetch, locals.accessToken!, `/api/admin/pages/${id}`, {
 				method: 'PUT',
-				body: JSON.stringify({ title, metaDescription, heroHeading, heroSubheading, heroMediaId, secondaryMediaId })
+				body: JSON.stringify({
+					title,
+					metaDescription,
+					heroHeading,
+					heroSubheading,
+					heroMediaId,
+					secondaryMediaId
+				})
 			});
 		} catch (err) {
 			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not save.' });

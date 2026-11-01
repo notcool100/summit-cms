@@ -41,7 +41,11 @@
 		if (
 			guard &&
 			dirty &&
-			!(await askConfirm({ title: 'Discard changes?', message: 'Your edits in this panel have not been saved.', confirmLabel: 'Discard' }))
+			!(await askConfirm({
+				title: 'Discard changes?',
+				message: 'Your edits in this panel have not been saved.',
+				confirmLabel: 'Discard'
+			}))
 		)
 			return;
 		open = false;
@@ -67,8 +71,14 @@
 					{#if description}<p>{description}</p>{/if}
 				</div>
 				<button class="adm-icon-btn" aria-label="Close" onclick={requestClose}>
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-						><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg
 					>
 				</button>
 			</header>

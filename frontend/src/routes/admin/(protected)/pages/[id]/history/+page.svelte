@@ -24,33 +24,57 @@
 		<div class="adm-flex-between preview-head">
 			<div>
 				<h2>Version {previewVersion.versionNumber}</h2>
-				{#if live && live.id !== previewVersion.id}<p class="adm-muted">Compare with the live version #{live.versionNumber}</p>{/if}
+				{#if live && live.id !== previewVersion.id}<p class="adm-muted">
+						Compare with the live version #{live.versionNumber}
+					</p>{/if}
 			</div>
 			<div class="adm-row-actions">
-				<a class="adm-btn adm-btn--ghost adm-btn--sm" href="/admin/pages/{page.id}/history">Close preview</a>
+				<a class="adm-btn adm-btn--ghost adm-btn--sm" href="/admin/pages/{page.id}/history"
+					>Close preview</a
+				>
 			</div>
 		</div>
 		<dl class="adm-dl">
-			<dt>Browser title</dt><dd>{previewVersion.title}</dd>
-			<dt>Meta description</dt><dd>{previewVersion.metaDescription}</dd>
-			<dt>Hero heading</dt><dd>{previewVersion.heroHeading}</dd>
-			<dt>Hero subheading</dt><dd>{previewVersion.heroSubheading}</dd>
+			<dt>Browser title</dt>
+			<dd>{previewVersion.title}</dd>
+			<dt>Meta description</dt>
+			<dd>{previewVersion.metaDescription}</dd>
+			<dt>Hero heading</dt>
+			<dd>{previewVersion.heroHeading}</dd>
+			<dt>Hero subheading</dt>
+			<dd>{previewVersion.heroSubheading}</dd>
 		</dl>
 	</section>
 {/if}
 
 <div class="adm-table-wrap">
 	{#if versions.length === 0}
-		<div class="adm-empty"><h3>No versions yet</h3><p>Saving from the Pages screen creates the first version.</p></div>
+		<div class="adm-empty">
+			<h3>No versions yet</h3>
+			<p>Saving from the Pages screen creates the first version.</p>
+		</div>
 	{:else}
 		<table class="adm-table">
-			<thead><tr><th>Version</th><th>Status</th><th>Saved</th><th>By</th><th></th></tr></thead>
+			<thead
+				><tr
+					><th>Version</th><th>Status</th><th>Title</th><th>Changes</th><th>Saved</th><th>By</th><th
+					></th></tr
+				></thead
+			>
 			<tbody>
 				{#each versions as v (v.id)}
 					<tr class:previewing={previewVersion?.id === v.id}>
 						<td class="adm-cell-title">#{v.versionNumber}</td>
 						<td>
-							{#if v.isPublished}<span class="adm-badge adm-badge--success adm-badge--dot">Live</span>{:else}<span class="adm-muted">-</span>{/if}
+							{#if v.isPublished}<span class="adm-badge adm-badge--success adm-badge--dot"
+									>Live</span
+								>{:else}<span class="adm-muted">-</span>{/if}
+						</td>
+						<td class="version-title">{v.title}</td>
+						<td class="adm-muted">
+							{#if v.changedFields.length}{v.changedFields.join(
+									', '
+								)}{:else if v.versionNumber === 1}First version{:else}No content changes{/if}
 						</td>
 						<td class="adm-muted" title={formatDateTime(v.createdAt)}>{timeAgo(v.createdAt)}</td>
 						<td>{v.createdByName ?? '-'}</td>
@@ -72,7 +96,9 @@
 										})}
 									>
 										<input type="hidden" name="versionId" value={v.id} />
-										<button class="adm-btn adm-btn--secondary adm-btn--sm" type="submit">Publish</button>
+										<button class="adm-btn adm-btn--secondary adm-btn--sm" type="submit"
+											>Publish</button
+										>
 									</form>
 								{/if}
 							</div>
@@ -85,6 +111,11 @@
 </div>
 
 <style>
+	.version-title {
+		max-width: 320px;
+		overflow-wrap: anywhere;
+	}
+
 	.preview-card {
 		margin-bottom: 20px;
 	}

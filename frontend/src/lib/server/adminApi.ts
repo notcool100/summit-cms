@@ -32,7 +32,11 @@ async function parseErrorMessage(res: Response): Promise<string> {
 	}
 }
 
-export async function loginRequest(fetchFn: typeof fetch, email: string, password: string): Promise<LoginResult> {
+export async function loginRequest(
+	fetchFn: typeof fetch,
+	email: string,
+	password: string
+): Promise<LoginResult> {
 	const res = await fetchFn(`${BASE_URL}/api/auth/login`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -42,7 +46,10 @@ export async function loginRequest(fetchFn: typeof fetch, email: string, passwor
 	return (await res.json()) as LoginResult;
 }
 
-export async function refreshRequest(fetchFn: typeof fetch, refreshToken: string): Promise<LoginResult> {
+export async function refreshRequest(
+	fetchFn: typeof fetch,
+	refreshToken: string
+): Promise<LoginResult> {
 	const res = await fetchFn(`${BASE_URL}/api/auth/refresh`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -63,7 +70,10 @@ export async function logoutRequest(fetchFn: typeof fetch, refreshToken: string)
 export function setAuthCookies(cookies: Cookies, accessToken: string, refreshToken: string) {
 	const opts = { path: '/', httpOnly: true, secure: !dev, sameSite: 'lax' as const };
 	cookies.set(AUTH_COOKIES.access, accessToken, { ...opts, maxAge: REFRESH_TOKEN_MAX_AGE_SECONDS });
-	cookies.set(AUTH_COOKIES.refresh, refreshToken, { ...opts, maxAge: REFRESH_TOKEN_MAX_AGE_SECONDS });
+	cookies.set(AUTH_COOKIES.refresh, refreshToken, {
+		...opts,
+		maxAge: REFRESH_TOKEN_MAX_AGE_SECONDS
+	});
 }
 
 export function clearAuthCookies(cookies: Cookies) {

@@ -56,9 +56,14 @@ export const actions: Actions = {
 		const body = bodyFromForm(form);
 		if (!body.key || !body.name) return fail(400, { error: 'Key and name are required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, '/api/admin/capabilities', { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, '/api/admin/capabilities', {
+				method: 'POST',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
-			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not create capability.' });
+			return fail(400, {
+				error: e instanceof ApiError ? e.message : 'Could not create capability.'
+			});
 		}
 		return { success: true };
 	},
@@ -67,18 +72,27 @@ export const actions: Actions = {
 		const id = String(form.get('id'));
 		const body = bodyFromForm(form);
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/capabilities/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/capabilities/${id}`, {
+				method: 'PUT',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
-			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not update capability.' });
+			return fail(400, {
+				error: e instanceof ApiError ? e.message : 'Could not update capability.'
+			});
 		}
 		return { success: true };
 	},
 	remove: async ({ request, locals, fetch }) => {
 		const id = String((await request.formData()).get('id'));
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/capabilities/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/capabilities/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
-			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not delete capability.' });
+			return fail(400, {
+				error: e instanceof ApiError ? e.message : 'Could not delete capability.'
+			});
 		}
 		return { success: true };
 	}

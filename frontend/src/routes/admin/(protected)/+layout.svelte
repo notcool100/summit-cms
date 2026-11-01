@@ -26,11 +26,36 @@
 		[{ href: '/admin', label: 'Dashboard', icon: 'dashboard' }],
 		[
 			{ href: '/admin/pages', label: 'Pages', icon: 'pages', permission: 'content.pages.manage' },
-			{ href: '/admin/capabilities', label: 'Capabilities', icon: 'layers', permission: 'capabilities.manage' },
-			{ href: '/admin/company', label: 'About page', icon: 'building', permission: 'company.manage' },
-			{ href: '/admin/sections', label: 'Page sections', icon: 'layers', permission: 'company.manage' },
-			{ href: '/admin/industries', label: 'Industries', icon: 'factory', permission: 'industries.manage' },
-			{ href: '/admin/projects', label: 'Projects', icon: 'briefcase', permission: 'projects.manage' },
+			{
+				href: '/admin/capabilities',
+				label: 'Capabilities',
+				icon: 'layers',
+				permission: 'capabilities.manage'
+			},
+			{
+				href: '/admin/company',
+				label: 'About page',
+				icon: 'building',
+				permission: 'company.manage'
+			},
+			{
+				href: '/admin/sections',
+				label: 'Page sections',
+				icon: 'layers',
+				permission: 'company.manage'
+			},
+			{
+				href: '/admin/industries',
+				label: 'Industries',
+				icon: 'factory',
+				permission: 'industries.manage'
+			},
+			{
+				href: '/admin/projects',
+				label: 'Work scopes',
+				icon: 'briefcase',
+				permission: 'projects.manage'
+			},
 			{ href: '/admin/blog', label: 'Blog', icon: 'newspaper', permission: 'blog.manage' }
 		],
 		[
@@ -39,14 +64,31 @@
 		],
 		[
 			{ href: '/admin/users', label: 'Users', icon: 'users', permission: 'identity.users.manage' },
-			{ href: '/admin/roles', label: 'Roles & permissions', icon: 'shield', permission: 'identity.roles.manage' },
-			{ href: '/admin/audit-log', label: 'Audit log', icon: 'activity', permission: 'identity.audit.read' },
-			{ href: '/admin/settings', label: 'Settings', icon: 'settings', permission: 'content.settings.manage' }
+			{
+				href: '/admin/roles',
+				label: 'Roles & permissions',
+				icon: 'shield',
+				permission: 'identity.roles.manage'
+			},
+			{
+				href: '/admin/audit-log',
+				label: 'Audit log',
+				icon: 'activity',
+				permission: 'identity.audit.read'
+			},
+			{
+				href: '/admin/settings',
+				label: 'Settings',
+				icon: 'settings',
+				permission: 'content.settings.manage'
+			}
 		]
 	];
 
 	const visibleGroups = $derived(
-		navGroups.map((g) => g.filter((i) => !i.permission || can(i.permission))).filter((g) => g.length)
+		navGroups
+			.map((g) => g.filter((i) => !i.permission || can(i.permission)))
+			.filter((g) => g.length)
 	);
 
 	const displayName = $derived(user.email.split('@')[0]);
@@ -75,14 +117,26 @@
 	{#if navigating.to}<div class="adm-progress" aria-hidden="true"></div>{/if}
 
 	<header class="adm-mobilebar">
-		<button class="adm-icon-btn" aria-label="Open menu" aria-expanded={navOpen} onclick={() => (navOpen = true)}>
-			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-				><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg
+		<button
+			class="adm-icon-btn"
+			aria-label="Open menu"
+			aria-expanded={navOpen}
+			onclick={() => (navOpen = true)}
+		>
+			<svg
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></svg
 			>
 		</button>
 		<span class="adm-brand-name">{currentLabel || 'Summit CMS'}</span>
 	</header>
-	<button class="adm-scrim" aria-label="Close menu" tabindex="-1" onclick={() => (navOpen = false)}></button>
+	<button class="adm-scrim" aria-label="Close menu" tabindex="-1" onclick={() => (navOpen = false)}
+	></button>
 
 	<aside class="adm-sidebar">
 		<a class="adm-brand" href="/admin">
@@ -158,7 +212,7 @@
 		width: 28px;
 		height: 28px;
 		border-radius: 7px;
-		background: var(--adm-accent);
+		background: var(--adm-accent-strong);
 		color: #fff;
 		display: grid;
 		place-items: center;

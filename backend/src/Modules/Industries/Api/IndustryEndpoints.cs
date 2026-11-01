@@ -9,6 +9,8 @@ using SummitCms.Modules.Projects.Contracts;
 using SummitCms.Shared.Infrastructure.Endpoints;
 using SummitCms.Shared.Infrastructure.Security;
 
+using SummitCms.Shared.Infrastructure.Auditing;
+
 namespace SummitCms.Modules.Industries.Api;
 
 public static class IndustryEndpoints
@@ -42,7 +44,7 @@ public static class IndustryEndpoints
             db.ProjectLinks.Add(link);
             await db.SaveChangesAsync(ct);
             return Results.Created($"/api/admin/industries/{industryId}/links/{link.Id}", link.Id);
-        });
+        }).WithAudit("IndustryWorkScopeLink");
 
         group.MapDelete("/links/{id:guid}", async (Guid id, IndustriesDbContext db, CancellationToken ct) =>
         {
@@ -51,6 +53,6 @@ public static class IndustryEndpoints
             db.ProjectLinks.Remove(link);
             await db.SaveChangesAsync(ct);
             return Results.NoContent();
-        });
+        }).WithAudit("IndustryWorkScopeLink");
     }
 }

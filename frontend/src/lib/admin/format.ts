@@ -18,7 +18,13 @@ export function timeAgo(iso: string) {
 }
 
 const DATE_FMT = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' });
-const DATETIME_FMT = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+const DATETIME_FMT = new Intl.DateTimeFormat('en', {
+	day: 'numeric',
+	month: 'short',
+	year: 'numeric',
+	hour: 'numeric',
+	minute: '2-digit'
+});
 
 export const formatDate = (iso: string) => DATE_FMT.format(new Date(iso));
 export const formatDateTime = (iso: string) => DATETIME_FMT.format(new Date(iso));

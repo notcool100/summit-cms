@@ -51,7 +51,22 @@ export const actions: Actions = {
 				body: JSON.stringify({ permissionIds })
 			});
 		} catch (err) {
-			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not update permissions.' });
+			return fail(400, {
+				error: err instanceof ApiError ? err.message : 'Could not update permissions.'
+			});
+		}
+		return { success: true };
+	},
+
+	deleteRole: async ({ request, locals, fetch }) => {
+		const form = await request.formData();
+		const roleId = String(form.get('roleId'));
+		try {
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/roles/${roleId}`, {
+				method: 'DELETE'
+			});
+		} catch (err) {
+			return fail(400, { error: err instanceof ApiError ? err.message : 'Could not delete role.' });
 		}
 		return { success: true };
 	}

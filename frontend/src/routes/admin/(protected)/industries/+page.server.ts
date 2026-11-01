@@ -64,7 +64,10 @@ export const actions: Actions = {
 		const body = bodyFromForm(form);
 		if (!body.name) return fail(400, { error: 'Name is required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, '/api/admin/industries', { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, '/api/admin/industries', {
+				method: 'POST',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not create industry.' });
 		}
@@ -75,7 +78,10 @@ export const actions: Actions = {
 		const id = String(form.get('id'));
 		const body = bodyFromForm(form);
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/${id}`, {
+				method: 'PUT',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not update industry.' });
 		}
@@ -84,7 +90,9 @@ export const actions: Actions = {
 	remove: async ({ request, locals, fetch }) => {
 		const id = String((await request.formData()).get('id'));
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not delete industry.' });
 		}
@@ -100,7 +108,10 @@ export const actions: Actions = {
 			displayOrder: Number(form.get('displayOrder') ?? 0)
 		};
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/${industryId}/links`, { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/${industryId}/links`, {
+				method: 'POST',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not add link.' });
 		}
@@ -109,7 +120,9 @@ export const actions: Actions = {
 	removeLink: async ({ request, locals, fetch }) => {
 		const id = String((await request.formData()).get('id'));
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/links/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/industries/links/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not remove link.' });
 		}

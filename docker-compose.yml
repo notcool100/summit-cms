@@ -5,6 +5,7 @@
 # - The backend stays on the private network; the frontend reaches it at http://backend:8080, which
 #   also keeps the visitor's real IP intact for the contact-form rate limit.
 # - Variables written as ${NAME} show up in Coolify's Environment Variables tab. ":?" marks required.
+# - Staging: set APP_URL to the staging address and leave SITE_URL as the production domain.
 #
 # Note: the Dockerfile in the repository root is a legacy static build and is not used here.
 
@@ -52,9 +53,14 @@ services:
         condition: service_healthy
     environment:
       PUBLIC_API_BASE_URL: http://backend:8080
+      # The production website address. Only requests for this host are indexable by search
+      # engines and it's used for canonical URLs, the sitemap and social cards. Keep it set to the
+      # production domain on EVERY deployment, including staging.
       PUBLIC_SITE_URL: ${SITE_URL:-https://www.summit-is.com.au}
-      # Required behind a proxy: SvelteKit rejects form posts (contact form, admin) without it.
-      ORIGIN: ${SITE_URL:-https://www.summit-is.com.au}
+      # This deployment's own public address. Required behind a proxy: SvelteKit rejects form posts
+      # (contact form, admin) whose Origin doesn't match it. On staging set APP_URL to the staging
+      # address (e.g. https://summit.ubucknepal.com) - that copy is then automatically noindex.
+      ORIGIN: ${APP_URL:-https://www.summit-is.com.au}
       ADDRESS_HEADER: X-Forwarded-For
       XFF_DEPTH: '1'
     expose:

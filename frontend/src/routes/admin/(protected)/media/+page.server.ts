@@ -23,7 +23,8 @@ export const actions: Actions = {
 	upload: async ({ request, locals, fetch }) => {
 		const form = await request.formData();
 		const file = form.get('file');
-		if (!(file instanceof File) || file.size === 0) return fail(400, { error: 'Choose a file to upload.' });
+		if (!(file instanceof File) || file.size === 0)
+			return fail(400, { error: 'Choose a file to upload.' });
 
 		const res = await fetch(`${ADMIN_API_BASE_URL}/api/admin/media/upload`, {
 			method: 'POST',

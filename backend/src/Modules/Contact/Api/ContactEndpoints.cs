@@ -15,6 +15,8 @@ using SummitCms.Modules.SiteContent.Contracts;
 using SummitCms.Shared.Infrastructure.Security;
 using SummitCms.Shared.Kernel.Pagination;
 
+using SummitCms.Shared.Infrastructure.Auditing;
+
 namespace SummitCms.Modules.Contact.Api;
 
 public static class ContactEndpoints
@@ -98,7 +100,13 @@ public static class ContactEndpoints
             return Results.Stream(async stream =>
             {
                 await using var writer = new StreamWriter(stream, leaveOpen: true);
-                await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture, leaveOpen: true);
+                // Escape values starting with = + - @ (and tab/CR) so visitor-typed text can never run as a
+                // spreadsheet formula when staff open the export in Excel (CSV/formula injection).
+                var csvConfig = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    InjectionOptions = CsvHelper.Configuration.InjectionOptions.Escape
+                };
+                await using var csv = new CsvWriter(writer, csvConfig, leaveOpen: true);
 
                 csv.WriteField("Name");
                 csv.WriteField("Email");
@@ -135,12 +143,12 @@ public static class ContactEndpoints
         {
             var result = await sender.Send(new SetSubmissionStatusCommand(id, body.Status), ct);
             return result.IsSuccess ? Results.NoContent() : Results.NotFound(new { error = result.Error });
-        });
+        }).WithAudit("ContactSubmissionStatus");
 
         admin.MapPut("/submissions/{id:guid}/assign", async (Guid id, AssignRequest body, ISender sender, CancellationToken ct) =>
         {
             var result = await sender.Send(new AssignSubmissionCommand(id, body.UserId), ct);
             return result.IsSuccess ? Results.NoContent() : Results.BadRequest(new { error = result.Error });
-        });
+        }).WithAudit("ContactSubmissionAssignment");
     }
 }

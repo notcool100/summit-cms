@@ -59,7 +59,10 @@ export const actions: Actions = {
 		};
 		if (!body.slug || !body.name) return fail(400, { error: 'Slug and name are required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, '/api/admin/projects', { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, '/api/admin/projects', {
+				method: 'POST',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return err(e, 'Could not create project.');
 		}
@@ -68,7 +71,9 @@ export const actions: Actions = {
 	remove: async ({ request, locals, fetch }) => {
 		const id = str(await request.formData(), 'id');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not delete project.');
 		}
@@ -79,7 +84,10 @@ export const actions: Actions = {
 		const body = { name: str(form, 'name').trim(), displayOrder: num(form, 'displayOrder') };
 		if (!body.name) return fail(400, { error: 'Category name is required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, '/api/admin/projects/industry-categories', { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, '/api/admin/projects/industry-categories', {
+				method: 'POST',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return err(e, 'Could not create category.');
 		}
@@ -88,7 +96,12 @@ export const actions: Actions = {
 	deleteCategory: async ({ request, locals, fetch }) => {
 		const id = str(await request.formData(), 'id');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/industry-categories/${id}`, { method: 'DELETE' });
+			await adminFetch(
+				fetch,
+				locals.accessToken!,
+				`/api/admin/projects/industry-categories/${id}`,
+				{ method: 'DELETE' }
+			);
 		} catch (e) {
 			return err(e, 'Could not delete category.');
 		}

@@ -35,7 +35,10 @@ export interface ConfirmOptions {
 	danger?: boolean;
 }
 
-export const confirmState = $state<{ options: ConfirmOptions | null; resolve: ((ok: boolean) => void) | null }>({
+export const confirmState = $state<{
+	options: ConfirmOptions | null;
+	resolve: ((ok: boolean) => void) | null;
+}>({
 	options: null,
 	resolve: null
 });

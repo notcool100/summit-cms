@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\src\Shared\SummitCms.Shared.Kernel\SummitCms.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\src\Shared\SummitCms.Shared.Infrastructure\SummitCms.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Identity\SummitCms.Modules.Identity.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Media\SummitCms.Modules.Media.csproj" />
   </ItemGroup>
 
 </Project>

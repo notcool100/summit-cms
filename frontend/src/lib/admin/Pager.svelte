@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page as appPage } from '$app/state';
 
-	let { page, totalPages, totalCount }: { page: number; totalPages: number; totalCount?: number } = $props();
+	let { page, totalPages, totalCount }: { page: number; totalPages: number; totalCount?: number } =
+		$props();
 
 	// First, last, and a window around the current page; gaps become "…".
 	const items = $derived.by(() => {
@@ -24,15 +25,29 @@
 			Page {page} of {totalPages}{#if totalCount !== undefined}&nbsp;· {totalCount} total{/if}
 		</span>
 		<div class="adm-pager-links">
-			<a class="adm-btn adm-btn--secondary adm-btn--sm" class:disabled={page <= 1} href={href(Math.max(1, page - 1))} aria-label="Previous page">‹ Prev</a>
+			<a
+				class="adm-btn adm-btn--secondary adm-btn--sm"
+				class:disabled={page <= 1}
+				href={href(Math.max(1, page - 1))}
+				aria-label="Previous page">‹ Prev</a
+			>
 			{#each items as item, i (i)}
 				{#if item === 'gap'}
 					<span class="adm-pager-gap">…</span>
 				{:else}
-					<a class="adm-btn adm-btn--sm {item === page ? 'adm-btn--primary' : 'adm-btn--ghost'}" href={href(item)} aria-current={item === page ? 'page' : undefined}>{item}</a>
+					<a
+						class="adm-btn adm-btn--sm {item === page ? 'adm-btn--primary' : 'adm-btn--ghost'}"
+						href={href(item)}
+						aria-current={item === page ? 'page' : undefined}>{item}</a
+					>
 				{/if}
 			{/each}
-			<a class="adm-btn adm-btn--secondary adm-btn--sm" class:disabled={page >= totalPages} href={href(Math.min(totalPages, page + 1))} aria-label="Next page">Next ›</a>
+			<a
+				class="adm-btn adm-btn--secondary adm-btn--sm"
+				class:disabled={page >= totalPages}
+				href={href(Math.min(totalPages, page + 1))}
+				aria-label="Next page">Next ›</a
+			>
 		</div>
 	</nav>
 {/if}
