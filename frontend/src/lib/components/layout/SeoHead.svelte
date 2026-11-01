@@ -13,10 +13,9 @@
 	let { title, description, image, type = 'website', noindex = false }: Props = $props();
 
 	let canonical = $derived(`${site.url}${page.url.pathname}`);
-	// Staging/preview hosts are never indexable, whatever the page asks for.
-	let stagingHost = $derived(
-		new URL(site.url).host.replace(/^www\./, '') !== page.url.host.replace(/^www\./, '')
-	);
+	// Staging/preview hosts are never indexable, whatever the page asks for. Decided server-side from
+	// the host actually requested (see hooks.server.ts), not page.url, which mirrors ORIGIN.
+	let stagingHost = $derived(page.data.indexable !== true);
 	// Branded 1200x630 card for pages that don't supply their own image.
 	const defaultImage = '/og-default.jpg';
 	let usingDefault = $derived(!image);

@@ -9,7 +9,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const { heroHeading, heroSubheading, industries, sections } = data;
+	let { heroHeading, heroSubheading, industries, sections } = $derived(data);
 
 	let openIdx = $state<number | null>(null);
 
@@ -92,10 +92,6 @@
 </section>
 
 <style>
-	.accent {
-		color: var(--accent-text);
-	}
-
 	/* Hero */
 	.hero {
 		padding: calc(74px + clamp(60px, 10vh, 120px)) clamp(20px, 4vw, 64px) clamp(50px, 8vh, 96px);

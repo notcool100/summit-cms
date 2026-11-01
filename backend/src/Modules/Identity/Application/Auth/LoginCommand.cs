@@ -17,16 +17,29 @@ public sealed class LoginCommandHandler(
     IPasswordHasherService hasher,
     ITokenService tokens,
     TimeProvider timeProvider,
-    IOptions<JwtOptions> jwtOptions) : IRequestHandler<LoginCommand, Result<LoginResult>>
+    IOptions<JwtOptions> jwtOptions,
+    LoginThrottle throttle) : IRequestHandler<LoginCommand, Result<LoginResult>>
 {
+    public const string LockedOutCode = "locked_out";
+
     public async Task<Result<LoginResult>> Handle(LoginCommand request, CancellationToken ct)
     {
+        // Same lockout for real and unknown emails, so it can't be used to discover accounts.
+        if (throttle.IsLocked(request.Email, out var remaining))
+            return Result.Failure<LoginResult>(
+                $"Too many failed sign-in attempts. Try again in {Math.Max(1, (int)Math.Ceiling(remaining.TotalMinutes))} minutes.",
+                LockedOutCode);
+
         var user = await db.Users
             .Include(u => u.UserRoles).ThenInclude(ur => ur.Role).ThenInclude(r => r.RolePermissions).ThenInclude(rp => rp.Permission)
             .FirstOrDefaultAsync(u => u.Email == request.Email.ToLowerInvariant(), ct);
 
         if (user is null || !user.IsActive || !hasher.Verify(user.PasswordHash, request.Password))
+        {
+            throttle.RecordFailure(request.Email);
             return Result.Failure<LoginResult>("Invalid email or password.", "invalid_credentials");
+        }
+        throttle.RecordSuccess(request.Email);
 
         var roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
         var permissions = user.UserRoles

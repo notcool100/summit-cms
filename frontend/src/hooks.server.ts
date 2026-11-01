@@ -1,4 +1,4 @@
-import { redirect, type Handle } from '@sveltejs/kit';
+import { redirect, type Handle, type HandleFetch, type RequestEvent } from '@sveltejs/kit';
 import { site } from '$lib/config/site';
 import {
 	AUTH_COOKIES,
@@ -7,15 +7,44 @@ import {
 	clearAuthCookies
 } from '$lib/server/adminApi';
 import { decodeAccessToken } from '$lib/server/jwt';
+import { PUBLIC_API_BASE_URL } from '$lib/server/publicApi';
 
 const REFRESH_SKEW_MS = 60_000; // refresh proactively if the access token expires within 60s
 
-const canonicalHost = new URL(site.url).host;
+const canonicalHost = new URL(site.url).host.replace(/^www\./, '').toLowerCase();
 
-/** True when serving from anything other than the configured production domain (staging, preview, IP). */
-function isNonCanonicalHost(host: string): boolean {
-	return host.replace(/^www\./, '') !== canonicalHost.replace(/^www\./, '');
+/**
+ * The host the visitor actually requested. Deliberately NOT `event.url.host`: behind a proxy the
+ * Node adapter builds `event.url` from the ORIGIN setting, so it always looks like the configured
+ * domain. The proxy passes the real host in Host / X-Forwarded-Host.
+ */
+function requestedHost(event: RequestEvent): string {
+	const forwarded = event.request.headers.get('x-forwarded-host')?.split(',')[0]?.trim();
+	const host = forwarded || event.request.headers.get('host') || event.url.host;
+	return host
+		.replace(/:\d+$/, '')
+		.replace(/^www\./, '')
+		.toLowerCase();
 }
+
+/** Visitor IP: the proxy's X-Forwarded-For when present, else the socket address. */
+function clientIp(event: RequestEvent): string | null {
+	const forwarded = event.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+	if (forwarded) return forwarded;
+	try {
+		return event.getClientAddress();
+	} catch {
+		return null;
+	}
+}
+
+const SECURITY_HEADERS: Record<string, string> = {
+	'X-Content-Type-Options': 'nosniff',
+	'X-Frame-Options': 'DENY',
+	'Referrer-Policy': 'strict-origin-when-cross-origin',
+	'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+	'Cross-Origin-Opener-Policy': 'same-origin'
+};
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// "Projects" became "Typical Work Scopes" (client review P0-03); keep old links and bookmarks working.
@@ -24,6 +53,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		redirect(301, `/work-scopes${pathname.slice('/projects'.length)}${search}`);
 	}
 
+	// Only the production domain (PUBLIC_SITE_URL) may be indexed; staging, previews and raw IPs never
+	// are (client review P1-06). Shared with robots.txt and every page's robots meta via locals.
+	event.locals.indexable = requestedHost(event) === canonicalHost;
 	event.locals.user = null;
 	event.locals.accessToken = null;
 
@@ -63,9 +95,29 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	const response = await resolve(event);
-	// Staging and preview hosts must never be indexed (client review P1-06). Belt and braces with robots.txt.
-	if (isNonCanonicalHost(event.url.host)) {
+
+	for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+		if (!response.headers.has(name)) response.headers.set(name, value);
+	}
+	const proto =
+		event.request.headers.get('x-forwarded-proto') ?? event.url.protocol.replace(':', '');
+	if (proto === 'https') {
+		response.headers.set('Strict-Transport-Security', 'max-age=31536000');
+	}
+	if (!event.locals.indexable || pathname.startsWith('/admin')) {
 		response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 	}
 	return response;
+};
+
+/**
+ * Every server-side call to the API carries the visitor's IP, so the API's per-IP rate limits
+ * (sign-in, contact form) and the admin audit log see the real person, not this Node server.
+ */
+export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
+	if (request.url.startsWith(PUBLIC_API_BASE_URL)) {
+		const ip = clientIp(event);
+		if (ip) request.headers.set('X-Forwarded-For', ip);
+	}
+	return fetch(request);
 };

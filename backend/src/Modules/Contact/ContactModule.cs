@@ -14,7 +14,11 @@ public static class ContactModule
     {
         services.AddModuleDbContext<ContactDbContext>(configuration, ContactDbContext.Schema);
         services.Configure<EnquiryEmailOptions>(configuration.GetSection(EnquiryEmailOptions.Section));
-        services.AddScoped<IEnquiryNotifier, SmtpEnquiryNotifier>();
+        // Requests enqueue the alert; EnquiryEmailWorker sends it in the background (no visitor wait).
+        services.AddScoped<SmtpEnquiryNotifier>();
+        services.AddSingleton<EnquiryEmailQueue>();
+        services.AddScoped<IEnquiryNotifier, QueuedEnquiryNotifier>();
+        services.AddHostedService<EnquiryEmailWorker>();
         return services;
     }
 

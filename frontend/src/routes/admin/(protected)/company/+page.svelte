@@ -537,7 +537,7 @@
 	.year {
 		font-family: var(--adm-font-mono);
 		font-size: 12.5px;
-		color: var(--adm-accent);
+		color: var(--adm-accent-text);
 		min-width: 40px;
 	}
 	.avatar {

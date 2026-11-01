@@ -31,20 +31,32 @@
 <div class="adm-page-head">
 	<div>
 		<h1>Industries</h1>
-		<p>Industries served, each optionally linked to real projects. Names and stats can be overridden per link.</p>
+		<p>
+			Industries served, each optionally linked to real projects. Names and stats can be overridden
+			per link.
+		</p>
 	</div>
 	<button class="adm-btn adm-btn--primary" onclick={() => openDrawer(null)}>New industry</button>
 </div>
 
 {#if industries.length === 0}
-	<div class="adm-list"><div class="adm-empty"><h3>No industries yet</h3><p>Add the sectors you work in.</p></div></div>
+	<div class="adm-list">
+		<div class="adm-empty">
+			<h3>No industries yet</h3>
+			<p>Add the sectors you work in.</p>
+		</div>
+	</div>
 {:else}
 	<div class="adm-list">
 		{#each industries as ind (ind.id)}
 			{@const indLinks = links.filter((l) => l.industryId === ind.id)}
 			<div class="adm-list-row ind-row">
 				<span class="adm-order">{ind.idx}</span>
-				{#if thumb(ind.mediaId)}<img class="adm-thumb" src={thumb(ind.mediaId)} alt="" />{:else}<span class="adm-thumb"></span>{/if}
+				{#if thumb(ind.mediaId)}<img
+						class="adm-thumb"
+						src={thumb(ind.mediaId)}
+						alt=""
+					/>{:else}<span class="adm-thumb"></span>{/if}
 				<div class="adm-list-main">
 					<div class="adm-list-title">
 						{ind.name}
@@ -56,10 +68,24 @@
 							{@const project = projects.find((p) => p.id === link.projectId)}
 							<span class="adm-badge adm-badge--accent">
 								{link.customLabel ?? project?.name ?? 'Unknown project'}
-								{#if link.customStat ?? project?.stat}<span class="link-stat">{link.customStat ?? project?.stat}</span>{/if}
-								<form method="POST" action="?/removeLink" use:enhance={confirmDelete('project link', 'The project stays; it just stops appearing under this industry.')}>
+								{#if link.customStat ?? project?.stat}<span class="link-stat"
+										>{link.customStat ?? project?.stat}</span
+									>{/if}
+								<form
+									method="POST"
+									action="?/removeLink"
+									use:enhance={confirmDelete(
+										'project link',
+										'The project stays; it just stops appearing under this industry.'
+									)}
+								>
 									<input type="hidden" name="id" value={link.id} />
-									<button type="submit" class="adm-chip-x" aria-label="Unlink project" title="Unlink">×</button>
+									<button
+										type="submit"
+										class="adm-chip-x"
+										aria-label="Unlink project"
+										title="Unlink">×</button
+									>
 								</form>
 							</span>
 						{/each}
@@ -67,8 +93,17 @@
 					</div>
 				</div>
 				<div class="adm-row-actions">
-					<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openDrawer(ind)}>Edit</button>
-					<form method="POST" action="?/remove" use:enhance={confirmDelete('industry', `“${ind.name}” and its project links will be removed.`)}>
+					<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openDrawer(ind)}
+						>Edit</button
+					>
+					<form
+						method="POST"
+						action="?/remove"
+						use:enhance={confirmDelete(
+							'industry',
+							`“${ind.name}” and its project links will be removed.`
+						)}
+					>
 						<input type="hidden" name="id" value={ind.id} />
 						<button class="adm-btn adm-btn--ghost adm-btn--sm" type="submit">Delete</button>
 					</form>
@@ -80,7 +115,14 @@
 
 <Drawer bind:open={drawerOpen} title={editing ? `Edit ${editing.name}` : 'New industry'}>
 	{@const i = editing}
-	<form method="POST" action={i ? '?/update' : '?/create'} use:enhance={submit({ success: i ? 'Industry saved' : 'Industry created', onSuccess: () => (drawerOpen = false) })}>
+	<form
+		method="POST"
+		action={i ? '?/update' : '?/create'}
+		use:enhance={submit({
+			success: i ? 'Industry saved' : 'Industry created',
+			onSuccess: () => (drawerOpen = false)
+		})}
+	>
 		{#if i}<input type="hidden" name="id" value={i.id} />{/if}
 		<div class="adm-form-grid">
 			<div class="adm-field">
@@ -110,38 +152,78 @@
 		</div>
 		<div class="adm-field">
 			<label for="order">Display order</label>
-			<input class="adm-input" id="order" name="displayOrder" type="number" value={i?.displayOrder ?? industries.length} />
+			<input
+				class="adm-input"
+				id="order"
+				name="displayOrder"
+				type="number"
+				value={i?.displayOrder ?? industries.length}
+			/>
 		</div>
 		<label class="adm-switch-row">
-			<div><strong>Visible on site</strong><span>Hidden industries are kept but not shown publicly.</span></div>
-			<input type="checkbox" class="adm-switch" name="isActive" value="true" checked={i?.isActive ?? true} />
+			<div>
+				<strong>Visible on site</strong><span
+					>Hidden industries are kept but not shown publicly.</span
+				>
+			</div>
+			<input
+				type="checkbox"
+				class="adm-switch"
+				name="isActive"
+				value="true"
+				checked={i?.isActive ?? true}
+			/>
 		</label>
 		<div class="adm-form-actions">
 			<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
-			<button class="adm-btn adm-btn--primary" type="submit">{i ? 'Save changes' : 'Create industry'}</button>
+			<button class="adm-btn adm-btn--primary" type="submit"
+				>{i ? 'Save changes' : 'Create industry'}</button
+			>
 		</div>
 	</form>
 </Drawer>
 
-<Drawer bind:open={linkDrawerOpen} title="Link a project" description={linkingFor ? `Show a project under ${linkingFor.name}.` : undefined}>
+<Drawer
+	bind:open={linkDrawerOpen}
+	title="Link a project"
+	description={linkingFor ? `Show a project under ${linkingFor.name}.` : undefined}
+>
 	{#if linkingFor}
-		{@const linked = new Set(links.filter((l) => l.industryId === linkingFor?.id).map((l) => l.projectId))}
-		<form method="POST" action="?/addLink" use:enhance={submit({ success: 'Project linked', onSuccess: () => (linkDrawerOpen = false) })}>
+		{@const linked = new Set(
+			links.filter((l) => l.industryId === linkingFor?.id).map((l) => l.projectId)
+		)}
+		<form
+			method="POST"
+			action="?/addLink"
+			use:enhance={submit({ success: 'Project linked', onSuccess: () => (linkDrawerOpen = false) })}
+		>
 			<input type="hidden" name="industryId" value={linkingFor.id} />
 			<div class="adm-field">
 				<label for="projectId">Project</label>
 				<select class="adm-select" id="projectId" name="projectId" required>
 					<option value="">Choose a project…</option>
-					{#each projects.filter((p) => !linked.has(p.id)) as p (p.id)}<option value={p.id}>{p.name}</option>{/each}
+					{#each projects.filter((p) => !linked.has(p.id)) as p (p.id)}<option value={p.id}
+							>{p.name}</option
+						>{/each}
 				</select>
 			</div>
 			<div class="adm-field">
 				<label for="customLabel">Custom label</label>
-				<input class="adm-input" id="customLabel" name="customLabel" placeholder="Defaults to the project name" />
+				<input
+					class="adm-input"
+					id="customLabel"
+					name="customLabel"
+					placeholder="Defaults to the project name"
+				/>
 			</div>
 			<div class="adm-field">
 				<label for="customStat">Custom stat</label>
-				<input class="adm-input" id="customStat" name="customStat" placeholder="Defaults to the project stat" />
+				<input
+					class="adm-input"
+					id="customStat"
+					name="customStat"
+					placeholder="Defaults to the project stat"
+				/>
 			</div>
 			<div class="adm-form-actions">
 				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>

@@ -25,7 +25,8 @@
 		<h2>{o.title}</h2>
 		{#if o.message}<p>{o.message}</p>{/if}
 		<div class="actions">
-			<button class="adm-btn adm-btn--secondary" onclick={() => settleConfirm(false)}>Cancel</button>
+			<button class="adm-btn adm-btn--secondary" onclick={() => settleConfirm(false)}>Cancel</button
+			>
 			<button
 				bind:this={confirmButton}
 				class="adm-btn {o.danger === false ? 'adm-btn--primary' : 'adm-btn--danger-solid'}"

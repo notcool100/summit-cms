@@ -10,14 +10,21 @@
 		areas: string[];
 	}
 
-	let { idx, label = 'Key personnel', people }: { idx?: string; label?: string; people: Person[] } = $props();
+	let {
+		idx,
+		label = 'Key personnel',
+		people
+	}: { idx?: string; label?: string; people: Person[] } = $props();
 </script>
 
 <section class="people">
 	<div class="people-eyebrow"><SectionLabel {idx} {label} /></div>
 	<div class="people-list">
 		{#each people as p, i (p.name)}
-			<article use:reveal={{ kind: 'up', delay: Math.min(i * 0.06, 0.2) }} class="person stack-mobile">
+			<article
+				use:reveal={{ kind: 'up', delay: Math.min(i * 0.06, 0.2) }}
+				class="person stack-mobile"
+			>
 				<div class="person-id">
 					<h3>{p.name}</h3>
 					<div class="person-title">{p.title}</div>

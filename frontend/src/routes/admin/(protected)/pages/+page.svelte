@@ -31,7 +31,10 @@
 <div class="adm-page-head">
 	<div>
 		<h1>Pages</h1>
-		<p>Hero heading, subheading, SEO description, and hero imagery for each top-level page. Saving publishes immediately.</p>
+		<p>
+			Hero heading, subheading, SEO description, and hero imagery for each top-level page. Saving
+			publishes immediately.
+		</p>
 	</div>
 </div>
 
@@ -58,20 +61,40 @@
 				</div>
 			</div>
 			<div class="adm-row-actions">
-				<a class="adm-icon-btn" href={publicPath(p.slug)} target="_blank" rel="noopener" title="View live page" aria-label="View live page">
+				<a
+					class="adm-icon-btn"
+					href={publicPath(p.slug)}
+					target="_blank"
+					rel="noopener"
+					title="View live page"
+					aria-label="View live page"
+				>
 					<Icon name="external" size={16} />
 				</a>
 				<a class="adm-btn adm-btn--ghost adm-btn--sm" href="/admin/pages/{p.id}/history">History</a>
-				<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => edit(p.id)}>Edit</button>
+				<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => edit(p.id)}
+					>Edit</button
+				>
 			</div>
 		</div>
 	{/each}
 </div>
 
-<Drawer bind:open={drawerOpen} title={editing ? `Edit ${editing.title}` : 'Edit page'} description="Changes go live as soon as you save.">
+<Drawer
+	bind:open={drawerOpen}
+	title={editing ? `Edit ${editing.title}` : 'Edit page'}
+	description="Changes go live as soon as you save."
+>
 	{#if editing}
 		{@const p = editing}
-		<form method="POST" action="?/update" use:enhance={submit({ success: 'Page saved and published', onSuccess: () => (drawerOpen = false) })}>
+		<form
+			method="POST"
+			action="?/update"
+			use:enhance={submit({
+				success: 'Page saved and published',
+				onSuccess: () => (drawerOpen = false)
+			})}
+		>
 			<input type="hidden" name="id" value={p.id} />
 			<div class="adm-field">
 				<label for="title">Browser title</label>
@@ -80,12 +103,20 @@
 			<div class="adm-field">
 				<div class="adm-field-label-row">
 					<label for="meta">Meta description</label>
-					<span class="adm-counter" class:over={metaLength > META_LIMIT}>{metaLength} / {META_LIMIT}</span>
+					<span class="adm-counter" class:over={metaLength > META_LIMIT}
+						>{metaLength} / {META_LIMIT}</span
+					>
 				</div>
-				<textarea class="adm-textarea" id="meta" name="metaDescription" rows="3" oninput={(e) => (metaLength = e.currentTarget.value.length)}
-					>{p.metaDescription}</textarea
+				<textarea
+					class="adm-textarea"
+					id="meta"
+					name="metaDescription"
+					rows="3"
+					oninput={(e) => (metaLength = e.currentTarget.value.length)}>{p.metaDescription}</textarea
 				>
-				<span class="adm-hint">Shown under the title in search results. Aim for 120 to 160 characters.</span>
+				<span class="adm-hint"
+					>Shown under the title in search results. Aim for 120 to 160 characters.</span
+				>
 			</div>
 			<div class="adm-field">
 				<label for="hero">Hero heading</label>
@@ -93,7 +124,9 @@
 			</div>
 			<div class="adm-field">
 				<label for="sub">Hero subheading</label>
-				<textarea class="adm-textarea" id="sub" name="heroSubheading" rows="2">{p.heroSubheading}</textarea>
+				<textarea class="adm-textarea" id="sub" name="heroSubheading" rows="2"
+					>{p.heroSubheading}</textarea
+				>
 			</div>
 			<div class="adm-field">
 				<label for="heroMedia">Hero image</label>
@@ -101,7 +134,12 @@
 			</div>
 			<div class="adm-field">
 				<label for="secondaryMedia">Secondary image</label>
-				<MediaPicker id="secondaryMedia" name="secondaryMediaId" {media} value={p.secondaryMediaId} />
+				<MediaPicker
+					id="secondaryMedia"
+					name="secondaryMediaId"
+					{media}
+					value={p.secondaryMediaId}
+				/>
 			</div>
 			<div class="adm-form-actions">
 				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>

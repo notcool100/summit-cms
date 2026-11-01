@@ -9,6 +9,8 @@ using SummitCms.Modules.Projects.Infrastructure;
 using SummitCms.Shared.Infrastructure.Auditing;
 using SummitCms.Shared.Infrastructure.Security;
 
+using SummitCms.Shared.Infrastructure.Endpoints;
+
 namespace SummitCms.Modules.Projects.Api;
 
 public static class ProjectEndpoints
@@ -50,6 +52,7 @@ public static class ProjectEndpoints
 
         group.MapPost("", async (ProjectWriteDto body, ProjectsDbContext db, ICurrentUser user, IPublisher publisher, HttpContext http, CancellationToken ct) =>
         {
+            if (Validate(body) is { } invalid) return invalid;
             var project = FromDto(body);
             db.Projects.Add(project);
             await db.SaveChangesAsync(ct);
@@ -61,6 +64,8 @@ public static class ProjectEndpoints
         {
             var project = await db.Projects.FindAsync([id], ct);
             if (project is null) return Results.NotFound();
+
+            if (Validate(body) is { } invalid) return invalid;
 
             project.Slug = body.Slug; project.Name = body.Name; project.IndustryCategoryId = body.IndustryCategoryId;
             project.Stat = body.Stat; project.IsFeatured = body.IsFeatured; project.DisplayOrder = body.DisplayOrder;
@@ -92,14 +97,14 @@ public static class ProjectEndpoints
             db.GalleryImages.Add(img);
             await db.SaveChangesAsync(ct);
             return Results.Created($"/api/admin/projects/{projectId}/gallery-images/{img.Id}", img.Id);
-        });
+        }).WithAudit("ProjectGalleryImage");
         group.MapDelete("/gallery-images/{id:guid}", async (Guid id, ProjectsDbContext db, CancellationToken ct) =>
         {
             var e = await db.GalleryImages.FindAsync([id], ct);
             if (e is null) return Results.NotFound();
             db.GalleryImages.Remove(e); await db.SaveChangesAsync(ct);
             return Results.NoContent();
-        });
+        }).WithAudit("ProjectGalleryImage");
 
         group.MapPost("/{projectId:guid}/scope-facts", async (Guid projectId, ScopeFactWrite body, ProjectsDbContext db, CancellationToken ct) =>
         {
@@ -107,14 +112,14 @@ public static class ProjectEndpoints
             db.ScopeFacts.Add(f);
             await db.SaveChangesAsync(ct);
             return Results.Created($"/api/admin/projects/{projectId}/scope-facts/{f.Id}", f.Id);
-        });
+        }).WithAudit("ProjectScopeFact");
         group.MapDelete("/scope-facts/{id:guid}", async (Guid id, ProjectsDbContext db, CancellationToken ct) =>
         {
             var e = await db.ScopeFacts.FindAsync([id], ct);
             if (e is null) return Results.NotFound();
             db.ScopeFacts.Remove(e); await db.SaveChangesAsync(ct);
             return Results.NoContent();
-        });
+        }).WithAudit("ProjectScopeFact");
 
         group.MapPost("/{projectId:guid}/narrative-sections", async (Guid projectId, NarrativeSectionWrite body, ProjectsDbContext db, CancellationToken ct) =>
         {
@@ -122,14 +127,14 @@ public static class ProjectEndpoints
             db.NarrativeSections.Add(section);
             await db.SaveChangesAsync(ct);
             return Results.Created($"/api/admin/projects/narrative-sections/{section.Id}", section.Id);
-        });
+        }).WithAudit("ProjectNarrativeSection");
         group.MapDelete("/narrative-sections/{id:guid}", async (Guid id, ProjectsDbContext db, CancellationToken ct) =>
         {
             var e = await db.NarrativeSections.FindAsync([id], ct);
             if (e is null) return Results.NotFound();
             db.NarrativeSections.Remove(e); await db.SaveChangesAsync(ct);
             return Results.NoContent();
-        });
+        }).WithAudit("ProjectNarrativeSection");
 
         group.MapPost("/narrative-sections/{sectionId:guid}/paragraphs", async (Guid sectionId, ParagraphWrite body, ProjectsDbContext db, CancellationToken ct) =>
         {
@@ -137,14 +142,14 @@ public static class ProjectEndpoints
             db.NarrativeParagraphs.Add(p);
             await db.SaveChangesAsync(ct);
             return Results.Created($"/api/admin/projects/narrative-paragraphs/{p.Id}", p.Id);
-        });
+        }).WithAudit("ProjectNarrativeParagraph");
         group.MapDelete("/narrative-paragraphs/{id:guid}", async (Guid id, ProjectsDbContext db, CancellationToken ct) =>
         {
             var e = await db.NarrativeParagraphs.FindAsync([id], ct);
             if (e is null) return Results.NotFound();
             db.NarrativeParagraphs.Remove(e); await db.SaveChangesAsync(ct);
             return Results.NoContent();
-        });
+        }).WithAudit("ProjectNarrativeParagraph");
 
         group.MapPut("/{projectId:guid}/quote", async (Guid projectId, QuoteDto body, ProjectsDbContext db, CancellationToken ct) =>
         {
@@ -157,7 +162,7 @@ public static class ProjectEndpoints
             quote.Quote = body.Quote; quote.Attribution = body.Attribution;
             await db.SaveChangesAsync(ct);
             return Results.NoContent();
-        });
+        }).WithAudit("ProjectQuote");
     }
 
     public sealed record GalleryImageWrite(Guid MediaId, ProjectImageRole Role, string Caption, int DisplayOrder);
@@ -178,6 +183,13 @@ public static class ProjectEndpoints
         p.NarrativeSections.OrderBy(s => s.DisplayOrder).Select(s => new NarrativeSectionDto(s.Id, s.Idx, s.Title, s.DisplayOrder,
             s.Paragraphs.OrderBy(x => x.ParagraphOrder).Select(x => new ParagraphDto(x.Id, x.ParagraphOrder, x.Body)).ToList())).ToList(),
         p.Quote is null ? null : new QuoteDto(p.Quote.Quote, p.Quote.Attribution));
+
+    private static IResult? Validate(ProjectWriteDto? b) =>
+        b is null
+            ? Results.BadRequest(new { error = "Request body is required." })
+            : InputValidation.CheckSlug(b.Slug)
+              ?? InputValidation.Check(new("Name", b.Name, 200), new("Stat", b.Stat, 200, Required: false), new("Ratio", b.Ratio, 20, Required: false))
+              ?? (b.IndustryCategoryId == Guid.Empty ? Results.BadRequest(new { error = "Industry category is required.", field = "IndustryCategoryId" }) : null);
 
     private static Task Audit(IPublisher publisher, ICurrentUser user, HttpContext http, string action, Guid id, string? before, string? after) =>
         publisher.Publish(new EntityAuditEvent(user.UserId, action, nameof(Project), id.ToString(), before, after, http.Connection.RemoteIpAddress?.ToString()));

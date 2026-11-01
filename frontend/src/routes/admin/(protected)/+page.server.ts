@@ -60,19 +60,28 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const token = locals.accessToken!;
 	const get = <T>(path: string) => optional(adminFetch<T>(fetch, token, path));
 
-	const [contactStats, submissions, enquiryTypes, pages, projects, posts, industries, media, auditLog] =
-		await Promise.all([
-			get<ContactStats>('/api/admin/contact/submissions/stats'),
-			// 200 is the backend's page-size cap; plenty to cover the trend window on a site this size.
-			get<PagedResult<SubmissionItem>>('/api/admin/contact/submissions?page=1&pageSize=200'),
-			get<EnquiryTypeDto[]>('/api/admin/enquiry-types'),
-			get<PageDto[]>('/api/admin/pages'),
-			get<unknown[]>('/api/admin/projects'),
-			get<BlogPostListItem[]>('/api/admin/blog/posts'),
-			get<unknown[]>('/api/admin/industries'),
-			get<unknown[]>('/api/admin/media'),
-			get<PagedResult<AuditLogItem>>('/api/admin/audit-logs?page=1&pageSize=6')
-		]);
+	const [
+		contactStats,
+		submissions,
+		enquiryTypes,
+		pages,
+		projects,
+		posts,
+		industries,
+		media,
+		auditLog
+	] = await Promise.all([
+		get<ContactStats>('/api/admin/contact/submissions/stats'),
+		// 200 is the backend's page-size cap; plenty to cover the trend window on a site this size.
+		get<PagedResult<SubmissionItem>>('/api/admin/contact/submissions?page=1&pageSize=200'),
+		get<EnquiryTypeDto[]>('/api/admin/enquiry-types'),
+		get<PageDto[]>('/api/admin/pages'),
+		get<unknown[]>('/api/admin/projects'),
+		get<BlogPostListItem[]>('/api/admin/blog/posts'),
+		get<unknown[]>('/api/admin/industries'),
+		get<unknown[]>('/api/admin/media'),
+		get<PagedResult<AuditLogItem>>('/api/admin/audit-logs?page=1&pageSize=6')
+	]);
 
 	// Daily lead counts for the last TREND_DAYS days (oldest first), bucketed by UTC date.
 	const today = new Date();
@@ -98,7 +107,9 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 		contactStats,
 		leadTrend: submissions ? leadTrend : null,
 		leadsByType: submissions
-			? [...byType.entries()].map(([label, count]) => ({ label, count })).sort((a, b) => b.count - a.count)
+			? [...byType.entries()]
+					.map(([label, count]) => ({ label, count }))
+					.sort((a, b) => b.count - a.count)
 			: null,
 		counts: {
 			pages: pages?.length ?? null,

@@ -9,6 +9,8 @@ using SummitCms.Modules.Blog.Infrastructure;
 using SummitCms.Shared.Infrastructure.Auditing;
 using SummitCms.Shared.Infrastructure.Security;
 
+using SummitCms.Shared.Infrastructure.Endpoints;
+
 namespace SummitCms.Modules.Blog.Api;
 
 public static class BlogEndpoints
@@ -38,6 +40,7 @@ public static class BlogEndpoints
 
         group.MapPost("", async (BlogPostWriteDto body, BlogDbContext db, ICurrentUser user, IPublisher publisher, HttpContext http, CancellationToken ct) =>
         {
+            if (Validate(body) is { } invalid) return invalid;
             if (await db.Posts.AnyAsync(x => x.Slug == body.Slug, ct))
                 return Results.Conflict(new { error = "A post with this slug already exists." });
 
@@ -53,6 +56,7 @@ public static class BlogEndpoints
             var post = await db.Posts.FindAsync([id], ct);
             if (post is null) return Results.NotFound();
 
+            if (Validate(body) is { } invalid) return invalid;
             if (await db.Posts.AnyAsync(x => x.Slug == body.Slug && x.Id != id, ct))
                 return Results.Conflict(new { error = "A post with this slug already exists." });
 
@@ -101,6 +105,17 @@ public static class BlogEndpoints
     private static BlogPostDetail ToDetail(BlogPost p) => new(
         p.Id, p.Slug, p.Title, p.Excerpt, p.Body, p.Category, p.AuthorName, p.AuthorRole,
         p.CoverMediaId, p.Status.ToString(), p.PublishedAt, p.IsFeatured);
+
+    private static IResult? Validate(BlogPostWriteDto? b) =>
+        b is null
+            ? Results.BadRequest(new { error = "Request body is required." })
+            : InputValidation.CheckSlug(b.Slug) ?? InputValidation.Check(
+                new("Title", b.Title, 200),
+                new("Excerpt", b.Excerpt, 600, Required: false),
+                new("Body", b.Body, 100_000),
+                new("Category", b.Category, 80),
+                new("Author name", b.AuthorName, 120, Required: false),
+                new("Author role", b.AuthorRole, 120, Required: false));
 
     private static Task Audit(IPublisher publisher, ICurrentUser user, HttpContext http, string action, Guid id, string? before, string? after) =>
         publisher.Publish(new EntityAuditEvent(user.UserId, action, nameof(BlogPost), id.ToString(), before, after, http.Connection.RemoteIpAddress?.ToString()));

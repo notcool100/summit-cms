@@ -19,11 +19,20 @@ public static class AuthEndpoints
         var group = app.MapGroup("/api/auth").WithTags("Auth");
 
         group.MapPost("/login", async (
-                [FromBody] LoginRequest body, ISender sender, HttpContext http, CancellationToken ct) =>
+                [FromBody] LoginRequest body, ISender sender, IPublisher publisher, HttpContext http, CancellationToken ct) =>
             {
                 var ip = http.Connection.RemoteIpAddress?.ToString();
-                var result = await sender.Send(new LoginCommand(body.Email.Trim().ToLowerInvariant(), body.Password, ip), ct);
-                return result.IsSuccess ? Results.Ok(result.Value) : Results.Json(new { error = result.Error }, statusCode: 401);
+                var email = (body.Email ?? string.Empty).Trim().ToLowerInvariant();
+                var result = await sender.Send(new LoginCommand(email, body.Password ?? string.Empty, ip), ct);
+                if (result.IsSuccess)
+                {
+                    await publisher.AuditAsync(http, result.Value.User.Id, "SignedIn", "User", result.Value.User.Id.ToString(), ct: ct);
+                    return Results.Ok(result.Value);
+                }
+                await publisher.AuditAsync(http, null, result.ErrorCode == LoginCommandHandler.LockedOutCode ? "SignInLockedOut" : "SignInFailed",
+                    "User", email.Length > 254 ? email[..254] : email, ct: ct);
+                return Results.Json(new { error = result.Error },
+                    statusCode: result.ErrorCode == LoginCommandHandler.LockedOutCode ? StatusCodes.Status429TooManyRequests : StatusCodes.Status401Unauthorized);
             })
             .RequireRateLimiting("auth")
             .WithName("Login");

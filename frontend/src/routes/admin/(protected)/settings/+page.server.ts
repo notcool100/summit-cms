@@ -53,7 +53,10 @@ export const actions: Actions = {
 		const valueType = String(form.get('valueType') ?? 'string');
 		if (!key) return fail(400, { error: 'Key is required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, '/api/admin/settings', { method: 'POST', body: JSON.stringify({ key, value, valueType }) });
+			await adminFetch(fetch, locals.accessToken!, '/api/admin/settings', {
+				method: 'POST',
+				body: JSON.stringify({ key, value, valueType })
+			});
 		} catch (e) {
 			return err(e, 'Could not create setting.');
 		}
@@ -65,7 +68,10 @@ export const actions: Actions = {
 		const value = String(form.get('value') ?? '');
 		const valueType = String(form.get('valueType') ?? 'string');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/settings/${id}`, { method: 'PUT', body: JSON.stringify({ value, valueType }) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/settings/${id}`, {
+				method: 'PUT',
+				body: JSON.stringify({ value, valueType })
+			});
 		} catch (e) {
 			return err(e, 'Could not update setting.');
 		}
@@ -74,7 +80,9 @@ export const actions: Actions = {
 	deleteSetting: async ({ request, locals, fetch }) => {
 		const id = String((await request.formData()).get('id'));
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/settings/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/settings/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not delete setting.');
 		}
@@ -87,7 +95,10 @@ export const actions: Actions = {
 		const displayOrder = Number(form.get('displayOrder') ?? 0);
 		if (!label) return fail(400, { error: 'Label is required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, '/api/admin/enquiry-types', { method: 'POST', body: JSON.stringify({ label, displayOrder, isActive: true }) });
+			await adminFetch(fetch, locals.accessToken!, '/api/admin/enquiry-types', {
+				method: 'POST',
+				body: JSON.stringify({ label, displayOrder, isActive: true })
+			});
 		} catch (e) {
 			return err(e, 'Could not create enquiry type.');
 		}
@@ -100,7 +111,10 @@ export const actions: Actions = {
 		const displayOrder = Number(form.get('displayOrder') ?? 0);
 		const isActive = form.get('isActive') === 'true';
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/enquiry-types/${id}`, { method: 'PUT', body: JSON.stringify({ label, displayOrder, isActive }) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/enquiry-types/${id}`, {
+				method: 'PUT',
+				body: JSON.stringify({ label, displayOrder, isActive })
+			});
 		} catch (e) {
 			return err(e, 'Could not update enquiry type.');
 		}
@@ -109,7 +123,9 @@ export const actions: Actions = {
 	deleteEnquiryType: async ({ request, locals, fetch }) => {
 		const id = String((await request.formData()).get('id'));
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/enquiry-types/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/enquiry-types/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not delete enquiry type.');
 		}
@@ -128,9 +144,13 @@ export const actions: Actions = {
 			note: String(form.get('note') ?? '') || null,
 			displayOrder: Number(form.get('displayOrder') ?? 0)
 		};
-		if (!body.groupKey || !body.label) return fail(400, { error: 'Group key and label are required.' });
+		if (!body.groupKey || !body.label)
+			return fail(400, { error: 'Group key and label are required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, '/api/admin/metric-stats', { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, '/api/admin/metric-stats', {
+				method: 'POST',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return err(e, 'Could not create stat.');
 		}
@@ -149,7 +169,10 @@ export const actions: Actions = {
 			displayOrder: Number(form.get('displayOrder') ?? 0)
 		};
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/metric-stats/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/metric-stats/${id}`, {
+				method: 'PUT',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return err(e, 'Could not update stat.');
 		}
@@ -158,7 +181,9 @@ export const actions: Actions = {
 	deleteMetricStat: async ({ request, locals, fetch }) => {
 		const id = String((await request.formData()).get('id'));
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/metric-stats/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/metric-stats/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not delete stat.');
 		}

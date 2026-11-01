@@ -55,14 +55,23 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		})),
 		milestones: about.milestones,
 		values: about.values.map((v) => ({ idx: v.code, name: v.name, body: v.body })),
-		leaders: about.team.map((t) => ({ name: t.name, title: t.title, src: t.mediaUrl ?? '', alt: t.mediaAlt ?? '' })),
+		leaders: about.team.map((t) => ({
+			name: t.name,
+			title: t.title,
+			src: t.mediaUrl ?? '',
+			alt: t.mediaAlt ?? ''
+		})),
 		locations: about.locations.map((l, i) => ({
 			idx: String(i + 1).padStart(2, '0'),
 			city: l.city,
 			role: l.roleDescription,
 			hq: l.isHeadquarters
 		})),
-		hseStats: (statsByGroup.hse ?? []).map((s) => ({ value: s.value, suffix: s.suffix ?? undefined, label: s.label })),
+		hseStats: (statsByGroup.hse ?? []).map((s) => ({
+			value: s.value,
+			suffix: s.suffix ?? undefined,
+			label: s.label
+		})),
 		awards: about.awards
 	};
 };

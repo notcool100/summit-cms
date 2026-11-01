@@ -15,9 +15,13 @@
 	--adm-border-strong: #2e323b;
 	--adm-text: #eceef2;
 	--adm-text-muted: #9ba1ad;
-	--adm-text-faint: #666c79;
+	--adm-text-faint: #8d93a0; /* 4.9:1+ on every admin surface (WCAG AA) */
 	--adm-accent: #5b7cfa;
 	--adm-accent-hover: #6f8cff;
+	/* Filled controls with white text, and accent-coloured text: both meet 4.5:1 (QA-14). */
+	--adm-accent-strong: #3f5bd8;
+	--adm-accent-strong-hover: #4a67e8;
+	--adm-accent-text: #8aa2ff;
 	--adm-accent-soft: rgba(91, 124, 250, 0.14);
 	--adm-danger: #f0666b;
 	--adm-danger-soft: rgba(240, 102, 107, 0.12);
@@ -156,12 +160,12 @@
 }
 
 .adm-btn--primary {
-	background: var(--adm-accent);
+	background: var(--adm-accent-strong);
 	color: #ffffff;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12) inset;
 }
 .adm-btn--primary:hover {
-	background: var(--adm-accent-hover);
+	background: var(--adm-accent-strong-hover);
 }
 
 .adm-btn--secondary {
@@ -456,8 +460,6 @@
 	padding: 24px;
 }
 
-
-
 /* ---------- Tables ---------- */
 .adm-table-wrap {
 	background: var(--adm-surface);
@@ -546,7 +548,7 @@
 
 .adm-badge--accent {
 	background: var(--adm-accent-soft);
-	color: var(--adm-accent);
+	color: var(--adm-accent-text);
 }
 .adm-badge--success {
 	background: var(--adm-success-soft);
@@ -668,7 +670,7 @@
 }
 
 .adm-stat-tile--accent .adm-stat-tile__value {
-	color: var(--adm-accent);
+	color: var(--adm-accent-text);
 }
 
 /* ---------- Chart panels ---------- */

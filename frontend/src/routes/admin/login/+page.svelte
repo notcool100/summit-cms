@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Sign in | SummitCms Admin</title>
+	<title>Sign in | Summit CMS Admin</title>
 	<meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
@@ -19,7 +19,7 @@
 		<p class="adm-muted">Admin access for Summit content, media, and leads.</p>
 
 		{#if form?.error}
-			<div class="adm-banner adm-banner--error">{form.error}</div>
+			<div class="adm-banner adm-banner--error" role="alert">{form.error}</div>
 		{/if}
 
 		<form
@@ -34,11 +34,26 @@
 		>
 			<div class="adm-field">
 				<label for="email">Email</label>
-				<input class="adm-input" id="email" name="email" type="email" autocomplete="username" value={form?.email ?? ''} required />
+				<input
+					class="adm-input"
+					id="email"
+					name="email"
+					type="email"
+					autocomplete="username"
+					value={form?.email ?? ''}
+					required
+				/>
 			</div>
 			<div class="adm-field">
 				<label for="password">Password</label>
-				<input class="adm-input" id="password" name="password" type="password" autocomplete="current-password" required />
+				<input
+					class="adm-input"
+					id="password"
+					name="password"
+					type="password"
+					autocomplete="current-password"
+					required
+				/>
 			</div>
 			<button class="adm-btn adm-btn--primary login-submit" type="submit" disabled={submitting}>
 				{submitting ? 'Signing in…' : 'Sign in'}
@@ -80,7 +95,7 @@
 		width: 28px;
 		height: 28px;
 		border-radius: 7px;
-		background: var(--adm-accent);
+		background: var(--adm-accent-strong);
 		color: #fff;
 		display: grid;
 		place-items: center;

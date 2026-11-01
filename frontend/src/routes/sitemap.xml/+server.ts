@@ -26,8 +26,12 @@ function urlEntry(loc: string, changefreq: string, priority: string): string {
 
 export const GET: RequestHandler = async ({ fetch }) => {
 	const [projects, posts] = await Promise.all([
-		getPublic<ApiProjectListItem[]>(fetch, '/api/public/projects').catch(() => [] as ApiProjectListItem[]),
-		getPublic<ApiPostListItem[]>(fetch, '/api/public/blog/posts').catch(() => [] as ApiPostListItem[])
+		getPublic<ApiProjectListItem[]>(fetch, '/api/public/projects').catch(
+			() => [] as ApiProjectListItem[]
+		),
+		getPublic<ApiPostListItem[]>(fetch, '/api/public/blog/posts').catch(
+			() => [] as ApiPostListItem[]
+		)
 	]);
 
 	const entries = [

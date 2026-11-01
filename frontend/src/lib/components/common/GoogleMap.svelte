@@ -7,12 +7,15 @@
 	}
 
 	let { query, zoom = 15, title }: Props = $props();
-	let src = $derived(`https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=${zoom}&output=embed`);
+	let src = $derived(
+		`https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=${zoom}&output=embed`
+	);
 </script>
 
 <!-- Keyless Google Maps embed. Google geocodes `query` itself, so an address it can't
      match to the street number still lands on the right street or town. -->
-<iframe {title} {src} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+<iframe {title} {src} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+></iframe>
 
 <style>
 	iframe {

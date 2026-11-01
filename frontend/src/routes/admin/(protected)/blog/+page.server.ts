@@ -90,7 +90,9 @@ export const actions: Actions = {
 	delete: async ({ request, locals, fetch }) => {
 		const id = str(await request.formData(), 'id');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/blog/posts/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/blog/posts/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not delete post.');
 		}

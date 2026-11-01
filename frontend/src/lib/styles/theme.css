@@ -19,6 +19,8 @@
 	--accent-rgb: 215, 38, 47;
 	--gold: #c49a5c;
 	--gold-rgb: 196, 154, 92;
+	/* Gold for text sitting on an --ink background (page-transition screen). */
+	--gold-on-ink: #c49a5c;
 
 	--font-display: 'Anton', sans-serif;
 	--font-body: 'Archivo', sans-serif;
@@ -26,6 +28,7 @@
 }
 
 :root[data-theme='dark'] {
+	--gold-on-ink: #7a5a26;
 	--muted-a: 0.6;
 	--accent-text: #e04f56;
 	--paper: #0f1113;
@@ -36,6 +39,7 @@
 }
 
 :root[data-theme='blueprint'] {
+	--gold-on-ink: #7a5a26;
 	--muted-a: 0.62;
 	--accent-text: #e56b71;
 	--paper: #0b1e33;
@@ -66,6 +70,7 @@
 }
 
 :root[data-theme='steel'] {
+	--gold-on-ink: #7a5a26;
 	--muted-a: 0.8;
 	--accent-text: #f0abae;
 	--paper: #3a3f44;

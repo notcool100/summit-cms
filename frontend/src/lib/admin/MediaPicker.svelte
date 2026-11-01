@@ -16,7 +16,13 @@
 		value = null,
 		id,
 		required = false
-	}: { name: string; media: PickerMedia[]; value?: string | null; id?: string; required?: boolean } = $props();
+	}: {
+		name: string;
+		media: PickerMedia[];
+		value?: string | null;
+		id?: string;
+		required?: boolean;
+	} = $props();
 
 	// Initial value only; after that the picker owns the selection.
 	let selected = $state<string | null>((() => value)());
@@ -25,7 +31,9 @@
 
 	const current = $derived(media.find((m) => m.id === selected) ?? null);
 	const filtered = $derived(
-		query.trim() ? media.filter((m) => m.fileName.toLowerCase().includes(query.trim().toLowerCase())) : media
+		query.trim()
+			? media.filter((m) => m.fileName.toLowerCase().includes(query.trim().toLowerCase()))
+			: media
 	);
 
 	function choose(mediaId: string | null) {
@@ -49,28 +57,61 @@
 		}}
 	>
 		<span class="picker-thumb">
-			{#if current?.url}<img src={current.url} alt="" />{:else}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect width="18" height="18" x="3" y="3" rx="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21" /></svg>{/if}
+			{#if current?.url}<img src={current.url} alt="" />{:else}<svg
+					width="18"
+					height="18"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.75"
+					><rect width="18" height="18" x="3" y="3" rx="2" /><circle cx="9" cy="9" r="2" /><path
+						d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"
+					/></svg
+				>{/if}
 		</span>
 		<span class="picker-label">{current ? current.fileName : 'Choose image…'}</span>
 		<span class="picker-action">{current ? 'Change' : 'Browse'}</span>
 	</button>
 </div>
 
-<dialog bind:this={dialog} class="adm-modal picker-modal" onclick={(e) => e.target === dialog && dialog.close()}>
+<dialog
+	bind:this={dialog}
+	class="adm-modal picker-modal"
+	onclick={(e) => e.target === dialog && dialog.close()}
+>
 	<div class="picker-head">
-		<input class="adm-input" type="search" placeholder="Search {media.length} files…" bind:value={query} />
-		<button type="button" class="adm-btn adm-btn--secondary" onclick={() => dialog.close()}>Cancel</button>
+		<input
+			class="adm-input"
+			type="search"
+			placeholder="Search {media.length} files…"
+			bind:value={query}
+		/>
+		<button type="button" class="adm-btn adm-btn--secondary" onclick={() => dialog.close()}
+			>Cancel</button
+		>
 	</div>
 	<div class="picker-grid">
 		{#if !required}
-			<button type="button" class="picker-item none" class:active={!selected} onclick={() => choose(null)}>
+			<button
+				type="button"
+				class="picker-item none"
+				class:active={!selected}
+				onclick={() => choose(null)}
+			>
 				<span class="picker-item-img">No image</span>
 				<span class="picker-item-name">None</span>
 			</button>
 		{/if}
 		{#each filtered as m (m.id)}
-			<button type="button" class="picker-item" class:active={m.id === selected} onclick={() => choose(m.id)}>
-				<span class="picker-item-img">{#if m.url}<img src={m.url} alt={m.altText ?? ''} loading="lazy" />{/if}</span>
+			<button
+				type="button"
+				class="picker-item"
+				class:active={m.id === selected}
+				onclick={() => choose(m.id)}
+			>
+				<span class="picker-item-img"
+					>{#if m.url}<img src={m.url} alt={m.altText ?? ''} loading="lazy" />{/if}</span
+				>
 				<span class="picker-item-name" title={m.fileName}>{m.fileName}</span>
 			</button>
 		{/each}
@@ -132,7 +173,7 @@
 	}
 	.picker-action {
 		font-size: 12.5px;
-		color: var(--adm-accent);
+		color: var(--adm-accent-text);
 		font-weight: 500;
 	}
 	.picker-modal {

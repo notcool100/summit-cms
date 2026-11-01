@@ -25,7 +25,11 @@ interface ApiPostDetail {
 }
 
 function formatDate(iso: string) {
-	return new Date(iso).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' });
+	return new Date(iso).toLocaleDateString('en-AU', {
+		month: 'long',
+		day: 'numeric',
+		year: 'numeric'
+	});
 }
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
@@ -36,7 +40,9 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 	const post = (await res.json()) as ApiPostDetail;
 
 	function adjacentOrFallback(a: ApiAdjacentPost | null) {
-		return a ? { href: `/insights/${a.slug}`, title: a.title } : { href: '/insights', title: 'All insights' };
+		return a
+			? { href: `/insights/${a.slug}`, title: a.title }
+			: { href: '/insights', title: 'All insights' };
 	}
 
 	return {
@@ -48,7 +54,10 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 		date: formatDate(post.publishedAt),
 		readMinutes: post.readMinutes,
 		heroImage: { src: post.coverUrl ?? '', alt: post.coverAlt ?? '' },
-		paragraphs: post.body.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
+		paragraphs: post.body
+			.split(/\n\s*\n/)
+			.map((p) => p.trim())
+			.filter(Boolean),
 		previous: adjacentOrFallback(post.previous),
 		next: adjacentOrFallback(post.next)
 	};

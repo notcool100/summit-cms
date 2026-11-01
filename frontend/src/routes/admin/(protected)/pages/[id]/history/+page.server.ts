@@ -14,6 +14,8 @@ interface PageVersionSummary {
 	createdAt: string;
 	createdByUserId: string | null;
 	createdByName: string | null;
+	title: string;
+	changedFields: string[];
 }
 interface PageVersionDetail {
 	id: string;
@@ -44,7 +46,11 @@ export const load: PageServerLoad = async ({ params, locals, fetch, url }) => {
 	let previewVersion: PageVersionDetail | null = null;
 	if (previewId) {
 		try {
-			previewVersion = await adminFetch<PageVersionDetail>(fetch, token, `/api/admin/pages/${params.id}/versions/${previewId}`);
+			previewVersion = await adminFetch<PageVersionDetail>(
+				fetch,
+				token,
+				`/api/admin/pages/${params.id}/versions/${previewId}`
+			);
 		} catch (e) {
 			if (!(e instanceof ApiError && e.status === 404)) throw e;
 		}
@@ -58,11 +64,18 @@ export const actions: Actions = {
 		const form = await request.formData();
 		const versionId = String(form.get('versionId') ?? '');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/pages/${params.id}/versions/${versionId}/publish`, {
-				method: 'POST'
-			});
+			await adminFetch(
+				fetch,
+				locals.accessToken!,
+				`/api/admin/pages/${params.id}/versions/${versionId}/publish`,
+				{
+					method: 'POST'
+				}
+			);
 		} catch (e) {
-			return fail(400, { error: e instanceof ApiError ? e.message : 'Could not publish this version.' });
+			return fail(400, {
+				error: e instanceof ApiError ? e.message : 'Could not publish this version.'
+			});
 		}
 		return { success: true };
 	}

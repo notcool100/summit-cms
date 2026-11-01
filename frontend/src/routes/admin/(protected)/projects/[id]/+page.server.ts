@@ -24,9 +24,21 @@ interface ProjectDetail {
 	heroMediaId: string | null;
 	ratio: string | null;
 	span: number | null;
-	galleryImages: { id: string; mediaId: string; role: string; caption: string; displayOrder: number }[];
+	galleryImages: {
+		id: string;
+		mediaId: string;
+		role: string;
+		caption: string;
+		displayOrder: number;
+	}[];
 	scopeFacts: { id: string; label: string; value: string; displayOrder: number }[];
-	narrativeSections: { id: string; idx: string; title: string; displayOrder: number; paragraphs: { id: string; paragraphOrder: number; body: string }[] }[];
+	narrativeSections: {
+		id: string;
+		idx: string;
+		title: string;
+		displayOrder: number;
+		paragraphs: { id: string; paragraphOrder: number; body: string }[];
+	}[];
 	quote: { quote: string; attribution: string } | null;
 }
 
@@ -66,7 +78,10 @@ export const actions: Actions = {
 			span: str(form, 'span') ? num(form, 'span') : null
 		};
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}`, { method: 'PUT', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}`, {
+				method: 'PUT',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return err(e, 'Could not save project.');
 		}
@@ -75,10 +90,20 @@ export const actions: Actions = {
 
 	addGalleryImage: async ({ request, params, locals, fetch }) => {
 		const form = await request.formData();
-		const body = { mediaId: str(form, 'mediaId'), role: num(form, 'role'), caption: str(form, 'caption'), displayOrder: num(form, 'displayOrder') };
+		const body = {
+			mediaId: str(form, 'mediaId'),
+			role: num(form, 'role'),
+			caption: str(form, 'caption'),
+			displayOrder: num(form, 'displayOrder')
+		};
 		if (!body.mediaId) return fail(400, { error: 'Choose a media item.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}/gallery-images`, { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(
+				fetch,
+				locals.accessToken!,
+				`/api/admin/projects/${params.id}/gallery-images`,
+				{ method: 'POST', body: JSON.stringify(body) }
+			);
 		} catch (e) {
 			return err(e, 'Could not add image.');
 		}
@@ -87,7 +112,9 @@ export const actions: Actions = {
 	removeGalleryImage: async ({ request, locals, fetch }) => {
 		const id = str(await request.formData(), 'id');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/gallery-images/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/gallery-images/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not remove image.');
 		}
@@ -96,10 +123,17 @@ export const actions: Actions = {
 
 	addScopeFact: async ({ request, params, locals, fetch }) => {
 		const form = await request.formData();
-		const body = { label: str(form, 'label'), value: str(form, 'value'), displayOrder: num(form, 'displayOrder') };
+		const body = {
+			label: str(form, 'label'),
+			value: str(form, 'value'),
+			displayOrder: num(form, 'displayOrder')
+		};
 		if (!body.label) return fail(400, { error: 'Label is required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}/scope-facts`, { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}/scope-facts`, {
+				method: 'POST',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return err(e, 'Could not add scope fact.');
 		}
@@ -108,7 +142,9 @@ export const actions: Actions = {
 	removeScopeFact: async ({ request, locals, fetch }) => {
 		const id = str(await request.formData(), 'id');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/scope-facts/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/scope-facts/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not remove scope fact.');
 		}
@@ -117,10 +153,19 @@ export const actions: Actions = {
 
 	addNarrativeSection: async ({ request, params, locals, fetch }) => {
 		const form = await request.formData();
-		const body = { idx: str(form, 'idx'), title: str(form, 'title'), displayOrder: num(form, 'displayOrder') };
+		const body = {
+			idx: str(form, 'idx'),
+			title: str(form, 'title'),
+			displayOrder: num(form, 'displayOrder')
+		};
 		if (!body.title) return fail(400, { error: 'Title is required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}/narrative-sections`, { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(
+				fetch,
+				locals.accessToken!,
+				`/api/admin/projects/${params.id}/narrative-sections`,
+				{ method: 'POST', body: JSON.stringify(body) }
+			);
 		} catch (e) {
 			return err(e, 'Could not add narrative section.');
 		}
@@ -129,7 +174,9 @@ export const actions: Actions = {
 	removeNarrativeSection: async ({ request, locals, fetch }) => {
 		const id = str(await request.formData(), 'id');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/narrative-sections/${id}`, { method: 'DELETE' });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/narrative-sections/${id}`, {
+				method: 'DELETE'
+			});
 		} catch (e) {
 			return err(e, 'Could not remove narrative section.');
 		}
@@ -141,7 +188,12 @@ export const actions: Actions = {
 		const body = { paragraphOrder: num(form, 'paragraphOrder'), body: str(form, 'body') };
 		if (!body.body) return fail(400, { error: 'Paragraph text is required.' });
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/narrative-sections/${sectionId}/paragraphs`, { method: 'POST', body: JSON.stringify(body) });
+			await adminFetch(
+				fetch,
+				locals.accessToken!,
+				`/api/admin/projects/narrative-sections/${sectionId}/paragraphs`,
+				{ method: 'POST', body: JSON.stringify(body) }
+			);
 		} catch (e) {
 			return err(e, 'Could not add paragraph.');
 		}
@@ -150,7 +202,12 @@ export const actions: Actions = {
 	removeParagraph: async ({ request, locals, fetch }) => {
 		const id = str(await request.formData(), 'id');
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/narrative-paragraphs/${id}`, { method: 'DELETE' });
+			await adminFetch(
+				fetch,
+				locals.accessToken!,
+				`/api/admin/projects/narrative-paragraphs/${id}`,
+				{ method: 'DELETE' }
+			);
 		} catch (e) {
 			return err(e, 'Could not remove paragraph.');
 		}
@@ -161,7 +218,10 @@ export const actions: Actions = {
 		const form = await request.formData();
 		const body = { quote: str(form, 'quote'), attribution: str(form, 'attribution') };
 		try {
-			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}/quote`, { method: 'PUT', body: JSON.stringify(body) });
+			await adminFetch(fetch, locals.accessToken!, `/api/admin/projects/${params.id}/quote`, {
+				method: 'PUT',
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			return err(e, 'Could not save quote.');
 		}

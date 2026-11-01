@@ -14,7 +14,13 @@
 	type Post = (typeof posts)[number];
 	let query = $state('');
 	let status = $state<'all' | 'Published' | 'Draft'>('all');
-	const filtered = $derived(posts.filter((p) => (status === 'all' || p.status === status) && matches(query, p.title, p.category, p.authorName)));
+	const filtered = $derived(
+		posts.filter(
+			(p) =>
+				(status === 'all' || p.status === status) &&
+				matches(query, p.title, p.category, p.authorName)
+		)
+	);
 	const count = (s: 'Published' | 'Draft') => posts.filter((p) => p.status === s).length;
 
 	let drawerOpen = $state(false);
@@ -47,28 +53,65 @@
 </div>
 
 <div class="adm-toolbar">
-	<div class="adm-search"><input class="adm-input" type="search" placeholder="Search posts…" bind:value={query} /></div>
+	<div class="adm-search">
+		<input class="adm-input" type="search" placeholder="Search posts…" bind:value={query} />
+	</div>
 	<div class="adm-tabs" role="tablist" aria-label="Filter by status">
-		<button class="adm-tab" class:active={status === 'all'} role="tab" aria-selected={status === 'all'} onclick={() => (status = 'all')}>All <span class="adm-tab-count">{posts.length}</span></button>
-		<button class="adm-tab" class:active={status === 'Published'} role="tab" aria-selected={status === 'Published'} onclick={() => (status = 'Published')}>Published <span class="adm-tab-count">{count('Published')}</span></button>
-		<button class="adm-tab" class:active={status === 'Draft'} role="tab" aria-selected={status === 'Draft'} onclick={() => (status = 'Draft')}>Drafts <span class="adm-tab-count">{count('Draft')}</span></button>
+		<button
+			class="adm-tab"
+			class:active={status === 'all'}
+			role="tab"
+			aria-selected={status === 'all'}
+			onclick={() => (status = 'all')}>All <span class="adm-tab-count">{posts.length}</span></button
+		>
+		<button
+			class="adm-tab"
+			class:active={status === 'Published'}
+			role="tab"
+			aria-selected={status === 'Published'}
+			onclick={() => (status = 'Published')}
+			>Published <span class="adm-tab-count">{count('Published')}</span></button
+		>
+		<button
+			class="adm-tab"
+			class:active={status === 'Draft'}
+			role="tab"
+			aria-selected={status === 'Draft'}
+			onclick={() => (status = 'Draft')}
+			>Drafts <span class="adm-tab-count">{count('Draft')}</span></button
+		>
 	</div>
 </div>
 
 <div class="adm-table-wrap">
 	{#if posts.length === 0}
-		<div class="adm-empty"><h3>No posts yet</h3><p>Write your first post to populate the Insights page.</p></div>
+		<div class="adm-empty">
+			<h3>No posts yet</h3>
+			<p>Write your first post to populate the Insights page.</p>
+		</div>
 	{:else if filtered.length === 0}
-		<div class="adm-empty"><h3>No matches</h3><p>Try a different search or filter.</p></div>
+		<div class="adm-empty">
+			<h3>No matches</h3>
+			<p>Try a different search or filter.</p>
+		</div>
 	{:else}
 		<table class="adm-table">
-			<thead><tr><th>Post</th><th>Category</th><th>Status</th><th>Published</th><th></th></tr></thead>
+			<thead
+				><tr><th>Post</th><th>Category</th><th>Status</th><th>Published</th><th></th></tr></thead
+			>
 			<tbody>
 				{#each filtered as p (p.id)}
-					<tr class="is-clickable" onclick={(e) => !(e.target as Element).closest('a,button,form') && openDrawer(p)}>
+					<tr
+						class="is-clickable"
+						onclick={(e) => !(e.target as Element).closest('a,button,form') && openDrawer(p)}
+					>
 						<td>
 							<div class="post-cell">
-								{#if thumb(p.coverMediaId)}<img class="adm-thumb" src={thumb(p.coverMediaId)} alt="" />{:else}<span class="adm-thumb"></span>{/if}
+								{#if thumb(p.coverMediaId)}<img
+										class="adm-thumb"
+										src={thumb(p.coverMediaId)}
+										alt=""
+									/>{:else}<span class="adm-thumb"></span>{/if}
 								<div class="post-main">
 									<div class="adm-cell-title">
 										{p.title}
@@ -80,16 +123,33 @@
 						</td>
 						<td class="adm-muted">{p.category}</td>
 						<td>
-							<span class="adm-badge adm-badge--dot {p.status === 'Published' ? 'adm-badge--success' : 'adm-badge--warning'}">{p.status}</span>
+							<span
+								class="adm-badge adm-badge--dot {p.status === 'Published'
+									? 'adm-badge--success'
+									: 'adm-badge--warning'}">{p.status}</span
+							>
 						</td>
 						<td class="adm-muted nowrap">{p.publishedAt ? formatDate(p.publishedAt) : '-'}</td>
 						<td>
 							<div class="adm-row-actions">
 								{#if p.status === 'Published'}
-									<a class="adm-icon-btn" href="/insights/{p.slug}" target="_blank" rel="noopener" title="View live" aria-label="View live post"><Icon name="external" size={16} /></a>
+									<a
+										class="adm-icon-btn"
+										href="/insights/{p.slug}"
+										target="_blank"
+										rel="noopener"
+										title="View live"
+										aria-label="View live post"><Icon name="external" size={16} /></a
+									>
 								{/if}
-								<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openDrawer(p)}>Edit</button>
-								<form method="POST" action="?/delete" use:enhance={confirmDelete('post', `“${p.title}” will be permanently removed.`)}>
+								<button class="adm-btn adm-btn--secondary adm-btn--sm" onclick={() => openDrawer(p)}
+									>Edit</button
+								>
+								<form
+									method="POST"
+									action="?/delete"
+									use:enhance={confirmDelete('post', `“${p.title}” will be permanently removed.`)}
+								>
 									<input type="hidden" name="id" value={p.id} />
 									<button class="adm-btn adm-btn--ghost adm-btn--sm" type="submit">Delete</button>
 								</form>
@@ -104,15 +164,36 @@
 
 <Drawer bind:open={drawerOpen} title={editing ? 'Edit post' : 'New post'} size="lg">
 	{@const p = editing}
-	<form method="POST" action={p ? '?/update' : '?/create'} use:enhance={submit({ success: p ? 'Post saved' : 'Post created', onSuccess: () => (drawerOpen = false) })}>
+	<form
+		method="POST"
+		action={p ? '?/update' : '?/create'}
+		use:enhance={submit({
+			success: p ? 'Post saved' : 'Post created',
+			onSuccess: () => (drawerOpen = false)
+		})}
+	>
 		{#if p}<input type="hidden" name="id" value={p.id} />{/if}
 		<div class="adm-field">
 			<label for="title">Title</label>
-			<input class="adm-input title-input" id="title" name="title" bind:value={title} oninput={() => !slugTouched && (slug = slugify(title))} required />
+			<input
+				class="adm-input title-input"
+				id="title"
+				name="title"
+				bind:value={title}
+				oninput={() => !slugTouched && (slug = slugify(title))}
+				required
+			/>
 		</div>
 		<div class="adm-field">
 			<label for="slug">URL slug</label>
-			<input class="adm-input adm-mono" id="slug" name="slug" bind:value={slug} oninput={() => (slugTouched = true)} required />
+			<input
+				class="adm-input adm-mono"
+				id="slug"
+				name="slug"
+				bind:value={slug}
+				oninput={() => (slugTouched = true)}
+				required
+			/>
 			<span class="adm-hint">/insights/{slug || 'post-slug'}</span>
 		</div>
 		<div class="adm-form-grid">
@@ -125,12 +206,28 @@
 			</div>
 			<div class="adm-field">
 				<label for="category">Category</label>
-				<input class="adm-input" id="category" name="category" list="blog-categories" value={p?.category ?? ''} placeholder="Safety, Industry…" required />
-				<datalist id="blog-categories">{#each categories as c (c)}<option value={c}></option>{/each}</datalist>
+				<input
+					class="adm-input"
+					id="category"
+					name="category"
+					list="blog-categories"
+					value={p?.category ?? ''}
+					placeholder="Safety, Industry…"
+					required
+				/>
+				<datalist id="blog-categories"
+					>{#each categories as c (c)}<option value={c}></option>{/each}</datalist
+				>
 			</div>
 			<div class="adm-field">
 				<label for="author">Author name</label>
-				<input class="adm-input" id="author" name="authorName" value={p?.authorName ?? ''} required />
+				<input
+					class="adm-input"
+					id="author"
+					name="authorName"
+					value={p?.authorName ?? ''}
+					required
+				/>
 			</div>
 			<div class="adm-field">
 				<label for="role">Author role</label>
@@ -143,24 +240,45 @@
 		</div>
 		<div class="adm-field">
 			<label for="excerpt">Excerpt</label>
-			<textarea class="adm-textarea" id="excerpt" name="excerpt" rows="2" required>{p?.excerpt ?? ''}</textarea>
+			<textarea class="adm-textarea" id="excerpt" name="excerpt" rows="2" required
+				>{p?.excerpt ?? ''}</textarea
+			>
 			<span class="adm-hint">One or two sentences shown on the Insights listing.</span>
 		</div>
 		<div class="adm-field">
 			<div class="adm-field-label-row">
 				<label for="body">Body</label>
-				<span class="adm-counter">{wordCount} words · ~{Math.max(1, Math.round(wordCount / 220))} min read</span>
+				<span class="adm-counter"
+					>{wordCount} words · ~{Math.max(1, Math.round(wordCount / 220))} min read</span
+				>
 			</div>
-			<textarea class="adm-textarea body-input" id="body" name="body" rows="14" required oninput={(e) => (wordCount = words(e.currentTarget.value))}>{p?.body ?? ''}</textarea>
+			<textarea
+				class="adm-textarea body-input"
+				id="body"
+				name="body"
+				rows="14"
+				required
+				oninput={(e) => (wordCount = words(e.currentTarget.value))}>{p?.body ?? ''}</textarea
+			>
 			<span class="adm-hint">Leave a blank line between paragraphs.</span>
 		</div>
 		<label class="adm-switch-row">
-			<div><strong>Featured</strong><span>Pin this post to the top of the Insights page.</span></div>
-			<input type="checkbox" class="adm-switch" name="isFeatured" value="true" checked={p?.isFeatured ?? false} />
+			<div>
+				<strong>Featured</strong><span>Pin this post to the top of the Insights page.</span>
+			</div>
+			<input
+				type="checkbox"
+				class="adm-switch"
+				name="isFeatured"
+				value="true"
+				checked={p?.isFeatured ?? false}
+			/>
 		</label>
 		<div class="adm-form-actions">
 			<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
-			<button class="adm-btn adm-btn--primary" type="submit">{p ? 'Save post' : 'Create post'}</button>
+			<button class="adm-btn adm-btn--primary" type="submit"
+				>{p ? 'Save post' : 'Create post'}</button
+			>
 		</div>
 	</form>
 </Drawer>

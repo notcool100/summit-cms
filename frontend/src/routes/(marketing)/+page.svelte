@@ -16,7 +16,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const {
+	let {
 		heroHeading,
 		heroSubheading,
 		heroImage,
@@ -31,7 +31,7 @@
 		testimonials,
 		latestPosts,
 		sections
-	} = data;
+	} = $derived(data);
 
 	const manifesto = $derived(sections.find((x) => x.slot === 'manifesto'));
 
@@ -618,17 +618,6 @@
 		background: var(--accent);
 		border-color: var(--accent);
 		color: var(--on-accent);
-	}
-
-	.btn--solid {
-		background: var(--accent);
-		color: var(--on-accent);
-		padding: 20px 44px;
-	}
-
-	.btn--solid:hover {
-		background: var(--ink);
-		color: var(--paper);
 	}
 
 	/* Stats */

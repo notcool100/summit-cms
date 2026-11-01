@@ -11,6 +11,8 @@ declare global {
 				permissions: string[];
 			} | null;
 			accessToken: string | null;
+			/** True only when the request is for the production domain (PUBLIC_SITE_URL). */
+			indexable: boolean;
 		}
 		// interface PageData {}
 		// interface PageState {}

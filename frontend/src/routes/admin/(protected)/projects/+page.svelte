@@ -40,17 +40,17 @@
 
 <div class="adm-page-head">
 	<div>
-		<h1>Projects</h1>
+		<h1>Work scopes</h1>
 		<p>
-			Featured work shown on the projects grid. Open a project to manage its gallery, scope facts,
-			narrative, and quote.
+			Typical work scopes shown on the Work Scopes page. Open one to manage its gallery, scope
+			facts, narrative, and quote.
 		</p>
 	</div>
 	<div class="adm-row-actions">
 		<button class="adm-btn adm-btn--secondary" onclick={() => (categoriesOpen = true)}
 			>Categories</button
 		>
-		<button class="adm-btn adm-btn--primary" onclick={openNew}>New project</button>
+		<button class="adm-btn adm-btn--primary" onclick={openNew}>New work scope</button>
 	</div>
 </div>
 
@@ -85,8 +85,8 @@
 <div class="adm-table-wrap">
 	{#if projects.length === 0}
 		<div class="adm-empty">
-			<h3>No projects yet</h3>
-			<p>Create your first project to feature it on the site.</p>
+			<h3>No work scopes yet</h3>
+			<p>Create your first work scope to show it on the site.</p>
 		</div>
 	{:else if filtered.length === 0}
 		<div class="adm-empty">
@@ -95,7 +95,7 @@
 		</div>
 	{:else}
 		<table class="adm-table">
-			<thead><tr><th>Project</th><th>Category</th><th>Stat</th><th></th></tr></thead>
+			<thead><tr><th>Work scope</th><th>Category</th><th>Stat</th><th></th></tr></thead>
 			<tbody>
 				{#each filtered as p (p.id)}
 					<tr
@@ -130,7 +130,7 @@
 									method="POST"
 									action="?/remove"
 									use:enhance={confirmDelete(
-										'project',
+										'work scope',
 										`“${p.name}” and its gallery, facts, and narrative will be removed.`
 									)}
 								>
@@ -148,13 +148,13 @@
 
 <Drawer
 	bind:open={newOpen}
-	title="New project"
+	title="New work scope"
 	description="Create the basics now; add the gallery and case study after."
 >
 	<form
 		method="POST"
 		action="?/create"
-		use:enhance={submit({ success: 'Project created', onSuccess: () => (newOpen = false) })}
+		use:enhance={submit({ success: 'Work scope created', onSuccess: () => (newOpen = false) })}
 	>
 		<div class="adm-field">
 			<label for="p-name">Name</label>
@@ -175,10 +175,10 @@
 				name="slug"
 				bind:value={newSlug}
 				oninput={() => (slugTouched = true)}
-				placeholder="project-name"
+				placeholder="work-scope-name"
 				required
 			/>
-			<span class="adm-hint">/work-scopes/{newSlug || 'project-name'}</span>
+			<span class="adm-hint">/work-scopes/{newSlug || 'work-scope-name'}</span>
 		</div>
 		<div class="adm-form-grid">
 			<div class="adm-field">
@@ -225,7 +225,7 @@
 			</div>
 		</div>
 		<label class="adm-switch-row">
-			<div><strong>Featured</strong><span>Show this project on the home page.</span></div>
+			<div><strong>Featured</strong><span>Show this work scope on the home page.</span></div>
 			<input type="checkbox" class="adm-switch" name="isFeatured" value="true" />
 		</label>
 		<div class="adm-form-actions">
@@ -238,14 +238,16 @@
 <Drawer
 	bind:open={categoriesOpen}
 	title="Industry categories"
-	description="Used to group and filter projects."
+	description="Used to group and filter work scopes."
 >
 	<div class="adm-list">
 		{#each categories as c (c.id)}
 			<div class="adm-list-row">
 				<div class="adm-list-main">
 					<div class="adm-list-title">{c.name}</div>
-					<div class="adm-list-sub">{countFor(c.id)} project{countFor(c.id) === 1 ? '' : 's'}</div>
+					<div class="adm-list-sub">
+						{countFor(c.id)} work scope{countFor(c.id) === 1 ? '' : 's'}
+					</div>
 				</div>
 				<form
 					method="POST"
@@ -257,8 +259,9 @@
 						class="adm-btn adm-btn--ghost adm-btn--sm"
 						type="submit"
 						disabled={countFor(c.id) > 0}
-						title={countFor(c.id) > 0 ? 'Move its projects to another category first' : undefined}
-						>Delete</button
+						title={countFor(c.id) > 0
+							? 'Move its work scopes to another category first'
+							: undefined}>Delete</button
 					>
 				</form>
 			</div>
@@ -290,7 +293,7 @@
 		gap: 12px;
 	}
 	.project-cell a:hover {
-		color: var(--adm-accent);
+		color: var(--adm-accent-text);
 	}
 	.featured {
 		margin-left: 6px;

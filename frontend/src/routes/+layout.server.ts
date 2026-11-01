@@ -7,15 +7,20 @@ interface ApiProjectListItem {
 	isFeatured: boolean;
 }
 
-export const load: LayoutServerLoad = async ({ fetch }) => {
+export const load: LayoutServerLoad = async ({ fetch, locals }) => {
 	const [siteSettings, projects] = await Promise.all([
-		getPublic<Record<string, string>>(fetch, '/api/public/site-settings').catch(() => ({}) as Record<string, string>),
-		getPublic<ApiProjectListItem[]>(fetch, '/api/public/projects').catch(() => [] as ApiProjectListItem[])
+		getPublic<Record<string, string>>(fetch, '/api/public/site-settings').catch(
+			() => ({}) as Record<string, string>
+		),
+		getPublic<ApiProjectListItem[]>(fetch, '/api/public/projects').catch(
+			() => [] as ApiProjectListItem[]
+		)
 	]);
 
 	const featured = projects.find((p) => p.isFeatured) ?? projects[0] ?? null;
 
 	return {
+		indexable: locals.indexable,
 		siteSettings,
 		featuredProject: featured ? { slug: featured.slug, name: featured.name } : null
 	};

@@ -48,7 +48,10 @@ const err = (e: unknown, fallback: string) =>
 
 function sectionBody(form: FormData) {
 	return {
-		key: str(form, 'key').trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-'),
+		key: str(form, 'key')
+			.trim()
+			.toLowerCase()
+			.replace(/[^a-z0-9-]+/g, '-'),
 		pageSlug: str(form, 'pageSlug'),
 		slot: str(form, 'slot').trim(),
 		layout: str(form, 'layout'),
@@ -97,20 +100,62 @@ async function send(
 
 export const actions: Actions = {
 	createSection: async ({ request, locals, fetch }) =>
-		send(locals, fetch, '/api/admin/company/sections', 'POST', sectionBody(await request.formData()), 'Could not create section.'),
+		send(
+			locals,
+			fetch,
+			'/api/admin/company/sections',
+			'POST',
+			sectionBody(await request.formData()),
+			'Could not create section.'
+		),
 	updateSection: async ({ request, locals, fetch }) => {
 		const form = await request.formData();
-		return send(locals, fetch, `/api/admin/company/sections/${str(form, 'id')}`, 'PUT', sectionBody(form), 'Could not update section.');
+		return send(
+			locals,
+			fetch,
+			`/api/admin/company/sections/${str(form, 'id')}`,
+			'PUT',
+			sectionBody(form),
+			'Could not update section.'
+		);
 	},
 	deleteSection: async ({ request, locals, fetch }) =>
-		send(locals, fetch, `/api/admin/company/sections/${str(await request.formData(), 'id')}`, 'DELETE', undefined, 'Could not delete section.'),
+		send(
+			locals,
+			fetch,
+			`/api/admin/company/sections/${str(await request.formData(), 'id')}`,
+			'DELETE',
+			undefined,
+			'Could not delete section.'
+		),
 
 	createItem: async ({ request, locals, fetch }) =>
-		send(locals, fetch, '/api/admin/company/section-items', 'POST', itemBody(await request.formData()), 'Could not create item.'),
+		send(
+			locals,
+			fetch,
+			'/api/admin/company/section-items',
+			'POST',
+			itemBody(await request.formData()),
+			'Could not create item.'
+		),
 	updateItem: async ({ request, locals, fetch }) => {
 		const form = await request.formData();
-		return send(locals, fetch, `/api/admin/company/section-items/${str(form, 'id')}`, 'PUT', itemBody(form), 'Could not update item.');
+		return send(
+			locals,
+			fetch,
+			`/api/admin/company/section-items/${str(form, 'id')}`,
+			'PUT',
+			itemBody(form),
+			'Could not update item.'
+		);
 	},
 	deleteItem: async ({ request, locals, fetch }) =>
-		send(locals, fetch, `/api/admin/company/section-items/${str(await request.formData(), 'id')}`, 'DELETE', undefined, 'Could not delete item.')
+		send(
+			locals,
+			fetch,
+			`/api/admin/company/section-items/${str(await request.formData(), 'id')}`,
+			'DELETE',
+			undefined,
+			'Could not delete item.'
+		)
 };
