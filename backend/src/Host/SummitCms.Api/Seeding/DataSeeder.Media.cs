@@ -34,27 +34,27 @@ public static partial class DataSeeder
         // through the admin Media library when they are supplied.
         (string Url, string Alt)[] images =
         [
-            (Stock("scaffold-crew-deck"), "Illustrative image: scaffold crew working on an access platform"),
-            (Stock("scaffold-tower-crew"), "Illustrative image: crew working across a tall scaffold structure"),
-            (Stock("scaffold-access-worker"), "Illustrative image: worker in high visibility clothing beside a scaffold"),
-            (Stock("scaffold-design-cad"), "Illustrative image: access design drawing on a computer screen"),
-            (Stock("mobile-crane-outriggers"), "Illustrative image: mobile crane set up on outriggers"),
-            (Stock("work-at-height-harness"), "Illustrative image: worker in a harness working at height"),
-            (Stock("plant-maintenance-conveyor"), "Illustrative image: maintenance worker walking beside a plant conveyor"),
-            (Stock("low-loader-transport"), "Illustrative image: equipment loaded on a low loader trailer"),
-            (Stock("energy-process-plant"), "Illustrative image: energy processing plant structure and pipework"),
-            (Stock("resources-haul-truck"), "Illustrative image: haul truck in an open cut mine"),
-            (Stock("utilities-water-treatment"), "Illustrative image: water treatment facility basins"),
-            (Stock("renewables-offshore-wind"), "Illustrative image: wind turbines with an installation vessel offshore"),
-            (Stock("rail-freight-wagons"), "Illustrative image: freight wagons in a rail yard"),
-            (Stock("marine-port-cranes"), "Illustrative image: port container cranes and storage yard"),
-            (Stock("structural-access-frames"), "Illustrative image: steel access frames on a structure"),
-            (Stock("pick-and-carry-crane"), "Illustrative image: pick and carry crane in an industrial yard"),
-            (Stock("shutdown-process-facility"), "Illustrative image: aerial view of an industrial process facility"),
-            (Stock("marine-wharf-cranes"), "Illustrative image: wharf cranes beside the water"),
-            (Stock("renewables-platform-crew"), "Illustrative image: technicians working on a turbine platform"),
-            (Stock("site-planning-engineers"), "Illustrative image: two people in high visibility clothing planning on site"),
-            (Stock("road-train-logistics"), "Illustrative image: road train transporting freight")
+            (Stock("scaffold-crew-deck"), "Scaffold crew working on an access platform"),
+            (Stock("scaffold-tower-crew"), "Crew working across a tall scaffold structure"),
+            (Stock("scaffold-access-worker"), "Worker in high visibility clothing beside a scaffold"),
+            (Stock("scaffold-design-cad"), "Access design drawing on a computer screen"),
+            (Stock("mobile-crane-outriggers"), "Mobile crane set up on outriggers"),
+            (Stock("work-at-height-harness"), "Worker in a harness working at height"),
+            (Stock("plant-maintenance-conveyor"), "Maintenance worker walking beside a plant conveyor"),
+            (Stock("low-loader-transport"), "Equipment loaded on a low loader trailer"),
+            (Stock("energy-process-plant"), "Energy processing plant structure and pipework"),
+            (Stock("resources-haul-truck"), "Haul truck in an open cut mine"),
+            (Stock("utilities-water-treatment"), "Water treatment facility basins"),
+            (Stock("renewables-offshore-wind"), "Wind turbines with an installation vessel offshore"),
+            (Stock("rail-freight-wagons"), "Freight wagons in a rail yard"),
+            (Stock("marine-port-cranes"), "Port container cranes and storage yard"),
+            (Stock("structural-access-frames"), "Steel access frames on a structure"),
+            (Stock("pick-and-carry-crane"), "Pick and carry crane in an industrial yard"),
+            (Stock("shutdown-process-facility"), "Aerial view of an industrial process facility"),
+            (Stock("marine-wharf-cranes"), "Wharf cranes beside the water"),
+            (Stock("renewables-platform-crew"), "Technicians working on a turbine platform"),
+            (Stock("site-planning-engineers"), "Two people in high visibility clothing planning on site"),
+            (Stock("road-train-logistics"), "Road train transporting freight")
         ];
 
         var externalAssets = await db.MediaAssets
@@ -72,9 +72,10 @@ public static partial class DataSeeder
         {
             if (existing.TryGetValue(url, out var existingId))
             {
-                // Keep alt text honest about the image being illustrative.
+                // Earlier seeds prefixed alt text with "Illustrative image: "; the client asked for that
+                // wording to go, so replace the old seeded text. Alt text edited in the admin is kept.
                 var current = externalAssets.First(a => a.Id == existingId);
-                if (!current.AltText.StartsWith("Illustrative", StringComparison.Ordinal)) current.AltText = alt;
+                if (current.AltText.StartsWith("Illustrative image: ", StringComparison.Ordinal)) current.AltText = alt;
                 continue;
             }
 

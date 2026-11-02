@@ -32,7 +32,30 @@ public static partial class DataSeeder
 
         await ReplaceThirdPartyImagesAsync(sp, Media);
         await ApplyReviewedCopyOnceAsync(sp);
+        await RemoveIllustrativeImageLabelsAsync(sp);
         await RetireThirdPartyMediaAsync(sp);
+    }
+
+    /// <summary>
+    /// The client asked for the "ILLUSTRATIVE IMAGE" label to be removed from every image. Earlier seeds
+    /// wrote it into About page captions and work scope gallery captions; strip only that seeded wording
+    /// so any caption text typed in the admin panel is left alone. Runs every start and is a no-op once clean.
+    /// </summary>
+    private static async Task RemoveIllustrativeImageLabelsAsync(IServiceProvider sp)
+    {
+        const string label = "ILLUSTRATIVE IMAGE";
+        const string prefix = label + " · ";
+
+        var company = sp.GetRequiredService<CompanyDbContext>();
+        foreach (var block in await company.NarrativeBlocks.Where(b => b.ImageCaption == label).ToListAsync())
+            block.ImageCaption = "";
+        await company.SaveChangesAsync();
+
+        var projects = sp.GetRequiredService<ProjectsDbContext>();
+        foreach (var image in await projects.GalleryImages
+                     .Where(g => g.Caption == label || g.Caption.StartsWith(prefix)).ToListAsync())
+            image.Caption = image.Caption == label ? "" : image.Caption[prefix.Length..];
+        await projects.SaveChangesAsync();
     }
 
     private static async Task ReplaceThirdPartyImagesAsync(IServiceProvider sp, Func<string, Guid> media)
@@ -45,7 +68,7 @@ public static partial class DataSeeder
         {
             if (!IsThirdPartyMedia(block.MediaId)) continue;
             block.MediaId = block.Eyebrow == "Our Approach" ? media("road-train-logistics") : media("site-planning-engineers");
-            block.ImageCaption = "ILLUSTRATIVE IMAGE";
+            block.ImageCaption = "";
         }
         // Portraits from summit.us were of a different company's executives - never show them.
         foreach (var member in await company.TeamMembers.Where(m => m.MediaId != null).ToListAsync())
@@ -158,7 +181,7 @@ public static partial class DataSeeder
         var company = sp.GetRequiredService<CompanyDbContext>();
         foreach (var block in await company.NarrativeBlocks.ToListAsync())
             if (block.ImageCaption is "KARRATHA INDUSTRIAL ESTATE" or "COORDINATED EXECUTION")
-                block.ImageCaption = "ILLUSTRATIVE IMAGE";
+                block.ImageCaption = "";
 
         var sections = await company.ContentSections.ToListAsync();
         void SetSection(string key, Action<SummitCms.Modules.Company.Domain.ContentSection> change)
@@ -191,9 +214,6 @@ public static partial class DataSeeder
             fact.Label = WorkScopeFactLabel;
             fact.Value = WorkScopeFactValue;
         }
-        foreach (var image in await projects.GalleryImages.Where(g => g.Role == ProjectImageRole.Break).ToListAsync())
-            if (!image.Caption.StartsWith("ILLUSTRATIVE", StringComparison.Ordinal))
-                image.Caption = $"ILLUSTRATIVE IMAGE · {image.Caption}";
         await projects.SaveChangesAsync();
 
         if (marker is null)

@@ -125,7 +125,7 @@ public static partial class DataSeeder
                 ProjectId = project.Id,
                 MediaId = mediaMap[profile.MediaUrl],
                 Role = ProjectImageRole.Break,
-                Caption = $"ILLUSTRATIVE IMAGE · {profile.Figure}",
+                Caption = profile.Figure,
                 DisplayOrder = 0
             });
             await db.SaveChangesAsync();
