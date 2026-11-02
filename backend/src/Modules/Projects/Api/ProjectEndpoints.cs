@@ -154,12 +154,19 @@ public static class ProjectEndpoints
         group.MapPut("/{projectId:guid}/quote", async (Guid projectId, QuoteDto body, ProjectsDbContext db, CancellationToken ct) =>
         {
             var quote = await db.Quotes.FirstOrDefaultAsync(q => q.ProjectId == projectId, ct);
+            // A blank quote means "no testimonial": remove it rather than store an empty row
+            // that would render as a headless slide in the homepage Client Voice section.
+            if (string.IsNullOrWhiteSpace(body.Quote))
+            {
+                if (quote is not null) { db.Quotes.Remove(quote); await db.SaveChangesAsync(ct); }
+                return Results.NoContent();
+            }
             if (quote is null)
             {
                 quote = new ProjectQuote { ProjectId = projectId };
                 db.Quotes.Add(quote);
             }
-            quote.Quote = body.Quote; quote.Attribution = body.Attribution;
+            quote.Quote = body.Quote.Trim(); quote.Attribution = (body.Attribution ?? "").Trim();
             await db.SaveChangesAsync(ct);
             return Results.NoContent();
         }).WithAudit("ProjectQuote");

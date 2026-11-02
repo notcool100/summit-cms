@@ -72,10 +72,6 @@
 			<a href="#top" class="top" onclick={scrollToTop}>Back to top ↑</a>
 		</div>
 	</div>
-
-	<div class="watermark" aria-hidden="true">
-		<div class="watermark-text">{companyName.toUpperCase()}</div>
-	</div>
 </footer>
 
 <style>
@@ -159,7 +155,7 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 12px 20px;
-		padding: 0 clamp(20px, 4vw, 64px) 16px;
+		padding: 0 clamp(20px, 4vw, 64px) clamp(28px, 4vh, 40px);
 		font-size: 11px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -180,23 +176,6 @@
 
 	.social a.top {
 		color: var(--accent-text);
-	}
-
-	.watermark {
-		height: clamp(60px, 13vw, 220px);
-		overflow: hidden;
-		pointer-events: none;
-		margin-top: 8px;
-	}
-
-	.watermark-text {
-		font-family: var(--font-display);
-		font-size: clamp(90px, 21vw, 360px);
-		line-height: 0.78;
-		letter-spacing: 0.02em;
-		text-align: center;
-		color: transparent;
-		-webkit-text-stroke: 1px rgba(var(--ink-rgb), 0.18);
 	}
 
 	@media (max-width: 900px) {

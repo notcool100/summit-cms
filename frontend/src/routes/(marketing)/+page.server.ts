@@ -136,13 +136,15 @@ export const load: PageServerLoad = async ({ fetch }) => {
 			suffix: s.suffix ?? undefined,
 			label: s.label
 		})),
-		testimonials: testimonials.map((t) => ({
-			quote: t.quote,
-			attribution: t.attribution,
-			projectName: t.projectName,
-			industry: t.industryCategory,
-			href: `/work-scopes/${t.projectSlug}`
-		})),
+		testimonials: testimonials
+			.filter((t) => t.quote?.trim())
+			.map((t) => ({
+				quote: t.quote,
+				attribution: t.attribution,
+				projectName: t.projectName,
+				industry: t.industryCategory,
+				href: `/work-scopes/${t.projectSlug}`
+			})),
 		latestPosts: posts.slice(0, 3).map((p) => ({
 			slug: p.slug,
 			title: p.title,
