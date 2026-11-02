@@ -56,6 +56,8 @@ public static class CrudEndpointExtensions
             var entity = await repo.GetAsync(id, ct);
             if (entity is null) return Results.NotFound();
 
+            // Snapshot as a JSON string now (before the update mutates the entity); PublishAsync passes
+            // strings through unchanged so the audit log stores real JSON, not a JSON-encoded string.
             var before = JsonSerializer.Serialize(entity);
             applyUpdate(entity, dto);
             await repo.UpdateAsync(ct);
@@ -87,7 +89,7 @@ public static class CrudEndpointExtensions
             action,
             entityName,
             entityId.ToString(),
-            before is null ? null : JsonSerializer.Serialize(before),
-            after is null ? null : JsonSerializer.Serialize(after),
+            before switch { null => null, string json => json, _ => JsonSerializer.Serialize(before) },
+            after switch { null => null, string json => json, _ => JsonSerializer.Serialize(after) },
             http.Connection.RemoteIpAddress?.ToString()));
 }

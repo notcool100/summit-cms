@@ -30,6 +30,13 @@ interface PageDto {
 	slug: string;
 }
 
+/**
+ * Settings the system itself manages. `content_revision` records that the client-review content
+ * migration has run; editing or deleting it would make the next server start re-apply that
+ * migration and overwrite content edited since. Never shown or editable here.
+ */
+const SYSTEM_KEYS = new Set(['content_revision']);
+
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const token = locals.accessToken!;
 	const [settings, enquiryTypes, metricStats, pages] = await Promise.all([
@@ -38,7 +45,12 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 		adminFetch<MetricStatDto[]>(fetch, token, '/api/admin/metric-stats'),
 		adminFetch<PageDto[]>(fetch, token, '/api/admin/pages')
 	]);
-	return { settings, enquiryTypes, metricStats, pages };
+	return {
+		settings: settings.filter((s) => !SYSTEM_KEYS.has(s.key)),
+		enquiryTypes,
+		metricStats,
+		pages
+	};
 };
 
 function err(e: unknown, fallback: string) {
@@ -52,6 +64,7 @@ export const actions: Actions = {
 		const value = String(form.get('value') ?? '');
 		const valueType = String(form.get('valueType') ?? 'string');
 		if (!key) return fail(400, { error: 'Key is required.' });
+		if (SYSTEM_KEYS.has(key)) return fail(400, { error: 'That key is reserved by the system.' });
 		try {
 			await adminFetch(fetch, locals.accessToken!, '/api/admin/settings', {
 				method: 'POST',

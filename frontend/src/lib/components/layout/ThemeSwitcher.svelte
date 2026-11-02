@@ -62,7 +62,7 @@
 
 	{#if open}
 		<div class="menu" role="menu">
-			{#each THEMES as theme (theme)}
+			{#each THEMES as theme, k (k)}
 				<button role="menuitem" class="option" onclick={() => pick(theme)}>
 					<span class="swatch" style:background={swatches[theme]}></span>
 					<span class="label">{labels[theme]}</span>

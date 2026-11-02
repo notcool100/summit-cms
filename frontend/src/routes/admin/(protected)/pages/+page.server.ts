@@ -26,6 +26,10 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 		adminFetch<PageDto[]>(fetch, token, '/api/admin/pages'),
 		adminFetch<MediaItem[]>(fetch, token, '/api/admin/media')
 	]);
+	// Fixed order matching the site menu, so rows don't jump around after each save.
+	const ORDER = ['home', 'about', 'capabilities', 'projects', 'industries', 'insights', 'contact'];
+	const rank = (slug: string) => ORDER.indexOf(slug) + 1 || ORDER.length + 1;
+	pages.sort((a, b) => rank(a.slug) - rank(b.slug) || a.slug.localeCompare(b.slug));
 	return { pages, media };
 };
 

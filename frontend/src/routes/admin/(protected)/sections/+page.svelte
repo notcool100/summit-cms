@@ -32,7 +32,7 @@
 		{ id: 'faq', label: 'FAQ', hint: 'Item title is the question, item text is the answer.' }
 	];
 	// Where on each page a section can be placed. These are fixed positions in the page templates.
-	const SLOTS: Record<string, { id: string; label: string }[]> = {
+	const SLOTS: Record<string, { id: string; label: string }[]> = $derived({
 		home: [
 			{ id: 'manifesto', label: 'Manifesto: extra text and points (first section only)' },
 			{ id: 'after-stats', label: 'Under the stats strip' },
@@ -60,28 +60,19 @@
 		],
 		projects: [
 			{ id: 'end', label: 'End of page (shown for All and any industry without its own block)' },
-			{ id: 'category:Energy', label: 'When the Energy filter is selected' },
-			{
-				id: 'category:Resources & Minerals',
-				label: 'When the Resources & Minerals filter is selected'
-			},
-			{ id: 'category:Utilities', label: 'When the Utilities filter is selected' },
-			{ id: 'category:Renewables', label: 'When the Renewables filter is selected' },
-			{ id: 'category:Rail', label: 'When the Rail filter is selected' },
-			{
-				id: 'category:Marine & Construction',
-				label: 'When the Marine & Construction filter is selected'
-			}
+			...data.workScopeCategories.map((c) => ({
+				id: `category:${c}`,
+				label: `When the ${c} filter is selected`
+			}))
 		],
 		insights: [
 			{ id: 'end', label: 'End of page (shown for All and any category without its own block)' },
-			{ id: 'category:Scaffolding', label: 'When the Scaffolding filter is selected' },
-			{ id: 'category:Safety', label: 'When the Safety filter is selected' },
-			{ id: 'category:Project Planning', label: 'When the Project Planning filter is selected' },
-			{ id: 'category:Rigging', label: 'When the Rigging filter is selected' },
-			{ id: 'category:Logistics', label: 'When the Logistics filter is selected' }
+			...data.blogCategories.map((c) => ({
+				id: `category:${c}`,
+				label: `When the ${c} filter is selected`
+			}))
 		]
-	};
+	});
 
 	let pageSlug = $state('home');
 	let pageSections = $derived(sections.filter((s) => s.pageSlug === pageSlug));
@@ -120,7 +111,11 @@
 	const saved = () =>
 		submit({
 			success: isEdit ? 'Changes saved' : `${noun.charAt(0).toUpperCase()}${noun.slice(1)} added`,
-			onSuccess: () => (drawerOpen = false)
+			onSuccess: () => {
+				drawerOpen = false;
+				// Show the page the section was saved to, so a new section doesn't seem to vanish.
+				if (drawerKind === 'section') pageSlug = formPage;
+			}
 		});
 	const showSubtitle = $derived(openSection?.layout === 'people');
 	const showTags = $derived(openSection?.layout === 'people');
@@ -182,8 +177,8 @@
 		<div>
 			<h1>Page sections</h1>
 			<p>
-				Extra content blocks on the Home, About, Capabilities and Contact pages: card grids, fact
-				strips, statements, people profiles and FAQs.
+				Extra content blocks on every main page (Home, About, Capabilities, Contact, Industries,
+				Work Scopes and Insights): card grids, fact strips, statements, people profiles and FAQs.
 			</p>
 		</div>
 		<div class="adm-row-actions">

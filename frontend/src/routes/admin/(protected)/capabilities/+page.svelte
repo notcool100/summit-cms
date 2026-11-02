@@ -100,7 +100,7 @@
 					id="key"
 					name="key"
 					value={c?.key ?? ''}
-					placeholder="mechanical-piping"
+					placeholder="scaffolding-access"
 					required
 				/>
 				<span class="adm-hint">Unique identifier used in page anchors.</span>
@@ -112,7 +112,7 @@
 					id="stat"
 					name="stat"
 					value={c?.stat ?? ''}
-					placeholder="480K LF"
+					placeholder="Tube & Fit"
 				/>
 			</div>
 			<div class="adm-field">
@@ -122,7 +122,7 @@
 					id="statlabel"
 					name="statLabel"
 					value={c?.statLabel ?? ''}
-					placeholder="Pipe installed, single site"
+					placeholder="AT-PAC Ringlock"
 				/>
 			</div>
 			<div class="adm-field">

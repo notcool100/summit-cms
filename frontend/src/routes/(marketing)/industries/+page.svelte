@@ -36,7 +36,7 @@
 
 <!-- ============ INDUSTRY PANELS ============ -->
 <section class="panels">
-	{#each industries as ind, i (ind.idx)}
+	{#each industries as ind, i (i)}
 		{@const open = openIdx === i}
 		<div class="panel-row">
 			<button
@@ -58,7 +58,7 @@
 							{#if ind.links.length > 0}
 								<div class="related-label">Related work scopes</div>
 								<div class="related-list">
-									{#each ind.links as link (link.name)}
+									{#each ind.links as link, k (k)}
 										<a data-cursor-view href={link.href} class="related-link">
 											<span>{link.name}</span><span class="related-stat">{link.stat} →</span>
 										</a>

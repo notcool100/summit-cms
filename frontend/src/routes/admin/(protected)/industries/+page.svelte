@@ -32,8 +32,8 @@
 	<div>
 		<h1>Industries</h1>
 		<p>
-			Industries served, each optionally linked to real projects. Names and stats can be overridden
-			per link.
+			Industries served, each optionally linked to typical work scopes. Names and stats can be
+			overridden per link.
 		</p>
 	</div>
 	<button class="adm-btn adm-btn--primary" onclick={() => openDrawer(null)}>New industry</button>
@@ -67,7 +67,7 @@
 						{#each indLinks as link (link.id)}
 							{@const project = projects.find((p) => p.id === link.projectId)}
 							<span class="adm-badge adm-badge--accent">
-								{link.customLabel ?? project?.name ?? 'Unknown project'}
+								{link.customLabel ?? project?.name ?? 'Unknown work scope'}
 								{#if link.customStat ?? project?.stat}<span class="link-stat"
 										>{link.customStat ?? project?.stat}</span
 									>{/if}
@@ -75,21 +75,21 @@
 									method="POST"
 									action="?/removeLink"
 									use:enhance={confirmDelete(
-										'project link',
-										'The project stays; it just stops appearing under this industry.'
+										'work scope link',
+										'The work scope stays; it just stops appearing under this industry.'
 									)}
 								>
 									<input type="hidden" name="id" value={link.id} />
 									<button
 										type="submit"
 										class="adm-chip-x"
-										aria-label="Unlink project"
+										aria-label="Unlink work scope"
 										title="Unlink">×</button
 									>
 								</form>
 							</span>
 						{/each}
-						<button class="link-add" onclick={() => openLink(ind)}>+ Link project</button>
+						<button class="link-add" onclick={() => openLink(ind)}>+ Link work scope</button>
 					</div>
 				</div>
 				<div class="adm-row-actions">
@@ -185,7 +185,7 @@
 
 <Drawer
 	bind:open={linkDrawerOpen}
-	title="Link a project"
+	title="Link a work scope"
 	description={linkingFor ? `Show a project under ${linkingFor.name}.` : undefined}
 >
 	{#if linkingFor}
@@ -195,13 +195,16 @@
 		<form
 			method="POST"
 			action="?/addLink"
-			use:enhance={submit({ success: 'Project linked', onSuccess: () => (linkDrawerOpen = false) })}
+			use:enhance={submit({
+				success: 'Work scope linked',
+				onSuccess: () => (linkDrawerOpen = false)
+			})}
 		>
 			<input type="hidden" name="industryId" value={linkingFor.id} />
 			<div class="adm-field">
-				<label for="projectId">Project</label>
+				<label for="projectId">Work scope</label>
 				<select class="adm-select" id="projectId" name="projectId" required>
-					<option value="">Choose a project…</option>
+					<option value="">Choose a work scope…</option>
 					{#each projects.filter((p) => !linked.has(p.id)) as p (p.id)}<option value={p.id}
 							>{p.name}</option
 						>{/each}
@@ -213,7 +216,7 @@
 					class="adm-input"
 					id="customLabel"
 					name="customLabel"
-					placeholder="Defaults to the project name"
+					placeholder="Defaults to the work scope name"
 				/>
 			</div>
 			<div class="adm-field">
@@ -222,12 +225,12 @@
 					class="adm-input"
 					id="customStat"
 					name="customStat"
-					placeholder="Defaults to the project stat"
+					placeholder="Defaults to the work scope stat"
 				/>
 			</div>
 			<div class="adm-form-actions">
 				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
-				<button class="adm-btn adm-btn--primary" type="submit">Link project</button>
+				<button class="adm-btn adm-btn--primary" type="submit">Link work scope</button>
 			</div>
 		</form>
 	{/if}

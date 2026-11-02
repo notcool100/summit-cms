@@ -128,7 +128,7 @@
 	</div>
 {:else if tab === 'enquiry'}
 	<p class="adm-muted tab-hint">
-		Options in the “What is this about?” dropdown on the public contact form.
+		Options in the “Enquiry type” dropdown on the public contact form.
 	</p>
 	<div class="adm-list">
 		{#each enquiryTypes as e (e.id)}

@@ -23,7 +23,7 @@
 		onblur={() => (focused = false)}
 	>
 		<option value="">Select one…</option>
-		{#each options as option (option)}
+		{#each options as option, k (k)}
 			<option value={option}>{option}</option>
 		{/each}
 	</select>

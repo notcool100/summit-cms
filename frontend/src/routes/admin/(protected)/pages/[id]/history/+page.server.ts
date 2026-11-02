@@ -56,7 +56,26 @@ export const load: PageServerLoad = async ({ params, locals, fetch, url }) => {
 		}
 	}
 
-	return { page, versions, previewVersion };
+	// Only Home displays page-level images; resolve them so the preview can show what would be restored.
+	let previewImages: { hero: string | null; secondary: string | null } | null = null;
+	if (previewVersion && page.slug === 'home') {
+		const media = await adminFetch<{ id: string; url: string; fileName: string }[]>(
+			fetch,
+			token,
+			'/api/admin/media'
+		);
+		const find = (id: string | null) => media.find((m) => m.id === id) ?? null;
+		const label = (id: string | null) => {
+			const m = find(id);
+			return m ? `${m.url}|${m.fileName}` : null;
+		};
+		previewImages = {
+			hero: label(previewVersion.heroMediaId),
+			secondary: label(previewVersion.secondaryMediaId)
+		};
+	}
+
+	return { page, versions, previewVersion, previewImages };
 };
 
 export const actions: Actions = {

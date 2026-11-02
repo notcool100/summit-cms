@@ -11,7 +11,12 @@
 	let categories = $derived(data.categories);
 	let media = $derived(data.media);
 
-	const ROLES = ['Hero', 'Break', 'Gallery'];
+	// Roles the public work-scope page displays. Values are the API enum numbers (Hero = 0 is not
+	// offered: the page's main image is the Hero image on the Details tab).
+	const ROLES = [
+		{ value: 1, name: 'Break', label: 'Full-width break image (the first one is shown)' },
+		{ value: 2, name: 'Gallery', label: 'Gallery pair (side-by-side images)' }
+	];
 	let galleryOpen = $state(false);
 	let factOpen = $state(false);
 	let sectionOpen = $state(false);
@@ -20,7 +25,7 @@
 		{ id: 'details', label: 'Details' },
 		{ id: 'gallery', label: 'Gallery' },
 		{ id: 'facts', label: 'Scope facts' },
-		{ id: 'narrative', label: 'Case study' }
+		{ id: 'narrative', label: 'Narrative' }
 	] as const;
 	let tab = $state<(typeof TABS)[number]['id']>('details');
 	const counts = $derived({
@@ -36,7 +41,7 @@
 
 <div class="adm-page-head">
 	<div>
-		<a href="/admin/projects" class="adm-back">← All projects</a>
+		<a href="/admin/projects" class="adm-back">← All work scopes</a>
 		<h1>{project.name}</h1>
 		<p class="adm-mono">/work-scopes/{project.slug}</p>
 	</div>
@@ -170,7 +175,10 @@
 		<div class="adm-section-head">
 			<div>
 				<h2>Pull quote</h2>
-				<p>Shown as a large quote within the case study.</p>
+				<p>
+					Shown as a large quote on the work scope page. Use only approved, attributable wording;
+					this page is a capability illustration, not a completed client project.
+				</p>
 			</div>
 		</div>
 		<form
@@ -205,7 +213,10 @@
 	<div class="adm-section-head">
 		<div>
 			<h2>Gallery images</h2>
-			<p>Hero is the lead image; Break images sit between narrative sections.</p>
+			<p>
+				The first Break image runs full width between narrative sections; Gallery images sit side by
+				side in pairs.
+			</p>
 		</div>
 		<button class="adm-btn adm-btn--primary adm-btn--sm" onclick={() => (galleryOpen = true)}
 			>Add image</button
@@ -303,7 +314,7 @@
 		<div class="adm-list">
 			<div class="adm-empty">
 				<h3>No narrative yet</h3>
-				<p>Add a section to start the case study.</p>
+				<p>Add a section to start the narrative.</p>
 			</div>
 		</div>
 	{/if}
@@ -380,7 +391,8 @@
 			<div class="adm-field">
 				<label for="g-role">Role</label>
 				<select class="adm-select" id="g-role" name="role"
-					>{#each ROLES as r, i (r)}<option value={i} selected={r === 'Gallery'}>{r}</option
+					>{#each ROLES as r (r.value)}<option value={r.value} selected={r.name === 'Gallery'}
+							>{r.label}</option
 						>{/each}</select
 				>
 			</div>
@@ -477,7 +489,7 @@
 				class="adm-input"
 				id="ns-title"
 				name="title"
-				placeholder="The challenge"
+				placeholder="How we approach it"
 				required
 			/>
 		</div>

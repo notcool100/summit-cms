@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { getSections, getPublic, postPublic } from '$lib/server/publicApi';
+import { site } from '$lib/config/site';
 import type { Actions, PageServerLoad } from './$types';
 
 interface ApiEnquiryType {
@@ -92,12 +93,19 @@ export const actions: Actions = {
 		} catch (err) {
 			const detail = err instanceof Error ? err.message : '';
 			const tooMany = /429|too many/i.test(detail);
+			// Offer the contact details from Admin -> Settings, not hard-coded copies.
+			const settings = await getPublic<Record<string, string>>(
+				fetch,
+				'/api/public/site-settings'
+			).catch(() => ({}) as Record<string, string>);
+			const callPhone = settings.company_phone || site.phone;
+			const mailTo = settings.company_email || site.email;
 			return fail(tooMany ? 429 : 502, {
 				error: tooMany
-					? 'Too many enquiries from your connection. Please wait a few minutes, or call us on 0401 174 989.'
+					? `Too many enquiries from your connection. Please wait a few minutes, or call us on ${callPhone}.`
 					: detail && detail.length < 200
 						? detail
-						: 'Sorry, your enquiry could not be sent. Please try again, call 0401 174 989 or email support@summit-is.com.au.'
+						: `Sorry, your enquiry could not be sent. Please try again, call ${callPhone} or email ${mailTo}.`
 			});
 		}
 

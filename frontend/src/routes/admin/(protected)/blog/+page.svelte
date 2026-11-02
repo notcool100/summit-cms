@@ -225,7 +225,7 @@
 					class="adm-input"
 					id="author"
 					name="authorName"
-					value={p?.authorName ?? ''}
+					value={p?.authorName ?? 'Summit Industrial Services'}
 					required
 				/>
 			</div>

@@ -143,10 +143,14 @@
 			<a
 				class="adm-btn adm-btn--primary"
 				href="mailto:{s.email}?subject={encodeURIComponent(
-					`Re: your ${enquiryLabel(s.enquiryTypeId).toLowerCase()} enquiry`
+					`Re: your ${enquiryLabel(s.enquiryTypeId)
+						.toLowerCase()
+						.replace(/\s*enquiry$/, '')} enquiry`
 				)}">Reply by email</a
 			>
-			{#if s.phone}<a class="adm-btn adm-btn--secondary" href="tel:{s.phone}">Call</a>{/if}
+			{#if s.phone}<a class="adm-btn adm-btn--secondary" href="tel:{s.phone.replace(/[^\d+]/g, '')}"
+					>Call</a
+				>{/if}
 			{#if s.status !== 'Resolved'}
 				<form
 					method="POST"
@@ -165,9 +169,8 @@
 			<dd><a class="link" href="mailto:{s.email}">{s.email}</a></dd>
 			<dt>Phone</dt>
 			<dd>
-				{#if s.phone}<a class="link" href="tel:{s.phone}">{s.phone}</a>{:else}<span
-						class="adm-muted">Not provided</span
-					>{/if}
+				{#if s.phone}<a class="link" href="tel:{s.phone.replace(/[^\d+]/g, '')}">{s.phone}</a
+					>{:else}<span class="adm-muted">Not provided</span>{/if}
 			</dd>
 			<dt>Company</dt>
 			<dd>{s.company || '-'}</dd>

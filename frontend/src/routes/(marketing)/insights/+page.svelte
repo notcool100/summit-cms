@@ -82,7 +82,7 @@
 
 <!-- ============ FILTER BAR ============ -->
 <div class="filter-bar">
-	{#each categories as label (label)}
+	{#each categories as label, k (k)}
 		<button
 			type="button"
 			class="filter-btn"

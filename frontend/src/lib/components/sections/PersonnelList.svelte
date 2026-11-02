@@ -20,7 +20,7 @@
 <section class="people">
 	<div class="people-eyebrow"><SectionLabel {idx} {label} /></div>
 	<div class="people-list">
-		{#each people as p, i (p.name)}
+		{#each people as p, i (i)}
 			<article
 				use:reveal={{ kind: 'up', delay: Math.min(i * 0.06, 0.2) }}
 				class="person stack-mobile"
@@ -33,7 +33,7 @@
 				<div>
 					<p class="person-bio">{p.bio}</p>
 					<ul class="person-areas" aria-label="Key areas">
-						{#each p.areas as area (area)}<li>{area}</li>{/each}
+						{#each p.areas as area, k (k)}<li>{area}</li>{/each}
 					</ul>
 				</div>
 			</article>

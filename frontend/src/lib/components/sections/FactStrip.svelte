@@ -4,7 +4,7 @@
 
 <section class="facts" aria-label="Company at a glance">
 	<dl>
-		{#each facts as f (f.label)}
+		{#each facts as f, k (k)}
 			<div class="fact">
 				<dt>{f.label}</dt>
 				<dd>{f.value}</dd>
