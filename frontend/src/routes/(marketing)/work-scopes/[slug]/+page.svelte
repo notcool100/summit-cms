@@ -78,7 +78,7 @@
 {#if isIllustrative}
 	<aside class="illustrative-note" role="note">
 		<strong>Capability illustration.</strong> This page describes how our services can support this
-		type of work. It is not an individual completed client project, and images are illustrative.
+		type of work. It is not an individual completed client project.
 		<a href="/contact">Discuss your project →</a>
 	</aside>
 {/if}
@@ -117,7 +117,7 @@
 		<div use:parallax={0.12} class="break-img">
 			<ResponsiveImage src={breakImage.src} alt={breakImage.alt} />
 		</div>
-		<div class="break-caption">{breakImage.caption}</div>
+		{#if breakImage.caption}<div class="break-caption">{breakImage.caption}</div>{/if}
 	</div>
 	<div class="pair stack-mobile">
 		{#each pairImages as img, i (i)}

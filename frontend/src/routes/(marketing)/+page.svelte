@@ -184,7 +184,6 @@
 				<ResponsiveImage src={manifestoImage.src} alt={manifestoImage.alt} />
 			</div>
 			<div class="manifesto-fade" aria-hidden="true"></div>
-			<div class="fig-tag">ILLUSTRATIVE IMAGE</div>
 		</div>
 	</div>
 </section>
@@ -773,18 +772,6 @@
 		inset: 0;
 		pointer-events: none;
 		background: linear-gradient(15deg, rgba(var(--paper-rgb), 0.5), transparent 55%);
-	}
-
-	.fig-tag {
-		position: absolute;
-		right: 14px;
-		top: 14px;
-		font-size: 10px;
-		letter-spacing: 0.2em;
-		color: rgba(var(--ink-rgb), max(0.6, var(--muted-a)));
-		border: 1px dashed rgba(var(--ink-rgb), 0.3);
-		padding: 6px 10px;
-		pointer-events: none;
 	}
 
 	/* Capabilities teaser */

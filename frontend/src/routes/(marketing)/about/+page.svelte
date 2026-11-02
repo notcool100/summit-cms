@@ -77,7 +77,7 @@
 				<div use:parallax={0.09} class="narrative-img">
 					<ResponsiveImage src={block.image.src} alt={block.image.alt} />
 				</div>
-				<div class="fig-tag">{block.image.caption}</div>
+				{#if block.image.caption}<div class="fig-tag">{block.image.caption}</div>{/if}
 			</div>
 			<div>
 				<div use:reveal={{ kind: 'fade' }} class="narrative-eyebrow">{block.eyebrow}</div>
