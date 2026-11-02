@@ -31,6 +31,7 @@ public static class ProjectPublicEndpoints
         group.MapGet("/testimonials", async (ProjectsDbContext db, CancellationToken ct) =>
         {
             var quoted = await db.Quotes.Include(q => q.Project).ThenInclude(p => p.IndustryCategory)
+                .Where(q => q.Quote.Trim() != "")
                 .OrderBy(q => q.Project.DisplayOrder).ToListAsync(ct);
             return Results.Ok(quoted.Select(q => new PublicTestimonial(
                 q.Project.Slug, q.Project.Name, q.Project.IndustryCategory.Name, q.Quote, q.Attribution)));
@@ -87,7 +88,7 @@ public static class ProjectPublicEndpoints
                 project.NarrativeSections.OrderBy(s => s.DisplayOrder)
                     .Select(s => new PublicNarrativeSection(s.Idx, s.Title, s.Paragraphs.OrderBy(x => x.ParagraphOrder).Select(x => x.Body).ToList()))
                     .ToList(),
-                project.Quote is null ? null : new PublicQuote(project.Quote.Quote, project.Quote.Attribution),
+                project.Quote is null || string.IsNullOrWhiteSpace(project.Quote.Quote) ? null : new PublicQuote(project.Quote.Quote, project.Quote.Attribution),
                 previous is null ? null : new PublicAdjacent(previous.Slug, previous.Name, HeroUrl(previous), HeroAlt(previous)),
                 next is null ? null : new PublicAdjacent(next.Slug, next.Name, HeroUrl(next), HeroAlt(next)));
 
