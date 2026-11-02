@@ -43,6 +43,17 @@
 			<dd>{previewVersion.heroHeading}</dd>
 			<dt>Hero subheading</dt>
 			<dd>{previewVersion.heroSubheading}</dd>
+			{#if data.previewImages}
+				{#each [['Hero image', data.previewImages.hero], ['Secondary image', data.previewImages.secondary]] as [label, value], k (k)}
+					<dt>{label}</dt>
+					<dd>
+						{#if value}
+							{@const [url, name] = value.split('|')}
+							<span class="preview-img"><img src={url} alt="" />{name}</span>
+						{:else}<span class="adm-muted">None</span>{/if}
+					</dd>
+				{/each}
+			{/if}
 		</dl>
 	</section>
 {/if}
@@ -111,6 +122,18 @@
 </div>
 
 <style>
+	.preview-img {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+	}
+	.preview-img img {
+		width: 56px;
+		height: 40px;
+		object-fit: cover;
+		border-radius: 6px;
+	}
+
 	.version-title {
 		max-width: 320px;
 		overflow-wrap: anywhere;

@@ -56,7 +56,7 @@
 
 <div class="adm-toolbar">
 	<div class="adm-search">
-		<input class="adm-input" type="search" placeholder="Search projects…" bind:value={query} />
+		<input class="adm-input" type="search" placeholder="Search work scopes…" bind:value={query} />
 	</div>
 	<div class="adm-tabs" role="tablist" aria-label="Filter by category">
 		<button
@@ -149,7 +149,7 @@
 <Drawer
 	bind:open={newOpen}
 	title="New work scope"
-	description="Create the basics now; add the gallery and case study after."
+	description="Create the basics now; add the gallery, scope facts and narrative after."
 >
 	<form
 		method="POST"
@@ -230,7 +230,7 @@
 		</label>
 		<div class="adm-form-actions">
 			<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
-			<button class="adm-btn adm-btn--primary" type="submit">Create project</button>
+			<button class="adm-btn adm-btn--primary" type="submit">Create work scope</button>
 		</div>
 	</form>
 </Drawer>

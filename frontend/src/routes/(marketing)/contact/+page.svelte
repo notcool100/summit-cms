@@ -44,7 +44,12 @@
 	let networkError = $state('');
 
 	const faqs = $derived(
-		(data.sections.find((x) => x.layout === 'faq')?.items ?? []).map((i) => ({
+		(
+			(
+				data.sections.find((x) => x.slot === 'faq') ??
+				data.sections.find((x) => x.layout === 'faq' && x.slot !== 'before-faq')
+			)?.items ?? []
+		).map((i) => ({
 			q: i.title,
 			a: i.body
 		}))
@@ -94,7 +99,7 @@
 						>{site.directContact.email}</a
 					>
 				</div>
-				{#each detailItems.filter((d) => !d.title.startsWith(site.directContact.name)) as d (d.title)}
+				{#each detailItems.filter((d) => !d.title.startsWith(site.directContact.name)) as d, k (k)}
 					<div>
 						<div class="details-label">{d.title}</div>
 						<span class="pre">{d.body}</span>
@@ -131,8 +136,7 @@
 						if (result.type === 'error') {
 							// Keep the visitor on the form with their text intact instead of
 							// replacing the page with the error screen.
-							networkError =
-								'Your enquiry could not be sent. Please check your connection and try again, or call 0401 174 989.';
+							networkError = `Your enquiry could not be sent. Please check your connection and try again, or call ${companyPhone}.`;
 						} else {
 							await update();
 						}
@@ -243,7 +247,7 @@
 			</h2>
 		</div>
 		<div class="faq-list">
-			{#each faqs as item, i (item.q)}
+			{#each faqs as item, i (i)}
 				<div use:reveal={{ kind: 'up', delay: Math.min(i * 0.05, 0.25) }} class="faq-row">
 					<button
 						class="faq-question"

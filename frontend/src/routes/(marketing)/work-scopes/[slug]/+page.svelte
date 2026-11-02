@@ -86,7 +86,7 @@
 <!-- ============ STATS BAR ============ -->
 <section class="scope">
 	<div class="scope-grid stack-mobile">
-		{#each scope as s (s.label)}
+		{#each scope as s, k (k)}
 			<div class="scope-cell">
 				<div class="scope-label">{s.label}</div>
 				<div class="scope-value">{s.value}</div>
@@ -97,7 +97,7 @@
 
 <!-- ============ NARRATIVE ============ -->
 <section class="narrative">
-	{#each narrative as n (n.idx)}
+	{#each narrative as n, k (k)}
 		<div class="narrative-row stack-mobile">
 			<div class="narrative-title">
 				<span class="narrative-idx">{n.idx}</span>
@@ -120,7 +120,7 @@
 		<div class="break-caption">{breakImage.caption}</div>
 	</div>
 	<div class="pair stack-mobile">
-		{#each pairImages as img, i (img.src)}
+		{#each pairImages as img, i (i)}
 			<div
 				use:reveal={{ kind: 'up', delay: i * 0.12 }}
 				use:hoverZoom

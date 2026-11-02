@@ -55,7 +55,7 @@
 {#if projects.length > 0}
 	<!-- ============ FILTER BAR ============ -->
 	<div class="filter-bar">
-		{#each filters as label (label)}
+		{#each filters as label, k (k)}
 			<button
 				type="button"
 				class="filter-btn"
@@ -73,7 +73,7 @@
 	<!-- ============ GRID ============ -->
 	<section class="grid-section">
 		<div class="grid" class:fading={!visible}>
-			{#each shown as project (project.idx)}
+			{#each shown as project, k (k)}
 				<a
 					data-cursor-view
 					use:hoverZoom

@@ -24,7 +24,9 @@ public static class MediaEndpoints
 
         group.MapGet("", async (MediaDbContext db, IFileStorageService storage, CancellationToken ct) =>
         {
-            var assets = await db.MediaAssets.AsNoTracking().OrderByDescending(a => a.CreatedAt).ToListAsync(ct);
+            // Newest first, then by name: seeded/bulk media share a timestamp, and without a tiebreak the
+            // grid shuffled on every load (admins clicked the wrong image).
+            var assets = await db.MediaAssets.AsNoTracking().OrderByDescending(a => a.CreatedAt).ThenBy(a => a.FileName).ThenBy(a => a.Id).ToListAsync(ct);
             return Results.Ok(assets.Select(a => ToItem(a, storage)));
         });
 

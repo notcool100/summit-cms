@@ -80,7 +80,7 @@
 <div class="adm-page-head">
 	<div>
 		<h1>Media library</h1>
-		<p>Images used by pages, capabilities, projects, team photos, and posts.</p>
+		<p>Images used by pages, capabilities, work scopes, team photos, and posts.</p>
 	</div>
 	<div class="adm-row-actions">
 		<button class="adm-btn adm-btn--secondary" onclick={() => (externalOpen = true)}
@@ -267,7 +267,7 @@
 				type="text"
 				placeholder="Describe the image for screen readers and SEO"
 			/>
-			<span class="adm-hint">E.g. “Crane lifting a pipe rack module at the OSM yard”.</span>
+			<span class="adm-hint">E.g. “Scaffold crew working on an access platform, Karratha”.</span>
 		</div>
 		<div class="adm-form-actions">
 			<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>

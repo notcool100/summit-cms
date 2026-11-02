@@ -470,7 +470,7 @@
 					id="l-role"
 					name="roleDescription"
 					value={l?.roleDescription ?? ''}
-					placeholder="Fabrication yard and field operations"
+					placeholder="HQ · Servicing the Greater Pilbara Region"
 				/>
 			</div>
 			<div class="adm-field">

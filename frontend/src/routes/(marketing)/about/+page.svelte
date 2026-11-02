@@ -71,7 +71,7 @@
 
 <!-- ============ NARRATIVE BLOCKS ============ -->
 <section class="narrative">
-	{#each narrative as block (block.eyebrow)}
+	{#each narrative as block, k (k)}
 		<div class="narrative-row stack-mobile" class:reverse={!block.imageFirst}>
 			<div use:reveal={{ kind: 'clip' }} class="narrative-figure">
 				<div use:parallax={0.09} class="narrative-img">
@@ -99,7 +99,7 @@
 		<div class="timeline-head"><SectionLabel idx="02" label="Milestones" /></div>
 	{/snippet}
 	<div class="timeline-track">
-		{#each milestones as m (m.year)}
+		{#each milestones as m, k (k)}
 			<div class="milestone">
 				<span class="milestone-dot"></span>
 				<div class="milestone-year">{m.year}</div>
@@ -117,7 +117,7 @@
 <section class="values">
 	<div class="values-eyebrow"><SectionLabel idx="03" label="What we hold" /></div>
 	<div class="values-grid stack-mobile">
-		{#each values as v, i (v.idx)}
+		{#each values as v, i (i)}
 			<div use:reveal={{ kind: 'up', delay: i * 0.08 }} class="value-card">
 				<span class="value-idx">{v.idx}</span>
 				<div>
@@ -138,7 +138,7 @@
 		<span class="leadership-note">Operational leadership and project support.</span>
 	</div>
 	<div class="leadership-grid stack-mobile">
-		{#each leaders as p, i (p.name)}
+		{#each leaders as p, i (i)}
 			<div use:reveal={{ kind: 'up', delay: i * 0.08 }} use:hoverZoom class="leader-card">
 				<div class="leader-photo">
 					<ResponsiveImage src={p.src} alt={p.alt} />
@@ -157,7 +157,7 @@
 	<div class="locations-eyebrow"><SectionLabel idx="05" label="Where we work" /></div>
 	<div class="locations-grid stack-mobile">
 		<div class="locations-list">
-			{#each locations as l (l.idx)}
+			{#each locations as l, k (k)}
 				<button
 					type="button"
 					class="location-row"
@@ -203,7 +203,7 @@
 				legislation, codes of practice, client procedures and relevant Australian Standards.
 			</p>
 			<div class="hse-stats">
-				{#each hseStats as s (s.label)}
+				{#each hseStats as s, k (k)}
 					<div>
 						<div class="hse-stat-value" use:countUp={{ value: s.value, suffix: s.suffix }}>
 							{formatCount(s.value, { suffix: s.suffix })}
@@ -216,7 +216,7 @@
 		<div>
 			<div class="awards-eyebrow">Safety &amp; quality commitments</div>
 			<div class="awards-grid">
-				{#each awards as a, i (a.name)}
+				{#each awards as a, i (i)}
 					<div use:reveal={{ kind: 'up', delay: i * 0.07 }} class="award-card">
 						<div class="award-year">{a.year}</div>
 						<div class="award-name">{a.name}</div>

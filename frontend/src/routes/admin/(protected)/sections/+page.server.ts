@@ -31,13 +31,24 @@ interface Item {
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const token = locals.accessToken!;
-	const [sections, items] = await Promise.all([
+	const [sections, items, industryCategories, posts] = await Promise.all([
 		adminFetch<Section[]>(fetch, token, '/api/admin/company/sections'),
-		adminFetch<Item[]>(fetch, token, '/api/admin/company/section-items')
+		adminFetch<Item[]>(fetch, token, '/api/admin/company/section-items'),
+		adminFetch<{ name: string; displayOrder: number }[]>(
+			fetch,
+			token,
+			'/api/admin/projects/industry-categories'
+		).catch(() => []),
+		adminFetch<{ category: string }[]>(fetch, token, '/api/admin/blog/posts').catch(() => [])
 	]);
 	return {
 		sections: sections.sort((a, b) => a.displayOrder - b.displayOrder),
-		items: items.sort((a, b) => a.displayOrder - b.displayOrder)
+		items: items.sort((a, b) => a.displayOrder - b.displayOrder),
+		// Filter-specific positions come from the real categories, so new ones are always offered.
+		workScopeCategories: industryCategories
+			.sort((a, b) => a.displayOrder - b.displayOrder)
+			.map((c) => c.name),
+		blogCategories: [...new Set(posts.map((p) => p.category).filter(Boolean))].sort()
 	};
 };
 

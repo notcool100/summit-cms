@@ -6,6 +6,10 @@
 	let companyPhone = $derived(page.data.siteSettings?.company_phone || site.phone);
 	let companyAddress = $derived(page.data.siteSettings?.company_address);
 	let companyEmail = $derived(page.data.siteSettings?.company_email || site.email);
+	// "Footer text" from Admin -> Settings; the ABN is always shown after it.
+	let footerText = $derived(
+		page.data.siteSettings?.footer_text?.trim() || `© ${site.year} ${companyName}`
+	);
 	let telHref = $derived(`tel:${companyPhone.replace(/\s+/g, '')}`);
 
 	function scrollToTop(e: MouseEvent) {
@@ -62,7 +66,7 @@
 	</div>
 
 	<div class="bottom">
-		<span>© {site.year} {companyName} · ABN {site.abn}</span>
+		<span>{footerText} · ABN {site.abn}</span>
 		<div class="social">
 			<a href="/privacy">Privacy</a>
 			<a href="#top" class="top" onclick={scrollToTop}>Back to top ↑</a>

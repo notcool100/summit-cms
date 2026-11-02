@@ -132,7 +132,7 @@
 <!-- ============ STATS STRIP ============ -->
 <section class="stats">
 	<div class="stats-grid stack-mobile">
-		{#each stats as stat (stat.label)}
+		{#each stats as stat, k (k)}
 			<div class="stat-cell">
 				<div class="stat-label">{stat.label}</div>
 				<div class="stat-value" use:countUp={{ value: stat.value, suffix: stat.suffix }}>
@@ -162,11 +162,11 @@
 				maintenance, shutdown, construction, marine and project works across the Greater Pilbara.
 			</p>
 			{#if manifesto}
-				{#each manifesto.intro.split('\n').filter(Boolean) as para, i (para)}
+				{#each manifesto.intro.split('\n').filter(Boolean) as para, i (i)}
 					<p use:reveal={{ kind: 'up', delay: 0.25 + i * 0.08 }} class="manifesto-para">{para}</p>
 				{/each}
 				<ul class="manifesto-points">
-					{#each manifesto.items as item, i (item.title)}
+					{#each manifesto.items as item, i (i)}
 						<li use:reveal={{ kind: 'up', delay: Math.min(0.3 + i * 0.05, 0.6) }}>
 							<span class="mp-idx">{String(i + 1).padStart(2, '0')}</span>
 							<div>
@@ -256,7 +256,7 @@
 			</div>
 		</a>
 		<div class="industries-minor">
-			{#each industries.slice(1) as ind (ind.idx)}
+			{#each industries.slice(1) as ind, k (k)}
 				<a data-cursor-view use:hoverZoom href="/industries" class="industry-card">
 					<div class="industry-card-frame">
 						<ResponsiveImage src={ind.src} alt={ind.alt} />
@@ -289,7 +289,7 @@
 			</p>
 		{/snippet}
 		<div class="projects-track">
-			{#each featuredProjects as project (project.idx)}
+			{#each featuredProjects as project, k (k)}
 				<a data-cursor-view use:hoverZoom href={project.href} class="project-card">
 					<div class="project-frame">
 						<ResponsiveImage src={project.src} alt={project.alt} />
@@ -336,7 +336,7 @@
 				>
 			</h2>
 			<div class="values-list">
-				{#each values as v, i (v.idx)}
+				{#each values as v, i (i)}
 					<div use:reveal={{ kind: 'up', delay: i * 0.08 }} class="value-row">
 						<span class="value-idx">{v.idx}</span>
 						<div>
@@ -349,7 +349,7 @@
 		</div>
 		<div class="standard-recognition">
 			<div class="recognition-stats">
-				{#each hseStats as s (s.label)}
+				{#each hseStats as s, k (k)}
 					<div class="recognition-stat">
 						<div class="recognition-stat-value" use:countUp={{ value: s.value, suffix: s.suffix }}>
 							{formatCount(s.value, { suffix: s.suffix })}
@@ -360,7 +360,7 @@
 			</div>
 			<div class="awards-eyebrow">Safety &amp; compliance</div>
 			<div class="awards-list">
-				{#each awards.slice(0, 4) as a (a.name)}
+				{#each awards.slice(0, 4) as a, k (k)}
 					<div class="award-chip">
 						<span class="award-year">{a.year}</span>
 						<span class="award-name">{a.name}</span>
@@ -378,7 +378,7 @@
 	<section class="testimonials">
 		<div class="testimonials-eyebrow"><SectionLabel idx="06" label="Client voice" /></div>
 		<div class="testimonials-stage">
-			{#each testimonials as t, i (t.projectName)}
+			{#each testimonials as t, i (i)}
 				<blockquote
 					class="testimonial-slide"
 					class:active={i === activeTestimonial}
@@ -394,7 +394,7 @@
 		</div>
 		{#if testimonials.length > 1}
 			<div class="testimonial-dots">
-				{#each testimonials as t, i (t.projectName)}
+				{#each testimonials, i (i)}
 					<button
 						class="dot-btn"
 						class:active={i === activeTestimonial}

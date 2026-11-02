@@ -24,7 +24,9 @@
 		drawerOpen = true;
 	}
 
-	const publicPath = (slug: string) => (slug === 'home' ? '/' : `/${slug}`);
+	// The "projects" page is published at /work-scopes since the client review (P0-03).
+	const publicPath = (slug: string) =>
+		slug === 'home' ? '/' : slug === 'projects' ? '/work-scopes' : `/${slug}`;
 	const thumb = (id: string | null) => media.find((m) => m.id === id)?.url;
 </script>
 
@@ -32,8 +34,8 @@
 	<div>
 		<h1>Pages</h1>
 		<p>
-			Hero heading, subheading, SEO description, and hero imagery for each top-level page. Saving
-			publishes immediately.
+			Hero heading, subheading and SEO description for each top-level page (hero images are set on
+			the Home page). Saving publishes immediately.
 		</p>
 	</div>
 </div>
@@ -41,7 +43,8 @@
 <div class="adm-list">
 	{#each pages as p (p.id)}
 		<div class="adm-list-row">
-			{#if thumb(p.heroMediaId)}
+			<!-- Only Home displays its hero image, so only Home shows a thumbnail. -->
+			{#if p.slug === 'home' && thumb(p.heroMediaId)}
 				<img class="adm-thumb" src={thumb(p.heroMediaId)} alt="" />
 			{:else}
 				<span class="adm-thumb"></span>
@@ -128,19 +131,27 @@
 					>{p.heroSubheading}</textarea
 				>
 			</div>
-			<div class="adm-field">
-				<label for="heroMedia">Hero image</label>
-				<MediaPicker id="heroMedia" name="heroMediaId" {media} value={p.heroMediaId} />
-			</div>
-			<div class="adm-field">
-				<label for="secondaryMedia">Secondary image</label>
-				<MediaPicker
-					id="secondaryMedia"
-					name="secondaryMediaId"
-					{media}
-					value={p.secondaryMediaId}
-				/>
-			</div>
+			{#if p.slug === 'home'}
+				<!-- Only the Home page displays page-level images (hero and manifesto). -->
+				<div class="adm-field">
+					<label for="heroMedia">Hero image</label>
+					<MediaPicker id="heroMedia" name="heroMediaId" {media} value={p.heroMediaId} />
+				</div>
+				<div class="adm-field">
+					<label for="secondaryMedia">Secondary image</label>
+					<MediaPicker
+						id="secondaryMedia"
+						name="secondaryMediaId"
+						{media}
+						value={p.secondaryMediaId}
+					/>
+				</div>
+			{:else}
+				<!-- Other pages don't display page-level images, so no pickers. Keep any stored values
+				     unchanged on save rather than clearing them. -->
+				<input type="hidden" name="heroMediaId" value={p.heroMediaId ?? ''} />
+				<input type="hidden" name="secondaryMediaId" value={p.secondaryMediaId ?? ''} />
+			{/if}
 			<div class="adm-form-actions">
 				<button class="adm-btn adm-btn--secondary" type="button" data-drawer-close>Cancel</button>
 				<button class="adm-btn adm-btn--primary" type="submit">Save and publish</button>

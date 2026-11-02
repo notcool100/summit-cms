@@ -36,7 +36,7 @@
 	<div class="info-eyebrow"><SectionLabel {idx} {label} /></div>
 	<div class="info-head stack-mobile">
 		<h2>
-			{#each heading as line, i (line)}
+			{#each heading as line, i (i)}
 				<span class="mask-line"
 					><span use:reveal={{ kind: 'mask', delay: i * 0.1 }}>{line}</span></span
 				>
@@ -47,7 +47,7 @@
 		{/if}
 	</div>
 	<div class="info-grid stack-mobile" style="--cols: {columns}">
-		{#each items as item, i (item.title)}
+		{#each items as item, i (i)}
 			<div use:reveal={{ kind: 'up', delay: Math.min(i * 0.05, 0.3) }} class="info-card">
 				{#if numbered}<span class="info-num">{String(i + 1).padStart(2, '0')}</span>{/if}
 				<div class="info-title">{item.title}</div>

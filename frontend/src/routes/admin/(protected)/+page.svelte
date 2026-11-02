@@ -8,6 +8,11 @@
 	let leadTrend = $derived(data.leadTrend);
 	let leadsByType = $derived(data.leadsByType);
 	let recentActivity = $derived(data.recentActivity);
+	// "SignedIn" -> "Signed in", "ContactSubmissionStatus" -> "Contact submission status"
+	const humanize = (s: string) =>
+		s
+			.replace(/([a-z])([A-Z])/g, '$1 $2')
+			.replace(/ (\w)/g, (_, c: string) => ` ${c.toLowerCase()}`);
 
 	interface Tile {
 		label: string;
@@ -158,7 +163,7 @@
 			</div>
 			<div class="bar-chart">
 				<div class="bar-plot">
-					{#each trendTicks as tick (tick)}
+					{#each trendTicks as tick, ti (ti)}
 						<div class="bar-gridline" style:bottom="{(tick / trendMax) * 100}%">
 							<span>{Number.isInteger(tick) ? tick : tick.toFixed(1)}</span>
 						</div>
@@ -247,7 +252,7 @@
 				<p class="adm-muted empty">No contact submissions yet.</p>
 			{:else}
 				<ul class="hbars">
-					{#each leadsByType as t, i (t.label)}
+					{#each leadsByType as t, i (i)}
 						<li>
 							<div class="hbar-meta">
 								<span>{t.label}</span>
@@ -283,8 +288,8 @@
 						<li class="activity-row">
 							<span class="activity-dot" style:background={actionColor(entry.action)}></span>
 							<span class="activity-text">
-								<span class="activity-action">{entry.action}</span>
-								<span class="adm-muted">{entry.entityName}</span>
+								<span class="activity-action">{humanize(entry.action)}</span>
+								<span class="adm-muted">{humanize(entry.entityName)}</span>
 							</span>
 							<span class="activity-when" title={new Date(entry.createdAt).toLocaleString()}
 								>{timeAgo(entry.createdAt)}</span

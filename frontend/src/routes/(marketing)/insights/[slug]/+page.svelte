@@ -29,7 +29,12 @@
 		headline: title,
 		description,
 		image: heroImage.src || undefined,
-		author: { '@type': 'Person', name: authorName },
+		// Bylines are the company (client review P1-07), so describe it as an organisation.
+		author: {
+			// The company byline is an organisation even when it carries a role label.
+			'@type': authorRole && authorName !== site.name ? 'Person' : 'Organization',
+			name: authorName
+		},
 		publisher: { '@type': 'Organization', name: companyName }
 	});
 
@@ -70,7 +75,7 @@
 			<span class="mask-line"><span use:reveal={{ kind: 'mask' }}>{title}</span></span>
 		</h1>
 		<div use:reveal={{ kind: 'up', delay: 0.2 }} class="byline">
-			{authorName}<span class="dot">·</span>{authorRole}
+			{authorName}{#if authorRole}<span class="dot">·</span>{authorRole}{/if}
 		</div>
 	</div>
 </section>
